@@ -5,7 +5,7 @@ export default () => {
     return (
         <>
             <div className="flex justify-between items-center h-12">
-                <div className="flex xs:grow sm:block lg:hidden">
+                <div className="flex xs:grow lg:hidden">
                     <div className="lg:hidden mr-2">
                         <button>
                             <Bars3Icon className="h-6 w-6" />

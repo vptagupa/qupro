@@ -32,9 +32,9 @@ const Layout = (props) => {
                 </div>
             </div>
             <div className="lg:ml-48 px-10 py-3 text-slate-500">
-                <div className="w-full">
+                <div className="flex flex-col w-full">
                     <Nav />
-                    <div className="mt-10 lg:min-h-[400px]">
+                    <div className="mt-10 lg:min-h-[600px]">
                         <Content>{props.children}</Content>
                     </div>
                     <div className="text-xs">

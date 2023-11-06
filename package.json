@@ -17,10 +17,13 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.1",
         "@headlessui/react": "^1.7.17",
         "@heroicons/react": "^2.0.18",
         "@inertiajs/react": "^1.0.14",
+        "@table-library/react-table-library": "^4.1.7",
         "@vitejs/plugin-react": "^4.1.1",
+        "prop-types": "^15.8.1",
         "react-dom": "^18.2.0"
     }
 }

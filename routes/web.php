@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,16 @@ use App\Http\Controllers\Admin\DashboardController;
 |
 */
 Route::name('admin.')->prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::name('dashboard.')->prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+    });
+    Route::name('users.')->prefix('users')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+    });
+    Route::name('tellers.')->prefix('tellers')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+    });
+    Route::name('configurations.')->prefix('configurations')->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+    });
 });

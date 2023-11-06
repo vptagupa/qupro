@@ -1,9 +1,9 @@
-import Layout from "@/js/layouts/layout";
+import Layout from "@/js/layouts/admin-layout";
 
 const Component = () => {
     return (
         <>
-            <Layout></Layout>
+            <Layout>Hello</Layout>
         </>
     );
 };
