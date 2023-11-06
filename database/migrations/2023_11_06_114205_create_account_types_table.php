@@ -10,16 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('account_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nickname')->nullable();
-            $table->string('email')->unique();
-            $table->enum('role', ['administrator', 'teller']);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('login_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('format_id')->constrained('num_formats');
+            $table->unsignedInteger('num_start')->nullable();
+            $table->datetime('reset_at')->nullable();
+            $table->foreignId('reset_by')->constrained('users');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('account_types');
     }
 };
