@@ -15,7 +15,9 @@ export default () => {
                             key={nav.id}
                             className={
                                 "py-2 px-3" +
-                                (isActive(nav) ? " shadow-md rounded-lg" : "")
+                                (isActive(nav)
+                                    ? " shadow-md shadow-slate-200/70 rounded-lg"
+                                    : "")
                             }
                         >
                             <Link href={route(nav.route)}>

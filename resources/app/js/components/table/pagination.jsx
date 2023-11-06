@@ -37,7 +37,7 @@ const Component = ({ pagination, data }) => {
                             disabled={pagination.state.page === 0}
                             onClick={() =>
                                 pagination.fns.onSetPage(
-                                    pagination.state.page - 1
+                                    pagination.state.page - 1,
                                 )
                             }
                             style={paginationStyle}
@@ -58,7 +58,7 @@ const Component = ({ pagination, data }) => {
                             }
                             onClick={() =>
                                 pagination.fns.onSetPage(
-                                    pagination.state.page + 1
+                                    pagination.state.page + 1,
                                 )
                             }
                             style={paginationStyle}

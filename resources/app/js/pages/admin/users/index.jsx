@@ -9,6 +9,15 @@ import {
     Th,
     Pagination,
 } from "@/js/components/table";
+import {
+    Button,
+    PrimaryButton,
+    SecondaryButton,
+    SuccessButton,
+    InfoButton,
+    DangerButton,
+    WarningButton,
+} from "../../../components/buttons";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 
@@ -17,7 +26,15 @@ const Component = () => {
         <>
             <Layout>
                 <div className="text-lg mb-2">Users</div>
-
+                <div className="flex space-x-2 mb-10 mt-10">
+                    <PrimaryButton>Primary</PrimaryButton>
+                    <SecondaryButton>Secondary</SecondaryButton>
+                    <SuccessButton>Success</SuccessButton>
+                    <InfoButton>Info</InfoButton>
+                    <DangerButton>Danger</DangerButton>
+                    <WarningButton>Warning</WarningButton>
+                    <Button>Default</Button>
+                </div>
                 <div className="rounded-2xl shadow-sm bg-white">
                     <div className="rounded-2xl">
                         <Table data={{ nodes: [] }} className="rounded-2xl">
