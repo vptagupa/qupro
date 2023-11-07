@@ -21,7 +21,7 @@ createInertiaApp({
         color: "#29d",
 
         // Whether to include the default NProgress styles...
-        includeCSS: false,
+        includeCSS: true,
 
         // Whether the NProgress spinner will be shown...
         showSpinner: true,

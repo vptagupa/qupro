@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import axios from "axios";
 import { usePagination } from "@table-library/react-table-library/pagination";
 import Body from "./body";
-import { useCustom } from "@table-library/react-table-library/table";
+import { router } from "@inertiajs/react";
+import Event from "@/js/helpers/event";
 
 const INITIAL_PARAMS = { search: "", filter: false, page: 0, perPage: 10 };
 
@@ -73,12 +74,36 @@ const Component = (props) => {
         }, 500);
     };
 
+    const handleDelete = async (id) => {
+        router.delete(route("admin.users.destroy", { id: id }), {
+            preserveScroll: true,
+            preserveState: false,
+        });
+    };
+
+    useEffect(() => {
+        Event.on(
+            "reload",
+            (data) => {
+                fetchData({
+                    search: search,
+                    page: INITIAL_PARAMS.page,
+                });
+            },
+            this,
+        );
+
+        return () => Event.off("reload");
+    }, []);
+
     return (
         <Body
             data={data}
+            roles={props.roles}
             pagination={pagination}
             setSearch={setSearch}
             handleSearch={handleSearch}
+            handleDelete={handleDelete}
         />
     );
 };

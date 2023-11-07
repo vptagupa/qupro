@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserCollection;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use App\Enums\Role;
 
@@ -64,9 +65,14 @@ class UsersController extends AdminController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, int $id)
     {
-        //
+        $this->repository->update($request->safe()->only([
+            'name',
+            'nickname',
+            'email',
+            'role',
+        ]), $id);
     }
 
     /**

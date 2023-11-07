@@ -11,7 +11,7 @@ const Component = (props) => {
                 </div>
                 <div className="rounded-2xl shadow-sm bg-white">
                     <div className="rounded-2xl">
-                        <Table />
+                        <Table roles={props.roles} />
                     </div>
                 </div>
             </Layout>

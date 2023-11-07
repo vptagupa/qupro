@@ -15,10 +15,20 @@ import {
     TrashIcon,
     MagnifyingGlassIcon,
     PlusIcon,
+    UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
+import Edit from "../edit";
 
-const Component = ({ data, pagination, setSearch, handleSearch }) => {
+const Component = ({
+    data,
+    roles,
+    pagination,
+    setSearch,
+    handleSearch,
+    handleDelete,
+    ...props
+}) => {
     return (
         <>
             <div className="flex justify-end space-x-2 p-2">
@@ -43,7 +53,6 @@ const Component = ({ data, pagination, setSearch, handleSearch }) => {
                         <Theader>
                             <TrH>
                                 <Th>Name</Th>
-                                <Th>Nickname</Th>
                                 <Th>Email</Th>
                                 <Th>Role</Th>
                                 <Th>Last Login Date</Th>
@@ -55,29 +64,35 @@ const Component = ({ data, pagination, setSearch, handleSearch }) => {
                                 return (
                                     <Tr key={item.id}>
                                         <Td>
-                                            <div className="flex items-center font-bold">
-                                                <img
-                                                    className="w-7 mr-2 rounded-lg shadow-md"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                />
-                                                {item.name}
+                                            <div className="flex space-x-2 items-center font-bold">
+                                                <UserCircleIcon className="h-5 border border-solid border-slate-300 rounded-2xl primary" />
+                                                <span>{item.name}</span>
+                                                {item.nickname && (
+                                                    <span className="font-bold">
+                                                        as{" "}
+                                                        <span className=" text-success">
+                                                            {item.nickname}
+                                                        </span>
+                                                    </span>
+                                                )}
                                             </div>
                                         </Td>
-                                        <Td>{item.nickname}</Td>
+
                                         <Td>{item.email}</Td>
                                         <Td>{item.role}</Td>
                                         <Td>{item.login_at}</Td>
                                         <Td>
                                             <div className="flex space-x-2">
-                                                <button
-                                                    title="Edit"
-                                                    className=""
-                                                >
-                                                    <PencilSquareIcon className="h-5 text-slate-500" />
-                                                </button>
+                                                <Edit
+                                                    user={item}
+                                                    roles={roles}
+                                                />
                                                 <button
                                                     title="Remove"
                                                     className=""
+                                                    onClick={(e) =>
+                                                        handleDelete(item.id)
+                                                    }
                                                 >
                                                     <TrashIcon className="h-5 text-pink-500" />
                                                 </button>

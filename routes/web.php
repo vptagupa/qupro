@@ -24,11 +24,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::name('users.')->prefix('users')->group(function () {
         Route::post('/list', [UsersController::class, 'list'])->name('list');
         Route::post('/', [UsersController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
+        Route::patch('/{user}', [UsersController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
     });
     Route::resource('users', UsersController::class)->except([
         'create',
         'store',
-        'edit'
+        'edit',
+        'update'
     ]);
     Route::name('tellers.')->prefix('tellers')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');

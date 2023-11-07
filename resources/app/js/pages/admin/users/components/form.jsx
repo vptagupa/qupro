@@ -8,7 +8,7 @@ const Component = ({ form, roles, submitted }) => {
         <Form>
             <div>
                 <Transition show={submitted && !form.hasErrors}>
-                    <AlertSuccess>Successfully save new user.</AlertSuccess>
+                    <AlertSuccess>Successfully save user.</AlertSuccess>
                 </Transition>
             </div>
             <div>
@@ -83,41 +83,45 @@ const Component = ({ form, roles, submitted }) => {
                     </span>
                 )}
             </div>
-            <div>
-                <div className="text-xs py-2">
-                    <div className="flex justify-between space-x-1">
-                        <div> Password:</div>
-                        <label className="flex space-x-1">
-                            <Checkbox
-                                checked={form.data.default_checked_password}
-                                onChange={(e) => {
-                                    form.setData(
-                                        "default_checked_password",
-                                        e.target.checked,
-                                    );
-                                }}
-                                name="default_checked_password"
-                            />
-                            <span>Use default password.</span>
-                        </label>
+            {form.data.password !== undefined && (
+                <div>
+                    <div className="text-xs py-2">
+                        <div className="flex justify-between space-x-1">
+                            <div> Password:</div>
+                            <label className="flex space-x-1">
+                                <Checkbox
+                                    checked={form.data.default_checked_password}
+                                    onChange={(e) => {
+                                        form.setData(
+                                            "default_checked_password",
+                                            e.target.checked,
+                                        );
+                                    }}
+                                    name="default_checked_password"
+                                />
+                                <span>Use default password.</span>
+                            </label>
+                        </div>
                     </div>
+                    <Input
+                        type="password"
+                        name="password"
+                        value={form.data.password}
+                        disabled={form.data.default_checked_password}
+                        className={form.invalid("password") ? "has-danger" : ""}
+                        onChange={(e) =>
+                            form.setData("password", e.target.value)
+                        }
+                        onBlur={(e) => form.validate("password")}
+                    />
+                    {!form.data.default_checked_password &&
+                        form.invalid("password") && (
+                            <span className="text-danger text-xs">
+                                {form.errors.password}
+                            </span>
+                        )}
                 </div>
-                <Input
-                    type="password"
-                    name="password"
-                    value={form.data.password}
-                    disabled={form.data.default_checked_password}
-                    className={form.invalid("password") ? "has-danger" : ""}
-                    onChange={(e) => form.setData("password", e.target.value)}
-                    onBlur={(e) => form.validate("password")}
-                />
-                {!form.data.default_checked_password &&
-                    form.invalid("password") && (
-                        <span className="text-danger text-xs">
-                            {form.errors.password}
-                        </span>
-                    )}
-            </div>
+            )}
         </Form>
     );
 };
