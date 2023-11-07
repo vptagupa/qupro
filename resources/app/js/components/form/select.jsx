@@ -2,13 +2,13 @@ import Base from "../base";
 import { forwardRef, cloneElement } from "react";
 
 export default forwardRef((props, ref) => {
-    const clone = cloneElement(<input />, {
+    const clone = cloneElement(<select />, {
         ...props,
         className: null,
     });
     return (
         <Base
-            render={<input />}
+            render={<select />}
             ref={ref}
             {...clone.props}
             _class={props.className}

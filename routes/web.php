@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersController;
 
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,9 +22,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
     });
     Route::name('users.')->prefix('users')->group(function () {
-        Route::get('/', [UsersController::class, 'index'])->name('index');
-        Route::get('/getUsers', [UsersController::class, 'list'])->name('list');
+        Route::post('/list', [UsersController::class, 'list'])->name('list');
+        Route::post('/', [UsersController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
     });
+    Route::resource('users', UsersController::class)->except([
+        'create',
+        'store',
+        'edit'
+    ]);
     Route::name('tellers.')->prefix('tellers')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
     });

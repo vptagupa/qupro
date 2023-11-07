@@ -24,6 +24,7 @@ const Component = ({ data, pagination, setSearch, handleSearch }) => {
             <div className="flex justify-end space-x-2 p-2">
                 <div className="flex items-center">
                     <Input
+                        type="text"
                         placeholder="Search by name"
                         className="has-primary border-r-0 rounded-r-none lg:w-96"
                         onChange={(e) => setSearch(e.target.value)}
@@ -67,18 +68,20 @@ const Component = ({ data, pagination, setSearch, handleSearch }) => {
                                         <Td>{item.role}</Td>
                                         <Td>{item.login_at}</Td>
                                         <Td>
-                                            <button
-                                                title="Edit"
-                                                className="mx-1"
-                                            >
-                                                <PencilSquareIcon className="h-4 text-orange-300" />
-                                            </button>
-                                            <button
-                                                title="Remove"
-                                                className="mx-1"
-                                            >
-                                                <TrashIcon className="h-4 text-pink-300" />
-                                            </button>
+                                            <div className="flex space-x-2">
+                                                <button
+                                                    title="Edit"
+                                                    className=""
+                                                >
+                                                    <PencilSquareIcon className="h-5 text-slate-500" />
+                                                </button>
+                                                <button
+                                                    title="Remove"
+                                                    className=""
+                                                >
+                                                    <TrashIcon className="h-5 text-pink-500" />
+                                                </button>
+                                            </div>
                                         </Td>
                                     </Tr>
                                 );

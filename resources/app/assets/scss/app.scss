@@ -31,36 +31,97 @@
         @apply bg-slate-300;
     }
 
-    input[type="text"] {
-        @apply focus:outline-none focus:ring focus:ring-opacity-100;
+    select, input[type="text"],input[type="password"], input[type="email"] {
+        @apply border-slate-300 focus:outline-none focus:ring-opacity-10;
     }
 
-    input[type="text"].has-primary {
-        @apply border-slate-300  focus:ring-purple-200;
+    .has-primary {
+        @apply  focus:ring-purple-200 border border-solid border-purple-200;
     }
-    input[type="text"].has-secondary {
-        @apply border-slate-300  focus:ring-violet-200;
+
+    .has-secondary {
+        @apply focus:ring-violet-200 border border-solid border-violet-200;
     }
-    input[type="text"].has-success {
-        @apply border-slate-300  focus:ring-emerald-200;
+
+    .has-success {
+        @apply focus:ring-emerald-200 border border-solid border-emerald-200;
     }
-    input[type="text"].has-info {
-        @apply border-slate-300  focus:ring-sky-200;
+
+    .has-info {
+        @apply focus:ring-sky-200 border border-solid border-sky-200;
     }
-    input[type="text"].has-danger {
-        @apply border-slate-300  focus:ring-red-200;
+
+    .has-danger {
+        @apply focus:ring-red-200 border border-solid border-red-200;
     }
-    input[type="text"].has-warning {
+
+    .has-warning {
         @apply border-slate-300  focus:ring-amber-200;
+    }
+
+    select.has-primary, 
+    input[type="text"].has-primary, 
+    input[type="email"].has-primary {
+        @extend .has-primary;
+    }
+
+    input:disabled {
+        @apply bg-slate-200 bg-opacity-50;
+    }
+
+    select.has-secondary, input[type="text"].has-secondary, input[type="email"].has-secondary {
+        @extend .has-secondary;
+    }
+
+    select.has-success, input[type="text"].has-success, input[type="email"].has-success {
+        @extend .has-success;
+    }
+
+    select.has-info, input[type="text"].has-info, input[type="email"].has-info {
+        @extend .has-info;
+    }
+
+    select.has-danger, input[type="text"].has-danger, input[type="email"].has-danger {
+        @extend .has-danger;
+    }
+
+    select.has-warning, input[type="text"].has-warning, input[type="email"].has-warning {
+        @extend .has-warning;
+    }
+
+    .text-primary {
+        @apply text-purple-300;
+    }
+
+    .text-secondary {
+        @apply text-violet-300;
+    }
+
+    .text-success {
+        @apply text-emerald-300;
+    }
+
+    .text-info {
+        @apply text-sky-300;
+    }
+
+    .text-warning {
+        @apply text-amber-300;
+    }
+
+    .text-danger {
+        @apply text-red-300;
     }
     
     .cursor {
         cursor: pointer;
     }
 
-  
+    button {
+        @apply flex items-center;
+    }
+
     .btn-sm {
         @apply text-xs py-2 px-3 #{!important};
     }
-
 }

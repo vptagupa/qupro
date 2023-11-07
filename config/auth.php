@@ -112,4 +112,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'default_password' => env('DEFAULT_USER_PASS', 123456)
+
 ];

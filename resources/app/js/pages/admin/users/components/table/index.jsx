@@ -19,12 +19,10 @@ const Component = (props) => {
     });
 
     const fetchData = useCallback(async (params) => {
-        const result = await axios.get(route("admin.users.list"), {
-            params: {
-                page: params.page + 1,
-                name: params.search,
-                per_page: INITIAL_PARAMS.perPage,
-            },
+        const result = await axios.post(route("admin.users.list"), {
+            page: params.page + 1,
+            name: params.search,
+            per_page: INITIAL_PARAMS.perPage,
         });
 
         setData({
