@@ -19,6 +19,7 @@ import {
 } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 import Edit from "../edit";
+import Delete from "../confirm.delete";
 
 const Component = ({
     data,
@@ -87,15 +88,10 @@ const Component = ({
                                                     user={item}
                                                     roles={roles}
                                                 />
-                                                <button
-                                                    title="Remove"
-                                                    className=""
-                                                    onClick={(e) =>
-                                                        handleDelete(item.id)
-                                                    }
-                                                >
-                                                    <TrashIcon className="h-5 text-pink-500" />
-                                                </button>
+                                                <Delete
+                                                    handleDelete={handleDelete}
+                                                    item={item}
+                                                />
                                             </div>
                                         </Td>
                                     </Tr>
