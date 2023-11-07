@@ -1,11 +1,11 @@
 import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
-import { Button, PrimaryButton } from "@/js/components/buttons";
+import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import { useForm } from "laravel-precognition-react-inertia";
-import { router } from "@inertiajs/react";
 import Event from "@/js/helpers/event";
+import FooterForm from "./form.footer";
 
 export default (props) => {
     const [submitted, setSubmit] = useState(false);
@@ -31,6 +31,13 @@ export default (props) => {
         });
     };
 
+    const closeForm = () => {
+        if (form.processing) return;
+
+        setOpen(false);
+        form.reset();
+    };
+
     useEffect(() => {
         if (submitted) {
             setTimeout(() => {
@@ -49,15 +56,14 @@ export default (props) => {
                 <span>Add New</span>
             </Button>
             <Modal open={open}>
-                <Title>Add New User</Title>
+                <Title>Add New</Title>
                 <Form form={form} roles={props.roles} submitted={submitted} />
                 <Footer>
-                    <div className="flex space-x-2 justify-end">
-                        <Button onClick={(e) => setOpen(false)}>Cancel</Button>
-                        <PrimaryButton onClick={(e) => submit()}>
-                            Submit
-                        </PrimaryButton>
-                    </div>
+                    <FooterForm
+                        form={form}
+                        closeForm={closeForm}
+                        submit={submit}
+                    />
                 </Footer>
             </Modal>
         </>

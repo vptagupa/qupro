@@ -1,10 +1,10 @@
 import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
-import { Button, PrimaryButton } from "@/js/components/buttons";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
 import { useForm } from "laravel-precognition-react-inertia";
 import Event from "@/js/helpers/event";
+import FooterForm from "./form.footer";
 
 export default ({ user, ...props }) => {
     const [submitted, setSubmit] = useState(false);
@@ -37,6 +37,13 @@ export default ({ user, ...props }) => {
         });
     };
 
+    const closeForm = () => {
+        if (form.processing) return;
+
+        setOpen(false);
+        form.reset();
+    };
+
     useEffect(() => {
         if (submitted) {
             setTimeout(() => {
@@ -51,15 +58,14 @@ export default ({ user, ...props }) => {
                 <PencilSquareIcon className="h-5 text-slate-500" />
             </div>
             <Modal open={open}>
-                <Title>Add New User</Title>
+                <Title>Update</Title>
                 <Form form={form} roles={props.roles} submitted={submitted} />
                 <Footer>
-                    <div className="flex space-x-2 justify-end">
-                        <Button onClick={(e) => setOpen(false)}>Cancel</Button>
-                        <PrimaryButton onClick={(e) => submit()}>
-                            Submit
-                        </PrimaryButton>
-                    </div>
+                    <FooterForm
+                        form={form}
+                        closeForm={closeForm}
+                        submit={submit}
+                    />
                 </Footer>
             </Modal>
         </>
