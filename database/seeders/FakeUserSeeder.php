@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use \App\Models\User;
 use \App\Models\File;
 
-class FakeUserSeeders extends Seeder
+class FakeUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

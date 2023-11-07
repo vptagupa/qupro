@@ -6,6 +6,7 @@ const Component = (props) => {
     return (
         <>
             <Layout>
+                <div className="font-bold text-lg">User</div>
                 <div className="mb-2">
                     <New roles={props.roles} />
                 </div>

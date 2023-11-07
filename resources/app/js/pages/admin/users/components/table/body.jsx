@@ -48,7 +48,11 @@ const Component = ({
                     </SecondaryButton>
                 </div>
             </div>
-            <Table data={data} pagination={pagination} className="rounded-2xl">
+            <Table
+                data={data}
+                pagination={pagination}
+                className="rounded-2xl w-full"
+            >
                 {(tableList) => (
                     <>
                         <Theader>
@@ -83,7 +87,7 @@ const Component = ({
                                         <Td>{item.role}</Td>
                                         <Td>{item.login_at}</Td>
                                         <Td>
-                                            <div className="flex space-x-2">
+                                            <div className="flex space-x-2 justify-end">
                                                 <Edit
                                                     user={item}
                                                     roles={roles}

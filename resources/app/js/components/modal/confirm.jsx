@@ -12,7 +12,10 @@ const Component = ({ open, title, description, yes, no }) => {
                 <div className="flex justify-between">
                     {description && <Description>{description}</Description>}
                     <div className="flex space-x-2">
-                        <SuccessButton onClick={(e) => yes()}>
+                        <SuccessButton
+                            className="focus:border-red-400"
+                            onClick={(e) => yes()}
+                        >
                             Yes
                         </SuccessButton>
                         <Button onClick={(e) => no()}>No</Button>
