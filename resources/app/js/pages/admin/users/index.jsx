@@ -1,4 +1,4 @@
-import Layout from "@/js/layouts/admin-layout";
+import Layout from "@/js/layouts/layout.admin";
 import Table from "./components/table";
 import New from "./components/new";
 

@@ -1,4 +1,4 @@
-import Layout from "./tailwindcss/layout";
+import Layout from "./admin/layout";
 export default (props) => {
     return (
         <>
