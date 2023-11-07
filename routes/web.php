@@ -21,6 +21,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     });
     Route::name('users.')->prefix('users')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
+        Route::get('/getUsers', [UsersController::class, 'list'])->name('list');
     });
     Route::name('tellers.')->prefix('tellers')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');

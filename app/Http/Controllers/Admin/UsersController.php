@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Http\Resources\UserCollection;
 
 class UsersController extends AdminController
 {
@@ -14,6 +16,11 @@ class UsersController extends AdminController
     public function index()
     {
         return $this->inertia('admin/users/index');
+    }
+
+    public function list(Request $request)
+    {
+        return new UserCollection(User::where('name', 'like', '%' . $request->get('name') . '%')->paginate($request->get('per_page')));
     }
 
     /**

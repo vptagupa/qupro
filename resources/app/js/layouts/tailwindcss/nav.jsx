@@ -1,5 +1,8 @@
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react";
 import { HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import menu from "@/js/constants/menu";
+
+const activeMenu = () => menu.filter((m) => route().current(m.route))[0] ?? [];
 
 export default () => {
     return (
@@ -28,7 +31,9 @@ export default () => {
                             <li className="inline px-1 after:content-['/'] after:ml-1">
                                 Dashboard
                             </li>
-                            <li className="inline">Teller</li>
+                            <li className="inline">
+                                {activeMenu()?.name ?? ""}
+                            </li>
                         </ul>
                     </div>
                 </div>

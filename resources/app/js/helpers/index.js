@@ -6,7 +6,7 @@ export const stringLimit = (str, limit, extra) => {
 
 export const classNames = (custom, classNames) => {
     if (custom || classNames) {
-        return custom + " " + classNames;
+        return (custom ?? "") + " " + (classNames ?? "");
     }
 
     return null;

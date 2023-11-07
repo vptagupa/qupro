@@ -8,7 +8,7 @@ export default forwardRef((props, ref) => {
             render={<Cell />}
             ref={ref}
             {...props}
-            className="!p-3 border-solid border-b"
+            _class="!p-3 border-solid border-b"
         >
             <span className="text-xs">{props.children}</span>
         </Base>

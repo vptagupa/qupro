@@ -26,5 +26,41 @@
     .warning {
         @apply bg-amber-500 text-white;
     }
+
+    button:disabled {
+        @apply bg-slate-300;
+    }
+
+    input[type="text"] {
+        @apply focus:outline-none focus:ring focus:ring-opacity-100;
+    }
+
+    input[type="text"].has-primary {
+        @apply border-slate-300  focus:ring-purple-200;
+    }
+    input[type="text"].has-secondary {
+        @apply border-slate-300  focus:ring-violet-200;
+    }
+    input[type="text"].has-success {
+        @apply border-slate-300  focus:ring-emerald-200;
+    }
+    input[type="text"].has-info {
+        @apply border-slate-300  focus:ring-sky-200;
+    }
+    input[type="text"].has-danger {
+        @apply border-slate-300  focus:ring-red-200;
+    }
+    input[type="text"].has-warning {
+        @apply border-slate-300  focus:ring-amber-200;
+    }
     
+    .cursor {
+        cursor: pointer;
+    }
+
+  
+    .btn-sm {
+        @apply text-xs py-2 px-3 #{!important};
+    }
+
 }
