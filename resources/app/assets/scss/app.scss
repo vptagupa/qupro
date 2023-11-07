@@ -68,6 +68,7 @@
     input:disabled {
         @apply bg-slate-200 bg-opacity-50;
     }
+ 
 
     select.has-secondary, input[type="text"].has-secondary, input[type="email"].has-secondary {
         @extend .has-secondary;
@@ -118,7 +119,7 @@
     }
 
     button {
-        @apply flex items-center;
+        @apply flex items-center disabled:hover:bg-opacity-60 disabled:hover:text-slate-400;
     }
 
     .btn-sm {

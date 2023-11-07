@@ -37,7 +37,7 @@ const Component = ({
                     <Input
                         type="text"
                         placeholder="Search by name"
-                        className="has-primary border-r-0 rounded-r-none lg:w-96"
+                        className="border-r-0 rounded-r-none lg:w-96"
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <SecondaryButton
@@ -89,8 +89,9 @@ const Component = ({
                                                     roles={roles}
                                                 />
                                                 <Delete
-                                                    handleDelete={handleDelete}
-                                                    item={item}
+                                                    handleDelete={(e) =>
+                                                        handleDelete(item.id)
+                                                    }
                                                 />
                                             </div>
                                         </Td>

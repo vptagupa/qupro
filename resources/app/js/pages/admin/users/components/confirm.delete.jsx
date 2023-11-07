@@ -3,7 +3,7 @@ import { Confirm } from "@/js/components/modal";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
-const Component = ({ handleDelete, item }) => {
+const Component = ({ handleDelete }) => {
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -18,7 +18,7 @@ const Component = ({ handleDelete, item }) => {
                 open={open}
                 title="Delete"
                 description="Are you sure you want to delete?"
-                yes={(e) => handleDelete(item.id)}
+                yes={(e) => handleDelete()}
                 no={(e) => setOpen(false)}
             />
         </>
@@ -27,7 +27,6 @@ const Component = ({ handleDelete, item }) => {
 
 Component.propTypes = {
     handleDelete: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired,
 };
 
 export default Component;
