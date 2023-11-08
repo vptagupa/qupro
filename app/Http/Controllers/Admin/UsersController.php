@@ -11,7 +11,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use App\Enums\Role;
 use App\Enums\Policy;
-use App\Models\User;
 
 class UsersController extends AdminController
 {
@@ -87,6 +86,6 @@ class UsersController extends AdminController
 
     public function getModelNamespace()
     {
-        return User::class;
+        return $this->repository->model()::class;
     }
 }
