@@ -18,13 +18,13 @@ enum Access
     {
         return [
             Role::ADMIN->name => [
-                Access::DASHBOARD_ADMIN->name,
-                Access::DASHBOARD_TELLER->name,
-                Access::CONFIGURATIONS->name,
-                Access::USERS->name
+                Access::DASHBOARD_ADMIN->name => [Action::ALL->name],
+                Access::DASHBOARD_TELLER->name => [Action::ALL->name],
+                Access::CONFIGURATIONS->name => [Action::ALL->name],
+                Access::USERS->name => [Action::ALL->name],
             ],
             Role::TELLER->name => [
-                Access::DASHBOARD_TELLER->name,
+                Access::DASHBOARD_TELLER->name => [Action::ALL->name],
             ]
         ];
     }

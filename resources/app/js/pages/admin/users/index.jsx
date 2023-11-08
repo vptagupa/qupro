@@ -3,7 +3,6 @@ import Table from "./components/table";
 import New from "./components/new";
 
 const Component = (props) => {
-    console.log(props);
     return (
         <>
             <Layout>

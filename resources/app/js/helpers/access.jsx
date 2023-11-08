@@ -1,6 +1,7 @@
 import { usePage } from "@inertiajs/react";
 export const canAccess = (pagePermission) => {
     const { user } = usePage().props;
+    const access = Object.keys(user?.data?.access ?? []);
 
-    return user.data.access.includes(pagePermission);
+    return access.includes(pagePermission);
 };
