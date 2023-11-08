@@ -10,7 +10,7 @@ const Component = (props) => {
                 <div className="mb-2">
                     <New roles={props.roles} />
                 </div>
-                <div className="rounded-2xl shadow-sm bg-white">
+                <div className="rounded-2xl shadow-sm bg-white pt-2">
                     <div className="rounded-2xl">
                         <Table roles={props.roles} />
                     </div>

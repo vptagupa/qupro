@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\UsersController;
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
+use App\Http\Middleware\RedirectIfTemporaryPassword;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +20,10 @@ use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::middleware('auth')->group(function () {
+Route::middleware([
+    'auth',
+    RedirectIfTemporaryPassword::class
+])->group(function () {
     Route::name('admin.')->prefix('admin')->group(function () {
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -44,7 +49,8 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
+Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
+Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('auth.change-password.update');
 

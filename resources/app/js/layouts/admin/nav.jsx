@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import menu from "@/js/constants/menu";
 import { Link } from "@inertiajs/react";
+import Logo from "@/assets/images/logo.svg";
 
 const activeMenu = () => menu.filter((m) => route().current(m.route))[0] ?? [];
 
@@ -16,10 +17,7 @@ export default () => {
                         </button>
                     </div>
                     <div className="xs:grow lg:flex-none text-center">
-                        <img
-                            className="h-8 w-auto inline mr-2"
-                            src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500"
-                        />
+                        <img className="h-8 w-auto inline mr-2" src={Logo} />
                         <span className="xs:max-sm:hidden inline text-slate-600 text-xs font-semibold">
                             QuPro
                         </span>

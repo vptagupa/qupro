@@ -1,4 +1,4 @@
-import LoginLayout from "@/js/layouts/layout.login";
+import Layout from "@/js/layouts/layout.auth";
 import { Form, Input } from "@/js/components/form";
 import { Button } from "@/js/components/buttons";
 import { useForm } from "laravel-precognition-react-inertia";
@@ -25,9 +25,9 @@ export default () => {
     useEffect(() => {
         form.setData("remember", remember);
     }, [remember]);
-    console.log(remember);
+
     return (
-        <LoginLayout>
+        <Layout>
             <Form onSubmit={submit}>
                 <div className="flex flex-col space-y-4">
                     <div>
@@ -76,6 +76,6 @@ export default () => {
                     </div>
                 </div>
             </Form>
-        </LoginLayout>
+        </Layout>
     );
 };

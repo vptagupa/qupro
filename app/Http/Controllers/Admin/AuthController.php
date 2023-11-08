@@ -4,19 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
-
+use App\Http\Requests\UpdateUserPasswordRequest;
+use App\Repositories\UserRepository;
 
 class AuthController extends AdminController
 {
+    public function __construct(private UserRepository $repository)
+    {
+        // 
+    }
+
     public function login(Request $request)
     {
         return $this->render(
             view: "admin/auth/login",
-            layout: "app-login",
+            layout: "app-auth",
         );
+    }
+
+    public function changePassword(Request $request)
+    {
+        return $this->render(
+            view: "admin/auth/reset",
+            layout: "app-auth",
+        );
+    }
+
+    public function updatePassword(UpdateUserPasswordRequest $request)
+    {
+        $user = Auth::user();
+        $this->repository->update($request->validationData(), $user->id);
+
+        return $this->inertia()::location(redirect()->intended('/admin/dashboard'));
     }
 
     public function auth(Request $request)
@@ -27,9 +47,10 @@ class AuthController extends AdminController
         ]);
 
         if (Auth::attempt($credentials, $request->get('remember'))) {
+
             $request->session()->regenerate();
 
-            return $this->inertia()::location(route('admin.dashboard.index'));
+            return $this->inertia()::location(redirect()->intended('/admin/dashboard'));
         }
 
         return $this->render(

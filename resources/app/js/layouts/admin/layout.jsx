@@ -3,6 +3,7 @@ import Sidebar from "./sidebar";
 import Content from "./content";
 import Footer from "./footer";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import Logo from "@/assets/images/logo.svg";
 
 const Layout = (props) => {
     return (
@@ -18,7 +19,7 @@ const Layout = (props) => {
                         <div className="xs:grow lg:flex-none text-center">
                             <img
                                 className="h-8 w-auto inline mr-2"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500"
+                                src={Logo}
                             />
                             <span className="xs:max-sm:hidden inline text-slate-600 text-xs font-semibold">
                                 QuPro

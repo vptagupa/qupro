@@ -23,7 +23,6 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        echo $this->id . 'a';
         return [
             'name' => 'required',
             'nickname' => 'nullable',
