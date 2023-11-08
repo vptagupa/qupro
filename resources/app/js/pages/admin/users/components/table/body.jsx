@@ -118,7 +118,7 @@ const Component = ({
                     </>
                 )}
             </Table>
-            <div className="p-2">
+            <div className="p-2 mt-5">
                 <Pagination pageInfo={data.pageInfo} pagination={pagination} />
             </div>
         </>
