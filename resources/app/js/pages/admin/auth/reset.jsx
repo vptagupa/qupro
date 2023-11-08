@@ -22,7 +22,7 @@ export default () => {
             <div>
                 <div>
                     <p>You are using a default password. </p>
-                    <p> Reset your password toaccess your account.</p>
+                    <p>Change your password to access your account.</p>
                 </div>
                 <div>
                     <Form onSubmit={submit}>
@@ -43,8 +43,12 @@ export default () => {
                                         form.setData("password", e.target.value)
                                     }
                                 />
+                                <span className="text-[.7rem]">
+                                    Minimum of 6 characters with at least 1
+                                    number and letter.
+                                </span>
                                 {form.invalid("password") && (
-                                    <span className="text-danger text-xs">
+                                    <span className="text-danger text-xs block">
                                         {form.errors.password}
                                     </span>
                                 )}
