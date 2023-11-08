@@ -1,15 +1,17 @@
 import { Link } from "@inertiajs/react";
 import menu from "@/js/constants/menu";
+import { canAccess } from "@/js/helpers/access";
 
 function isActive(nav) {
     return route().current(nav.route);
 }
 
 export default () => {
+    const filteredAccessMenu = menu.filter((nav) => canAccess(nav.permission));
     return (
         <>
             <ul className="text-sm w-40">
-                {menu.map((nav) => {
+                {filteredAccessMenu.map((nav) => {
                     return (
                         <li
                             key={nav.id}
