@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\Role;
 use Illuminate\Validation\Rule;
+use App\Enums\Role;
+use App\Enums\Policy;
 
 class StoreUserRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can(Policy::create(), $this->user()::class);
     }
 
     /**

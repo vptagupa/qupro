@@ -29,16 +29,12 @@ Route::middleware([
             Route::get('/', [DashboardController::class, 'index'])->name('index');
         });
         Route::name('users.')->prefix('users')->group(function () {
-            Route::post('/list', [UsersController::class, 'list'])->name('list');
+            Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\User');
+            Route::post('/list', [UsersController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\User');
+            Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\User');
             Route::post('/', [UsersController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
             Route::patch('/{user}', [UsersController::class, 'update'])->middleware([HandlePrecognitiveRequests::class])->name('update');
         });
-        Route::resource('users', UsersController::class)->except([
-            'create',
-            'store',
-            'edit',
-            'update'
-        ]);
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('index');
         });

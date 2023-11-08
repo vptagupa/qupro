@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use App\Enums\Access;
 use App\Enums\Action;
 
@@ -36,7 +35,7 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function updateAny(User $user): bool
     {
         return $user->hasAccess(Access::USERS, Action::UPDATE);
     }
@@ -44,7 +43,7 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function deleteAny(User $user): bool
     {
         return $user->hasAccess(Access::USERS, Action::DELETE);
     }
@@ -52,7 +51,7 @@ class UserPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restoreAny(User $user): bool
     {
         return $user->hasAccess(Access::USERS, Action::RESTORE);
     }
@@ -60,7 +59,7 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDeleteAny(User $user): bool
     {
         return $user->hasAccess(Access::USERS, Action::FORCE_DELETE);
     }

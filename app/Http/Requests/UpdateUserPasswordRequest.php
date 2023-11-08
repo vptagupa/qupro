@@ -29,7 +29,6 @@ class UpdateUserPasswordRequest extends FormRequest
             'password' => [
                 'required',
                 Password::min(6)->uncompromised()->letters()->numbers(),
-
                 function (string $attribute, mixed $value, Closure $fail) {
                     if (Hash::check($value, Auth::user()->password)) {
                         $fail("Use different {$attribute}.");

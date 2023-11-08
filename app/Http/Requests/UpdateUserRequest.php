@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\Role;
 use Illuminate\Validation\Rule;
+use App\Enums\Role;
+use App\Enums\Policy;
+
 
 class UpdateUserRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can(Policy::updateAny(), $this->user()::class);
     }
 
     /**
