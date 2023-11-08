@@ -24,7 +24,7 @@ class UsersController extends AdminController
      */
     public function index()
     {
-        return $this->inertia('admin/users/index', [
+        return $this->render('admin/users/index', [
             'roles' => Role::all()
         ]);
     }

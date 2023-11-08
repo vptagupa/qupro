@@ -10,6 +10,6 @@ class DashboardController extends AdminController
 {
     public function index()
     {
-        return $this->inertia('admin/dashboard/index');
+        return $this->render('admin/dashboard/index');
     }
 }

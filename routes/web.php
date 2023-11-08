@@ -40,7 +40,11 @@ Route::middleware('auth')->group(function () {
         Route::name('configurations.')->prefix('configurations')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('index');
         });
+        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 });
 
+
 Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
+

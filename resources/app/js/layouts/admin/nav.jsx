@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import menu from "@/js/constants/menu";
+import { Link } from "@inertiajs/react";
 
 const activeMenu = () => menu.filter((m) => route().current(m.route))[0] ?? [];
 
@@ -67,12 +68,12 @@ export default () => {
                                 </Menu.Item>
                                 <Menu.Item>
                                     {(active) => (
-                                        <a
+                                        <Link
                                             className="block px-4 py-2 text-sm text-gray-700"
-                                            href="#"
+                                            href={route("admin.logout")}
                                         >
                                             Logout
-                                        </a>
+                                        </Link>
                                     )}
                                 </Menu.Item>
                             </Menu.Items>
