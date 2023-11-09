@@ -15,6 +15,13 @@ class NumFormatSeeder extends Seeder
     {
         $real = [
             [
+                "title" => "All",
+                'affix' => '',
+                'delimiter' => '-',
+                "format" => "{(5)series}",
+                'active' => true,
+            ],
+            [
                 "title" => "Cashier Series",
                 'affix' => 'cashier',
                 'delimiter' => '-',
