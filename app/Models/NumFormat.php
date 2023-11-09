@@ -10,6 +10,9 @@ class NumFormat extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
+        'affix',
+        'delimiter',
         'format',
         'active'
     ];
@@ -17,4 +20,9 @@ class NumFormat extends Model
     protected $casts = [
         'active' => 'boolean'
     ];
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }

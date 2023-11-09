@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\UserRepository;
-use App\Models\User;
+use App\Repositories\NumFormatRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(UserRepository::class, fn() => new UserRepository(new User));
+        $this->app->bind(UserRepository::class, fn() => new UserRepository(new \App\Models\User));
+        $this->app->bind(NumFormatRepository::class, fn() => new NumFormatRepository(new \App\Models\NumFormat));
     }
 
     /**

@@ -8,6 +8,7 @@ enum Access
     case DASHBOARD_TELLER;
     case USERS;
     case CONFIGURATIONS;
+    case ACCOUNT_TYPES;
 
     public static function all(): array
     {
@@ -22,6 +23,7 @@ enum Access
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],
                 Access::CONFIGURATIONS->name => [Action::ALL->name],
                 Access::USERS->name => [Action::ALL->name],
+                Access::ACCOUNT_TYPES->name => [Action::ALL->name],
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],

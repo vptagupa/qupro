@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserCollection;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Repositories\UserRepository;
-use App\Enums\Role;
+use App\Http\Resources\NumFormatCollection;
+use App\Http\Requests\StoreNumFormatRequest;
+use App\Http\Requests\UpdateNumFormatRequest;
+use App\Repositories\NumFormatRepository;
 
-class UsersController extends AdminController
+class FormatsController extends AdminController
 {
-
-    public function __construct(private UserRepository $repository)
+    /**
+     * Display a listing of the resource.
+     */
+    public function __construct(private NumFormatRepository $repository)
     {
         // 
     }
@@ -24,16 +24,14 @@ class UsersController extends AdminController
      */
     public function index()
     {
-        return $this->render('admin/users/index', [
-            'roles' => Role::all()
-        ]);
+        return $this->render('admin/formats/index');
     }
 
     public function list(Request $request)
     {
-        return new UserCollection(
+        return new NumFormatCollection(
             $this->repository->list(
-                ['name' => $request->get('name')],
+                ['title' => $request->get('title')],
                 $request->get('per_page'),
             )
         );
@@ -42,14 +40,14 @@ class UsersController extends AdminController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreNumFormatRequest $request)
     {
         $this->repository->create($request->safe()->only([
-            'name',
-            'nickname',
-            'email',
-            'role',
-            'password'
+            'title',
+            'affix',
+            'delimiter',
+            'format',
+            'active'
         ]));
     }
 
@@ -57,13 +55,14 @@ class UsersController extends AdminController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, int $id)
+    public function update(UpdateNumFormatRequest $request, int $id)
     {
         $this->repository->update($request->safe()->only([
-            'name',
-            'nickname',
-            'email',
-            'role',
+            'title',
+            'affix',
+            'delimiter',
+            'format',
+            'active'
         ]), $id);
     }
 

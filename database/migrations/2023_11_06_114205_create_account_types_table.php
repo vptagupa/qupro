@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('format_id')->constrained('num_formats');
             $table->unsignedInteger('num_start')->nullable();
             $table->datetime('reset_at')->nullable();
-            $table->foreignId('reset_by')->constrained('users');
+            $table->foreignId('reset_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

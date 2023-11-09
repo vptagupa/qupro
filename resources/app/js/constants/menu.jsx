@@ -21,6 +21,20 @@ export default [
         permission: "DASHBOARD_TELLER",
     },
     {
+        id: "account.types",
+        name: "Account Types",
+        icon: <WrenchScrewdriverIcon className="h-3" />,
+        route: "admin.account-types.index",
+        permission: "ACCOUNT_TYPES",
+    },
+    {
+        id: "numformat",
+        name: "Formats",
+        icon: <WrenchScrewdriverIcon className="h-3" />,
+        route: "admin.formats.index",
+        permission: "CONFIGURATIONS",
+    },
+    {
         id: "configurations",
         name: "Configurations",
         icon: <WrenchScrewdriverIcon className="h-3" />,

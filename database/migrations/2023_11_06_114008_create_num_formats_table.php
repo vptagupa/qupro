@@ -12,7 +12,10 @@ return new class extends Migration {
     {
         Schema::create('num_formats', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('format');
+            $table->string('affix', 10)->nullable();
+            $table->string('delimiter', 5)->nullable();
             $table->boolean('active')->default(false);
             $table->timestamps();
         });
