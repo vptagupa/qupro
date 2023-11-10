@@ -70,8 +70,8 @@ class HandleInertiaRequests extends Middleware
     private function others()
     {
         return [
-            'formats' => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
-            'accountTypes' => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list())),
+            'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
+            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list())),
         ];
     }
 }

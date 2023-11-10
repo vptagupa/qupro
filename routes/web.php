@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\FormatsController;
 use App\Http\Controllers\Admin\AccountTypesController;
 use App\Http\Controllers\Admin\ConfigurationsController;
+use App\Http\Controllers\Admin\GlobalConfigController;
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
@@ -57,18 +58,24 @@ Route::middleware([
             Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
         });
         Route::name('configurations.')->prefix('configurations')->group(function () {
-            Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');
+            Route::get('/', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');
             Route::name('shared-series.')->prefix('shared-series')->group(function () {
                 Route::post('/list', [SharedSeriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\SharedSeries');
                 Route::post('/', [SharedSeriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\SharedSeries'])->name('store');
                 Route::patch('/{shared}', [SharedSeriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\SharedSeries'])->name('update');
                 Route::delete('/{shared}', [SharedSeriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\SharedSeries');
             });
+            Route::name('global.')->prefix('global')->group(function () {
+                Route::post('/list', [GlobalConfigController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Config');
+                Route::post('/', [GlobalConfigController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Config'])->name('store');
+                Route::patch('/{config}', [GlobalConfigController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Config'])->name('update');
+                Route::delete('/{config}', [GlobalConfigController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Config');
+            });
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 });
-
+Route::redirect('/admin', '/admin/dashboard');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
 Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');

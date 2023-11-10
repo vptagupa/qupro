@@ -11,6 +11,7 @@ export const useForm = ({ method, route, data }) => {
         if (form.processing) return;
 
         setOpen(false);
+        form.clearErrors();
         form.reset();
     };
 

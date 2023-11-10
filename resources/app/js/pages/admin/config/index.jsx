@@ -1,17 +1,26 @@
 import Layout from "@/js/layouts/layout.admin";
-import SharedFormat from "./components/config";
+import SharedSeries from "./components/shared-series";
+import Global from "./components/global";
 
 const Component = (props) => {
     return (
         <>
             <Layout>
                 <div className="font-bold text-lg mb-4">Configurations</div>
-                <div className="grid lg:grid-cols-2 xs:grid-cols-1">
+                <div className="grid lg:grid-cols-2 xs:grid-cols-1 gap-3">
                     <div>
                         <div className="text-md mb-2">Shared Series</div>
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
                             <div className="rounded-2xl">
-                                <SharedFormat />
+                                <SharedSeries />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="text-md mb-2">Global</div>
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                            <div className="rounded-2xl">
+                                <Global />
                             </div>
                         </div>
                     </div>

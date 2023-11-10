@@ -1,5 +1,4 @@
 import Base from "./base";
-import PropTypes from "prop-types";
 
 const Component = (props) => {
     return (
@@ -8,9 +7,5 @@ const Component = (props) => {
         </>
     );
 };
-
-// Component.propTypes = {
-//     data: PropTypes.object,
-// };
 
 export default Component;

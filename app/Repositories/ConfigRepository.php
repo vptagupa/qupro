@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Config;
 
-class ConfigurationRepository extends Repository
+class ConfigRepository extends Repository
 {
     public function __construct(Config $model)
     {

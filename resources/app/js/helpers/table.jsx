@@ -4,7 +4,7 @@ import { usePagination } from "@table-library/react-table-library/pagination";
 import { router } from "@inertiajs/react";
 import Event from "@/js/helpers/event";
 
-export const useTable = ({ initialParams, listRoute: _listRoute }) => {
+export const useTable = ({ initialParams, listRoute: _listRoute, name }) => {
     const [routes, setRoutes] = useState({
         listRoute: _listRoute,
     });
@@ -91,8 +91,9 @@ export const useTable = ({ initialParams, listRoute: _listRoute }) => {
 
     useEffect(() => {
         Event.on(
-            "reload",
+            (name ? name + "." : "") + "reload",
             (data) => {
+                console.log("x");
                 fetchData({
                     search: search,
                     page: initialParams.page,
@@ -101,7 +102,7 @@ export const useTable = ({ initialParams, listRoute: _listRoute }) => {
             this,
         );
 
-        return () => Event.off("reload");
+        return () => Event.off((name ? name + "." : "") + "reload");
     }, []);
 
     return {
