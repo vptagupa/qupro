@@ -93,7 +93,6 @@ export const useTable = ({ initialParams, listRoute: _listRoute, name }) => {
         Event.on(
             (name ? name + "." : "") + "reload",
             (data) => {
-                console.log("x");
                 fetchData({
                     search: search,
                     page: initialParams.page,
