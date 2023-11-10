@@ -34,7 +34,7 @@ const Component = ({
                                 return (
                                     <Tr key={item.id}>
                                         <Td>
-                                            <div className="flex space-x-2 text-lg justify-between">
+                                            <div className="flex space-x-2 text-[0.9rem] justify-between">
                                                 <div className="">
                                                     {item.name}
                                                 </div>
