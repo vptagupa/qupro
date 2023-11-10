@@ -3,6 +3,17 @@ import { PrimaryButton, Button } from "@/js/components/buttons";
 import PropTypes from "prop-types";
 
 const Component = ({ firstScreenHandler, finalScreenHandler, form }) => {
+    const nextHandler = () => {
+        if (form.data.is_representative && form.data.student_no == "") {
+            form.setError("student_no", "Studet no. is required");
+            return;
+        }
+        if (form.data.name == "") {
+            form.setError("name", "Name is required");
+            return;
+        }
+        finalScreenHandler();
+    };
     return (
         <>
             <Form>
@@ -11,18 +22,23 @@ const Component = ({ firstScreenHandler, finalScreenHandler, form }) => {
                         <Input
                             type="text"
                             className="p-7 text-[4rem] border-2 rounded-xl focus:ring focus:border"
-                            placeholder="Enter Nick Name"
+                            placeholder="Enter nickname"
                             value={form.data.name}
                             onChange={(e) => {
                                 form.setData("name", e.target.value);
                             }}
                         />
+                        {form.invalid("name") && (
+                            <span className="text-danger text-[2rem]">
+                                {form.errors.name}
+                            </span>
+                        )}
                     </div>
                     <div>
-                        <label className="flex gap-2 items-center">
+                        <label className="flex gap-2 items-center justify-end">
                             <Checkbox
                                 className="p-3 focus:ring focus:border-none"
-                                checked={form.data.is_representative}
+                                value={form.data.is_representative}
                                 onChange={(e) => {
                                     form.setData(
                                         "is_representative",
@@ -46,19 +62,26 @@ const Component = ({ firstScreenHandler, finalScreenHandler, form }) => {
                                     form.setData("student_no", e.target.value);
                                 }}
                             />
+                            {form.invalid("student_no") && (
+                                <span className="text-danger text-[2rem]">
+                                    {form.errors.student_no}
+                                </span>
+                            )}
                         </div>
                     )}
 
                     <div className="mt-[10%]">
                         <div className="flex gap-5 items-center justify-center">
                             <Button
+                                type="button"
                                 onClick={(e) => firstScreenHandler()}
                                 className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] bg-slate-300 text-center uppercase font-extrabold"
                             >
                                 <span>Back</span>
                             </Button>
                             <PrimaryButton
-                                onClick={(e) => finalScreenHandler()}
+                                type="button"
+                                onClick={(e) => nextHandler()}
                                 className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold"
                             >
                                 <span>Confirm</span>

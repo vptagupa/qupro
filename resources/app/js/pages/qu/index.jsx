@@ -1,7 +1,8 @@
-import FirstScreen from "./components/first.screen";
-import SecondScreen from "./components/second.screen";
-import ThirdScreen from "./components/third.screen";
-import FinalScreen from "./components/final.screen";
+import FirstScreen from "./components/screens/second.screen";
+import SecondScreen from "./components/screens/third.screen";
+import ThirdScreen from "./components/screens/fourth.screen";
+import FourthScreen from "./components/screens/fourth.screen";
+import FinalScreen from "./components/screens/final.screen";
 import { useState } from "react";
 import { useForm } from "@/js/helpers/form";
 
@@ -22,27 +23,44 @@ export default () => {
     const [firstScreen, setFirstScreen] = useState(true);
     const [secondScreen, setSecondScreen] = useState(false);
     const [thirdScreen, setThirdScreen] = useState(false);
+    const [fourthScreen, setFourthScreen] = useState(false);
     const [finalScreen, setFinalscreen] = useState(false);
 
     const firstScreenHandler = () => {
         setFirstScreen(true);
         setSecondScreen(false);
         setThirdScreen(false);
+        setFourthScreen(false);
         setFinalscreen(false);
+        form.clearErrors();
+        form.reset();
     };
 
     const secondScreenHandler = () => {
         setFirstScreen(false);
         setSecondScreen(true);
         setThirdScreen(false);
+        setFourthScreen(false);
         setFinalscreen(false);
+        form.clearErrors();
     };
 
     const thirdScreenHandler = () => {
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(true);
+        setFourthScreen(false);
         setFinalscreen(false);
+        form.clearErrors();
+    };
+
+    const fourthScreenHandler = () => {
+        setFirstScreen(false);
+        setSecondScreen(false);
+        setThirdScreen(false);
+        setFourthScreen(true);
+        setFinalscreen(false);
+        form.clearErrors();
     };
 
     const finalScreenHandler = () => {
@@ -50,6 +68,7 @@ export default () => {
         setSecondScreen(false);
         setThirdScreen(false);
         setFinalscreen(true);
+        form.clearErrors();
     };
 
     const printHandler = () => {
@@ -58,7 +77,7 @@ export default () => {
 
     return (
         <>
-            <div className="w-1/2 m-auto mt-[5%] p-5">
+            <div className="w-1/2 m-auto mt-[2%] p-5">
                 {firstScreen && (
                     <FirstScreen
                         firstScreenHandler={firstScreenHandler}

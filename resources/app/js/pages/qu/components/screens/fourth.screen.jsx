@@ -11,12 +11,14 @@ const Component = ({ secondScreenHandler, finalScreenHandler, ...props }) => {
                     <div className="mt-[15%]">
                         <div className="flex gap-5 items-center justify-center">
                             <Button
+                                type="button"
                                 onClick={(e) => secondScreenHandler()}
                                 className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] bg-slate-300 text-center uppercase font-extrabold"
                             >
                                 <span>Back</span>
                             </Button>
                             <PrimaryButton
+                                type="button"
                                 onClick={(e) => finalScreenHandler()}
                                 className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold"
                             >
