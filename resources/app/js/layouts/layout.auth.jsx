@@ -8,7 +8,7 @@ export default (props) => {
                 <div>
                     <div className="flex flex-col space-y-6 text-center mb-10 mt-2">
                         <span>
-                            <img className="h-8 w-auto inline" src={Logo} />
+                            <img className="h-14 w-auto inline" src={Logo} />
                         </span>
                         <span className="text-2xl font-bold">QuPro</span>
                     </div>

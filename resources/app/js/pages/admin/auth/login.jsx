@@ -10,7 +10,7 @@ export default () => {
     const [remember, setRemember] = useState(false);
     const form = useForm("post", route("login.auth"), {
         email: "victortagupa@gmail.com",
-        password: "123456",
+        password: "secret",
         remember: remember,
     });
 

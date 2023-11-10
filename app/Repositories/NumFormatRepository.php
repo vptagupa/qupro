@@ -11,7 +11,7 @@ class NumFormatRepository extends Repository
         $this->model = $model;
     }
 
-    public function list($query, $perPage = 10)
+    public function list($query = [], $perPage = 10)
     {
         return $this->model->when(isset($query['title']) && $query['title'], function ($builder) use ($query) {
             $builder->where('title', 'like', '%' . $query['title'] . '%');

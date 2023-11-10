@@ -13,8 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(UserRepository::class, fn() => new UserRepository(new \App\Models\User));
-        $this->app->bind(NumFormatRepository::class, fn() => new NumFormatRepository(new \App\Models\NumFormat));
+
     }
 
     /**

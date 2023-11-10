@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('shared_qu_numbers', function (Blueprint $table) {
+        Schema::create('shared_series', function (Blueprint $table) {
             $table->id();
-            $table->json('format_ids');
+            $table->json('account_type_ids');
+            $table->foreignId('num_format_id')->constrained('num_formats')->cascadeOnDelete();
             $table->unsignedInteger('num_start');
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('account_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('format_id')->constrained('num_formats');
+            $table->foreignId('num_format_id')->constrained('num_formats');
             $table->unsignedInteger('num_start')->nullable();
             $table->datetime('reset_at')->nullable();
             $table->foreignId('reset_by')->nullable()->constrained('users');

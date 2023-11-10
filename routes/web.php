@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\SharedSeriesController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\FormatsController;
 use App\Http\Controllers\Admin\AccountTypesController;
+use App\Http\Controllers\Admin\ConfigurationsController;
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 
@@ -40,9 +42,6 @@ Route::middleware([
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('index');
         });
-        Route::name('configurations.')->prefix('configurations')->group(function () {
-            Route::get('/', [UsersController::class, 'index'])->name('index');
-        });
         Route::name('formats.')->prefix('formats')->group(function () {
             Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
             Route::post('/list', [FormatsController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\NumFormat');
@@ -56,6 +55,15 @@ Route::middleware([
             Route::post('/', [AccountTypesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\AccountType'])->name('store');
             Route::patch('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
             Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
+        });
+        Route::name('configurations.')->prefix('configurations')->group(function () {
+            Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');
+            Route::name('shared-series.')->prefix('shared-series')->group(function () {
+                Route::post('/list', [SharedSeriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\SharedSeries');
+                Route::post('/', [SharedSeriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\SharedSeries'])->name('store');
+                Route::patch('/{shared}', [SharedSeriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\SharedSeries'])->name('update');
+                Route::delete('/{shared}', [SharedSeriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\SharedSeries');
+            });
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

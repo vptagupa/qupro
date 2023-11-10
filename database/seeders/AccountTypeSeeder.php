@@ -18,12 +18,12 @@ class AccountTypeSeeder extends Seeder
             [
                 "name" => "Registrar",
                 'num_start' => 1,
-                "format_id" => NumFormat::whereTitle('Registrar Series')->first()->id,
+                "num_format_id" => NumFormat::whereTitle('Registrar Series')->first()->id,
             ],
             [
                 "name" => "Cashier",
                 'num_start' => 1,
-                "format_id" => NumFormat::whereTitle('Cashier Series')->first()->id,
+                "num_format_id" => NumFormat::whereTitle('Cashier Series')->first()->id,
             ],
         ];
 

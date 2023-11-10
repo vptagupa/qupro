@@ -2,11 +2,17 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\AccountTypeCollection;
+use App\Repositories\AccountTypeRepository;
+
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\App;
 
 use App\Enums\Access;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\NumFormatCollection;
+use App\Repositories\NumFormatRepository;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -40,15 +46,32 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $data = [];
+
+
+        return array_merge(parent::share($request), [
+            ...$this->user($request),
+            ...$this->others()
+        ]);
+    }
+
+    private function user($request)
+    {
+        $data = [];
         if (\Auth::check()) {
             $data = [
                 'permissions' => Access::all(),
-                'user' => new UserResource($request->user())
+                'user' => new UserResource($request->user()),
             ];
         }
 
-        return array_merge(parent::share($request), [
-            ...$data
-        ]);
+        return $data;
+    }
+
+    private function others()
+    {
+        return [
+            'formats' => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
+            'accountTypes' => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list())),
+        ];
     }
 }
