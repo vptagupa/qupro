@@ -1,18 +1,20 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\SharedSeriesController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\FormatsController;
-use App\Http\Controllers\Admin\AccountTypesController;
-use App\Http\Controllers\Admin\ConfigurationsController;
-use App\Http\Controllers\Admin\GlobalConfigController;
+use App\Http\Controllers\Admin\{
+    AuthController,
+    SharedSeriesController,
+    DashboardController,
+    UsersController,
+    FormatsController,
+    AccountTypesController,
+    ConfigurationsController,
+    GlobalConfigController,
+    QuController
+};
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
-
 use App\Http\Middleware\RedirectIfTemporaryPassword;
 
 /*
@@ -71,6 +73,13 @@ Route::middleware([
                 Route::patch('/{config}', [GlobalConfigController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Config'])->name('update');
                 Route::delete('/{config}', [GlobalConfigController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Config');
             });
+        });
+        Route::name('qu.')->prefix('qu')->group(function () {
+            Route::get('/', [QuController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Qu');
+            Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
+            Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+            Route::patch('/{type}', [QuController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Qu'])->name('update');
+            Route::delete('/{type}', [QuController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Qu');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

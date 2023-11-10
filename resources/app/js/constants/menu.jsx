@@ -1,6 +1,7 @@
 import {
     HomeIcon,
     UsersIcon,
+    UserPlusIcon,
     UserGroupIcon,
     WrenchScrewdriverIcon,
 } from "@heroicons/react/24/solid";
@@ -19,6 +20,20 @@ export default [
         icon: <UsersIcon className="h-3" />,
         route: "admin.tellers.index",
         permission: "DASHBOARD_TELLER",
+    },
+    {
+        id: "qu",
+        name: "Qu",
+        icon: <UserPlusIcon className="h-3" />,
+        route: "admin.qu.index",
+        permission: "QU",
+    },
+    {
+        id: "advance.print",
+        name: "Advance Print",
+        icon: <UserPlusIcon className="h-3" />,
+        route: "admin.advance-print.index",
+        permission: "ADVANCE_PRINT",
     },
     {
         id: "account.types",

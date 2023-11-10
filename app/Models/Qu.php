@@ -17,11 +17,13 @@ class Qu extends Model
         'accoount_type_id',
         'num_fulltext',
         'priority',
-        'skipped_at'
+        'skipped_at',
+        'is_representative'
     ];
 
     protected $casts = [
-        'skipped_at' => 'datetime'
+        'skipped_at' => 'datetime',
+        'is_representative' => 'boolean'
     ];
 
     public function teller()

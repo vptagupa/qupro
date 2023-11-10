@@ -10,6 +10,8 @@ enum Access
     case CONFIGURATIONS;
     case SHARED_SERIES;
     case ACCOUNT_TYPES;
+    case QU;
+    case ADVANCE_PRINT;
 
     public static function all(): array
     {
@@ -25,7 +27,9 @@ enum Access
                 Access::CONFIGURATIONS->name => [Action::ALL->name],
                 Access::USERS->name => [Action::ALL->name],
                 Access::ACCOUNT_TYPES->name => [Action::ALL->name],
-                Access::SHARED_SERIES->name => [Action::ALL->name]
+                Access::SHARED_SERIES->name => [Action::ALL->name],
+                Access::QU->name => [Action::ALL->name],
+                // Access::ADVANCE_PRINT->name => [Action::ALL->name],
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],

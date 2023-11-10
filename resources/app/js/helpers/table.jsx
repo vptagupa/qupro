@@ -85,6 +85,7 @@ export const useTable = ({ initialParams, listRoute: _listRoute, name }) => {
         router.delete(url, {
             preserveScroll: true,
             preserveState: false,
+            only: ["errors"],
             data: data,
         });
     };
