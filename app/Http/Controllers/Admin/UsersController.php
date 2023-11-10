@@ -33,7 +33,7 @@ class UsersController extends AdminController
     {
         return new UserCollection(
             $this->repository->list(
-                ['name' => $request->get('name')],
+                ['name' => $request->get('query')],
                 $request->get('per_page'),
             )
         );

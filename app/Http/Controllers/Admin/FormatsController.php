@@ -31,7 +31,7 @@ class FormatsController extends AdminController
     {
         return new NumFormatCollection(
             $this->repository->list(
-                ['title' => $request->get('title')],
+                ['title' => $request->get('query')],
                 $request->get('per_page'),
             )
         );

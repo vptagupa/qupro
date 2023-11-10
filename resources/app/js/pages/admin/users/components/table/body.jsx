@@ -9,14 +9,8 @@ import {
     Pagination,
 } from "@/js/components/table";
 import { Input } from "@/js/components/form";
-import { SecondaryButton, Button } from "@/js/components/buttons";
-import {
-    PencilSquareIcon,
-    TrashIcon,
-    MagnifyingGlassIcon,
-    PlusIcon,
-    UserCircleIcon,
-} from "@heroicons/react/24/solid";
+import { SecondaryButton } from "@/js/components/buttons";
+import { MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 import Edit from "../edit";
 import Delete from "../confirm.delete";

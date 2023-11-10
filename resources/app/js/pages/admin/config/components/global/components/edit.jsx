@@ -10,7 +10,7 @@ import {
 import { Button } from "@/js/components/buttons";
 
 export default ({ data }) => {
-    const { open, setOpen, closeForm, form, submitted, setSubmit } = useForm({
+    const { open, setOpen, closeForm, form } = useForm({
         method: "patch",
         route: route("admin.configurations.global.update", {
             config: data.id,
@@ -29,20 +29,11 @@ export default ({ data }) => {
             only: ["user", "permissions", "errors"],
             onSuccess: () => {
                 setOpen(false);
-                setSubmit(false);
-                form.reset();
+                form.clearErrors();
                 Event.emit("config.reload");
             },
         });
     };
-
-    useEffect(() => {
-        if (submitted) {
-            setTimeout(() => {
-                setSubmit(false);
-            }, 2000);
-        }
-    }, [submitted]);
 
     return (
         <>

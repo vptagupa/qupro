@@ -4,11 +4,11 @@ import { PrimarySwitch } from "@/js/components/switch";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
-const Component = ({ form, submitted, active, setActive }) => {
+const Component = ({ form, completed, active, setActive }) => {
     return (
         <Form>
             <div>
-                <Transition show={submitted && !form.hasErrors}>
+                <Transition show={completed && !form.hasErrors}>
                     <AlertSuccess>Successfully save.</AlertSuccess>
                 </Transition>
             </div>
@@ -93,7 +93,7 @@ const Component = ({ form, submitted, active, setActive }) => {
 };
 
 Component.propTypes = {
-    submitted: PropTypes.bool.isRequired,
+    completed: PropTypes.bool.isRequired,
 };
 
 export default Component;

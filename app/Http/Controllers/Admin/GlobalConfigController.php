@@ -23,7 +23,7 @@ class GlobalConfigController extends AdminController
     {
         return new ConfigCollection(
             $this->repository->list(
-                ['name' => $request->get('name')],
+                ['name' => $request->get('query')],
                 $request->get('per_page'),
             )
         );

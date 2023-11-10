@@ -3,28 +3,33 @@ import { Modal, Title, Footer } from "@/js/components/modal";
 import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
+import { useForm } from "@/js/helpers/form";
 
 export default (props) => {
     const [active, setActive] = useState(false);
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm("post", route("admin.formats.store"), {
-        title: "",
-        affix: "",
-        delimiter: "",
-        format: "{series}",
-        active: false,
-    });
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
+        {
+            method: "post",
+            route: route("admin.formats.store"),
+            data: {
+                title: "",
+                affix: "",
+                delimiter: "",
+                format: "{series}",
+                active: false,
+            },
+        },
+    );
 
     const submit = (e) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            only: ["errors"],
             onSuccess: () => {
-                setSubmit(true);
+                setCompleted(true);
                 setActive(false);
                 Event.emit("reload");
                 form.reset();
@@ -32,21 +37,18 @@ export default (props) => {
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
+    const closeFormHandler = () => {
+        closeForm();
         setActive(false);
-        form.reset();
     };
 
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     useEffect(() => {
         form.setData("active", active);
@@ -65,14 +67,14 @@ export default (props) => {
                 <Title>Add New</Title>
                 <Form
                     form={form}
-                    submitted={submitted}
+                    completed={completed}
                     setActive={setActive}
                     active={active}
                 />
                 <Footer>
                     <FooterForm
                         form={form}
-                        closeForm={closeForm}
+                        closeForm={closeFormHandler}
                         submit={submit}
                     />
                 </Footer>

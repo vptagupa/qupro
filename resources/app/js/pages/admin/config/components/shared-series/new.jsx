@@ -15,36 +15,42 @@ export default () => {
         reset: accountTypeReset,
     } = useAccountTypes();
 
-    const { open, setOpen, form, closeForm, submitted, setSubmit } = useForm({
-        method: "post",
-        route: route("admin.configurations.shared-series.store"),
-        data: {
-            format: "",
-            account_types: [],
-            num_start: "",
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
+        {
+            method: "post",
+            route: route("admin.configurations.shared-series.store"),
+            data: {
+                format: "",
+                account_types: [],
+                num_start: "",
+            },
         },
-    });
+    );
 
     const submit = () => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            only: ["errors"],
             onSuccess: () => {
-                setSubmit(true);
-                accountTypeReset();
+                setCompleted(true);
+                closeFormHandler();
                 Event.emit("reload");
-                form.reset();
             },
         });
     };
 
+    const closeFormHandler = () => {
+        closeForm();
+    };
+
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     useEffect(() => {
         form.setData(
@@ -52,6 +58,10 @@ export default () => {
             accountTypes.filter((type) => type.checked),
         );
     }, [accountTypes]);
+
+    useEffect(() => {
+        accountTypeReset();
+    }, [open]);
 
     return (
         <>
@@ -66,14 +76,14 @@ export default () => {
                 <Title>Add New</Title>
                 <Form
                     form={form}
-                    submitted={submitted}
+                    completed={completed}
                     accountTypes={accountTypes}
                     setAccountTypesHandler={accountTypeHandler}
                 />
                 <Footer>
                     <FooterForm
                         form={form}
-                        closeForm={closeForm}
+                        closeForm={closeFormHandler}
                         submit={submit}
                     />
                 </Footer>

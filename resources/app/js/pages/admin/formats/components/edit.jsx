@@ -2,24 +2,26 @@ import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
+import { useForm } from "@/js/helpers/form";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
 
 export default ({ data, ...props }) => {
     const [active, setActive] = useState(false);
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm(
-        "patch",
-        route("admin.formats.update", { format: data.id }),
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
-            id: data.id,
-            title: data.title,
-            affix: data.affix ?? "",
-            delimiter: data.delimiter ?? "",
-            format: data.format,
-            active: data?.active ?? false,
+            method: "patch",
+            route: route("admin.formats.update", {
+                format: data.id,
+            }),
+            data: {
+                id: data.id,
+                title: data.title,
+                affix: data.affix ?? "",
+                delimiter: data.delimiter ?? "",
+                format: data.format,
+                active: data?.active ?? false,
+            },
         },
     );
 
@@ -27,10 +29,11 @@ export default ({ data, ...props }) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            only: ["errors"],
             onSuccess: () => {
                 Event.emit("reload");
-                setSubmit(true);
-                form.reset();
+                setCompleted(true);
+                form.clearErrors();
                 setTimeout(() => {
                     setOpen(false);
                 }, 1000);
@@ -38,21 +41,18 @@ export default ({ data, ...props }) => {
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
+    const closeFormHandler = () => {
+        closeForm();
         setActive(false);
-        form.reset();
     };
 
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     useEffect(() => {
         setActive(form.data.active);
@@ -71,14 +71,14 @@ export default ({ data, ...props }) => {
                 <Title>Update</Title>
                 <Form
                     form={form}
-                    submitted={submitted}
+                    completed={completed}
                     setActive={setActive}
                     active={active}
                 />
                 <Footer>
                     <FooterForm
                         form={form}
-                        closeForm={closeForm}
+                        closeForm={closeFormHandler}
                         submit={submit}
                     />
                 </Footer>

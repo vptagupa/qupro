@@ -1,22 +1,24 @@
 import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
-import Event from "@/js/helpers/event";
+import { useEffect } from "react";
+import { useForm } from "@/js/helpers/form";
 import FooterForm from "./form.footer";
+import Event from "@/js/helpers/event";
 
 export default ({ data, formats, ...props }) => {
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm(
-        "patch",
-        route("admin.account-types.update", { type: data.id }),
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
-            id: data.id,
-            name: data.name,
-            format: data.format_id ?? "",
-            num_start: data.num_start ?? "",
+            method: "patch",
+            route: route("admin.account-types.update", {
+                type: data.id,
+            }),
+            data: {
+                id: data.id,
+                name: data.name,
+                format: data.num_format_id ?? "",
+                num_start: data.num_start ?? "",
+            },
         },
     );
 
@@ -26,8 +28,8 @@ export default ({ data, formats, ...props }) => {
             preserveState: true,
             onSuccess: () => {
                 Event.emit("reload");
-                setSubmit(true);
-                form.reset();
+                setCompleted(true);
+                form.clearErrors();
                 setTimeout(() => {
                     setOpen(false);
                 }, 1000);
@@ -35,20 +37,13 @@ export default ({ data, formats, ...props }) => {
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
-        form.reset();
-    };
-
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     return (
         <>
@@ -57,7 +52,7 @@ export default ({ data, formats, ...props }) => {
             </div>
             <Modal open={open}>
                 <Title>Update</Title>
-                <Form form={form} submitted={submitted} formats={formats} />
+                <Form form={form} completed={completed} formats={formats} />
                 <Footer>
                     <FooterForm
                         form={form}

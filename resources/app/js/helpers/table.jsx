@@ -28,7 +28,7 @@ export const useTable = ({ initialParams, listRoute: _listRoute, name }) => {
     const fetchData = useCallback(async (params) => {
         const result = await axios.post(routes.listRoute, {
             page: params.page + 1,
-            title: params.search,
+            query: params.search,
             per_page: initialParams.perPage,
         });
 

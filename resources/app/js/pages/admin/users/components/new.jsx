@@ -2,49 +2,46 @@ import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
+import { useEffect } from "react";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
+import { useForm } from "@/js/helpers/form";
 
 export default (props) => {
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm("post", route("admin.users.store"), {
-        name: "",
-        email: "",
-        role: "",
-        password: "",
-        nickname: "",
-        default_checked_password: true,
-    });
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
+        {
+            method: "post",
+            route: route("admin.users.store"),
+            data: {
+                name: "",
+                email: "",
+                role: "",
+                password: "",
+                nickname: "",
+                default_checked_password: true,
+            },
+        },
+    );
 
     const submit = (e) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
             onSuccess: () => {
-                setSubmit(true);
+                setCompleted(true);
                 Event.emit("reload");
-                form.reset();
+                closeForm();
             },
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
-        form.reset();
-    };
-
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     return (
         <>
@@ -57,7 +54,7 @@ export default (props) => {
             </Button>
             <Modal open={open}>
                 <Title>Add New</Title>
-                <Form form={form} roles={props.roles} submitted={submitted} />
+                <Form form={form} roles={props.roles} completed={completed} />
                 <Footer>
                     <FooterForm
                         form={form}

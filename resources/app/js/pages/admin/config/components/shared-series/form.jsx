@@ -7,14 +7,14 @@ import { usePage } from "@inertiajs/react";
 const Component = ({
     form,
     accountTypes,
-    submitted,
+    completed,
     setAccountTypesHandler,
 }) => {
     const { formats } = usePage().props;
     return (
         <Form>
             <div>
-                <Transition show={submitted && !form.hasErrors}>
+                <Transition show={completed && !form.hasErrors}>
                     <AlertSuccess>Successfully save.</AlertSuccess>
                 </Transition>
             </div>
@@ -42,7 +42,7 @@ const Component = ({
             </div>
             <div>
                 <span className="text-xs">Account Types:</span>
-                <div className="flex flex-wrap space-x-1 items-center justify-start mt-1 border border-solid border-slate-300 p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 items-center justify-start mt-1 border border-solid border-slate-300 p-2 rounded-lg">
                     {accountTypes.map((type) => {
                         return (
                             <div key={type.id} className="text-xs mr-2">
@@ -87,7 +87,7 @@ const Component = ({
 
 Component.propTypes = {
     form: PropTypes.object.isRequired,
-    submitted: PropTypes.bool.isRequired,
+    completed: PropTypes.bool.isRequired,
     accountTypes: PropTypes.array.isRequired,
     setAccountTypesHandler: PropTypes.func.isRequired,
 };

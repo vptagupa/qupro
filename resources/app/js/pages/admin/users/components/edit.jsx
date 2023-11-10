@@ -1,24 +1,24 @@
 import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
+import { useEffect } from "react";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
+import { useForm } from "@/js/helpers/form";
 
 export default ({ user, ...props }) => {
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm(
-        "patch",
-        route("admin.users.update", { user: user.id }),
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            nickname: user.nickname ?? "",
-            default_checked_password: true,
+            method: "patch",
+            route: route("admin.users.update", { user: user.id }),
+            data: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                nickname: user.nickname ?? "",
+                default_checked_password: true,
+            },
         },
     );
 
@@ -28,8 +28,8 @@ export default ({ user, ...props }) => {
             preserveState: true,
             onSuccess: () => {
                 Event.emit("reload");
-                setSubmit(true);
-                form.reset();
+                setCompleted(true);
+                form.clearErrors();
                 setTimeout(() => {
                     setOpen(false);
                 }, 1000);
@@ -37,20 +37,13 @@ export default ({ user, ...props }) => {
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
-        form.reset();
-    };
-
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     return (
         <>
@@ -59,7 +52,7 @@ export default ({ user, ...props }) => {
             </div>
             <Modal open={open}>
                 <Title>Update</Title>
-                <Form form={form} roles={props.roles} submitted={submitted} />
+                <Form form={form} roles={props.roles} completed={completed} />
                 <Footer>
                     <FooterForm
                         form={form}

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\NumFormat;
 use App\Rules\FormatExpr;
 use App\Enums\Policy;
+use Illuminate\Validation\Rule;
 
 class UpdateNumFormatRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class UpdateNumFormatRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'title' => 'required',
+            'title' => ['required', Rule::unique('num_formats')->ignore($this->id)],
             'affix' => 'nullable',
             'delimiter' => 'nullable',
             'active' => 'nullable|boolean',

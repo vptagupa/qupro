@@ -3,11 +3,11 @@ import { AlertSuccess } from "@/js/components/alerts";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
-const Component = ({ form, roles, submitted }) => {
+const Component = ({ form, roles, completed }) => {
     return (
         <Form>
             <div>
-                <Transition show={submitted && !form.hasErrors}>
+                <Transition show={completed && !form.hasErrors}>
                     <AlertSuccess>Successfully save user.</AlertSuccess>
                 </Transition>
             </div>
@@ -128,7 +128,7 @@ const Component = ({ form, roles, submitted }) => {
 
 Component.propTypes = {
     roles: PropTypes.array.isRequired,
-    submitted: PropTypes.bool.isRequired,
+    completed: PropTypes.bool.isRequired,
 };
 
 export default Component;

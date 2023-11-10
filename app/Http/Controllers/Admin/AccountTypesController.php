@@ -35,7 +35,7 @@ class AccountTypesController extends AdminController
     {
         return new AccountTypeCollection(
             $this->repository->list(
-                ['name' => $request->get('name')],
+                ['name' => $request->get('query')],
                 $request->get('per_page'),
             )
         );

@@ -2,46 +2,50 @@ import Form from "./form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
-import { useForm } from "laravel-precognition-react-inertia";
-import Event from "@/js/helpers/event";
+import { useEffect, useCallback, memo } from "react";
+import { useForm } from "@/js/helpers/form";
 import FooterForm from "./form.footer";
+import Event from "@/js/helpers/event";
 
-export default ({ formats, ...props }) => {
-    const [submitted, setSubmit] = useState(false);
-    const [open, setOpen] = useState(false);
-    const form = useForm("post", route("admin.account-types.store"), {
-        name: "",
-        format: "",
-        num_start: "",
+export default memo(({ formats, ...props }) => {
+    const {
+        open,
+        setOpen,
+        form,
+        closeForm,
+        clearForm,
+        completed,
+        setCompleted,
+    } = useForm({
+        method: "post",
+        route: route("admin.account-types.store"),
+        data: {
+            name: "",
+            format: "",
+            num_start: "",
+        },
     });
 
-    const submit = (e) => {
+    const submit = () => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
             onSuccess: () => {
-                setSubmit(true);
+                setCompleted(true);
+                clearForm();
                 Event.emit("reload");
-                form.reset();
+                console.log("submitted");
             },
         });
     };
 
-    const closeForm = () => {
-        if (form.processing) return;
-
-        setOpen(false);
-        form.reset();
-    };
-
     useEffect(() => {
-        if (submitted) {
+        if (completed) {
             setTimeout(() => {
-                setSubmit(false);
+                setCompleted(false);
             }, 2000);
         }
-    }, [submitted]);
+    }, [completed]);
 
     return (
         <>
@@ -54,7 +58,7 @@ export default ({ formats, ...props }) => {
             </Button>
             <Modal open={open}>
                 <Title>Add New</Title>
-                <Form form={form} submitted={submitted} formats={formats} />
+                <Form form={form} completed={completed} formats={formats} />
                 <Footer>
                     <FooterForm
                         form={form}
@@ -65,4 +69,4 @@ export default ({ formats, ...props }) => {
             </Modal>
         </>
     );
-};
+});
