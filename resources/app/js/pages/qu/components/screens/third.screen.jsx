@@ -4,68 +4,85 @@ import PropTypes from "prop-types";
 import { useEffect } from "react";
 import axios from "axios";
 
-const Component = ({ prev, next, final, controls, ...props }) => {
+const Component = ({ prev, next, final, ...props }) => {
     const studentNextHandler = async () => {
-        if (props.form.data.student_no == "") {
-            props.form.setError("student_no", "Studet no. is required");
+        if (props.controls.form.data.student_no == "") {
+            props.controls.form.setError(
+                "student_no",
+                "Studet no. is required",
+            );
             return;
         }
 
-        controls.setLoadingNext(true);
+        props.controls.setLoadingNext(true);
         const student = await axios.get(
             route("admin.qu.student.info", {
-                studentno: props.form.data.student_no,
+                studentno: props.controls.form.data.student_no,
             }),
         );
 
         if (student.data) {
-            props.form.setData("student_info", student.data);
+            props.controls.form.setData("student_info", student.data);
         }
-        controls.setLoadingNext(false);
+        props.controls.setLoadingNext(false);
         next();
     };
 
-    const otherNextHandler = () => {
-        if (props.form.data.name == "") {
-            props.form.setError("name", "Name is required");
+    const otherNextHandler = async () => {
+        if (props.controls.form.data.name == "") {
+            props.controls.form.setError("name", "Name is required");
             return;
         }
         if (
-            props.form.data.is_representative &&
-            props.form.data.student_no == ""
+            props.controls.form.data.is_representative &&
+            props.controls.form.data.student_no == ""
         ) {
-            props.form.setError("student_no", "Studet no. is required");
+            props.controls.form.setError(
+                "student_no",
+                "Studet no. is required",
+            );
             return;
         }
+
+        props.controls.setLoadingNext(true);
+        const student = await axios.get(route("admin.qu.store"));
+
+        if (student.data) {
+            props.controls.form.setData("student_info", student.data);
+        }
+        props.controls.setLoadingNext(false);
 
         final();
     };
 
     const prevHandler = () => {
-        props.form.setData("student_no", "");
-        props.form.setData("student_name", "");
-        props.form.setData("name", "xxxxx");
-        props.form.setData("is_representative", false);
+        props.controls.form.setData("student_no", "");
+        props.controls.form.setData("student_name", "");
+        props.controls.form.setData("name", "xxxxx");
+        props.controls.form.setData("is_representative", false);
         prev();
     };
 
-    const isStudent = () => props.form.data.type == "student";
+    const isStudent = () => props.controls.form.data.type == "student";
 
     useEffect(() => {
-        controls.next(isStudent() ? studentNextHandler : otherNextHandler);
-        controls.setNextLabel(isStudent() ? "Next" : "Confirm");
-        controls.setEnabledPrev(true);
-    }, [props.form.data]);
+        props.controls.prev(prevHandler);
+        props.controls.next(
+            isStudent() ? studentNextHandler : otherNextHandler,
+        );
+        props.controls.setNextLabel(isStudent() ? "Next" : "Confirm");
+        props.controls.setEnabledPrev(true);
+    }, [props.controls.form.data]);
 
     return (
         <>
             <div>
-                {props.form.data.type === "student" && (
+                {props.controls.form.data.type === "student" && (
                     <div>
                         <StudentForm {...props} />
                     </div>
                 )}
-                {props.form.data.type === "other" && (
+                {props.controls.form.data.type === "other" && (
                     <div>
                         <OtherForm {...props} />
                     </div>
@@ -81,7 +98,9 @@ const Component = ({ prev, next, final, controls, ...props }) => {
 };
 
 Component.propTypes = {
-    form: PropTypes.object.isRequired,
+    prev: PropTypes.func.isRequired,
+    next: PropTypes.func.isRequired,
+    final: PropTypes.func.isRequired,
 };
 
 export default Component;

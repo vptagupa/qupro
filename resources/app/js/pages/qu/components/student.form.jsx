@@ -1,8 +1,7 @@
 import { Form, Input } from "@/js/components/form";
-import { PrimaryButton, Button } from "@/js/components/buttons";
 import PropTypes from "prop-types";
 
-const Component = ({ prev, next, form }) => {
+const Component = ({ controls: { form } }) => {
     return (
         <>
             <Form>
@@ -25,6 +24,12 @@ const Component = ({ prev, next, form }) => {
             </Form>
         </>
     );
+};
+
+Component.propTypes = {
+    controls: PropTypes.shape({
+        form: PropTypes.object.isRequired,
+    }),
 };
 
 export default Component;

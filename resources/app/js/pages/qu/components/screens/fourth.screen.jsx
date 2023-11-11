@@ -1,13 +1,25 @@
 import PropTypes from "prop-types";
 import StudetInfo from "../student.info";
 import { useEffect } from "react";
+import axios from "axios";
 
-const Component = ({ prev, next, controls, ...props }) => {
+const Component = ({ prev, next, ...props }) => {
+    const nextHandler = async () => {
+        props.controls.setLoadingNext(true);
+        const student = await axios.get(route("admin.qu.store"));
+
+        if (student.data) {
+            props.controls.form.setData("student_info", student.data);
+        }
+        props.controls.setLoadingNext(false);
+        next();
+    };
+
     useEffect(() => {
-        controls.prev(prev);
-        controls.next(next);
-        controls.setNextLabel("Confirm");
-        controls.setEnabledPrev(true);
+        props.controls.prev(prev);
+        props.controls.next(nextHandler);
+        props.controls.setNextLabel("Confirm");
+        props.controls.setEnabledPrev(true);
     }, []);
     return (
         <>

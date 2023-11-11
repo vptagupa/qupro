@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Avatar from "@/assets/images/avatar.png";
 
-const Component = ({ form, ...props }) => {
+const Component = ({ controls: { form } }) => {
     return (
         <>
             <div className="flex flex-col gap-y-6 justify-center">
@@ -27,7 +27,9 @@ const Component = ({ form, ...props }) => {
 };
 
 Component.propTypes = {
-    form: PropTypes.object.isRequired,
+    controls: PropTypes.shape({
+        form: PropTypes.object.isRequired,
+    }),
 };
 
 export default Component;

@@ -1,19 +1,19 @@
 import Type from "../type";
 import { useState, useEffect } from "react";
 
-export default ({ next, prev, controls, ...props }) => {
+export default ({ next, prev, ...props }) => {
     useEffect(() => {
-        controls.setEnabledNext(false);
-        if (props.form.data.type != "") {
-            controls.setEnabledNext(true);
+        props.controls.setEnabledNext(false);
+        if (props.controls.form.data.type != "") {
+            props.controls.setEnabledNext(true);
         }
-    }, [props.form.data.type]);
+    }, [props.controls.form.data.type]);
 
     useEffect(() => {
-        controls.prev(prev);
-        controls.next(next);
-        controls.setEnabledPrev(true);
-        controls.setNextLabel("Next");
+        props.controls.prev(prev);
+        props.controls.next(next);
+        props.controls.setEnabledPrev(true);
+        props.controls.setNextLabel("Next");
     }, []);
 
     return (

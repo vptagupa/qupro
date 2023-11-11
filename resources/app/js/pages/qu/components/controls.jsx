@@ -1,6 +1,7 @@
 import { PrimaryButton, InfoButton, Button } from "@/js/components/buttons";
 import Circle from "@/assets/images/circle.svg";
 import { useState, useRef } from "react";
+import { useForm } from "@/js/helpers/form";
 
 export const useControls = ({
     enabledPrev = true,
@@ -14,6 +15,27 @@ export const useControls = ({
     const [_nextLabel, setNextLabel] = useState(nextLabel);
     const [loadingNext, setLoadingNext] = useState(false);
     const [loadingPrev, setLoadingPrev] = useState(false);
+
+    const { form } = useForm({
+        method: "post",
+        route: route("admin.qu.store"),
+        data: {
+            name: "",
+            student_no: "",
+            student_name: "Victor Tagupa Jr",
+            type: "",
+            account_type: "",
+            is_representative: false,
+            qu: "",
+            student_info: {
+                student_no: "",
+                name: "",
+                course_code: "",
+                course: "",
+            },
+        },
+    });
+
     const _prev = useRef(() => {});
     const _next = useRef(() => {});
     const prev = (callback) => {
@@ -46,6 +68,7 @@ export const useControls = ({
                             className="animate-spin h-5 w-5 mr-1 text-opacity-10 text-slate-100"
                         />
                     )}
+
                     <span>{_nextLabel}</span>
                 </Button>
             </div>
@@ -53,6 +76,7 @@ export const useControls = ({
     );
 
     return {
+        form,
         prev,
         next,
         Controls,

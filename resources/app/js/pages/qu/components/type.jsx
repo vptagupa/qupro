@@ -1,7 +1,7 @@
 import { InfoButton, WarningButton } from "@/js/components/buttons";
 import { UserIcon, UsersIcon } from "@heroicons/react/24/solid";
 
-export default ({ form }) => {
+export default ({ controls: { form } }) => {
     const setType = (type) => {
         if (form.data.type != type) {
             form.setData("type", type);

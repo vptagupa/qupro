@@ -1,9 +1,10 @@
 import { PrimaryButton, Button } from "@/js/components/buttons";
+import PropTypes from "prop-types";
 import { usePage } from "@inertiajs/react";
-export default ({ form, next }) => {
+
+const Component = ({ controls: { form } }) => {
     const { accountTypes } = usePage().props;
     const selectedStyle = "!bg-teal-400";
-    const unSelectedStyle = "!bg-gray-200";
     const selected = (type) => {
         if (form.data.account_type != "") {
             if (form.data.account_type.id == type.id) {
@@ -43,3 +44,11 @@ export default ({ form, next }) => {
         </>
     );
 };
+
+Component.propTypes = {
+    controls: PropTypes.shape({
+        form: PropTypes.object.isRequired,
+    }),
+};
+
+export default Component;

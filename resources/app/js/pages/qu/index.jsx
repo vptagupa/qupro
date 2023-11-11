@@ -9,24 +9,6 @@ import { useControls } from "./components/controls";
 
 export default () => {
     const controls = useControls({});
-    const { form } = useForm({
-        method: "post",
-        route: route("admin.account-types.store"),
-        data: {
-            name: "",
-            student_no: "",
-            student_name: "Victor Tagupa Jr",
-            type: "",
-            account_type: "",
-            is_representative: false,
-            student_info: {
-                student_no: "",
-                name: "",
-                course_code: "",
-                course: "",
-            },
-        },
-    });
 
     const [firstScreen, setFirstScreen] = useState(true);
     const [secondScreen, setSecondScreen] = useState(false);
@@ -40,8 +22,8 @@ export default () => {
         setThirdScreen(false);
         setFourthScreen(false);
         setFinalscreen(false);
-        form.clearErrors();
-        form.reset();
+        controls.form.clearErrors();
+        controls.form.reset();
     };
 
     const secondScreenHandler = () => {
@@ -50,7 +32,7 @@ export default () => {
         setThirdScreen(false);
         setFourthScreen(false);
         setFinalscreen(false);
-        form.clearErrors();
+        controls.form.clearErrors();
     };
 
     const thirdScreenHandler = () => {
@@ -59,7 +41,7 @@ export default () => {
         setThirdScreen(true);
         setFourthScreen(false);
         setFinalscreen(false);
-        form.clearErrors();
+        controls.form.clearErrors();
     };
 
     const fourthScreenHandler = () => {
@@ -68,7 +50,7 @@ export default () => {
         setThirdScreen(false);
         setFourthScreen(true);
         setFinalscreen(false);
-        form.clearErrors();
+        controls.form.clearErrors();
     };
 
     const finalScreenHandler = () => {
@@ -77,7 +59,7 @@ export default () => {
         setThirdScreen(false);
         setFourthScreen(false);
         setFinalscreen(true);
-        form.clearErrors();
+        controls.form.clearErrors();
     };
 
     const printHandler = () => {
@@ -93,7 +75,6 @@ export default () => {
                             controls={controls}
                             prev={firstScreenHandler}
                             next={secondScreenHandler}
-                            form={form}
                         />
                     )}
                     {secondScreen && (
@@ -101,7 +82,6 @@ export default () => {
                             controls={controls}
                             prev={firstScreenHandler}
                             next={thirdScreenHandler}
-                            form={form}
                         />
                     )}
                     {thirdScreen && (
@@ -110,7 +90,6 @@ export default () => {
                             prev={secondScreenHandler}
                             next={fourthScreenHandler}
                             final={finalScreenHandler}
-                            form={form}
                         />
                     )}
                     {fourthScreen && (
@@ -118,11 +97,13 @@ export default () => {
                             controls={controls}
                             prev={thirdScreenHandler}
                             next={finalScreenHandler}
-                            form={form}
                         />
                     )}
                     {finalScreen && (
-                        <FinalScreen printHandler={printHandler} form={form} />
+                        <FinalScreen
+                            printHandler={printHandler}
+                            controls={controls}
+                        />
                     )}
                 </div>
                 {!finalScreen && (

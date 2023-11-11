@@ -1,19 +1,19 @@
 import Type from "../account.type";
 import { useEffect } from "react";
 
-export default ({ controls, prev, next, ...props }) => {
+export default ({ prev, next, ...props }) => {
     useEffect(() => {
-        controls.setEnabledNext(false);
-        if (props.form.data.account_type != "") {
-            controls.setEnabledNext(true);
+        props.controls.setEnabledNext(false);
+        if (props.controls.form.data.account_type != "") {
+            props.controls.setEnabledNext(true);
         }
-    }, [props.form.data.account_type]);
+    }, [props.controls.form.data.account_type]);
 
     useEffect(() => {
-        controls.prev(prev);
-        controls.next(next);
-        controls.setEnabledPrev(false);
-        controls.setNextLabel("Next");
+        props.controls.prev(prev);
+        props.controls.next(next);
+        props.controls.setEnabledPrev(false);
+        props.controls.setNextLabel("Next");
     }, []);
     return (
         <>
