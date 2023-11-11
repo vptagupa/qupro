@@ -4,7 +4,6 @@ import ThirdScreen from "./components/screens/third.screen";
 import FourthScreen from "./components/screens/fourth.screen";
 import FinalScreen from "./components/screens/final.screen";
 import { useState } from "react";
-import { useForm } from "@/js/helpers/form";
 import { useControls } from "./components/controls";
 
 export default () => {
@@ -66,51 +65,55 @@ export default () => {
         firstScreenHandler();
     };
 
+    const Transition = ({ show, ...props }) => {
+        return show && props.children;
+    };
+
     return (
         <>
             <div className="w-2/3 m-auto mt-[2%] p-5">
                 <div className="h-[300px] flex flex-col items-center justify-center">
-                    {firstScreen && (
+                    <Transition show={firstScreen}>
                         <FirstScreen
                             controls={controls}
                             prev={firstScreenHandler}
                             next={secondScreenHandler}
                         />
-                    )}
-                    {secondScreen && (
+                    </Transition>
+                    <Transition show={secondScreen}>
                         <SecondScreen
                             controls={controls}
                             prev={firstScreenHandler}
                             next={thirdScreenHandler}
                         />
-                    )}
-                    {thirdScreen && (
+                    </Transition>
+                    <Transition show={thirdScreen}>
                         <ThirdScreen
                             controls={controls}
                             prev={secondScreenHandler}
                             next={fourthScreenHandler}
                             final={finalScreenHandler}
                         />
-                    )}
-                    {fourthScreen && (
+                    </Transition>
+                    <Transition show={fourthScreen}>
                         <FourthScreen
                             controls={controls}
                             prev={thirdScreenHandler}
                             next={finalScreenHandler}
                         />
-                    )}
-                    {finalScreen && (
+                    </Transition>
+                    <Transition show={finalScreen}>
                         <FinalScreen
                             printHandler={printHandler}
                             controls={controls}
                         />
-                    )}
+                    </Transition>
                 </div>
-                {!finalScreen && (
+                <Transition show={!finalScreen}>
                     <div className="mt-[15%]">
                         <controls.Controls />
                     </div>
-                )}
+                </Transition>
             </div>
         </>
     );
