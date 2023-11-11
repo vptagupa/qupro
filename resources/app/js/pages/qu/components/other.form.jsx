@@ -65,6 +65,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                                     ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                     : "")
                             }
+                            autoFocus
                             maxLength={20}
                             placeholder="Enter nickname"
                             value={form.data.name}

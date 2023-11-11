@@ -54,6 +54,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                                 ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                 : "")
                         }
+                        autoFocus
                         maxLength={15}
                         placeholder="Enter student no."
                         value={form.data.student_no}
