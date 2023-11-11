@@ -1,7 +1,39 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
-const Component = ({ controls: { form } }) => {
+const Component = ({ final, controls: { form, ...controls } }) => {
+    const nextHandler = () => {
+        let errors = null;
+        if (form.data.name == "") {
+            errors = {
+                name: "Name is required",
+            };
+        }
+        if (form.data.is_representative && form.data.student_no == "") {
+            errors = {
+                ...errors,
+                student_no: "Studet no. is required",
+            };
+        }
+
+        if (errors) {
+            form.setErrors(errors);
+            return;
+        }
+
+        form.clearErrors();
+        controls.submit(() => final());
+    };
+
+    useEffect(() => {
+        controls.next(nextHandler);
+    }, [form.data]);
+
+    useEffect(() => {
+        controls.setNextLabel("Confirm");
+    }, []);
+
     return (
         <>
             <Form>
@@ -68,6 +100,7 @@ Component.propTypes = {
     controls: PropTypes.shape({
         form: PropTypes.object.isRequired,
     }),
+    final: PropTypes.func.isRequired,
 };
 
 export default Component;

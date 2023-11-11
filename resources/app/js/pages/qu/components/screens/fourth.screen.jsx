@@ -4,15 +4,8 @@ import { useEffect } from "react";
 import axios from "axios";
 
 const Component = ({ prev, next, ...props }) => {
-    const nextHandler = async () => {
-        props.controls.setLoadingNext(true);
-        const student = await axios.get(route("admin.qu.store"));
-
-        if (student.data) {
-            props.controls.form.setData("student_info", student.data);
-        }
-        props.controls.setLoadingNext(false);
-        next();
+    const nextHandler = () => {
+        props.controls.submit(() => next());
     };
 
     useEffect(() => {

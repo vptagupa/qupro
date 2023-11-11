@@ -57,17 +57,21 @@ class QuController extends AdminController
      */
     public function store(StoreQuRequest $request)
     {
-        $safe = $request->safe()->merge([
-            'account_type_id' => $request->get('account_type'),
-        ]);
+        // $safe = $request->safe()->merge([
+        //     'account_type_id' => $request->get('account_type'),
+        // ]);
 
-        $this->repository->create($safe->only([
-            'account_type_id',
-            'name',
-            'student_no',
-            'student_name',
-            'is_representative'
-        ]));
+        // $this->repository->create($safe->only([
+        //     'account_type_id',
+        //     'name',
+        //     'student_no',
+        //     'student_name',
+        //     'is_representative'
+        // ]));
+
+        return $this->render('admin/qu/index', [
+            'qu' => '00001'
+        ]);
     }
 
 

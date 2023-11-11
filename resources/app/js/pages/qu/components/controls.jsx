@@ -22,7 +22,6 @@ export const useControls = ({
         data: {
             name: "",
             student_no: "",
-            student_name: "Victor Tagupa Jr",
             type: "",
             account_type: "",
             is_representative: false,
@@ -43,6 +42,20 @@ export const useControls = ({
     };
     const next = (callback) => {
         _next.current = callback;
+    };
+
+    const submit = (callback) => {
+        form.submit({
+            preserveState: true,
+            preserveScroll: true,
+            only: ["errors", "qu"],
+            onBefore: () => setLoadingNext(true),
+            onSuccess: (page) => {
+                form.setData("qu", page.props.qu);
+                setLoadingNext(false);
+                callback();
+            },
+        });
     };
 
     const Controls = () => (
@@ -79,6 +92,7 @@ export const useControls = ({
         form,
         prev,
         next,
+        submit,
         Controls,
         setPrevLabel,
         setNextLabel,

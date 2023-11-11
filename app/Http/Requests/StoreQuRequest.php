@@ -24,11 +24,11 @@ class StoreQuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required_if:type,other|string',
-            'student_no' => 'required_if,type,student|required_if,is_representative,true|string',
-            'student_name' => 'required_if,type,student|required_if,is_representative,true|string',
-            'account_type' => 'required|integer',
-            'is_representative' => 'nullable',
+            // 'name' => 'required_if:type,other|string',
+            // 'student_no' => 'required_if,type,student|required_if,is_representative,true|string',
+            // 'student_name' => 'required_if,type,student|required_if,is_representative,true|string',
+            // 'account_type' => 'required|integer',
+            // 'is_representative' => 'nullable',
         ];
     }
 }

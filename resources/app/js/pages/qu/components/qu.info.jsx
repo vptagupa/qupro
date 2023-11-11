@@ -5,7 +5,7 @@ const Component = ({ controls: { form } }) => {
         <>
             <div className="flex flex-col gap-y-2 justify-center">
                 <div className="text-center text-[5rem] font-extrabold uppercase">
-                    <div>PRIO-123</div>
+                    <div>{form.data.qu}</div>
                 </div>
                 {form.data.type == "student" && (
                     <div className="text-center text-[1rem] font-extrabold uppercase">
