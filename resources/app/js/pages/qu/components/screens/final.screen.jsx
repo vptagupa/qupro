@@ -25,6 +25,11 @@ const Component = ({ printHandler, ...props }) => {
                     </div>
                 </div>
             </div>
+            {process.env.NODE_ENV == "development" && (
+                <div className="mt-10">
+                    <div>Final Screen</div>
+                </div>
+            )}
         </>
     );
 };

@@ -19,6 +19,12 @@ export default () => {
             type: "",
             account_type: "",
             is_representative: false,
+            student_info: {
+                student_no: "",
+                name: "",
+                course_code: "",
+                course: "",
+            },
         },
     });
 
@@ -81,7 +87,7 @@ export default () => {
     return (
         <>
             <div className="w-2/3 m-auto mt-[2%] p-5">
-                <div className="h-[250px] flex items-center justify-center">
+                <div className="h-[300px] flex flex-col items-center justify-center">
                     {firstScreen && (
                         <FirstScreen
                             controls={controls}

@@ -27,6 +27,21 @@ class QuController extends AdminController
         return $this->render('admin/qu/index');
     }
 
+    /**
+     * Get student info
+     * @return array as reponse
+     */
+    public function getStudentInfo()
+    {
+        return [
+            'student_no' => '0001',
+            'name' => 'Victor P. Tagupa Jr',
+            'course_code' => 'BSIT',
+            'course' => 'Bachelor of Science in Information Technology'
+        ];
+    }
+
+
     public function list(Request $request)
     {
         return new QuCollection(

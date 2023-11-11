@@ -2,13 +2,26 @@ import StudentForm from "../student.form";
 import OtherForm from "../other.form";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import axios from "axios";
 
 const Component = ({ prev, next, final, controls, ...props }) => {
-    const studentNextHandler = () => {
+    const studentNextHandler = async () => {
         if (props.form.data.student_no == "") {
             props.form.setError("student_no", "Studet no. is required");
             return;
         }
+
+        controls.setLoadingNext(true);
+        const student = await axios.get(
+            route("admin.qu.student.info", {
+                studentno: props.form.data.student_no,
+            }),
+        );
+
+        if (student.data) {
+            props.form.setData("student_info", student.data);
+        }
+        controls.setLoadingNext(false);
         next();
     };
 
@@ -24,6 +37,7 @@ const Component = ({ prev, next, final, controls, ...props }) => {
             props.form.setError("student_no", "Studet no. is required");
             return;
         }
+
         final();
     };
 
@@ -57,6 +71,11 @@ const Component = ({ prev, next, final, controls, ...props }) => {
                     </div>
                 )}
             </div>
+            {process.env.NODE_ENV == "development" && (
+                <div className="mt-10">
+                    <div>Third Screen</div>
+                </div>
+            )}
         </>
     );
 };

@@ -18,6 +18,11 @@ export default ({ controls, prev, next, ...props }) => {
     return (
         <>
             <Type {...props} />
+            {process.env.NODE_ENV == "development" && (
+                <div className="mt-10">
+                    <div>First Screen</div>
+                </div>
+            )}
         </>
     );
 };
