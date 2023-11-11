@@ -81,7 +81,7 @@ export default () => {
     return (
         <>
             <div className="w-2/3 m-auto mt-[2%] p-5">
-                <div className="h-[250px]">
+                <div className="h-[250px] flex items-center justify-center">
                     {firstScreen && (
                         <FirstScreen
                             controls={controls}
@@ -120,7 +120,7 @@ export default () => {
                     )}
                 </div>
                 {!finalScreen && (
-                    <div className="mt-[25%]">
+                    <div className="mt-[15%]">
                         <controls.Controls />
                     </div>
                 )}
