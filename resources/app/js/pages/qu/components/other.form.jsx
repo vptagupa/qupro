@@ -65,6 +65,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                                     ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                     : "")
                             }
+                            maxLength={20}
                             placeholder="Enter nickname"
                             value={form.data.name}
                             onChange={(e) => {
@@ -82,6 +83,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                                         ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                         : "")
                                 }
+                                maxLength={15}
                                 placeholder="Enter student no."
                                 value={form.data.student_no}
                                 onChange={(e) => {
