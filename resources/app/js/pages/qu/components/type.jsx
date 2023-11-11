@@ -1,27 +1,56 @@
-import { PrimaryButton, Button } from "@/js/components/buttons";
-export default ({ form, secondScreenHandler }) => {
-    const nextScreen = (type) => {
-        secondScreenHandler();
-        form.setData("type", type);
-        form.clearErrors();
+import { InfoButton, WarningButton } from "@/js/components/buttons";
+import { UserIcon, UsersIcon } from "@heroicons/react/24/solid";
+
+export default ({ form }) => {
+    const setType = (type) => {
+        if (form.data.type != type) {
+            form.setData("type", type);
+        } else {
+            form.setData("type", "");
+        }
+    };
+    const selectedStyle = "!bg-teal-400";
+    const unSelectedStyle = "!bg-gray-200";
+    const selected = (type) => {
+        if (form.data.type != "") {
+            if (form.data.type == type) {
+                return selectedStyle;
+            }
+            // return unSelectedStyle;
+        }
+
+        return "";
     };
     return (
         <>
             <div className="flex gap-5 items-center justify-center">
-                <PrimaryButton
+                <InfoButton
                     type="button"
-                    onClick={(e) => nextScreen("student")}
-                    className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold"
+                    onClick={(e) => setType("student")}
+                    className={
+                        "flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold " +
+                        selected("student")
+                    }
                 >
-                    <span>Student</span>
-                </PrimaryButton>
-                <Button
+                    <span>
+                        <UserIcon className="h5" />
+                        Student
+                    </span>
+                </InfoButton>
+                <WarningButton
                     type="button"
-                    onClick={(e) => nextScreen("other")}
-                    className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] bg-slate-300 text-center uppercase font-extrabold"
+                    onClick={(e) => setType("other")}
+                    className={
+                        "flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold " +
+                        selected("other")
+                    }
                 >
-                    <span>Other</span>
-                </Button>
+                    <span>
+                        {" "}
+                        <UsersIcon className="h5" />
+                        Other
+                    </span>
+                </WarningButton>
             </div>
         </>
     );

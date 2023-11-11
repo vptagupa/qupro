@@ -1,31 +1,19 @@
 import PropTypes from "prop-types";
-import StudetInfo from "./student.info";
-import { PrimaryButton, Button } from "@/js/components/buttons";
+import StudetInfo from "../student.info";
+import { useEffect } from "react";
 
-const Component = ({ secondScreenHandler, finalScreenHandler, ...props }) => {
+const Component = ({ prev, next, controls, ...props }) => {
+    useEffect(() => {
+        controls.prev(prev);
+        controls.next(next);
+        controls.setNextLabel("Confirm");
+        controls.setEnabledPrev(true);
+    }, []);
     return (
         <>
             <div>
                 <div>
                     <StudetInfo {...props} />
-                    <div className="mt-[15%]">
-                        <div className="flex gap-5 items-center justify-center">
-                            <Button
-                                type="button"
-                                onClick={(e) => secondScreenHandler()}
-                                className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] bg-slate-300 text-center uppercase font-extrabold"
-                            >
-                                <span>Back</span>
-                            </Button>
-                            <PrimaryButton
-                                type="button"
-                                onClick={(e) => finalScreenHandler()}
-                                className="flex justify-center h-[7rem] w-[10rem] text-[1.2rem] text-center uppercase font-extrabold"
-                            >
-                                <span>CONFIRM</span>
-                            </PrimaryButton>
-                        </div>
-                    </div>
                 </div>
             </div>
         </>

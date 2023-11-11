@@ -1,12 +1,14 @@
-import FirstScreen from "./components/screens/second.screen";
-import SecondScreen from "./components/screens/third.screen";
-import ThirdScreen from "./components/screens/fourth.screen";
+import FirstScreen from "./components/screens/first.screen";
+import SecondScreen from "./components/screens/second.screen";
+import ThirdScreen from "./components/screens/third.screen";
 import FourthScreen from "./components/screens/fourth.screen";
 import FinalScreen from "./components/screens/final.screen";
 import { useState } from "react";
 import { useForm } from "@/js/helpers/form";
+import { useControls } from "./components/controls";
 
 export default () => {
+    const controls = useControls({});
     const { form } = useForm({
         method: "post",
         route: route("admin.account-types.store"),
@@ -16,7 +18,7 @@ export default () => {
             student_name: "Victor Tagupa Jr",
             type: "",
             account_type: "",
-            is_presentative: false,
+            is_representative: false,
         },
     });
 
@@ -67,6 +69,7 @@ export default () => {
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(false);
+        setFourthScreen(false);
         setFinalscreen(true);
         form.clearErrors();
     };
@@ -77,31 +80,49 @@ export default () => {
 
     return (
         <>
-            <div className="w-1/2 m-auto mt-[2%] p-5">
-                {firstScreen && (
-                    <FirstScreen
-                        firstScreenHandler={firstScreenHandler}
-                        secondScreenHandler={secondScreenHandler}
-                        form={form}
-                    />
-                )}
-                {secondScreen && (
-                    <SecondScreen
-                        firstScreenHandler={firstScreenHandler}
-                        thirdScreenHandler={thirdScreenHandler}
-                        finalScreenHandler={finalScreenHandler}
-                        form={form}
-                    />
-                )}
-                {thirdScreen && (
-                    <ThirdScreen
-                        secondScreenHandler={secondScreenHandler}
-                        finalScreenHandler={finalScreenHandler}
-                        form={form}
-                    />
-                )}
-                {finalScreen && (
-                    <FinalScreen printHandler={printHandler} form={form} />
+            <div className="w-2/3 m-auto mt-[2%] p-5">
+                <div className="h-[250px]">
+                    {firstScreen && (
+                        <FirstScreen
+                            controls={controls}
+                            prev={firstScreenHandler}
+                            next={secondScreenHandler}
+                            form={form}
+                        />
+                    )}
+                    {secondScreen && (
+                        <SecondScreen
+                            controls={controls}
+                            prev={firstScreenHandler}
+                            next={thirdScreenHandler}
+                            form={form}
+                        />
+                    )}
+                    {thirdScreen && (
+                        <ThirdScreen
+                            controls={controls}
+                            prev={secondScreenHandler}
+                            next={fourthScreenHandler}
+                            final={finalScreenHandler}
+                            form={form}
+                        />
+                    )}
+                    {fourthScreen && (
+                        <FourthScreen
+                            controls={controls}
+                            prev={thirdScreenHandler}
+                            next={finalScreenHandler}
+                            form={form}
+                        />
+                    )}
+                    {finalScreen && (
+                        <FinalScreen printHandler={printHandler} form={form} />
+                    )}
+                </div>
+                {!finalScreen && (
+                    <div className="mt-[25%]">
+                        <controls.Controls />
+                    </div>
                 )}
             </div>
         </>
