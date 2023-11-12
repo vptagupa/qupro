@@ -25,7 +25,13 @@ export const useControls = ({
             type: "",
             account_type: "",
             is_representative: false,
-            qu: "",
+            qu: {
+                name: "",
+                student_name: "",
+                student_no: "",
+                type: "",
+                num_fulltext: "",
+            },
             student_info: {
                 student_no: "",
                 name: "",

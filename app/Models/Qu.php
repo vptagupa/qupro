@@ -10,6 +10,7 @@ class Qu extends Model
     use HasFactory;
 
     protected $fillable = [
+        'type',
         'name',
         'student_no',
         'student_name',

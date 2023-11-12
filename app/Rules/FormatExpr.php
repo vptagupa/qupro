@@ -18,7 +18,8 @@ class FormatExpr implements ValidationRule
     {
         $patterns = [
             '/\{series\}/',
-            '/\{\(\d\)series\}/'
+            '/\{\(\d\)series\}/',
+            '/\{series\(\d\)\}/'
         ];
 
         $hasMatch = false;

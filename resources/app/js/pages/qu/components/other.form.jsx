@@ -33,6 +33,13 @@ const Component = ({ final, controls: { form, ...controls } }) => {
         }
     }, []);
 
+    const setStudentNo = useCallback((value) => {
+        form.setData("student_info", {
+            ...form.data.student_info,
+            student_no: value,
+        });
+    }, []);
+
     useEffect(() => {
         controls.next(nextHandler);
     }, [form.data]);
@@ -89,10 +96,8 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                                 }
                                 maxLength={15}
                                 placeholder="Enter student no."
-                                value={form.data.student_no}
-                                onChange={(e) =>
-                                    form.setData("student_no", e.target.value)
-                                }
+                                value={form.data.student_info.student_no}
+                                onChange={(e) => setStudentNo(e.target.value)}
                             />
                         </div>
                     )}

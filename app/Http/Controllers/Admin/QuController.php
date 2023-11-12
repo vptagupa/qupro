@@ -57,20 +57,23 @@ class QuController extends AdminController
      */
     public function store(StoreQuRequest $request)
     {
-        // $safe = $request->safe()->merge([
-        //     'account_type_id' => $request->get('account_type'),
-        // ]);
+        $safe = $request->safe()->merge([
+            'account_type_id' => $request->get('account_type')['id'],
+            'student_no' => $request->get('student_info')['student_no'],
+            'student_name' => $request->get('student_info')['name'],
+        ]);
 
-        // $this->repository->create($safe->only([
-        //     'account_type_id',
-        //     'name',
-        //     'student_no',
-        //     'student_name',
-        //     'is_representative'
-        // ]));
+        $qu = $this->repository->create($safe->only([
+            'type',
+            'account_type_id',
+            'name',
+            'student_no',
+            'student_name',
+            'is_representative'
+        ]));
 
         return $this->render('admin/qu/index', [
-            'qu' => '00001'
+            'qu' => $qu
         ]);
     }
 
@@ -84,13 +87,18 @@ class QuController extends AdminController
             'account_type_id' => $request->get('account_type'),
         ]);
 
-        $this->repository->update($safe->only([
+        $qu = $this->repository->update($safe->only([
+            'type',
             'account_type_id',
             'name',
             'student_no',
             'student_name',
             'is_representative'
         ]), $id);
+
+        return $this->render('admin/qu/index', [
+            'qu' => $qu
+        ]);
     }
 
     /**

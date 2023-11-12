@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\Type;
 use App\Models\Qu;
 use App\Enums\Policy;
 
@@ -24,11 +26,15 @@ class StoreQuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'name' => 'required_if:type,other|string',
-            // 'student_no' => 'required_if,type,student|required_if,is_representative,true|string',
-            // 'student_name' => 'required_if,type,student|required_if,is_representative,true|string',
-            // 'account_type' => 'required|integer',
-            // 'is_representative' => 'nullable',
+            'type' => [
+                'required',
+                Rule::enum(Type::class)
+            ],
+            'name' => 'required_if:type,other|nullable',
+            'student_info.student_no' => 'required_if:type,student|required_if:is_representative,true',
+            'student_info.name' => 'required_if:type,student|nullable',
+            'account_type.id' => 'required|integer',
+            'is_representative' => 'nullable',
         ];
     }
 }

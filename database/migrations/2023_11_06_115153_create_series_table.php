@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('qus_activities', function (Blueprint $table) {
+        Schema::create('series', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('account_type_id')->constrained('account_types');
+            $table->foreignId('account_type_id')->nullable()->constrained('account_types');
+            $table->foreignId('shared_series_id')->nullable()->constrained('shared_series');
             $table->unsignedInteger('num');
             $table->string('num_fulltext');
             $table->timestamps();
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('qus_activities');
+        Schema::dropIfExists('series');
     }
 };

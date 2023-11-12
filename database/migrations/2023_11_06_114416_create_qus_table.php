@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('qus', function (Blueprint $table) {
             $table->id();
+            $table->string('type', 15);
             $table->string('name')->nullable();
             $table->string('student_no')->nullable();
             $table->string('student_name')->nullable();
@@ -19,6 +20,7 @@ return new class extends Migration {
             $table->foreignId('account_type_id')->nullable()->constrained('account_types');
             $table->string('num_fulltext');
             $table->boolean('priority')->default(false);
+            $table->boolean('is_representative')->default(false);
             $table->datetime('skipped_at')->nullable();
             $table->timestamps();
         });

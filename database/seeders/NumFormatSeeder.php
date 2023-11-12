@@ -23,14 +23,14 @@ class NumFormatSeeder extends Seeder
             ],
             [
                 "title" => "Cashier Series",
-                'affix' => 'cashier',
+                'affix' => 'cash',
                 'delimiter' => '-',
                 "format" => "{affix}{delimiter}{series}",
                 'active' => true,
             ],
             [
                 "title" => "Registrar Series",
-                'affix' => 'registrar',
+                'affix' => 'reg',
                 'delimiter' => '-',
                 "format" => "{affix}{delimiter}{series}",
                 'active' => true,
