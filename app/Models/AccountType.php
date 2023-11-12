@@ -48,6 +48,12 @@ class AccountType extends Model
 
     public function getQuNumFullText($num): string
     {
+        if ($this->is_shared_series) {
+            if ($this->shared_series->format) {
+                return $this->shared_series->format;
+            }
+        }
+
         return $this->format->fulltext($num);
     }
 
