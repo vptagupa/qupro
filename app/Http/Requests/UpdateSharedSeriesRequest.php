@@ -26,9 +26,10 @@ class UpdateSharedSeriesRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'format' => ['required', 'integer', Rule::unique('shared_series', 'num_format_id')->ignore($this->id)],
+            // 'format' => [Rule::excludeIf(!$this->format), 'integer', Rule::unique('shared_series', 'num_format_id')->ignore($this->id)],
             'num_start' => 'required|integer',
-            'account_types' => 'required|array'
+            'account_types' => 'required|array',
+            'priority' => 'nullable'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\SharedSeries;
 use App\Enums\Policy;
+use Illuminate\Validation\Rule;
 
 class StoreSharedSeriesRequest extends FormRequest
 {
@@ -24,9 +25,10 @@ class StoreSharedSeriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'format' => 'required|integer|unique:App\Models\SharedSeries,num_format_id',
+            // 'format' => 'exclude_if:format,null|integer|unique:App\Models\SharedSeries,num_format_id',
             'num_start' => 'required|integer',
-            'account_types' => 'required|array'
+            'account_types' => 'required|array',
+            'priority' => 'nullable'
         ];
     }
 }

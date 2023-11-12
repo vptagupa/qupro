@@ -23,6 +23,7 @@ export default () => {
                 format: "",
                 account_types: [],
                 num_start: "",
+                priority: false,
             },
         },
     );

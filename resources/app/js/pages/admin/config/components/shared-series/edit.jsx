@@ -7,7 +7,7 @@ import FooterForm from "./form.footer";
 import { useForm } from "@/js/helpers/form";
 import { useAccountTypes } from "./shared/account.types";
 
-export default ({ data, ...props }) => {
+export default ({ data }) => {
     const {
         data: accountTypes,
         check: accountTypeHandler,
@@ -21,9 +21,10 @@ export default ({ data, ...props }) => {
             }),
             data: {
                 id: data.id,
-                format: data.format.id,
+                format: data.format?.id ?? "",
                 account_types: data.account_types,
                 num_start: data.num_start,
+                priority: data.priority,
             },
         },
     );

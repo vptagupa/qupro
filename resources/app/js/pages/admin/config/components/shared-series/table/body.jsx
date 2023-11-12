@@ -10,7 +10,10 @@ import {
 } from "@/js/components/table";
 import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import {
+    MagnifyingGlassIcon,
+    CheckCircleIcon,
+} from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 import Edit from "../edit";
 import Delete from "../confirm.delete";
@@ -53,9 +56,9 @@ const Component = ({
                     <>
                         <Theader>
                             <TrH>
-                                <Th>Format</Th>
                                 <Th>Account Types</Th>
                                 <Th>Num start</Th>
+                                <Th>Format</Th>
                                 <Th>Action</Th>
                             </TrH>
                         </Theader>
@@ -63,13 +66,33 @@ const Component = ({
                             {tableList.map((item) => {
                                 return (
                                     <Tr key={item.id}>
-                                        <Td>{item.format.title}</Td>
                                         <Td>
-                                            {item.account_types
-                                                .map((type) => type.name)
-                                                .join(", ")}
+                                            <div className="flex items-center space-x-1">
+                                                <span>
+                                                    {" "}
+                                                    {item.account_types
+                                                        .map(
+                                                            (type) => type.name,
+                                                        )
+                                                        .join(", ")}
+                                                </span>
+                                                <span
+                                                    className={
+                                                        "font-extrabold" +
+                                                        (item.priority
+                                                            ? " text-success"
+                                                            : "")
+                                                    }
+                                                    title="Priority"
+                                                >
+                                                    <CheckCircleIcon className="h-4" />
+                                                </span>
+                                            </div>
                                         </Td>
                                         <Td>{item.num_start}</Td>
+                                        <Td>
+                                            {item.format && item.format.title}
+                                        </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
                                                 <Edit data={item} />

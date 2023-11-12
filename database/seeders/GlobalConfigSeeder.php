@@ -26,6 +26,10 @@ class GlobalConfigSeeder extends Seeder
                 "name" => "Num Start",
                 'value' => '1',
             ],
+            [
+                "name" => "Priority Series Separate",
+                'value' => true,
+            ],
         ];
 
         foreach ($real as $row) {

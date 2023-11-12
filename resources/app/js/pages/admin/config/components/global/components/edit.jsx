@@ -1,6 +1,7 @@
 import { useForm } from "@/js/helpers/form";
 import { Input } from "@/js/components/form";
-import { useEffect } from "react";
+import { PrimarySwitch } from "@/js/components/switch";
+import { memo, useState, useMemo } from "react";
 import Event from "@/js/helpers/event";
 import {
     PencilSquareIcon,
@@ -10,6 +11,7 @@ import {
 import { Button } from "@/js/components/buttons";
 
 export default ({ data }) => {
+    const [active, setActive] = useState(false);
     const { open, setOpen, closeForm, form } = useForm({
         method: "patch",
         route: route("admin.configurations.global.update", {
@@ -35,12 +37,48 @@ export default ({ data }) => {
         });
     };
 
+    const InputSelector = memo(() => {
+        if (!data?.attrib) {
+            return (
+                <Input
+                    type="text"
+                    name="value"
+                    value={form.data.value}
+                    className={
+                        "border-0 border-b rounded-none text-center" +
+                        (form.invalid("value") ? "has-danger" : "")
+                    }
+                    onChange={(e) => form.setData("value", e.target.value)}
+                />
+            );
+        } else if (data.attrib.data_type === "boolean") {
+            return (
+                <PrimarySwitch
+                    enabled={active}
+                    setEnabled={(e) => {
+                        const value = !active;
+                        form.setData("value", value);
+                        setActive(value);
+                    }}
+                />
+            );
+        }
+    });
+
+    const outputSelector = useMemo(() => {
+        if (!data?.attrib) {
+            return data.value;
+        } else if (data.attrib.data_type === "boolean") {
+            return data.value == true ? "Yes" : "No";
+        }
+    }, [data]);
+
     return (
         <>
             {!open && (
                 <div>
                     <div className="flex space-x-3 items-center">
-                        <span className="underline">{data.value}</span>
+                        <span className="underline">{outputSelector}</span>
                         <PencilSquareIcon
                             onClick={(e) => setOpen(true)}
                             className="h-4 text-slate-500 cursor"
@@ -52,18 +90,7 @@ export default ({ data }) => {
                 <div className="flex items-center">
                     <div>
                         <div className="flex items-center">
-                            <Input
-                                type="text"
-                                name="value"
-                                value={form.data.value}
-                                className={
-                                    "border-0 border-b rounded-none text-center" +
-                                    (form.invalid("value") ? "has-danger" : "")
-                                }
-                                onChange={(e) =>
-                                    form.setData("value", e.target.value)
-                                }
-                            />
+                            <InputSelector />
                             <Button
                                 onClick={(e) => submit()}
                                 className="shadow-none hover:bg-none border-slate-300 px-[0.2rem]"

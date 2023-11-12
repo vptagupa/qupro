@@ -1,8 +1,10 @@
 import { Form, Input, Select, Checkbox } from "@/js/components/form";
 import { AlertSuccess } from "@/js/components/alerts";
+import { PrimarySwitch } from "@/js/components/switch";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import { usePage } from "@inertiajs/react";
+import { useState } from "react";
 
 const Component = ({
     form,
@@ -10,6 +12,7 @@ const Component = ({
     completed,
     setAccountTypesHandler,
 }) => {
+    const [priority, setPriority] = useState(form.data.priority);
     const { formats } = usePage().props;
     return (
         <Form>
@@ -18,27 +21,22 @@ const Component = ({
                     <AlertSuccess>Successfully save.</AlertSuccess>
                 </Transition>
             </div>
-            <div>
-                <span className="text-xs">Format:</span>
-                <Select
-                    name="format"
-                    value={form.data.format}
-                    className={form.invalid("format") ? "has-danger" : ""}
-                    onChange={(e) => form.setData("format", e.target.value)}
-                    onBlur={(e) => form.validate("format")}
-                >
-                    <option value="">Select</option>
-                    {formats.data.map((format) => (
-                        <option key={format.id} value={format.id}>
-                            {format.title}
-                        </option>
-                    ))}
-                </Select>
-                {form.invalid("format") && (
+            <div className="flex items-center justify-end space-x-2 mt-2">
+                {form.invalid("priority") && (
                     <span className="text-danger text-xs">
-                        {form.errors.format}
+                        {form.errors.priority}
                     </span>
                 )}
+                <span className="text-xs">Priority</span>
+                <PrimarySwitch
+                    enabled={priority}
+                    setEnabled={() => {
+                        const value = !priority;
+                        form.setData("priority", value);
+                        setPriority(value);
+                    }}
+                    title="Set Priority"
+                />
             </div>
             <div>
                 <span className="text-xs">Account Types:</span>
@@ -78,6 +76,28 @@ const Component = ({
                 {form.invalid("num_start") && (
                     <span className="text-danger text-xs">
                         {form.errors.num_start}
+                    </span>
+                )}
+            </div>
+            <div>
+                <span className="text-xs">Format:</span>
+                <Select
+                    name="format"
+                    value={form.data.format}
+                    className={form.invalid("format") ? "has-danger" : ""}
+                    onChange={(e) => form.setData("format", e.target.value)}
+                    onBlur={(e) => form.validate("format")}
+                >
+                    <option value="">Select</option>
+                    {formats.data.map((format) => (
+                        <option key={format.id} value={format.id}>
+                            {format.title}
+                        </option>
+                    ))}
+                </Select>
+                {form.invalid("format") && (
+                    <span className="text-danger text-xs">
+                        {form.errors.format}
                     </span>
                 )}
             </div>

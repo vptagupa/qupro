@@ -13,11 +13,13 @@ class SharedSeries extends Model
     protected $fillable = [
         'account_type_ids',
         'num_format_id',
-        'num_start'
+        'num_start',
+        'priority'
     ];
 
     protected $casts = [
-        'account_type_ids' => 'json'
+        'account_type_ids' => 'json',
+        'priority' => 'boolean'
     ];
 
     protected $appends = [

@@ -42,7 +42,8 @@ class SharedSeriesController extends AdminController
         $this->repository->create($safe->only([
             'num_format_id',
             'account_type_ids',
-            'num_start'
+            'num_start',
+            'priority'
         ]));
     }
 
@@ -60,7 +61,8 @@ class SharedSeriesController extends AdminController
         $this->repository->update($safe->only([
             'num_format_id',
             'account_type_ids',
-            'num_start'
+            'num_start',
+            'priority'
         ]), $id);
     }
 
