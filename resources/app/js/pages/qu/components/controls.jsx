@@ -62,6 +62,7 @@ export const useControls = ({
                     setLoadingNext(false);
                     callback();
                 },
+                onError: () => setLoadingNext(false),
             });
         },
         [form],

@@ -1,12 +1,14 @@
 import { Form, Input } from "@/js/components/form";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import axios from "axios";
 
 const Component = ({ next, controls: { form, ...controls } }) => {
+    const studentRef = useRef();
     const nextHandler = () => {
-        if (form.data.student_no == "") {
+        if (form.data.student_info.student_no == "") {
             form.setError("student_no", "Studet no. is required");
+            studentRef.current.focus();
             return;
         }
 
@@ -18,7 +20,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
         axios
             .get(
                 route("admin.qu.student.info", {
-                    studentno: form.data.student_no,
+                    studentno: form.data.student_info.student_no,
                 }),
             )
             .then((response) => {
@@ -47,6 +49,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
             <Form>
                 <div>
                     <Input
+                        ref={studentRef}
                         type="text"
                         className={
                             "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
@@ -57,9 +60,12 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                         autoFocus
                         maxLength={15}
                         placeholder="Enter student no."
-                        value={form.data.student_no}
+                        value={form.data.student_info.student_no}
                         onChange={(e) => {
-                            form.setData("student_no", e.target.value);
+                            form.setData("student_info", {
+                                ...form.data.student_info,
+                                student_no: e.target.value,
+                            });
                         }}
                     />
                 </div>

@@ -1,27 +1,14 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import PropTypes from "prop-types";
-import { useEffect, useCallback, memo } from "react";
+import { useEffect, useCallback, useRef } from "react";
 
-const Component = ({ final, controls: { form, ...controls } }) => {
-    const nextHandler = () => {
-        let errors = null;
-        if (form.data.name == "") {
-            errors = {
-                name: "Name is required",
-            };
-        }
-        if (
-            form.data.is_representative &&
-            form.data.student_info.student_no == ""
-        ) {
-            errors = {
-                ...errors,
-                student_no: "Studet no. is required",
-            };
-        }
-
-        if (errors) {
-            form.setErrors(errors);
+const Component = ({ final, next, controls: { form, ...controls } }) => {
+    const nameRef = useRef();
+    const studentRef = useRef();
+    const finalHandler = () => {
+        const errors = Object.keys(validateInputs(["name"]));
+        if (errors.includes("name")) {
+            nameRef.current.focus();
             return;
         }
 
@@ -29,10 +16,68 @@ const Component = ({ final, controls: { form, ...controls } }) => {
         controls.submit(() => final());
     };
 
+    const nextHandler = () => {
+        const errors = Object.keys(validateInputs(["name", "student_no"]));
+        if (errors.length > 0) {
+            if (errors.includes("name")) {
+                nameRef.current.focus();
+            }
+            if (!errors.includes("name") && errors.includes("student_no")) {
+                studentRef.current.focus();
+            }
+            return;
+        }
+
+        getStudentInfo();
+    };
+
+    const getStudentInfo = () => {
+        controls.setLoadingNext(true);
+        axios
+            .get(
+                route("admin.qu.student.info", {
+                    studentno: form.data.student_info.student_no,
+                }),
+            )
+            .then((response) => {
+                if (response.data) {
+                    form.setData("student_info", response.data);
+                }
+                controls.setLoadingNext(false);
+                next();
+            })
+            .catch((error) => {
+                console.log(error);
+                controls.setLoadingNext(false);
+            });
+    };
+
+    const validateInputs = (fields) => {
+        let errors = null;
+        const studentInfo = ["student_no"];
+        fields.forEach((field) => {
+            let value = form.data[field];
+            if (studentInfo.includes(field)) {
+                value = form.data.student_info[field];
+            }
+            if (value == "") {
+                errors = {
+                    ...(errors ?? {}),
+                    [field]: "Required",
+                };
+            }
+        });
+
+        if (errors) {
+            form.setErrors(errors);
+            return errors;
+        }
+
+        return true;
+    };
+
     const setRepresentative = useCallback((form, checked) => {
-        console.log(checked);
         form.setData("is_representative", checked);
-        console.log(form.data.is_representative);
     }, []);
 
     useEffect(() => {
@@ -40,8 +85,13 @@ const Component = ({ final, controls: { form, ...controls } }) => {
     }, [form.data]);
 
     useEffect(() => {
-        controls.setNextLabel("Confirm");
-    }, []);
+        controls.setNextLabel(form.data.is_representative ? "Next" : "Confirm");
+        if (form.data.is_representative) {
+            controls.next(nextHandler);
+        } else {
+            controls.next(finalHandler);
+        }
+    }, [form]);
 
     return (
         <>
@@ -65,6 +115,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
 
                     <div>
                         <Input
+                            ref={nameRef}
                             type="text"
                             className={
                                 "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
@@ -83,6 +134,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                     {form.data.is_representative && (
                         <div>
                             <Input
+                                ref={studentRef}
                                 type="text"
                                 className={
                                     "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
