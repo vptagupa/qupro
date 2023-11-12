@@ -13,6 +13,7 @@ class AccountType extends Model
     protected $fillable = [
         'name',
         'num_format_id',
+        'priority_format_id',
         'num_start',
         'reset_at',
         'reset_by'
@@ -30,6 +31,11 @@ class AccountType extends Model
     public function format()
     {
         return $this->belongsTo(NumFormat::class, 'num_format_id');
+    }
+
+    public function priorityFormat()
+    {
+        return $this->belongsTo(NumFormat::class);
     }
 
     public function isSharedSeries(): Attribute

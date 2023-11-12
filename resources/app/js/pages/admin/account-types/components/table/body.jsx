@@ -56,6 +56,7 @@ const Component = ({
                                 <Th>Name</Th>
                                 <Th>Format</Th>
                                 <Th>Num Start</Th>
+                                <Th>Priority Format</Th>
                                 <Th>Action</Th>
                             </TrH>
                         </Theader>
@@ -77,6 +78,24 @@ const Component = ({
                                             )}
                                         </Td>
                                         <Td>{item.num_start}</Td>
+                                        <Td>
+                                            {item.priority_format && (
+                                                <div className="flex flex-col space-y-1">
+                                                    <span>
+                                                        {
+                                                            item.priority_format
+                                                                .title
+                                                        }
+                                                    </span>
+                                                    <span className="ml-2 italic text-purple-700">
+                                                        {
+                                                            item.priority_format
+                                                                .format
+                                                        }
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
                                                 <Edit

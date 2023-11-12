@@ -18,6 +18,7 @@ export default ({ data, formats, ...props }) => {
                 name: data.name,
                 format: data.num_format_id ?? "",
                 num_start: data.num_start ?? "",
+                priority_format: data.priority_format_id ?? "",
             },
         },
     );

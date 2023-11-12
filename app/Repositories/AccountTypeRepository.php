@@ -13,7 +13,7 @@ class AccountTypeRepository extends Repository
 
     public function list($query = [], $perPage = 10)
     {
-        return $this->model->with('format')->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
+        return $this->model->with(['format', 'priorityFormat'])->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
             $builder->where('name', 'like', '%' . $query['name'] . '%');
         })->paginate($perPage);
     }

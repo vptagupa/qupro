@@ -64,6 +64,33 @@ const Component = ({ form, completed, formats }) => {
                     </span>
                 )}
             </div>
+            <div>
+                <span className="text-xs">Priority Format:</span>
+                <Select
+                    name="priority_format"
+                    value={form.data.priority_format}
+                    className={
+                        form.invalid("priority_format") ? "has-danger" : ""
+                    }
+                    onChange={(e) =>
+                        form.setData("priority_format", e.target.value)
+                    }
+                >
+                    <option value="">Select</option>
+                    {formats.map((format) => {
+                        return (
+                            <option key={format.id} value={format.id}>
+                                {format.title}
+                            </option>
+                        );
+                    })}
+                </Select>
+                {form.invalid("priority_format") && (
+                    <span className="text-danger text-xs">
+                        {form.errors.priority_format}
+                    </span>
+                )}
+            </div>
         </Form>
     );
 };

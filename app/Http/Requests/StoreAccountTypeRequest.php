@@ -26,6 +26,7 @@ class StoreAccountTypeRequest extends FormRequest
         return [
             'name' => 'required|unique:App\Models\AccountType',
             'format' => 'required|integer',
+            'priority_format' => 'nullable|integer',
             'num_start' => 'nullable|integer',
         ];
     }

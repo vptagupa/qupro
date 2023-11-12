@@ -23,6 +23,7 @@ export default memo(({ formats, ...props }) => {
             name: "",
             format: "",
             num_start: "",
+            priority_format: "",
         },
     });
 

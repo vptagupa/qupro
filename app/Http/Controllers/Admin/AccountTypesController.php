@@ -46,12 +46,16 @@ class AccountTypesController extends AdminController
      */
     public function store(StoreAccountTypeRequest $request)
     {
-        $safe = $request->safe()->merge(['num_format_id' => $request->get('format')]);
+        $safe = $request->safe()->merge([
+            'num_format_id' => $request->get('format'),
+            'priority_format_id' => $request->get('priority_format'),
+        ]);
 
         $this->repository->create($safe->only([
             'name',
             'num_format_id',
             'num_start',
+            'priority_format_id'
         ]));
     }
 
@@ -61,12 +65,16 @@ class AccountTypesController extends AdminController
      */
     public function update(UpdateAccountTypeRequest $request, int $id)
     {
-        $safe = $request->safe()->merge(['num_format_id' => $request->get('format')]);
+        $safe = $request->safe()->merge([
+            'num_format_id' => $request->get('format'),
+            'priority_format_id' => $request->get('priority_format'),
+        ]);
 
         $this->repository->update($safe->only([
             'name',
             'num_format_id',
             'num_start',
+            'priority_format_id'
         ]), $id);
     }
 

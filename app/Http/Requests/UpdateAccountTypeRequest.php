@@ -28,6 +28,7 @@ class UpdateAccountTypeRequest extends FormRequest
             'id' => 'required',
             'name' => ['required', Rule::unique('account_types')->ignore($this->id)],
             'format' => 'required|integer',
+            'priority_format' => 'nullable|integer',
             'num_start' => 'nullable|integer',
         ];
     }
