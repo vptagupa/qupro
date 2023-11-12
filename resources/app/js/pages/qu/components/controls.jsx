@@ -1,6 +1,6 @@
 import { PrimaryButton, InfoButton, Button } from "@/js/components/buttons";
 import Circle from "@/assets/images/circle.svg";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useForm } from "@/js/helpers/form";
 
 export const useControls = ({
@@ -50,19 +50,22 @@ export const useControls = ({
         _next.current = callback;
     };
 
-    const submit = (callback) => {
-        form.submit({
-            preserveState: true,
-            preserveScroll: true,
-            only: ["errors", "qu"],
-            onBefore: () => setLoadingNext(true),
-            onSuccess: (page) => {
-                form.setData("qu", page.props.qu);
-                setLoadingNext(false);
-                callback();
-            },
-        });
-    };
+    const submit = useCallback(
+        (callback) => {
+            form.submit({
+                preserveState: true,
+                preserveScroll: true,
+                only: ["errors", "qu"],
+                onBefore: () => setLoadingNext(true),
+                onSuccess: (page) => {
+                    form.setData("qu", page.props.qu);
+                    setLoadingNext(false);
+                    callback();
+                },
+            });
+        },
+        [form],
+    );
 
     const Controls = () => (
         <div>

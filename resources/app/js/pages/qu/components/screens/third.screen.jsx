@@ -1,9 +1,9 @@
 import StudentForm from "../student.form";
 import OtherForm from "../other.form";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 
-const Component = ({ prev, ...props }) => {
+const Component = memo(({ prev, ...props }) => {
     useEffect(() => {
         props.controls.prev(prev);
         props.controls.setEnabledPrev(true);
@@ -30,7 +30,7 @@ const Component = ({ prev, ...props }) => {
             )}
         </>
     );
-};
+});
 
 Component.propTypes = {
     controls: PropTypes.shape({
