@@ -80,6 +80,11 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
         form.setData("is_representative", checked);
     }, []);
 
+    const submit = (e) => {
+        e.preventDefault();
+        controls._next.current();
+    };
+
     useEffect(() => {
         controls.next(nextHandler);
     }, [form.data]);
@@ -95,7 +100,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
 
     return (
         <>
-            <Form>
+            <Form onSubmit={(e) => submit(e)}>
                 <div className="flex flex-col gap-5">
                     <div>
                         <label className="flex gap-2 items-center justify-end">

@@ -102,6 +102,8 @@ export const useControls = ({
         form,
         prev,
         next,
+        _next,
+        _prev,
         submit,
         Controls,
         setPrevLabel,

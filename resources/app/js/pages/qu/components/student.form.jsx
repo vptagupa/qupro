@@ -36,6 +36,11 @@ const Component = ({ next, controls: { form, ...controls } }) => {
             });
     };
 
+    const submit = (e) => {
+        e.preventDefault();
+        nextHandler();
+    };
+
     useEffect(() => {
         controls.next(nextHandler);
     }, [form.data]);
@@ -46,7 +51,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
 
     return (
         <>
-            <Form>
+            <Form onSubmit={(e) => submit(e)}>
                 <div>
                     <Input
                         ref={studentRef}

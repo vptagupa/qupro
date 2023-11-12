@@ -14,7 +14,7 @@ const Component = ({
                     <div>{qu.num_fulltext}</div>
                 </div>
                 {qu.type == "student" && (
-                    <span className="text-[1rem] border-b border-solid border-purple-400 p-2 px-8">
+                    <span className="text-center text-[1rem] border-b border-solid border-purple-400 p-2 px-8">
                         {qu.student_name}, {student_info.course_code}
                     </span>
                 )}
