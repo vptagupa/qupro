@@ -46,12 +46,8 @@ class AccountType extends Model
         );
     }
 
-    public function getCurrentQuFullText($num): string
+    public function getQuNumFullText($num): string
     {
-        if ($this->is_shared_series) {
-            return $this->sharedSeries->format->fulltext($num);
-        }
-
         return $this->format->fulltext($num);
     }
 
@@ -104,6 +100,6 @@ class AccountType extends Model
 
     public function getNextSeriesNumFullText()
     {
-        return $this->getCurrentQuFullText($this->getNextSeriesNum());
+        return $this->getQuNumFullText($this->getNextSeriesNum());
     }
 }
