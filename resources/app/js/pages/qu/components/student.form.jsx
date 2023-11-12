@@ -49,7 +49,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                     <Input
                         type="text"
                         className={
-                            "p-7 !text-[4rem] border-2 rounded-xl focus:ring" +
+                            "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
                             (form.invalid("student_no")
                                 ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                 : "")

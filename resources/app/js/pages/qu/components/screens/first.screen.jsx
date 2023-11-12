@@ -15,6 +15,7 @@ export default ({ prev, next, ...props }) => {
         props.controls.setEnabledPrev(false);
         props.controls.setNextLabel("Next");
     }, []);
+
     return (
         <>
             <Type {...props} />

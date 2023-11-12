@@ -65,7 +65,7 @@ export const useControls = ({
                     type="button"
                     disabled={!_enabledPrev}
                     onClick={(e) => _prev.current()}
-                    className="flex justify-center h-[4rem] w-[8rem] text-[1.2rem] bg-slate-300 text-center text-white uppercase font-extrabold disabled:bg-slate-200 enabled:bg-gradient-to-r  from-gray-500 to-zinc-500"
+                    className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] bg-slate-300 text-center text-white uppercase font-extrabold disabled:bg-slate-200 enabled:bg-gradient-to-r  from-gray-500 to-zinc-500"
                 >
                     <span>{_prevLabel}</span>
                 </Button>
@@ -73,7 +73,7 @@ export const useControls = ({
                     disabled={!_enabledNext}
                     type="button"
                     onClick={(e) => _next.current()}
-                    className="flex justify-center h-[4rem] w-[8rem] text-[1.2rem] text-white text-center uppercase font-extrabold enabled:bg-gradient-to-r  from-purple-400 to-fuchsia-400"
+                    className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] text-white text-center uppercase font-extrabold enabled:bg-gradient-to-r  from-purple-400 to-fuchsia-400"
                 >
                     {loadingNext && (
                         <img

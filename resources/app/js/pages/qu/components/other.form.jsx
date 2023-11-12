@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 const Component = ({ final, controls: { form, ...controls } }) => {
     const nextHandler = () => {
@@ -26,6 +26,13 @@ const Component = ({ final, controls: { form, ...controls } }) => {
         controls.submit(() => final());
     };
 
+    const setRepresentative = useCallback((checked) => {
+        form.setData("is_representative", checked);
+        if (!checked) {
+            form.setData("student_no", "");
+        }
+    }, []);
+
     useEffect(() => {
         controls.next(nextHandler);
     }, [form.data]);
@@ -33,7 +40,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
     useEffect(() => {
         controls.setNextLabel("Confirm");
     }, []);
-
+    // console.log(form.data);
     return (
         <>
             <Form>
@@ -41,16 +48,13 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                     <div>
                         <label className="flex gap-2 items-center justify-end">
                             <Checkbox
-                                className="p-3 focus:ring focus:border-none"
+                                className="lg:p-3 focus:ring focus:border-none"
                                 value={form.data.is_representative}
-                                onChange={(e) => {
-                                    form.setData(
-                                        "is_representative",
-                                        e.target.checked,
-                                    );
-                                }}
+                                onClick={(e) =>
+                                    setRepresentative(e.target.checked)
+                                }
                             />
-                            <div className="text-[1.5rem]">
+                            <div className="lg:text-[1.5rem]">
                                 Is student representative
                             </div>
                         </label>
@@ -60,18 +64,17 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                         <Input
                             type="text"
                             className={
-                                "p-7 !text-[4rem] border-2 rounded-xl focus:ring" +
+                                "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
                                 (form.invalid("name")
                                     ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                     : "")
                             }
-                            autoFocus
-                            maxLength={20}
+                            autoFocus={20}
                             placeholder="Enter nickname"
                             value={form.data.name}
-                            onChange={(e) => {
-                                form.setData("name", e.target.value);
-                            }}
+                            onChange={(e) =>
+                                form.setData("name", e.target.value)
+                            }
                         />
                     </div>
                     {form.data.is_representative && (
@@ -79,7 +82,7 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                             <Input
                                 type="text"
                                 className={
-                                    "p-7 !text-[4rem] border-2 rounded-xl focus:ring" +
+                                    "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
                                     (form.invalid("student_no")
                                         ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
                                         : "")
@@ -87,9 +90,9 @@ const Component = ({ final, controls: { form, ...controls } }) => {
                                 maxLength={15}
                                 placeholder="Enter student no."
                                 value={form.data.student_no}
-                                onChange={(e) => {
-                                    form.setData("student_no", e.target.value);
-                                }}
+                                onChange={(e) =>
+                                    form.setData("student_no", e.target.value)
+                                }
                             />
                         </div>
                     )}

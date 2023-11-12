@@ -32,7 +32,7 @@ const Component = ({ controls: { form } }) => {
                             type="button"
                             onClick={(e) => clickHandler(type)}
                             className={
-                                "flex justify-center h-[7rem] w-[10rem] text-[1.2rem text-center uppercase font-extrabold " +
+                                "flex justify-center xs:h-[2rem] xs:w-[8rem] xs:text-[0.5rem]  lg:h-[7rem] lg:w-[10rem] lg:text-[0.9rem] text-center uppercase font-extrabold " +
                                 selected(type)
                             }
                         >
