@@ -30,24 +30,7 @@ class QuRepository extends Repository
     public function create(array $data)
     {
         $type = AccountType::findOrFail($data['account_type_id']);
-        $series = Series::when(!$type->is_shared_series, function ($builder) use ($type) {
-            $builder->where([
-                'account_type_id' => $type->id,
-            ]);
-        })->when($type->is_shared_series, function ($builder) use ($type) {
-            $builder->where('shared_series_id', $type->shared_series->id);
-        })->latest()->first();
-
-        // Use default num
-        $num = $type->getNumStart();
-        // Increase series if exists
-        if ($series?->num) {
-            $num = $series->num + 1;
-        }
-        // use global config instead
-        if (!$num) {
-            $num = Config::numstart() ?? 1;
-        }
+        $series = $type->currentSeries();
 
         if (!$series) {
             $series = new Series();
@@ -55,8 +38,8 @@ class QuRepository extends Repository
             $series->shared_series_id = $type->shared_series?->id;
         }
 
-        $series->num = $num;
-        $series->num_fulltext = $type->getQuFullText($num);
+        $series->num = $type->getNextSeriesNum();
+        $series->num_fulltext = $type->getNextSeriesNumFullText();
         $series->save();
 
         $data['num_fulltext'] = $series->num_fulltext;

@@ -46,7 +46,7 @@ class AccountType extends Model
         );
     }
 
-    public function getQuFullText($num): string
+    public function getCurrentQuFullText($num): string
     {
         if ($this->is_shared_series) {
             return $this->sharedSeries->format->fulltext($num);
@@ -63,5 +63,47 @@ class AccountType extends Model
         }
 
         return $num;
+    }
+
+    public function currentNoneSharedSeries()
+    {
+        return $this->hasOne(Series::class)->latestOfMany();
+    }
+
+    public function currentSharedSeries()
+    {
+        return Series::whereSharedSeriesId($this->shared_series->id)->first();
+    }
+
+    public function currentSeries()
+    {
+        if ($this->is_shared_series) {
+            return $this->currentSharedSeries();
+        }
+
+        return $this->currentNoneSharedSeries;
+    }
+
+    public function getNextSeriesNum()
+    {
+        $series = $this->currentSeries();
+
+        // Use default num
+        $num = $this->getNumStart();
+        // Increase series if exists
+        if ($series?->num) {
+            $num = $series->num + 1;
+        }
+        // use global config instead
+        if (!$num) {
+            $num = Config::numstart() ?? 1;
+        }
+
+        return $num;
+    }
+
+    public function getNextSeriesNumFullText()
+    {
+        return $this->getCurrentQuFullText($this->getNextSeriesNum());
     }
 }

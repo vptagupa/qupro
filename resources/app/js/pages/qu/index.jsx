@@ -69,7 +69,6 @@ export default () => {
         return props.show && props.children;
     });
 
-    console.log(controls.form.data);
     return (
         <>
             <div className="lg:w-2/3 xs:w-full m-auto mt-[2%] p-5">
