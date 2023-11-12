@@ -3,11 +3,11 @@ import SecondScreen from "./components/screens/second.screen";
 import ThirdScreen from "./components/screens/third.screen";
 import FourthScreen from "./components/screens/fourth.screen";
 import FinalScreen from "./components/screens/final.screen";
-import { useState, useMemo, memo, useCallback } from "react";
+import { useState, useEffect, memo, useCallback } from "react";
 import { useControls } from "./components/controls";
 
-export default () => {
-    const controls = useControls({});
+export default ({ url }) => {
+    const controls = useControls({ url });
 
     const [firstScreen, setFirstScreen] = useState(true);
     const [secondScreen, setSecondScreen] = useState(false);

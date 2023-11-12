@@ -4,9 +4,13 @@ import Qu from "@/js/pages/qu";
 export default () => {
     return (
         <Layout>
-            <div className="font-bold text-lg">Qu</div>
+            <div className="font-bold text-lg">
+                <a href={route("qu.index")} target="_blank">
+                    View outside
+                </a>
+            </div>
             <div>
-                <Qu />
+                <Qu url={route("admin.qu.store")} />
             </div>
         </Layout>
     );

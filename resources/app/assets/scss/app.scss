@@ -125,4 +125,8 @@
     .btn-sm {
         @apply text-xs py-2 px-3 #{!important};
     }
+
+    .bg-qu {
+        @apply bg-slate-100/30;
+    }
 }

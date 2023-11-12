@@ -8,6 +8,7 @@ export const useControls = ({
     enabledNext = false,
     prevLabel = "Prev",
     nextLabel = "Next",
+    url,
 }) => {
     const [_enabledPrev, setEnabledPrev] = useState(enabledPrev);
     const [_enabledNext, setEnabledNext] = useState(enabledNext);
@@ -18,7 +19,7 @@ export const useControls = ({
 
     const { form } = useForm({
         method: "post",
-        route: route("admin.qu.store"),
+        route: url ?? route("qu.store"),
         data: {
             name: "",
             student_no: "",

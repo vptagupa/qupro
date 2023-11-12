@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Shared\BasedQuController;
 use App\Http\Requests\StoreQuRequest;
 use App\Http\Requests\UpdateQuRequest;
 
-
 class QuController extends BasedQuController
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return $this->render('admin/qu/index');
+        return $this->render(
+            view: 'qu/public',
+            layout: 'app-qu'
+        );
     }
 
     /**
@@ -23,7 +26,7 @@ class QuController extends BasedQuController
     public function store(StoreQuRequest $request)
     {
         $qu = parent::store($request);
-        return $this->render('admin/qu/index', [
+        return $this->render('qu/public', [
             'qu' => $qu
         ]);
     }
@@ -35,7 +38,7 @@ class QuController extends BasedQuController
     public function update(UpdateQuRequest $request, int $id)
     {
         $qu = parent::update($request, $id);
-        return $this->render('admin/qu/index', [
+        return $this->render('qu/public', [
             'qu' => $qu
         ]);
     }

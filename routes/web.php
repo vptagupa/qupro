@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\{
     GlobalConfigController,
     QuController
 };
+use App\Http\Controllers\FrontEnd\QuController as FrontendQuController;
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\RedirectIfTemporaryPassword;
@@ -79,12 +80,16 @@ Route::middleware([
             Route::get('/studentinfo/{studentno}', [QuController::class, 'getStudentInfo'])->name('student.info')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
-            Route::patch('/{type}', [QuController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Qu'])->name('update');
-            Route::delete('/{type}', [QuController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Qu');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
+
+    Route::name('qu.')->prefix('qu')->group(function () {
+        Route::get('/', [FrontendQuController::class, 'index'])->name('index');
+        Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+    });
 });
+
 Route::redirect('/admin', '/admin/dashboard');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
