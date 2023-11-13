@@ -33,7 +33,7 @@ export default ({
                 <div className="text-center  flex items-center text-purple-600 font-bold justify-center uppercase mb-3">
                     <div>{data?.name ?? "-"}</div>
                 </div>
-                <div className="flex flex-col p-2 border border-purple-400 rounded-xl">
+                <div className="flex flex-col p-2 border border-white rounded-xl">
                     <div className="text-left flex items-center justify-between uppercase">
                         <div>{data?.student_no ?? "-"}</div>
                         <div>

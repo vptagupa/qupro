@@ -55,12 +55,12 @@ class QuController extends BasedQuController
 
     public function next(NextQuRequest $request)
     {
-        // if ($request->safe()->only('qu')) {
-        //     $this->repository->update([
-        //         'teller_id' => $request->user()->id,
-        //         'completed_at' => Carbon::now()
-        //     ], $request->safe()->only('qu'));
-        // }
+        if ($request->safe()->qu) {
+            $this->repository->update([
+                'teller_id' => $request->user()->id,
+                // 'completed_at' => Carbon::now()
+            ], $request->safe()->qu);
+        }
 
         $accountTypeId = $request->safe()->account_type['id'];
 

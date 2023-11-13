@@ -23,7 +23,7 @@ const Component = ({ type }) => {
             qu,
         },
     });
-
+    console.log(qu);
     const submit = () => {
         if (waiting.length > 0) {
             form.submit({
@@ -32,6 +32,7 @@ const Component = ({ type }) => {
                 preserveScroll: true,
                 onBefore: () => setLoading(true),
                 onSuccess: (page) => {
+                    form.setData("qu", page.props.next.data);
                     setQu(page.props.next.data);
                     setWaiting(
                         page.props.next.data?.account_type?.waiting ?? [],
