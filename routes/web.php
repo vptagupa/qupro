@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\{
     AccountTypesController,
     ConfigurationsController,
     GlobalConfigController,
+    TellersControllers,
     QuController
 };
 use App\Http\Controllers\FrontEnd\QuController as FrontendQuController;
@@ -44,7 +45,9 @@ Route::middleware([
             Route::patch('/{user}', [UsersController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\User'])->name('update');
         });
         Route::name('tellers.')->prefix('tellers')->group(function () {
-            Route::get('/', [UsersController::class, 'index'])->name('index');
+            Route::get('/', [TellersControllers::class, 'index'])->name('index');
+            Route::post('/next', [TellersControllers::class, 'next'])->name('next');
+            Route::post('/skip', [TellersControllers::class, 'next'])->name('skip');
         });
         Route::name('formats.')->prefix('formats')->group(function () {
             Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
