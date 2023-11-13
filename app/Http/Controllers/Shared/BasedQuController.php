@@ -15,7 +15,7 @@ class BasedQuController extends AdminController
     /**
      * Display a listing of the resource.
      */
-    public function __construct(private QuRepository $repository, private AccountTypeRepository $accountTypeRepository)
+    public function __construct(protected QuRepository $repository, protected AccountTypeRepository $accountTypeRepository)
     {
         // 
     }

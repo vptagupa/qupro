@@ -23,4 +23,26 @@ class QuRepository extends Repository
                 $builder->where('student_name', 'like', '%' . $query['student_name'] . '%');
             })->paginate($perPage);
     }
+
+    public function getNext(int $accountTypeId, bool $priority = false): ?Qu
+    {
+        return $this->getWaiting($accountTypeId, $priority)->first();
+    }
+
+    public function getWaiting(int $accountTypeId, $priority = null, int $limit = 5)
+    {
+        return $this->model->with(['accountType', 'accountType.waiting'])
+            ->when(!is_null($priority), function ($builder) use ($priority) {
+                $builder->wherePriority($priority);
+            })
+            ->whereNull('called_at')
+            ->where('account_type_id', $accountTypeId)
+            ->orderBy('id', 'asc')
+            ->paginate($limit);
+    }
+
+    public function find($id)
+    {
+        return $this->model->with(['accountType', 'accountType.waiting'])->find($id);
+    }
 }

@@ -41,6 +41,16 @@ class AccountType extends Model
         return $this->belongsTo(NumFormat::class);
     }
 
+    public function qus()
+    {
+        return $this->hasMany(Qu::class);
+    }
+
+    public function waiting()
+    {
+        return $this->qus()->whereNull('called_at')->orderBy('created_at', 'asc');
+    }
+
     public function isSharedSeries(): Attribute
     {
         return Attribute::make(

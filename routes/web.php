@@ -46,8 +46,7 @@ Route::middleware([
         });
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
-            Route::post('/next', [TellersControllers::class, 'next'])->name('next');
-            Route::post('/skip', [TellersControllers::class, 'next'])->name('skip');
+            Route::post('/', [QuController::class, 'next'])->name('next');
         });
         Route::name('formats.')->prefix('formats')->group(function () {
             Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
@@ -83,6 +82,8 @@ Route::middleware([
             Route::get('/studentinfo/{studentno}', [QuController::class, 'getStudentInfo'])->name('student.info')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+            Route::get('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
+            Route::post('/skip', [QuController::class, 'next'])->name('skip');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

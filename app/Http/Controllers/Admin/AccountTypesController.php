@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\NumFormatCollection;
 use App\Http\Resources\AccountTypeCollection;
+use App\Http\Resources\AccountTypeResource;
 use App\Http\Requests\StoreAccountTypeRequest;
 use App\Http\Requests\UpdateAccountTypeRequest;
 use App\Repositories\AccountTypeRepository;
