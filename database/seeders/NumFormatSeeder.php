@@ -48,6 +48,13 @@ class NumFormatSeeder extends Seeder
                 'delimiter' => '-',
                 "format" => "{affix}{delimiter}{series}",
                 'active' => true,
+            ],
+            [
+                "title" => "Priority",
+                'affix' => 'P',
+                'delimiter' => '-',
+                "format" => "{affix}{delimiter}{(5)series}",
+                'active' => true,
             ]
         ];
 
