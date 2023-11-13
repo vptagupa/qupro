@@ -35,8 +35,6 @@ export default ({ url }) => {
         setThirdScreen(false);
         setFourthScreen(false);
         setFinalScreen(false);
-        controls.form.clearErrors();
-        controls.form.reset();
     }, [controls]);
 
     const secondScreenHandler = useCallback(() => {
