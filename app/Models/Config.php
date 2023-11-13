@@ -18,6 +18,7 @@ class Config extends Model
     protected $attrib = [
         'priority_series_separate' => [
             'data_type' => 'boolean',
+            'label' => 'If enabled, priority series does not continue from the regular series'
         ],
     ];
 

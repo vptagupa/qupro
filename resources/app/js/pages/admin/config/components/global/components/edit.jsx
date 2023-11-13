@@ -11,7 +11,8 @@ import {
 import { Button } from "@/js/components/buttons";
 
 export default ({ data }) => {
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(data.value == 1);
+
     const { open, setOpen, closeForm, form } = useForm({
         method: "patch",
         route: route("admin.configurations.global.update", {
@@ -69,7 +70,7 @@ export default ({ data }) => {
         if (!data?.attrib) {
             return data.value;
         } else if (data.attrib.data_type === "boolean") {
-            return data.value == true ? "Yes" : "No";
+            return data.value == true ? "Enabled" : "Disabled";
         }
     }, [data]);
 

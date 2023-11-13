@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Qu;
-use App\Models\AccountType;
 
 class QuRepository extends Repository
 {

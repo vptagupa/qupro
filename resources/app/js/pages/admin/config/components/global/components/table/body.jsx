@@ -35,9 +35,15 @@ const Component = ({
                                     <Tr key={item.id}>
                                         <Td>
                                             <div className="flex space-x-2 text-[0.9rem] justify-between">
-                                                <div className="">
+                                                <div className="flex flex-col">
                                                     {item.name}
+                                                    {item.attrib && (
+                                                        <div className="text-xs ml-2 italic">
+                                                            {item.attrib.label}
+                                                        </div>
+                                                    )}
                                                 </div>
+
                                                 <Edit data={item} />
                                             </div>
                                         </Td>
