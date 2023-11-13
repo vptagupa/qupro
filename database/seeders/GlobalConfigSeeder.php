@@ -15,21 +15,26 @@ class GlobalConfigSeeder extends Seeder
     {
         $real = [
             [
-                "name" => "Reminder Threshold",
+                "name" => "Reminder threshold",
                 'value' => '5',
             ],
             [
-                "name" => "Reminder Block",
+                "name" => "Reminder block",
                 'value' => '5',
             ],
             [
-                "name" => "Num Start",
+                "name" => "Num start",
                 'value' => '1',
             ],
             [
-                "name" => "Priority Series Separate",
+                "name" => "Enable skip button in seconds",
+                'value' => 5,
+            ],
+            [
+                "name" => "Priority series separate",
                 'value' => true,
             ],
+
         ];
 
         foreach ($real as $row) {

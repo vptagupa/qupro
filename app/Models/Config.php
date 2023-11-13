@@ -26,17 +26,22 @@ class Config extends Model
 
     public static function numstart()
     {
-        return Config::where('name', 'Num Start')->first()?->value;
+        return Config::where('name', 'Num start')->first()?->value;
     }
 
     public static function reminderThreshold(): int
     {
-        return Config::where('name', 'Reminder Threshold')->first()?->value;
+        return Config::where('name', 'Reminder threshold')->first()?->value;
     }
 
     public static function reminderBlock(): int
     {
-        return Config::where('name', 'Reminder Block')->first()?->value;
+        return Config::where('name', 'Reminder block')->first()?->value;
+    }
+
+    public static function enableSkipButton(): int
+    {
+        return Config::where('name', 'Enable skip button in seconds')->first()?->value;
     }
 
     public static function isPrioritySeriesSeparate(): bool
