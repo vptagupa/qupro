@@ -60,6 +60,8 @@ class Series
         return $this->repository->create([
             'account_type_id' => $shared ? null : $this->accountType->id,
             'shared_series_id' => $shared?->id,
+            'num' => 0,
+            'num_fulltext' => '',
             'priority' => $priority
         ]);
     }
