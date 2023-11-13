@@ -71,13 +71,23 @@ const Component = ({ type }) => {
         return false;
     };
 
+    const isPriority = useCallback(() => {
+        return form.data.priority == "priority";
+    }, [form]);
+
     useEffect(() => {
         getWaiting();
     }, []);
 
     return (
         <>
-            <div className="p-5 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30">
+            <div
+                className={`${
+                    isPriority()
+                        ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
+                        : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
+                } p-5 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30`}
+            >
                 <div className="relative">
                     <div className="absolute -mt-8 -right-8 ">
                         <Priority form={form} />
@@ -85,7 +95,7 @@ const Component = ({ type }) => {
                 </div>
                 <div className="flex flex-col w-full">
                     <div>
-                        <Qu data={qu} />
+                        <Qu data={qu} isPriority={isPriority} />
                     </div>
                     <div className="mt-3">
                         <Waiting data={waiting} />
@@ -96,6 +106,7 @@ const Component = ({ type }) => {
                         </div>
                         <div className="grow">
                             <NextButton
+                                isPriority={isPriority}
                                 label={!qu ? "Start" : "Next"}
                                 setQu={setQu}
                                 submit={submit}

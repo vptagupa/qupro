@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const Component = ({ data }) => {
     return (
         <>
-            <div className="text-xxs p-2">
+            <div className="text-xs p-2">
                 {data.map((qu) => {
                     return (
                         <div
@@ -13,7 +13,9 @@ const Component = ({ data }) => {
                             {!qu.is_student && (
                                 <div className="grow">{qu.name}</div>
                             )}
-                            <div className="grow">{qu.student_name}</div>
+                            {qu.is_student && (
+                                <div className="grow">{qu.student_name}</div>
+                            )}
                             <div className="grow-0 w-[50px]">
                                 {qu.num_fulltext}
                             </div>
