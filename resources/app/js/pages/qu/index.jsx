@@ -1,3 +1,4 @@
+import ZeroScreen from "./components/screens/zero.screen";
 import FirstScreen from "./components/screens/first.screen";
 import SecondScreen from "./components/screens/second.screen";
 import ThirdScreen from "./components/screens/third.screen";
@@ -9,60 +10,81 @@ import { useControls } from "./components/controls";
 export default ({ url }) => {
     const controls = useControls({ url });
 
-    const [firstScreen, setFirstScreen] = useState(true);
+    const [zeroScreen, setZeroScreen] = useState(true);
+    const [firstScreen, setFirstScreen] = useState(false);
     const [secondScreen, setSecondScreen] = useState(false);
     const [thirdScreen, setThirdScreen] = useState(false);
     const [fourthScreen, setFourthScreen] = useState(false);
-    const [finalScreen, setFinalscreen] = useState(false);
+    const [finalScreen, setFinalScreen] = useState(false);
+
+    const zeroScreenHandler = useCallback(() => {
+        setZeroScreen(true);
+        setFirstScreen(false);
+        setSecondScreen(false);
+        setThirdScreen(false);
+        setFourthScreen(false);
+        setFinalScreen(false);
+        controls.form.clearErrors();
+        controls.form.reset();
+    }, [controls]);
 
     const firstScreenHandler = useCallback(() => {
+        setZeroScreen(false);
         setFirstScreen(true);
         setSecondScreen(false);
         setThirdScreen(false);
         setFourthScreen(false);
-        setFinalscreen(false);
+        setFinalScreen(false);
         controls.form.clearErrors();
         controls.form.reset();
     }, [controls]);
 
     const secondScreenHandler = useCallback(() => {
+        setZeroScreen(false);
+        setFirstScreen(false);
         setFirstScreen(false);
         setSecondScreen(true);
         setThirdScreen(false);
         setFourthScreen(false);
-        setFinalscreen(false);
+        setFinalScreen(false);
         controls.form.clearErrors();
     }, [controls]);
 
     const thirdScreenHandler = useCallback(() => {
+        setZeroScreen(false);
+        setFirstScreen(false);
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(true);
         setFourthScreen(false);
-        setFinalscreen(false);
+        setFinalScreen(false);
         controls.form.clearErrors();
     }, [controls]);
 
     const fourthScreenHandler = useCallback(() => {
+        setZeroScreen(false);
+        setFirstScreen(false);
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(false);
         setFourthScreen(true);
-        setFinalscreen(false);
+        setFinalScreen(false);
         controls.form.clearErrors();
     }, [controls]);
 
     const finalScreenHandler = useCallback(() => {
+        setZeroScreen(false);
+        setFirstScreen(false);
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(false);
         setFourthScreen(false);
-        setFinalscreen(true);
+        setFinalScreen(true);
         controls.form.clearErrors();
     }, [controls]);
 
     const printHandler = useCallback(() => {
-        firstScreenHandler();
+        zeroScreenHandler();
     }, []);
 
     const Transition = memo((props) => {
@@ -73,10 +95,16 @@ export default ({ url }) => {
         <>
             <div className="lg:w-2/3 xs:w-full m-auto mt-[2%] p-5">
                 <div className="h-[300px] flex flex-col items-center justify-center">
+                    {zeroScreen && (
+                        <ZeroScreen
+                            controls={controls}
+                            next={firstScreenHandler}
+                        />
+                    )}
                     {firstScreen && (
                         <FirstScreen
                             controls={controls}
-                            prev={firstScreenHandler}
+                            prev={zeroScreenHandler}
                             next={secondScreenHandler}
                         />
                     )}

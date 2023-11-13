@@ -38,4 +38,11 @@ class StoreQuRequest extends FormRequest
             'is_representative' => 'nullable',
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'priority' => $this->priority ? true : false,
+        ]);
+    }
 }

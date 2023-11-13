@@ -52,7 +52,7 @@ class BasedQuController extends AdminController
     {
         $series = Series::generate(
             $this->accountTypeRepository->find($request->get('account_type')['id']),
-            $request->get('priority')
+            $request->get('priority') ?? false
         );
 
         $safe = $request->safe()->merge([
