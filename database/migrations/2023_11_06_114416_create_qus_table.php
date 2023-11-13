@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('student_name')->nullable();
             $table->foreignId('teller_id')->nullable()->constrained('users');
             $table->foreignId('account_type_id')->nullable()->constrained('account_types');
-            $table->string('num_fulltext');
+            $table->string('num_fulltext')->nullable();
             $table->boolean('priority')->default(false);
             $table->boolean('is_representative')->default(false);
             $table->datetime('skipped_at')->nullable();

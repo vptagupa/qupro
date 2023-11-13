@@ -3,42 +3,22 @@
 namespace App\Http\Controllers\Shared;
 
 use App\Http\Controllers\AdminController;
+use App\Repositories\AccountTypeRepository;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuCollection;
 use App\Http\Requests\StoreQuRequest;
-use App\Http\Requests\UpdateQuRequest;
 use App\Repositories\QuRepository;
+use App\Services\Series;
 
 class BasedQuController extends AdminController
 {
     /**
      * Display a listing of the resource.
      */
-    public function __construct(private QuRepository $repository)
+    public function __construct(private QuRepository $repository, private AccountTypeRepository $accountTypeRepository)
     {
         // 
     }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return $this->render('admin/qu/index');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function outsideAdmin()
-    {
-        return $this->render(
-            view: 'qu/public',
-            layout: 'app-qu'
-        );
-    }
-
-
 
     /**
      * Get student info
@@ -70,10 +50,16 @@ class BasedQuController extends AdminController
      */
     public function store(StoreQuRequest $request)
     {
+        $series = Series::generate(
+            $this->accountTypeRepository->find($request->get('account_type')['id']),
+            $request->get('priority')
+        );
+
         $safe = $request->safe()->merge([
             'account_type_id' => $request->get('account_type')['id'],
             'student_no' => $request->get('student_info')['student_no'],
             'student_name' => $request->get('student_info')['name'],
+            'num_fulltext' => $series->num_fulltext
         ]);
 
         return $this->repository->create($safe->only([
@@ -82,35 +68,9 @@ class BasedQuController extends AdminController
             'name',
             'student_no',
             'student_name',
-            'is_representative'
+            'is_representative',
+            'priority',
+            'num_fulltext'
         ]));
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateQuRequest $request, int $id)
-    {
-        $safe = $request->safe()->merge([
-            'account_type_id' => $request->get('account_type'),
-        ]);
-
-        return $this->repository->update($safe->only([
-            'type',
-            'account_type_id',
-            'name',
-            'student_no',
-            'student_name',
-            'is_representative'
-        ]), $id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id)
-    {
-        $this->repository->delete($id);
     }
 }

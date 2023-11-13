@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('shared_series', function (Blueprint $table) {
             $table->id();
             $table->json('account_type_ids');
-            $table->foreignId('num_format_id')->nullable()->constrained('num_formats')->cascadeOnDelete();
+            $table->foreignId('num_format_id')->nullable()->constrained('num_formats');
             $table->unsignedInteger('num_start');
             $table->boolean('priority')->default(false);
             $table->timestamps();

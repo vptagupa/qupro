@@ -34,6 +34,20 @@ class NumFormatSeeder extends Seeder
                 'delimiter' => '-',
                 "format" => "{affix}{delimiter}{series}",
                 'active' => true,
+            ],
+            [
+                "title" => "Accounting Series",
+                'affix' => 'acc',
+                'delimiter' => '-',
+                "format" => "{affix}{delimiter}{series}",
+                'active' => true,
+            ],
+            [
+                "title" => "Assessment Series",
+                'affix' => 'ass',
+                'delimiter' => '-',
+                "format" => "{affix}{delimiter}{series}",
+                'active' => true,
             ]
         ];
 

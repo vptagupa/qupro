@@ -21,8 +21,8 @@ export const useControls = ({
         method: "post",
         route: url ?? route("qu.store"),
         data: {
+            priority: true,
             name: "",
-            student_no: "",
             type: "",
             account_type: "",
             is_representative: false,
@@ -64,6 +64,7 @@ export const useControls = ({
                     callback();
                 },
                 onError: () => setLoadingNext(false),
+                onFinish: () => setLoadingNext(false),
             });
         },
         [form],

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('shared_series_id')->nullable()->constrained('shared_series');
             $table->unsignedInteger('num');
             $table->string('num_fulltext');
+            $table->boolean('priority')->nullable();
             $table->timestamps();
         });
     }

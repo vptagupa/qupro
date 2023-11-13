@@ -28,7 +28,12 @@ class AccountTypeSeeder extends Seeder
             [
                 "name" => "Accounting",
                 'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
+                "num_format_id" => NumFormat::whereTitle('Accounting Series')->first()->id,
+            ],
+            [
+                "name" => "Assessment",
+                'num_start' => 1,
+                "num_format_id" => NumFormat::whereTitle('Assessment Series')->first()->id,
             ],
         ];
 

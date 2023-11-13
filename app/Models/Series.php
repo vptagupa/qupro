@@ -14,6 +14,7 @@ class Series extends Model
         'shared_series_id',
         'num',
         'num_fulltext',
+        'priority'
     ];
 
     public function accountType()

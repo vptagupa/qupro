@@ -30,6 +30,7 @@ class UpdateQuRequest extends FormRequest
                 'required',
                 Rule::enum(Type::class)
             ],
+            'priority' => 'nullable',
             'name' => 'required_if:type,other|nullable',
             'student_info.student_no' => 'required_if:type,student|required_if:is_representative,true',
             'student_info.name' => 'required_if:type,student|nullable',

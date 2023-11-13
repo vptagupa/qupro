@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class AccountType extends Model
 {
     use HasFactory;
+    use Relations\AccountTypeSeries;
 
     protected $fillable = [
         'name',
@@ -22,6 +23,8 @@ class AccountType extends Model
     protected $casts = [
         'reset_at' => 'datetime'
     ];
+
+    protected $priority = false;
 
     public function resetBy()
     {
@@ -41,77 +44,51 @@ class AccountType extends Model
     public function isSharedSeries(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->shared_series ? true : false
+            get: fn() => $this->shared_series->count() > 0 ? true : false
         );
+    }
+
+    public function captureHasPrioritySharedSeries(): bool
+    {
+        return $this->getPrioritySharedSeries() ? true : false;
+    }
+
+    public function captureHasNonPrioritySharedSeries(): bool
+    {
+        return $this->getNonPrioritySharedSeries() ? true : false;
+    }
+
+    public function capatureHasAnySharedSeries($priority = false): bool
+    {
+        if ($priority && $this->captureHasPrioritySharedSeries()) {
+            return true;
+        }
+        if (!$priority && $this->captureHasNonPrioritySharedSeries()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function sharedSeries(): Attribute
     {
         return Attribute::make(
-            get: fn() => SharedSeries::whereJsonContains('account_type_ids', $this->id)->first()
+            get: fn() => SharedSeries::whereJsonContains('account_type_ids', $this->id)->get()
         );
     }
 
-    public function getQuNumFullText($num): string
+    public function series()
     {
-        if ($this->is_shared_series) {
-            if ($this->shared_series->format) {
-                return $this->shared_series->format;
-            }
-        }
-
-        return $this->format->fulltext($num);
+        return $this->hasMany(Series::class);
     }
 
-    public function getNumStart()
+    public function getPrioritySharedSeries()
     {
-        $num = $this->num_start;
-        if ($this->is_shared_series) {
-            $num = $this->sharedSeries->num_start;
-        }
-
-        return $num;
+        return $this->shared_series->reject(fn($shared) => $shared->priority != 1)->first();
     }
 
-    public function currentNoneSharedSeries()
+    public function getNonPrioritySharedSeries()
     {
-        return $this->hasOne(Series::class)->latestOfMany();
-    }
-
-    public function currentSharedSeries()
-    {
-        return Series::whereSharedSeriesId($this->shared_series->id)->first();
-    }
-
-    public function currentSeries()
-    {
-        if ($this->is_shared_series) {
-            return $this->currentSharedSeries();
-        }
-
-        return $this->currentNoneSharedSeries;
-    }
-
-    public function getNextSeriesNum()
-    {
-        $series = $this->currentSeries();
-
-        // Use default num
-        $num = $this->getNumStart();
-        // Increase series if exists
-        if ($series?->num) {
-            $num = $series->num + 1;
-        }
-        // use global config instead
-        if (!$num) {
-            $num = Config::numstart() ?? 1;
-        }
-
-        return $num;
-    }
-
-    public function getNextSeriesNumFullText()
-    {
-        return $this->getQuNumFullText($this->getNextSeriesNum());
+        return $this->shared_series->reject(fn($shared) => $shared->priority == 1)->first();
     }
 }
