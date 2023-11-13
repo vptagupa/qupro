@@ -27,13 +27,7 @@ trait AccountTypeSeries
     {
         $shared = $this->captureSharedSeries($priority);
 
-        return Series::whereSharedSeriesId($shared->id)
-            ->when($priority && Config::isPrioritySeriesSeparate(), function ($builder) {
-                $builder->where('priority', true);
-            })
-            ->when(!$priority || !Config::isPrioritySeriesSeparate(), function ($builder) {
-                $builder->where('priority', false);
-            })
+        return $this->seriesConditions(Series::whereSharedSeriesId($shared->id), $priority)
             ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
             ->orderBy('id', 'desc')->first();
 
@@ -45,10 +39,24 @@ trait AccountTypeSeries
             return $this->currentSharedSeries($priority);
         }
 
-        return $this->series()->when($priority && Config::isPrioritySeriesSeparate(), function ($builder) {
-            $builder->where('priority', true);
-        })
+        return $this->seriesConditions($this->series(), $priority)
             ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
             ->orderBy('id', 'desc')->first();
+    }
+
+    protected function seriesConditions($query, bool $priority)
+    {
+        // If priority and separate series
+        return $query->when($priority && Config::isPrioritySeriesSeparate(), function ($builder) {
+            $builder->where('priority', true);
+        })
+            // If priority and continues series
+            ->when($priority && !Config::isPrioritySeriesSeparate(), function ($builder) {
+                $builder->where('priority', false);
+            })
+            // If not priority continues series
+            ->when(!$priority || !Config::isPrioritySeriesSeparate(), function ($builder) {
+                $builder->where('priority', false);
+            });
     }
 }
