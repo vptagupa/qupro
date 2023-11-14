@@ -15,7 +15,6 @@ const Component = (props) => {
                             return (
                                 <div key={type.id}>
                                     <Records accountType={type} />
-
                                     <Card type={type} />
                                 </div>
                             );

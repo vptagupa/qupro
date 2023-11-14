@@ -7,7 +7,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ accountType }) {
+export default ({ accountType }) => {
     let [tabs] = useState({
         completed_list: {
             name: "Served List",
@@ -56,4 +56,4 @@ export default function Example({ accountType }) {
             </Tab.Group>
         </div>
     );
-}
+};

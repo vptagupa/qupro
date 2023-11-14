@@ -41,7 +41,7 @@ export default ({ accountType }) => {
                         <XMarkIcon className="h-4" title="Close Form" />
                     </div>
                 </div>
-                <Title>{accountType.name} Records</Title>
+                <Title>Serving Records</Title>
                 <div className="min-h-[480px]">
                     <Tab accountType={accountType} />
                 </div>

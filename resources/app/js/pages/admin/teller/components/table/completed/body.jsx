@@ -54,6 +54,7 @@ const Component = ({
                                 <Th>Name</Th>
                                 <Th>Account Type</Th>
                                 <Th>Teller</Th>
+                                <Th>Priority</Th>
                                 <Th>Action</Th>
                             </TrH>
                         </Theader>
@@ -76,7 +77,7 @@ const Component = ({
                                                 <span>
                                                     {item.type == "student"
                                                         ? item.student_name
-                                                        : item.name}{" "}
+                                                        : item.name}
                                                 </span>
                                             </div>
                                             {item.student_no && (
@@ -88,6 +89,7 @@ const Component = ({
 
                                         <Td>{item.account_type.name}</Td>
                                         <Td>{item.teller_name}</Td>
+                                        <Td>{item.num_fulltext}</Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
                                                 <CursorArrowRippleIcon
@@ -104,7 +106,7 @@ const Component = ({
                             })}
                             {tableList.length <= 0 && (
                                 <Tr>
-                                    <Td colSpan="4" className="text-center">
+                                    <Td colSpan="5" className="text-center">
                                         No records
                                     </Td>
                                     <Td>&nbsp;</Td>
