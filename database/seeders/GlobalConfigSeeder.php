@@ -27,10 +27,6 @@ class GlobalConfigSeeder extends Seeder
                 'value' => '1',
             ],
             [
-                "name" => "Enable skip button in seconds",
-                'value' => 5,
-            ],
-            [
                 "name" => "Priority series separate",
                 'value' => true,
             ],
