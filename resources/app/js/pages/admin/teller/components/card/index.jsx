@@ -33,6 +33,7 @@ const Component = ({ type }) => {
                 preserveScroll: true,
                 onBefore: () => setLoading(true),
                 onSuccess: (page) => {
+                    eventResetAllCardsQu(form.data.qu);
                     form.setData("qu", page.props.next.data);
                     setWaiting(
                         page.props.next.data?.account_type?.waiting ?? [],
@@ -74,6 +75,10 @@ const Component = ({ type }) => {
         return false;
     };
 
+    const eventResetAllCardsQu = (qu) => {
+        Event.emit(`${qu.id}.reset`);
+    };
+
     const events = useCallback(() => {
         Event.on(`${type.id}.set-qu`, (qu) => {
             form.setData("qu", qu);
@@ -82,6 +87,18 @@ const Component = ({ type }) => {
             getWaiting();
         });
     }, []);
+
+    useEffect(() => {
+        if (form.data.qu?.id) {
+            Event.on(`${form.data.qu.id}.reset`, (qu) => {
+                form.setData("qu", null);
+            });
+        }
+
+        return () => {
+            Event.off(`${form.data.qu?.id}.reset`);
+        };
+    }, [form.data.qu]);
 
     const isPriority = useCallback(() => {
         return form.data.priority == "priority";
