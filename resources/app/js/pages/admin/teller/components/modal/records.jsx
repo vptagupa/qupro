@@ -27,9 +27,10 @@ export default ({ accountType }) => {
         <>
             <div
                 onClick={(e) => setOpen(true)}
-                className="uppercase font-extrabold text-center cursor-pointer hover:underline"
+                className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
             >
-                {accountType.name} - {user.data.teller_name}
+                {accountType.name}
+                {user.data.teller_name ? " - " + user.data.teller_name : ""}
             </div>
 
             <Modal open={open}>

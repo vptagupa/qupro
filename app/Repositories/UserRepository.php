@@ -26,4 +26,20 @@ class UserRepository extends Repository
 
         parent::create($data);
     }
+
+    public function updateServeAccountType(int $userId, int $accountTypeId)
+    {
+        $user = $this->model->find($userId);
+
+        $serve = $user->serve_account_type_ids ?? [];
+
+        if (in_array($accountTypeId, $serve)) {
+            $serve = array_diff($serve, [$accountTypeId]);
+        } else {
+            $serve = array_merge($serve, [$accountTypeId]);
+        }
+
+        $user->serve_account_type_ids = $serve;
+        $user->save();
+    }
 }

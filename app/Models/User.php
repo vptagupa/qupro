@@ -29,7 +29,8 @@ class User extends Authenticatable
         'role',
         'password',
         'login_at',
-        'teller_name'
+        'teller_name',
+        'serve_account_type_ids'
     ];
 
     /**
@@ -51,7 +52,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'login_at' => 'datetime',
         'password' => 'hashed',
-        'role' => Role::class
+        'role' => Role::class,
+        'serve_account_type_ids' => 'array'
     ];
 
     protected $appends = [

@@ -29,4 +29,13 @@ class TellersControllers extends AdminController
             'teller_name' => $request->get('name')
         ], $request->user()->id);
     }
+
+    public function updateServeAccountType(Request $request)
+    {
+        $validated = $request->validate([
+            'accountTypeId' => 'required|integer',
+        ], $request->only('accountTypeId'));
+
+        $this->repository->updateServeAccountType($request->user()->id, $validated['accountTypeId']);
+    }
 }
