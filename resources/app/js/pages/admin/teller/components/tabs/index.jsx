@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
-import Completed from "../table/completed";
+import Serve from "../table/serve";
 import Teller from "../teller";
 
 function classNames(...classes) {
@@ -9,9 +9,9 @@ function classNames(...classes) {
 
 export default ({ accountType }) => {
     let [tabs] = useState({
-        completed_list: {
+        serve: {
             name: "Served List",
-            content: <Completed accountType={accountType} />,
+            content: <Serve accountType={accountType} />,
         },
         setup: {
             name: "Update Name",
