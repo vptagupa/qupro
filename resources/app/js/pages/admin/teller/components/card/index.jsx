@@ -55,7 +55,7 @@ const Component = ({ type }) => {
     };
 
     const getWaiting = useCallback(() => {
-        const qus = async () => {
+        const data = async () => {
             const response = await axios.get(
                 route("admin.qu.waiting", {
                     type: type.id,
@@ -66,7 +66,7 @@ const Component = ({ type }) => {
             setHasNextPriority(response.data.meta.has_next_priority);
             setHasNextRegular(response.data.meta.has_next_regular);
         };
-        qus();
+        data();
     }, []);
 
     const isSubmitEnabled = () => {
