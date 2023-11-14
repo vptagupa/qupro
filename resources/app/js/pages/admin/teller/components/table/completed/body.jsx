@@ -79,6 +79,11 @@ const Component = ({
                                                         : item.name}{" "}
                                                 </span>
                                             </div>
+                                            {item.student_no && (
+                                                <span className="text-[0.7rem] italic ml-2">
+                                                    {item.student_no}
+                                                </span>
+                                            )}
                                         </Td>
 
                                         <Td>{item.account_type.name}</Td>
@@ -86,7 +91,7 @@ const Component = ({
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
                                                 <CursorArrowRippleIcon
-                                                    className="h-5 cursor-pointer"
+                                                    className="h-5 cursor-pointer hover:text-green-400"
                                                     title="Re-select"
                                                     onClick={(e) =>
                                                         handleReselect(item)

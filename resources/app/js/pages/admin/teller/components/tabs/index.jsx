@@ -10,11 +10,11 @@ function classNames(...classes) {
 export default function Example({ accountType }) {
     let [tabs] = useState({
         completed_list: {
-            name: "Called List",
+            name: "Served List",
             content: <Completed accountType={accountType} />,
         },
         setup: {
-            name: "Setup",
+            name: "Update Name",
             content: <Teller />,
         },
     });

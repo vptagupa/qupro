@@ -1,5 +1,6 @@
 import Avatar from "@/assets/images/avatar.png";
 import { DocumentDuplicateIcon } from "@heroicons/react/24/solid";
+import Copy from "./copy";
 
 export default ({
     isPriority,
@@ -35,24 +36,10 @@ export default ({
                 </div>
                 <div className="flex flex-col p-2 border border-white rounded-xl">
                     <div className="text-left flex items-center justify-between uppercase">
-                        <div>{data?.student_no ?? "-"}</div>
-                        <div>
-                            <DocumentDuplicateIcon
-                                className={`${
-                                    isPriority() ? "text-white" : "text-white"
-                                } h-4 cursor-pointer `}
-                            />
-                        </div>
+                        <Copy text={data?.student_no ?? "-"} />
                     </div>
                     <div className="text-left flex items-center justify-between uppercase">
-                        <div>{data?.student_name ?? "-"}</div>
-                        <div>
-                            <DocumentDuplicateIcon
-                                className={`${
-                                    isPriority() ? "text-white" : "text-white"
-                                } h-4 cursor-pointer `}
-                            />
-                        </div>
+                        <Copy text={data?.student_name ?? "-"} />
                     </div>
                 </div>
             </div>

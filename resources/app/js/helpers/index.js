@@ -15,3 +15,13 @@ export const classNames = (custom, classNames) => {
 export const toLocaleString = (date, options) => {
     return date.toLocaleString("en-US", options);
 };
+
+export const copy = (text, ref) => {
+    if (window.isSecureContext && navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+    } else {
+        ref.focus();
+        ref.select();
+        document.execCommand("copy");
+    }
+};

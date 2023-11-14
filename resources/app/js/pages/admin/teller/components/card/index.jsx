@@ -22,8 +22,18 @@ const Component = ({ type }) => {
             qu: null,
         },
     });
-
+    const isPriority = () => form.data.priority == "priority";
     const hasQu = () => (form.data.qu?.id ? true : false);
+    const submitLabel = () => {
+        if (hasQu()) {
+            if (waiting.length > 0) {
+                return "Next";
+            }
+            return "Done";
+        }
+
+        return "Start";
+    };
 
     const submit = () => {
         if (isSubmitEnabled()) {
@@ -35,12 +45,8 @@ const Component = ({ type }) => {
                 onSuccess: (page) => {
                     eventResetAllCardsQu(form.data.qu);
                     form.setData("qu", page.props.next.data);
-                    setWaiting(
-                        page.props.next.data?.account_type?.waiting ?? [],
-                    );
-                    setHasNextPriority(page.props.next.meta.has_next_priority);
-                    setHasNextRegular(page.props.next.meta.has_next_regular);
                     setLoading(false);
+                    getWaiting();
                 },
                 onError: () => setLoading(false),
                 onFinal: () => setLoading(false),
@@ -70,23 +76,35 @@ const Component = ({ type }) => {
             return true;
         }
 
-        if (hasQu()) return true;
+        if (hasQu()) {
+            return true;
+        }
 
         return false;
     };
 
     const eventResetAllCardsQu = (qu) => {
-        Event.emit(`${qu.id}.reset`);
+        if (qu?.id) {
+            Event.emit(`${qu.id}.reset`);
+        }
     };
 
-    const events = useCallback(() => {
-        Event.on(`${type.id}.set-qu`, (qu) => {
-            form.setData("qu", qu);
-        });
+    const events = () => {
+        Event.on(
+            `${type.id}.set-qu`,
+            (qu) => {
+                form.setData({
+                    ...form.data,
+                    qu: qu,
+                    priority: qu?.priority == 1 ? "priority" : "regular",
+                });
+            },
+            this,
+        );
         Event.on(`${type.id}.waiting-list`, (qu) => {
             getWaiting();
         });
-    }, []);
+    };
 
     useEffect(() => {
         if (form.data.qu?.id) {
@@ -99,10 +117,6 @@ const Component = ({ type }) => {
             Event.off(`${form.data.qu?.id}.reset`);
         };
     }, [form.data.qu]);
-
-    const isPriority = useCallback(() => {
-        return form.data.priority == "priority";
-    }, [form.data.priority]);
 
     useEffect(() => {
         getWaiting();
@@ -139,7 +153,7 @@ const Component = ({ type }) => {
                         <div className="grow">
                             <NextButton
                                 isPriority={isPriority}
-                                label={!hasQu() ? "Start" : "Next"}
+                                label={submitLabel()}
                                 submit={submit}
                                 loading={loading}
                                 enabled={isSubmitEnabled()}
