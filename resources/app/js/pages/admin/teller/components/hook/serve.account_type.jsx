@@ -4,7 +4,8 @@ import { router } from "@inertiajs/react";
 
 export const useServe = () => {
     const { user } = usePage().props;
-    const exists = (id) => user.data.serve_account_type_ids.includes(id);
+    const exists = (id) =>
+        (user.data?.serve_account_type_ids ?? []).includes(id);
 
     const toggle = (id) => {
         axios

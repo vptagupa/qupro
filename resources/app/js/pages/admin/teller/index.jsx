@@ -3,7 +3,7 @@ import Card from "./components/card";
 import Records from "./components/modal/records";
 import { usePage } from "@inertiajs/react";
 import Switcher from "./components/switcher";
-import { useServe } from "./components/switcher/serve";
+import { useServe } from "./components/hook/serve.account_type";
 
 const Component = (props) => {
     const { exists } = useServe();
