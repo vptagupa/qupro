@@ -25,6 +25,13 @@ trait Qu
         });
     }
 
+    protected function priorityCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['priorityCondition']) && $query['priorityCondition'], function ($builder) use ($query) {
+            $builder->wherePriority(true);
+        });
+    }
+
     protected function nameCondition(&$builder, $query)
     {
         return $builder->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
@@ -50,6 +57,13 @@ trait Qu
     {
         return $builder->when(isset($query['called']) && $query['called'], function ($builder) use ($query) {
             $builder->whereNotNull('called_at');
+        });
+    }
+
+    protected function unCalledCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['uncalled']) && $query['uncalled'], function ($builder) use ($query) {
+            $builder->whereNull('called_at');
         });
     }
 
