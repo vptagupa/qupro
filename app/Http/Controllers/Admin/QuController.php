@@ -54,17 +54,17 @@ class QuController extends BasedQuController
         return new QuCollection($this->repository->getWaiting($type, null, 2));
     }
 
-    public function getCompletedList(Request $request)
+    public function getServedList(Request $request)
     {
         return new QuCollection(
             $this->repository->list(
-                [
+                query: [
                     'name' => $request->get('query'),
                     'called' => true,
                     'accountType' => true
-                    // 'account_type_id' => $request->get('extra')['account_type']
                 ],
-                $request->get('per_page'),
+                perPage: $request->get('per_page'),
+                paginate: true
             )
         );
     }

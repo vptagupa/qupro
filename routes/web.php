@@ -86,7 +86,7 @@ Route::middleware([
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
             Route::get('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
             Route::get('/skip/{id}', [QuController::class, 'skip'])->name('skip');
-            Route::post('/completed-list', [QuController::class, 'getCompletedList'])->name('completed.list');
+            Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

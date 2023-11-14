@@ -81,7 +81,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'config' => [
-                'enable_skip_seconds' => Config::enableSkipButton()
+                // 'enable_skip_seconds' => Config::enableSkipButton()
             ]
         ];
     }

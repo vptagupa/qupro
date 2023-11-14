@@ -11,7 +11,7 @@ const Component = ({ accountType }) => {
                 ...INITIAL_PARAMS,
                 extra: { account_type: accountType.id },
             },
-            listRoute: route("admin.qu.completed.list"),
+            listRoute: route("admin.qu.served_list"),
         });
 
     const handleReselect = (qu) => {

@@ -15,6 +15,7 @@ export default ({ text }) => {
         setCopy(true);
         setTimeout(() => {
             setCopy(false);
+            elRef.current.blur();
         }, 3000);
     };
 
