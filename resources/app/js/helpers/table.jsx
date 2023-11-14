@@ -30,6 +30,7 @@ export const useTable = ({ initialParams, listRoute: _listRoute, name }) => {
             page: params.page + 1,
             query: params.search,
             per_page: initialParams.perPage,
+            extra: initialParams?.extra,
         });
 
         setData({

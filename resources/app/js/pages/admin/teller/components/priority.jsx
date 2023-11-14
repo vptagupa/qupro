@@ -11,7 +11,7 @@ export default ({ form }) => {
 
     return (
         <div
-            className="bg-slate-300 cursor-pointer text-white text-[1.3rem]  px-4 py-2 rounded-full uppercase font-extrabold"
+            className="bg-slate-300 cursor-pointer text-slate-500 text-[1rem]  px-3 py-1 rounded-full uppercase font-extrabold"
             onClick={(e) => handler()}
         >
             {form.data.priority.substr(0, 1).toUpperCase()}

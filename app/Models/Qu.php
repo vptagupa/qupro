@@ -19,6 +19,7 @@ class Qu extends Model
         'teller_id',
         'account_type_id',
         'num_fulltext',
+        'teller_name',
         'priority',
         'skipped_at',
         'completed_at',

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('nickname')->nullable();
+            $table->string('teller_name')->nullable();
             $table->string('email')->unique();
             $table->foreignId('file_id')->nullable()->constrained('files');
             $table->enum('role', ['administrator', 'teller']);

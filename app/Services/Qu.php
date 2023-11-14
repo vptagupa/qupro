@@ -17,16 +17,16 @@ class Qu
 
     }
 
-    public static function next(int $accountTypeId, bool $priority = false): ?Model
+    public static function next(int $accountTypeId, string $tellerName, bool $priority = false): ?Model
     {
         $service = new self(
             App::make(QuRepository::class)
         );
 
-        return $service->then($accountTypeId, $priority);
+        return $service->then($accountTypeId, $tellerName, $priority);
     }
 
-    public function then(int $accountTypeId, bool $priority = false): ?Model
+    public function then(int $accountTypeId, string $tellerName, bool $priority = false): ?Model
     {
         $next = function ($accountTypeId, $priority) {
             return $this->repository->getNext($accountTypeId, $priority);
@@ -35,6 +35,7 @@ class Qu
         $qu = $next($accountTypeId, $priority);
         if ($qu) {
             $qu->called_at = Carbon::now();
+            $qu->teller_name = $tellerName;
             $qu->save();
         }
 

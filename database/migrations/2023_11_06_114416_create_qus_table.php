@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreignId('teller_id')->nullable()->constrained('users');
             $table->foreignId('account_type_id')->nullable()->constrained('account_types');
             $table->string('num_fulltext')->nullable();
+            $table->string('teller_name')->nullable();
             $table->boolean('priority')->default(false);
             $table->boolean('is_representative')->default(false);
             $table->datetime('skipped_at')->nullable();

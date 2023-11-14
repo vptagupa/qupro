@@ -25,6 +25,23 @@ const Component = ({ data }) => {
                         </div>
                     );
                 })}
+                {Array(2 - data.length)
+                    .fill(0)
+                    .map((k, id) => {
+                        return (
+                            <div
+                                key={id}
+                                className="flex pb-1 pt-1 justify-between items-center uppercase border-b border-slate-300"
+                            >
+                                <div className="grow">&nbsp;</div>
+
+                                <div className="grow-0 w-[50px]">&nbsp;</div>
+                                <div className="grow-none w-[30px] text-right">
+                                    &nbsp;
+                                </div>
+                            </div>
+                        );
+                    })}
             </div>
         </>
     );

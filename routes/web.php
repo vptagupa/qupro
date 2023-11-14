@@ -47,6 +47,7 @@ Route::middleware([
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
             Route::post('/', [QuController::class, 'next'])->name('next');
+            Route::patch('/updateTellerName', [TellersControllers::class, 'updateTellerName'])->name('update_teller_name');
         });
         Route::name('formats.')->prefix('formats')->group(function () {
             Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
@@ -83,7 +84,8 @@ Route::middleware([
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
             Route::get('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
-            Route::post('/skip', [QuController::class, 'next'])->name('skip');
+            Route::get('/skip/{id}', [QuController::class, 'skip'])->name('skip');
+            Route::post('/completed-list', [QuController::class, 'getCompletedList'])->name('completed.list');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

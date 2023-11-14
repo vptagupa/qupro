@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\AccountTypeCollection;
+use App\Models\Config;
 use App\Repositories\AccountTypeRepository;
 
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             ...$this->user($request),
-            ...$this->others()
+            ...$this->others(),
+            ...$this->config()
         ]);
     }
 
@@ -72,6 +74,15 @@ class HandleInertiaRequests extends Middleware
         return [
             'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
             'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list())),
+        ];
+    }
+
+    private function config()
+    {
+        return [
+            'config' => [
+                'enable_skip_seconds' => Config::enableSkipButton()
+            ]
         ];
     }
 }

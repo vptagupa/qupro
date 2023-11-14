@@ -31,6 +31,7 @@ class QuController extends BasedQuController
     public function store(StoreQuRequest $request)
     {
         $qu = parent::store($request);
+
         return $this->render('admin/qu/index', [
             'qu' => $qu
         ]);
@@ -53,22 +54,45 @@ class QuController extends BasedQuController
         return new QuCollection($this->repository->getWaiting($type, null, 2));
     }
 
+    public function getCompletedList(Request $request)
+    {
+        return new QuCollection(
+            $this->repository->list(
+                [
+                    'name' => $request->get('query'),
+                    'called' => true,
+                    'accountType' => true
+                    // 'account_type_id' => $request->get('extra')['account_type']
+                ],
+                $request->get('per_page'),
+            )
+        );
+    }
+
     public function next(NextQuRequest $request)
     {
         if ($request->safe()->qu) {
             $this->repository->update([
                 'teller_id' => $request->user()->id,
-                // 'completed_at' => Carbon::now()
+                'completed_at' => Carbon::now(),
+                'teller_name' => $request->user()->teller_name
             ], $request->safe()->qu);
         }
 
         $accountTypeId = $request->safe()->account_type['id'];
 
-        $qu = Qu::next($accountTypeId, $request->safe()->priority);
+        $qu = Qu::next($accountTypeId, $request->user()->teller_name, $request->safe()->priority);
 
         return $this->render('admin/teller/index', [
             'next' => new QuResource($qu)
 
         ]);
+    }
+
+    public function skip(int $id)
+    {
+        $this->repository->update([
+            'skipped_at' => Carbon::now(),
+        ], $id);
     }
 }

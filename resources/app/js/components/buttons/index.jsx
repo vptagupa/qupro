@@ -5,6 +5,7 @@ import InfoButton from "./info";
 import DangerButton from "./danger";
 import WarningButton from "./warning";
 import Button from "./default";
+import Progress from "./progress";
 
 export {
     Button,
@@ -14,4 +15,5 @@ export {
     InfoButton,
     DangerButton,
     WarningButton,
+    Progress,
 };

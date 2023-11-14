@@ -21,6 +21,18 @@ class QuRepository extends Repository
             })
             ->when(isset($query['student_name']) && $query['student_name'], function ($builder) use ($query) {
                 $builder->where('student_name', 'like', '%' . $query['student_name'] . '%');
+            })
+            ->when(isset($query['called']) && $query['called'], function ($builder) use ($query) {
+                $builder->whereNotNull('called_at');
+            })
+            ->when(isset($query['completed']) && $query['completed'], function ($builder) use ($query) {
+                $builder->whereNotNull('called_at');
+            })
+            ->when(isset($query['accountType']) && $query['accountType'], function ($builder) use ($query) {
+                $builder->with('accountType');
+            })
+            ->when(isset($query['account_type_id']) && $query['account_type_id'], function ($builder) use ($query) {
+                $builder->whereAccountTypeId($query['account_type_id']);
             })->paginate($perPage);
     }
 

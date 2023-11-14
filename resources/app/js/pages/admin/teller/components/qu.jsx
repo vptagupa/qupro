@@ -18,7 +18,7 @@ export default ({
         <>
             <div className="flex text-lg flex-col w-full">
                 <div className="mb-3 flex flex-col gap-y-2 items-center justify-center">
-                    <div className="text-6xl text-center">
+                    <div className="text-6xl text-center mb-2">
                         {data?.num_fulltext ?? "-"}
                     </div>
                     <div>

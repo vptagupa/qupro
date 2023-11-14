@@ -1,5 +1,4 @@
 import NextButton from "../buttons/next";
-import SkipButton from "../buttons/skip";
 import Qu from "../qu";
 import Priority from "../priority";
 import Waiting from "../waiting";
@@ -7,9 +6,9 @@ import PropTypes from "prop-types";
 import { useForm } from "@/js/helpers/form";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
+import Event from "@/js/helpers/event";
 
 const Component = ({ type }) => {
-    const [qu, setQu] = useState(null);
     const [waiting, setWaiting] = useState([]);
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
@@ -20,12 +19,14 @@ const Component = ({ type }) => {
         data: {
             priority: "regular",
             account_type: type,
-            qu,
+            qu: null,
         },
     });
-    console.log(qu);
+
+    const hasQu = () => (form.data.qu?.id ? true : false);
+
     const submit = () => {
-        if (waiting.length > 0) {
+        if (isSubmitEnabled()) {
             form.submit({
                 only: ["errors", "qu", "waiting", "next"],
                 preserveState: true,
@@ -33,7 +34,6 @@ const Component = ({ type }) => {
                 onBefore: () => setLoading(true),
                 onSuccess: (page) => {
                     form.setData("qu", page.props.next.data);
-                    setQu(page.props.next.data);
                     setWaiting(
                         page.props.next.data?.account_type?.waiting ?? [],
                     );
@@ -62,22 +62,39 @@ const Component = ({ type }) => {
         qus();
     }, []);
 
-    const enableSubmit = () => {
+    const isSubmitEnabled = () => {
         if (form.data.priority == "regular" && hasNextRegular) {
             return true;
         } else if (form.data.priority == "priority" && hasNextPriority) {
             return true;
         }
 
+        if (hasQu()) return true;
+
         return false;
     };
 
+    const events = useCallback(() => {
+        Event.on(`${type.id}.set-qu`, (qu) => {
+            form.setData("qu", qu);
+        });
+        Event.on(`${type.id}.waiting-list`, (qu) => {
+            getWaiting();
+        });
+    }, []);
+
     const isPriority = useCallback(() => {
         return form.data.priority == "priority";
-    }, [form]);
+    }, [form.data.priority]);
 
     useEffect(() => {
         getWaiting();
+        events();
+
+        return () => {
+            Event.off(`${type.id}.set-qu`);
+            Event.off(`${type.id}.waiting-list`);
+        };
     }, []);
 
     return (
@@ -96,23 +113,19 @@ const Component = ({ type }) => {
                 </div>
                 <div className="flex flex-col w-full">
                     <div>
-                        <Qu data={qu} isPriority={isPriority} />
+                        <Qu data={form.data.qu} isPriority={isPriority} />
                     </div>
                     <div className="mt-3">
                         <Waiting data={waiting} />
                     </div>
                     <div className="mt-[12%] flex gap-2">
-                        <div>
-                            <SkipButton />
-                        </div>
                         <div className="grow">
                             <NextButton
                                 isPriority={isPriority}
-                                label={!qu ? "Start" : "Next"}
-                                setQu={setQu}
+                                label={!hasQu() ? "Start" : "Next"}
                                 submit={submit}
                                 loading={loading}
-                                enabled={enableSubmit()}
+                                enabled={isSubmitEnabled()}
                             />
                         </div>
                     </div>
