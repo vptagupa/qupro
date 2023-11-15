@@ -16,13 +16,16 @@ const Component = (props) => {
                         <Switcher />
                     </div>
                 </div>
-                <div className="mt-4">
-                    <div className="grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 gap-4">
+                <div className="mt-4 m-auto w-full">
+                    <div className="flex flex-wrap justify-center gap-4">
                         {accountTypes.data
                             .filter((type) => exists(type.id))
                             .map((type) => {
                                 return (
-                                    <div key={type.id}>
+                                    <div
+                                        key={type.id}
+                                        className="lg:w-1/4 md:w-1/3 sm:w-1/2 xs:w-full"
+                                    >
                                         <Card type={type} />
                                     </div>
                                 );

@@ -114,7 +114,7 @@ const Component = ({ type }) => {
             (qu) => {
                 form.setData({
                     ...form.data,
-                    qu: qu,
+                    qu,
                     priority: qu?.priority == 1 ? "priority" : "regular",
                 });
             },

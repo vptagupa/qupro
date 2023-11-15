@@ -19,7 +19,8 @@ class NumFormatRepository extends Repository
             query: ['active' => true],
             perPage: $limit,
             orderBy: ['format', 'desc'],
-            paginate: false
+            paginate: false,
+            get: true
         );
     }
 }
