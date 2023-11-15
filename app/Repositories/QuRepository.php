@@ -16,10 +16,49 @@ class QuRepository extends Repository
 
     public function getNext(int $accountTypeId, bool $priority = false): ?Qu
     {
-        return $this->getWaiting($accountTypeId, $priority, 1)->first();
+        return $this->waiting(
+            accountTypeId: $accountTypeId,
+            priority: $priority,
+            limit: 1,
+            paginate: false
+        )->first();
     }
 
-    public function getWaiting(int $accountTypeId, $priority = null, int $limit = 5)
+    public function getTotals(int $accountTypeId, bool $priority): int
+    {
+        return $this->list(
+            query: [
+                'uncalled' => true,
+                'priority' => $priority,
+                'account_type_id' => $accountTypeId
+            ],
+            paginate: false,
+            get: false
+        )->count();
+    }
+
+    public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
+    {
+        if ($includePriority) {
+            return $this->waiting(
+                accountTypeId: $accountTypeId,
+                limit: $limit,
+                paginate: false
+            )
+                ->groupBy('priority')
+                ->orderBy('priority', 'desc')
+                ->paginate();
+        }
+
+        return $this->waiting(
+            accountTypeId: $accountTypeId,
+            priority: $priority,
+            limit: $limit,
+            paginate: true
+        );
+    }
+
+    public function waiting(int $accountTypeId, bool $priority = null, int $limit = 2, bool $paginate = true)
     {
         return $this->list(
             query: [
@@ -28,12 +67,10 @@ class QuRepository extends Repository
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId
             ],
-            paginate: false,
+            paginate: $paginate,
             orderBy: ['id', 'asc'],
             perPage: $limit
-        )
-            ->groupBy('priority')
-            ->paginate();
+        );
     }
 
     public function find($id)

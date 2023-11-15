@@ -11,6 +11,7 @@ use App\Http\Requests\NextQuRequest;
 use App\Http\Resources\QuCollection;
 use App\Http\Resources\NextQuResource;
 use App\Http\Resources\WaitingCollection;
+use App\Http\Resources\WaitResource;
 use Carbon\Carbon;
 use App\Services\Qu;
 
@@ -49,9 +50,22 @@ class QuController extends BasedQuController
         ]);
     }
 
-    public function getWaitingList(int $type)
+
+    public function getWaitingList(int $type, Request $request)
     {
-        return new QuCollection($this->repository->getWaiting($type, null, 2));
+        return
+            new WaitResource([
+                'waiting' => new QuCollection(
+                    $this->repository->getWaiting(
+                        accountTypeId: $type,
+                        includePriority: $request->get('include_priority'),
+                        priority: $request->get('include_priority') ? null : $request->get('priority'),
+                        limit: 2
+                    )
+                ),
+                'priority' => $this->repository->getTotals($type, true),
+                'regular' => $this->repository->getTotals($type, false),
+            ]);
     }
 
     public function getServedList(Request $request)

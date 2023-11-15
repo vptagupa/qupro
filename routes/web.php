@@ -84,7 +84,7 @@ Route::middleware([
             Route::get('/studentinfo/{studentno}', [QuController::class, 'getStudentInfo'])->name('student.info')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
-            Route::get('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
+            Route::post('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
             Route::get('/skip/{id}', [QuController::class, 'skip'])->name('skip');
             Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
         });

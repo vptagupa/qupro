@@ -14,7 +14,7 @@ export default ({ accountType }) => {
             content: <Serve accountType={accountType} />,
         },
         setup: {
-            name: "Update Name",
+            name: "Counter Name",
             content: <Teller />,
         },
     });

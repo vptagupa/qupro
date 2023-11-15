@@ -1,26 +1,40 @@
 import PropTypes from "prop-types";
 import { Checkbox } from "@/js/components/form";
 
-const Component = ({ data }) => {
+const Component = ({
+    data,
+    isPriority,
+    isPriorityIncluded,
+    setIncludePriority,
+}) => {
     return (
         <>
-            <div className="flex items-center justify-start gap-2 p-2">
-                <div className="grow pb-1 border-b border-slate-300">
-                    <label className="flex items-center gap-1">
-                        <Checkbox className="h-3 w-3" />
-                        <div className="text-sm">Include priority</div>
-                    </label>
+            {!isPriority && (
+                <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="grow pb-1 border-b border-slate-300">
+                        <label className="flex items-center gap-1">
+                            <Checkbox
+                                className="h-3 w-3"
+                                value={isPriorityIncluded}
+                                checked={isPriorityIncluded}
+                                onChange={(e) =>
+                                    setIncludePriority(e.target.checked)
+                                }
+                            />
+                            <div className="text-sm">Include priority</div>
+                        </label>
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="text-xs p-2">
                 {data.map((qu, idx) => {
                     return (
                         <div
                             key={idx}
-                            className="flex pb-1 pt-1 justify-between items-center uppercase border-b border-slate-300"
+                            className="flex  pb-1 pt-1 justify-between items-center uppercase border-b border-slate-300"
                         >
                             {!qu?.is_student && (
-                                <div className="grow">{qu?.name}</div>
+                                <div className="grow ">{qu?.name}</div>
                             )}
                             {qu?.is_student && (
                                 <div className="grow">{qu.student_name}</div>

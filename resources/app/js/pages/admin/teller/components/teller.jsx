@@ -11,7 +11,7 @@ const Component = () => {
         method: "patch",
         route: route("admin.tellers.update_teller_name"),
         data: {
-            name: user.data.teller_name,
+            name: user.data?.teller_name ?? "",
         },
     });
 
@@ -35,7 +35,7 @@ const Component = () => {
                     <div>
                         <Input
                             type="text"
-                            className="w-full h-[300px] text-[10rem] text-center has-primary"
+                            className="w-full h-[300px] !text-[10rem] text-center has-primary"
                             value={form.data.name}
                             onChange={(e) =>
                                 form.setData("name", e.target.value)

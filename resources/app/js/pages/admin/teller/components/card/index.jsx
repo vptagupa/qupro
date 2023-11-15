@@ -14,7 +14,11 @@ const Component = ({ type }) => {
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
     const [loading, setLoading] = useState(false);
-
+    const [isPriorityIncluded, setIncludePriority] = useState(true);
+    const [totalPriorities, setTotalPriorities] = useState({
+        priorities: 0,
+        regulars: 0,
+    });
     const { form } = useForm({
         method: "post",
         route: route("admin.tellers.next"),
@@ -70,20 +74,33 @@ const Component = ({ type }) => {
         }
     };
 
-    const getWaiting = useCallback(() => {
-        const data = async () => {
-            const response = await axios.get(
-                route("admin.qu.waiting", {
-                    type: type.id,
-                }),
-            );
+    const getWaiting = () => requestWaiting(isPriorityIncluded, isPriority());
+    const requestWaiting = useCallback(
+        (include_priority = null, priority = null) => {
+            const data = async () => {
+                const response = await axios.post(
+                    route("admin.qu.waiting", {
+                        type: type.id,
+                    }),
+                    {
+                        include_priority,
+                        priority,
+                    },
+                );
+                const data = response.data;
 
-            setWaiting(response.data.data);
-            setHasNextPriority(response.data.meta.has_next_priority);
-            setHasNextRegular(response.data.meta.has_next_regular);
-        };
-        data();
-    }, []);
+                setWaiting(data.data.waiting);
+                setHasNextPriority(data.meta.has_next_priority);
+                setHasNextRegular(data.meta.has_next_regular);
+                setTotalPriorities({
+                    priorities: data.data.total_priorities,
+                    regulars: data.data.total_regulars,
+                });
+            };
+            data();
+        },
+        [],
+    );
 
     const eventResetAllCardsQu = (qu) => {
         if (qu?.id) {
@@ -121,6 +138,14 @@ const Component = ({ type }) => {
     }, [form.data.qu]);
 
     useEffect(() => {
+        if (isPriority()) {
+            requestWaiting(false, 1);
+        } else {
+            requestWaiting(isPriorityIncluded, isPriority());
+        }
+    }, [isPriorityIncluded, form.data.priority]);
+
+    useEffect(() => {
         getWaiting();
         events();
 
@@ -129,7 +154,7 @@ const Component = ({ type }) => {
             Event.off(`${type.id}.waiting-list`);
         };
     }, []);
-    console.log(waiting);
+
     return (
         <>
             <Records accountType={type} form={form} />
@@ -142,10 +167,20 @@ const Component = ({ type }) => {
             >
                 <div className="flex flex-col w-full">
                     <div>
-                        <Qu data={form.data.qu} isPriority={isPriority} />
+                        <Qu
+                            data={form.data.qu}
+                            is_priority={isPriority()}
+                            type={type}
+                            totalPriorities={totalPriorities}
+                        />
                     </div>
                     <div className="mt-3">
-                        <Waiting data={waiting} />
+                        <Waiting
+                            data={waiting}
+                            isPriority={isPriority()}
+                            isPriorityIncluded={isPriorityIncluded}
+                            setIncludePriority={setIncludePriority}
+                        />
                     </div>
                     <div className="mt-[12%] flex gap-2">
                         <div className="grow">

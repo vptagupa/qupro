@@ -31,12 +31,11 @@ class QuFactory extends Factory
             'name' => fake()->name(),
             'student_no' => substr(fake()->uuid(), 0, 8),
             'student_name' => fake()->name(),
-            'teller_id' => User::factory(),
+            'teller_id' => User::first()->id,
             'account_type_id' => AccountType::find(rand(AccountType::first()->id, AccountType::latest()->first()->id)),
             'num_fulltext' => function ($attributes) {
-                return Series::generate(
-                    AccountType::find($attributes['account_type_id'])->first(),
-                    $attributes['priority']
+                return AccountType::find($attributes['account_type_id'])->first()->format->fulltext(
+                    fake()->randomNumber(5, true)
                 );
             },
             'teller_name' => '',
