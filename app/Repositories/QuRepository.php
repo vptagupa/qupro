@@ -46,7 +46,6 @@ class QuRepository extends Repository
                 paginate: false
             )
                 ->groupBy('priority')
-                ->orderBy('priority', 'desc')
                 ->paginate();
         }
 
@@ -58,8 +57,12 @@ class QuRepository extends Repository
         );
     }
 
-    public function waiting(int $accountTypeId, bool $priority = null, int $limit = 2, bool $paginate = true)
-    {
+    public function waiting(
+        int $accountTypeId,
+        bool $priority = null,
+        int $limit = 2,
+        bool $paginate = true
+    ) {
         return $this->list(
             query: [
                 'uncalled' => true,
@@ -79,8 +82,6 @@ class QuRepository extends Repository
             query: [
                 'id' => $id,
                 'accountType' => true,
-                // 'accountType.waitingPriority(1)' => true,
-                // 'accountType.waitingRegular(1)' => true,
             ],
             first: true
         );

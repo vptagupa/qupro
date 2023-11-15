@@ -58,8 +58,8 @@ class QuController extends BasedQuController
                 'waiting' => new QuCollection(
                     $this->repository->getWaiting(
                         accountTypeId: $type,
-                        includePriority: $request->get('include_priority'),
-                        priority: $request->get('include_priority') ? null : $request->get('priority'),
+                        includePriority: $request->get('priority') == true ? null : $request->get('include_priority'),
+                        priority: $request->get('priority'),
                         limit: 2
                     )
                 ),
