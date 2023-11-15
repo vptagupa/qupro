@@ -51,6 +51,28 @@ class AccountType extends Model
         return $this->qus()->whereNull('called_at')->orderBy('created_at', 'asc');
     }
 
+    public function waitingPriorities()
+    {
+        return $this->waiting()->wherePriority(true);
+    }
+
+    public function waitingRegulars()
+    {
+        return $this->waiting()->wherePriority(false);
+    }
+
+    public function sharedSeries(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => SharedSeries::whereJsonContains('account_type_ids', $this->id)->get()
+        );
+    }
+
+    public function series()
+    {
+        return $this->hasMany(Series::class);
+    }
+
     public function isSharedSeries(): Attribute
     {
         return Attribute::make(
@@ -78,18 +100,6 @@ class AccountType extends Model
         }
 
         return false;
-    }
-
-    public function sharedSeries(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => SharedSeries::whereJsonContains('account_type_ids', $this->id)->get()
-        );
-    }
-
-    public function series()
-    {
-        return $this->hasMany(Series::class);
     }
 
     public function getPrioritySharedSeries()

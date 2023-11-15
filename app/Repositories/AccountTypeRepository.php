@@ -6,15 +6,10 @@ use App\Models\AccountType;
 
 class AccountTypeRepository extends Repository
 {
+    use Conditions\AccountType;
+
     public function __construct(AccountType $model)
     {
         $this->model = $model;
-    }
-
-    public function list($query = [], $perPage = 10)
-    {
-        return $this->model->with(['format', 'priorityFormat'])->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
-            $builder->where('name', 'like', '%' . $query['name'] . '%');
-        })->paginate($perPage);
     }
 }

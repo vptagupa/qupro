@@ -23,7 +23,7 @@ class SharedSeriesController extends AdminController
     {
         return new SharedSeriesCollection(
             $this->repository->list(
-                ['num_format_id' => $request->get('format')],
+                ['num_format_id' => $request->get('format'), 'format' => true],
                 $request->get('per_page'),
             )
         );

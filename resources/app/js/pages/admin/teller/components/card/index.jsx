@@ -35,6 +35,20 @@ const Component = ({ type }) => {
         return "Start";
     };
 
+    const isSubmitEnabled = () => {
+        if (form.data.priority == "regular" && hasNextRegular) {
+            return true;
+        } else if (form.data.priority == "priority" && hasNextPriority) {
+            return true;
+        }
+
+        if (hasQu()) {
+            return true;
+        }
+
+        return false;
+    };
+
     const submit = () => {
         if (isSubmitEnabled()) {
             form.submit({
@@ -68,20 +82,6 @@ const Component = ({ type }) => {
         };
         data();
     }, []);
-
-    const isSubmitEnabled = () => {
-        if (form.data.priority == "regular" && hasNextRegular) {
-            return true;
-        } else if (form.data.priority == "priority" && hasNextPriority) {
-            return true;
-        }
-
-        if (hasQu()) {
-            return true;
-        }
-
-        return false;
-    };
 
     const eventResetAllCardsQu = (qu) => {
         if (qu?.id) {
@@ -127,7 +127,7 @@ const Component = ({ type }) => {
             Event.off(`${type.id}.waiting-list`);
         };
     }, []);
-
+    console.log(waiting);
     return (
         <>
             <div

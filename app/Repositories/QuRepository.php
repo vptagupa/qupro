@@ -13,30 +13,10 @@ class QuRepository extends Repository
         $this->model = $model;
     }
 
-    public function list($query = [], $perPage = 10, $paginate = false, $first = false, $get = true, array $orderBy = [])
-    {
-        $builder = $this->conditions($this->model, $query);
-
-        if ($orderBy) {
-            $builder->orderBy($orderBy[0], $orderBy[1]);
-        }
-
-        if ($paginate && !$first) {
-            return $builder->paginate($perPage);
-        } elseif ($first) {
-            return $builder->first();
-        }
-
-        if ($get) {
-            return $builder->get();
-        }
-
-        return $builder;
-    }
 
     public function getNext(int $accountTypeId, bool $priority = false): ?Qu
     {
-        return $this->getWaiting($accountTypeId, $priority)->first();
+        return $this->getWaiting($accountTypeId, $priority, 1)->first();
     }
 
     public function getWaiting(int $accountTypeId, $priority = null, int $limit = 5)
@@ -45,14 +25,15 @@ class QuRepository extends Repository
             query: [
                 'uncalled' => true,
                 'accountType' => true,
-                'accountType.waiting' => true,
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId
             ],
-            paginate: true,
+            paginate: false,
             orderBy: ['id', 'asc'],
             perPage: $limit
-        );
+        )
+            ->groupBy('priority')
+            ->paginate();
     }
 
     public function find($id)
@@ -61,7 +42,8 @@ class QuRepository extends Repository
             query: [
                 'id' => $id,
                 'accountType' => true,
-                'accountType.waiting' => true
+                // 'accountType.waitingPriority(1)' => true,
+                // 'accountType.waitingRegular(1)' => true,
             ],
             first: true
         );

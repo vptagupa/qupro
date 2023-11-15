@@ -2,40 +2,14 @@
 
 namespace App\Repositories\Conditions;
 
+use App\Models\Qu as Model;
+
 trait Qu
 {
-    protected function conditions(&$builder, $query)
-    {
-        $keys = array_keys($query);
-
-        foreach ($keys as $key) {
-            $key = str_replace('.', 'With_', $key);
-            $condition = str($key)->camel() . 'Condition';
-            $builder = $this->$condition($builder, $query);
-        }
-
-        return $builder;
-    }
-
-
-    protected function idCondition(&$builder, $query)
-    {
-        return $builder->when(isset($query['id']) && $query['id'], function ($builder) use ($query) {
-            $builder->whereId($query['id']);
-        });
-    }
-
     protected function priorityCondition(&$builder, $query)
     {
-        return $builder->when(isset($query['priorityCondition']) && $query['priorityCondition'], function ($builder) use ($query) {
-            $builder->wherePriority(true);
-        });
-    }
-
-    protected function nameCondition(&$builder, $query)
-    {
-        return $builder->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
-            $builder->where('name', 'like', '%' . $query['name'] . '%');
+        return $builder->when(isset($query['priority']) && !is_null($query['priority']), function ($builder) use ($query) {
+            $builder->wherePriority($query['priority']);
         });
     }
 
@@ -84,8 +58,52 @@ trait Qu
     protected function accountTypeWithWaitingCondition(&$builder, $query)
     {
         return $builder->when(isset($query['accountType.waiting']) && $query['accountType.waiting'], function ($builder) use ($query) {
-            $builder->with(['accountType', 'accountType.waiting']);
+            $builder->with(['accountType.waiting']);
         });
+    }
+
+
+    protected function accountTypeWithWaitingPriorityCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['accountType.waitingPriority']) && $query['accountType.waitingPriority'], function ($builder) use ($query) {
+            $limit = isset($query['accountType.waitingPriority']['limit']) ? $query['accountType.waitingPriority']['limit'] : null;
+            $builder->when(!is_null($limit), function ($builder) use ($limit) {
+                $builder->with(['accountType.waitingPriorities' => fn($builder) => $builder->limit($limit)]);
+            })
+                ->when(is_null($limit), fn($builder) => $builder->with(['accountType.waitingPriority']));
+        });
+    }
+
+    protected function accountTypeWithWaitingPriorityCountCondition(&$builder, $query)
+    {
+        return $builder->when(
+            isset($query['accountType.waitingPriorityCount']) && $query['accountType.waitingPriorityCount'],
+            fn($builder) => $builder->withCount([
+                'accountType as waiting_priorities_count' =>
+                    fn($builder) => $builder->whereHas('waitingPriorities')
+            ])
+        );
+    }
+
+    protected function accountTypeWithWaitingRegularCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['accountType.waitingRegular']) && $query['accountType.waitingRegular'], function ($builder) use ($query) {
+            $limit = isset($query['accountType.waitingRegular']['limit']) ? $query['accountType.waitingRegular']['limit'] : null;
+            $builder->when(!is_null($limit), function ($builder) use ($limit) {
+                $builder->with(['accountType.waitingRegulars' => fn($builder) => $builder->limit($limit)]);
+            })
+                ->when(is_null($limit), fn($builder) => $builder->with(['accountType.waitingRegular']));
+        });
+    }
+
+    protected function accountTypeWithWaitingRegularCountCondition(&$builder, $query)
+    {
+        return $builder->when(
+            isset($query['accountType.waitingRegularCount']) && $query['accountType.waitingRegularCount'],
+            fn($builder) => $builder->from('qus as table')->select('*')->addSelect(
+                \DB::raw('(select count(*) from (select * from qus where  qus.account_type_id=table.account_type_id) as t) as total')
+            )
+        );
     }
 
     protected function accountTypeIdCondition(&$builder, $query)
