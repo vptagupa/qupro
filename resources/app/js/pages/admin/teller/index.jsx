@@ -1,6 +1,5 @@
 import Layout from "@/js/layouts/layout.admin";
 import Card from "./components/card";
-import Records from "./components/modal/records";
 import { usePage } from "@inertiajs/react";
 import Switcher from "./components/switcher";
 import { useServe } from "./components/hook/serve.account_type";
@@ -17,14 +16,13 @@ const Component = (props) => {
                         <Switcher />
                     </div>
                 </div>
-                <div className="mb-2">
+                <div className="mt-4">
                     <div className="grid xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 gap-4">
                         {accountTypes.data
                             .filter((type) => exists(type.id))
                             .map((type) => {
                                 return (
                                     <div key={type.id}>
-                                        <Records accountType={type} />
                                         <Card type={type} />
                                     </div>
                                 );

@@ -1,4 +1,5 @@
 import PrimarySwitch from "./primary";
 import SecondarySwitch from "./secondary";
+import Switch from "./secondary";
 
-export { PrimarySwitch, SecondarySwitch };
+export { PrimarySwitch, SecondarySwitch, Switch };

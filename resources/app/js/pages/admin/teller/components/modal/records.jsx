@@ -1,16 +1,29 @@
 import { Modal, Title } from "@/js/components/modal";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Event from "@/js/helpers/event";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Tab from "../tabs";
 import { usePage } from "@inertiajs/react";
+import { Switch } from "@/js/components/switch";
 
-export default ({ accountType }) => {
+export default ({ accountType, form }) => {
     const { user } = usePage().props;
     const [open, setOpen] = useState(false);
 
     const closeFormHandler = () => {
         setOpen(false);
+    };
+
+    const cardSwitcherHandler = useCallback(() => {
+        if (form.data.priority == "regular") {
+            form.setData("priority", "priority");
+        } else {
+            form.setData("priority", "regular");
+        }
+    }, [form.data.priority]);
+
+    const isPriorityCard = () => {
+        return form.data.priority == "priority";
     };
 
     useEffect(() => {
@@ -25,12 +38,23 @@ export default ({ accountType }) => {
 
     return (
         <>
-            <div
-                onClick={(e) => setOpen(true)}
-                className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
-            >
-                {accountType.name}
-                {user.data.teller_name ? " - " + user.data.teller_name : ""}
+            <div className="flex justify-between items-center">
+                <div
+                    onClick={(e) => setOpen(true)}
+                    className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
+                >
+                    {accountType.name}
+                    {user.data.teller_name ? " - " + user.data.teller_name : ""}
+                </div>
+                <div>
+                    <Switch
+                        className="bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
+                        enabled={isPriorityCard()}
+                        setEnabled={cardSwitcherHandler}
+                        colorActive="bg-gradient-to-tr from-pink-400 to-rose-300"
+                        colorInActive="bg-gradient-to-tr from-purple-400 to-fuchsia-400"
+                    />
+                </div>
             </div>
 
             <Modal open={open}>

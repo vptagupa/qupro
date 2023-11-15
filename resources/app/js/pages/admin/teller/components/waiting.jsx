@@ -1,8 +1,17 @@
 import PropTypes from "prop-types";
+import { Checkbox } from "@/js/components/form";
 
 const Component = ({ data }) => {
     return (
         <>
+            <div className="flex items-center justify-start gap-2 p-2">
+                <div className="grow pb-1 border-b border-slate-300">
+                    <label className="flex items-center gap-1">
+                        <Checkbox className="h-3 w-3" />
+                        <div className="text-sm">Include priority</div>
+                    </label>
+                </div>
+            </div>
             <div className="text-xs p-2">
                 {data.map((qu, idx) => {
                     return (

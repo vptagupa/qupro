@@ -1,4 +1,3 @@
-import NextButton from "../buttons/next";
 import Qu from "../qu";
 import Priority from "../priority";
 import Waiting from "../waiting";
@@ -7,12 +6,15 @@ import { useForm } from "@/js/helpers/form";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import Event from "@/js/helpers/event";
+import NextButton from "../buttons/next";
+import Records from "../modal/records";
 
 const Component = ({ type }) => {
     const [waiting, setWaiting] = useState([]);
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
     const [loading, setLoading] = useState(false);
+
     const { form } = useForm({
         method: "post",
         route: route("admin.tellers.next"),
@@ -130,18 +132,14 @@ const Component = ({ type }) => {
     console.log(waiting);
     return (
         <>
+            <Records accountType={type} form={form} />
             <div
                 className={`${
                     isPriority()
                         ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
                         : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
-                } p-5 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30`}
+                } p-3 mt-1 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30`}
             >
-                <div className="relative">
-                    <div className="absolute -mt-8 -right-8 ">
-                        <Priority form={form} />
-                    </div>
-                </div>
                 <div className="flex flex-col w-full">
                     <div>
                         <Qu data={form.data.qu} isPriority={isPriority} />
