@@ -22,7 +22,7 @@ export default ({
                     <PriorityTotals {...totalPriorities} />
                 </div>
                 <div className="mb-3 mt-3 flex flex-col gap-y-2 items-center justify-center">
-                    <div className="text-6xl text-center mb-3">
+                    <div className="text-5xl text-center mb-3">
                         {data?.num_fulltext ?? "-"}
                     </div>
                     <div>

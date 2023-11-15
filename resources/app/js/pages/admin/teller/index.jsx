@@ -16,7 +16,7 @@ const Component = (props) => {
                         <Switcher />
                     </div>
                 </div>
-                <div className="mt-4 m-auto w-full">
+                <div className="mt-2 m-auto w-full">
                     <div className="flex flex-wrap justify-center gap-4">
                         {accountTypes.data
                             .filter((type) => exists(type.id))
