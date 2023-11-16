@@ -38,34 +38,6 @@ export default ({ data }) => {
         });
     };
 
-    const InputSelector = memo(() => {
-        if (!data?.attrib) {
-            return (
-                <Input
-                    type="text"
-                    name="value"
-                    value={form.data.value}
-                    className={
-                        "border-0 border-b rounded-none text-center" +
-                        (form.invalid("value") ? "has-danger" : "")
-                    }
-                    onChange={(e) => form.setData("value", e.target.value)}
-                />
-            );
-        } else if (data.attrib.data_type === "boolean") {
-            return (
-                <PrimarySwitch
-                    enabled={active}
-                    setEnabled={(e) => {
-                        const value = !active;
-                        form.setData("value", value);
-                        setActive(value);
-                    }}
-                />
-            );
-        }
-    });
-
     const outputSelector = useMemo(() => {
         if (!data?.attrib) {
             return data.value;
@@ -91,7 +63,32 @@ export default ({ data }) => {
                 <div className="flex items-center">
                     <div>
                         <div className="flex items-center">
-                            <InputSelector />
+                            {!data?.attrib && (
+                                <Input
+                                    type="text"
+                                    name="value"
+                                    value={form.data.value}
+                                    className={
+                                        "border-0 border-b rounded-none text-center" +
+                                        (form.invalid("value")
+                                            ? "has-danger"
+                                            : "")
+                                    }
+                                    onChange={(e) =>
+                                        form.setData("value", e.target.value)
+                                    }
+                                />
+                            )}
+                            {data?.attrib?.data_type === "boolean" && (
+                                <PrimarySwitch
+                                    enabled={active}
+                                    setEnabled={(e) => {
+                                        const value = !active;
+                                        form.setData("value", value);
+                                        setActive(value);
+                                    }}
+                                />
+                            )}
                             <Button
                                 onClick={(e) => submit()}
                                 className="shadow-none hover:bg-none border-slate-300 px-[0.2rem]"

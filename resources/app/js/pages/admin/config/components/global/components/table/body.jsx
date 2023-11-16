@@ -1,25 +1,9 @@
-import {
-    Table,
-    Tbody,
-    Theader,
-    TrH,
-    Tr,
-    Td,
-    Th,
-    Pagination,
-} from "@/js/components/table";
-import { Input } from "@/js/components/form";
-import { SecondaryButton } from "@/js/components/buttons";
+import { Table, Tbody, Tr, Td } from "@/js/components/table";
+
 import Edit from "../edit";
 import PropTypes from "prop-types";
 
-const Component = ({
-    data,
-    pagination,
-    setSearch,
-    handleSearch,
-    handleDelete,
-}) => {
+const Component = ({ data, pagination }) => {
     return (
         <>
             <Table
