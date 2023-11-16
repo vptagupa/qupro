@@ -30,6 +30,10 @@ class GlobalConfigSeeder extends Seeder
                 "name" => "Priority series separate",
                 'value' => true,
             ],
+            [
+                "name" => "Screen Text",
+                'value' => '',
+            ],
 
         ];
 

@@ -1,6 +1,8 @@
 import Layout from "@/js/layouts/layout.admin";
 import SharedSeries from "./components/shared-series";
 import Global from "./components/global";
+import Media from "./components/media";
+import MeditTitle from "./components/media/title";
 
 const Component = (props) => {
     return (
@@ -21,6 +23,16 @@ const Component = (props) => {
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
                             <div className="rounded-2xl">
                                 <Global />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <MeditTitle />
+                        </div>
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                            <div className="rounded-2xl">
+                                <Media />
                             </div>
                         </div>
                     </div>

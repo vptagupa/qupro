@@ -25,3 +25,13 @@ export const copy = (text, ref) => {
         document.execCommand("copy");
     }
 };
+
+export const debounce = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn(...args);
+        }, delay);
+    };
+};

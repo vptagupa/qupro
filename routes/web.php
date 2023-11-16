@@ -12,7 +12,8 @@ use App\Http\Controllers\Admin\{
     ConfigurationsController,
     GlobalConfigController,
     TellersControllers,
-    QuController
+    QuController,
+    MediaController
 };
 use App\Http\Controllers\FrontEnd\QuController as FrontendQuController;
 
@@ -77,6 +78,13 @@ Route::middleware([
                 Route::post('/', [GlobalConfigController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Config'])->name('store');
                 Route::patch('/{config}', [GlobalConfigController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Config'])->name('update');
                 Route::delete('/{config}', [GlobalConfigController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Config');
+            });
+            Route::name('media.')->prefix('media')->group(function () {
+                Route::post('/list', [MediaController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\File');
+                Route::post('/', [MediaController::class, 'store'])->middleware('can:create, App\Models\File')->name('store');
+                Route::post('/{id}', [MediaController::class, 'seq'])->middleware('can:create, App\Models\File')->name('seq');
+                Route::patch('/{id}', [MediaController::class, 'update'])->middleware('can:updateAny, App\Models\File')->name('update');
+                Route::delete('/{id}', [MediaController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\File');
             });
         });
         Route::name('qu.')->prefix('qu')->group(function () {
