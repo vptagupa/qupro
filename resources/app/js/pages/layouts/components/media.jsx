@@ -27,7 +27,6 @@ export default memo(({ media, interval }) => {
     }, [index]);
 
     useEffect(() => {
-        console.log(play);
         if (index > 0 && play.is_video) {
             onEndedVideo();
         }
