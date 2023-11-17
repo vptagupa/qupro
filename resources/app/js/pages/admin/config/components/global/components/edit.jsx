@@ -8,11 +8,9 @@ import {
     XMarkIcon,
     CheckIcon,
 } from "@heroicons/react/24/solid";
-import { Button } from "@/js/components/buttons";
 
 export default ({ data }) => {
     const [active, setActive] = useState(data.value == 1);
-
     const { open, setOpen, closeForm, form } = useForm({
         method: "patch",
         route: route("admin.configurations.global.update", {
@@ -24,6 +22,10 @@ export default ({ data }) => {
             value: data.value,
         },
     });
+
+    const isTypeText = (type) => ["text", "number"].includes(type);
+    const isTypeTextArea = (type) => ["textarea"].includes(type);
+    const isTypeBoolean = (type) => ["boolean"].includes(type);
 
     const submit = () => {
         form.submit({
@@ -39,12 +41,10 @@ export default ({ data }) => {
     };
 
     const outputSelector = useMemo(() => {
-        if (!data?.attrib) {
+        if (isTypeText(data.type) || isTypeTextArea(data.type)) {
             return data.value;
-        } else if (data.attrib.data_type === "boolean") {
+        } else if (isTypeBoolean(data.type)) {
             return data.value == true ? "Enabled" : "Disabled";
-        } else if (data.attrib.data_type === "textarea") {
-            return data.value;
         }
     }, [data]);
 
@@ -65,7 +65,7 @@ export default ({ data }) => {
                 <div className="flex items-center grow">
                     <div className="flex items-center grow">
                         <div className="flex flex-col grow">
-                            {!data?.attrib && (
+                            {isTypeText(data.type) && (
                                 <Input
                                     type="text"
                                     name="value"
@@ -81,7 +81,7 @@ export default ({ data }) => {
                                     }
                                 />
                             )}
-                            {data?.attrib?.data_type === "boolean" && (
+                            {isTypeBoolean(data.type) && (
                                 <div className="text-right">
                                     <PrimarySwitch
                                         enabled={active}
@@ -93,7 +93,7 @@ export default ({ data }) => {
                                     />
                                 </div>
                             )}
-                            {data?.attrib?.data_type === "textarea" && (
+                            {isTypeTextArea(data.type) && (
                                 <Textarea
                                     value={form.data.value}
                                     onChange={(e) =>

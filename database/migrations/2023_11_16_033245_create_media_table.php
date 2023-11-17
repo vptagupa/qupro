@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('file_id')->constrained('files')->cascadeOnDelete();
             $table->unsignedSmallInteger('seq');
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

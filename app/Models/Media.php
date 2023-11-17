@@ -11,7 +11,8 @@ class Media extends Model
 
     protected $fillable = [
         "file_id",
-        'seq'
+        'seq',
+        'active'
     ];
 
     public function file()

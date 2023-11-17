@@ -21,9 +21,9 @@ const Component = ({ data, pagination }) => {
                                             <div className="flex space-x-2 text-[0.9rem] justify-between">
                                                 <div className="flex flex-col">
                                                     {item.name}
-                                                    {item.attrib && (
+                                                    {item.label && (
                                                         <div className="text-xs ml-2 italic">
-                                                            {item.attrib.label}
+                                                            {item.label}
                                                         </div>
                                                     )}
                                                 </div>

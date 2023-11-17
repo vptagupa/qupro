@@ -17,7 +17,6 @@ import {
 import PropTypes from "prop-types";
 import Edit from "../edit";
 import Delete from "../confirm.delete";
-import New from "../new";
 
 const Component = ({
     data,
@@ -28,10 +27,7 @@ const Component = ({
 }) => {
     return (
         <>
-            <div className="flex justify-between items-center space-x-2 p-2">
-                <div className="mb-1">
-                    <New />
-                </div>
+            <div className="flex justify-end items-center space-x-2 p-2">
                 <div className="flex items-center">
                     <Input
                         type="text"

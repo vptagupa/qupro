@@ -84,6 +84,7 @@ Route::middleware([
                 Route::post('/', [MediaController::class, 'store'])->middleware('can:create, App\Models\File')->name('store');
                 Route::post('/{id}', [MediaController::class, 'seq'])->middleware('can:create, App\Models\File')->name('seq');
                 Route::patch('/{id}', [MediaController::class, 'update'])->middleware('can:updateAny, App\Models\File')->name('update');
+                Route::patch('/active/{id}', [MediaController::class, 'active'])->middleware('can:updateAny, App\Models\File')->name('active');
                 Route::delete('/{id}', [MediaController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\File');
             });
         });

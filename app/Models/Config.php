@@ -12,20 +12,10 @@ class Config extends Model
 
     protected $fillable = [
         'name',
-        'value'
+        'value',
+        'label',
+        'type'
     ];
-
-    protected $attrib = [
-        'priority_series_separate' => [
-            'data_type' => 'boolean',
-            'label' => 'If enabled, priority series does not continue from the regular series'
-        ],
-        'screen_text' => [
-            'data_type' => 'textarea',
-        ],
-    ];
-
-    protected $appends = ['attrib'];
 
     public static function numstart()
     {

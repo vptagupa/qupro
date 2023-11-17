@@ -37,12 +37,22 @@ class MediaController extends AdminController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update sequence
      */
     public function seq(int $id, Request $request)
     {
         $this->repository->update([
             'seq' => $request->get('seq'),
+        ], $id);
+    }
+
+    /**
+     * Update active status
+     */
+    public function active(int $id, Request $request)
+    {
+        $this->repository->update([
+            'active' => $request->get('active'),
         ], $id);
     }
 

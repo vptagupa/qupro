@@ -11,6 +11,7 @@ import {
 import { Input } from "@/js/components/form";
 import PropTypes from "prop-types";
 import Delete from "../confirm.delete";
+import Active from "../active";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileImage } from "@fortawesome/free-regular-svg-icons";
 
@@ -37,19 +38,10 @@ const Component = ({ data, pagination, handleDelete, seqHandler }) => {
                                         <Td>
                                             <div className="flex items-center gap-2">
                                                 <div>
-                                                    {item.file.type.startsWith(
-                                                        "image/",
-                                                    ) ? (
-                                                        <img
-                                                            src={item.file.url}
-                                                            className="h-6"
-                                                        />
-                                                    ) : (
-                                                        <FontAwesomeIcon
-                                                            icon={faFileImage}
-                                                            className="h-5"
-                                                        />
-                                                    )}
+                                                    <FontAwesomeIcon
+                                                        icon={faFileImage}
+                                                        className="h-5"
+                                                    />
                                                 </div>
                                                 <div>
                                                     <a
@@ -77,6 +69,10 @@ const Component = ({ data, pagination, handleDelete, seqHandler }) => {
 
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
+                                                <Active
+                                                    id={item.id}
+                                                    value={item.active}
+                                                />
                                                 <Delete
                                                     handleDelete={(e) =>
                                                         handleDelete(item.id)

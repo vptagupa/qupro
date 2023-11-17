@@ -17,22 +17,35 @@ class GlobalConfigSeeder extends Seeder
             [
                 "name" => "Reminder threshold",
                 'value' => '5',
+                'type' => 'number'
             ],
             [
                 "name" => "Reminder block",
                 'value' => '5',
+                'type' => 'number'
             ],
             [
                 "name" => "Num start",
                 'value' => '1',
+                'type' => 'number'
             ],
             [
                 "name" => "Priority series separate",
                 'value' => true,
+                'type' => 'boolean',
+                'label' => 'If enabled, priority series does not continue from the regular series'
             ],
             [
                 "name" => "Screen Text",
                 'value' => '',
+                'type' => 'textarea'
+            ],
+            [
+                "name" => "Screen Interval",
+                'value' => 2,
+                'type' => 'number',
+                'label' => 'In seconds'
+
             ],
 
         ];
