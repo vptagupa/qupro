@@ -20,6 +20,9 @@ class Config extends Model
             'data_type' => 'boolean',
             'label' => 'If enabled, priority series does not continue from the regular series'
         ],
+        'screen_text' => [
+            'data_type' => 'textarea',
+        ],
     ];
 
     protected $appends = ['attrib'];

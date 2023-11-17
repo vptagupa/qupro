@@ -31,7 +31,7 @@
         @apply bg-slate-300;
     }
 
-    select, input[type="text"],input[type="password"], input[type="email"] {
+    select, input[type="text"],input[type="password"], input[type="email"], textarea {
         @apply border-slate-300 focus:outline-none focus:ring-opacity-10;
     }
 

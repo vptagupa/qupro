@@ -1,5 +1,5 @@
 import { useForm } from "@/js/helpers/form";
-import { Input } from "@/js/components/form";
+import { Input, Textarea } from "@/js/components/form";
 import { PrimarySwitch } from "@/js/components/switch";
 import { memo, useState, useMemo } from "react";
 import Event from "@/js/helpers/event";
@@ -43,6 +43,8 @@ export default ({ data }) => {
             return data.value;
         } else if (data.attrib.data_type === "boolean") {
             return data.value == true ? "Enabled" : "Disabled";
+        } else if (data.attrib.data_type === "textarea") {
+            return data.value;
         }
     }, [data]);
 
@@ -60,9 +62,9 @@ export default ({ data }) => {
                 </div>
             )}
             {open && (
-                <div className="flex items-center">
-                    <div>
-                        <div className="flex items-center">
+                <div className="flex items-center grow">
+                    <div className="flex items-center grow">
+                        <div className="flex flex-col grow">
                             {!data?.attrib && (
                                 <Input
                                     type="text"
@@ -80,39 +82,51 @@ export default ({ data }) => {
                                 />
                             )}
                             {data?.attrib?.data_type === "boolean" && (
-                                <PrimarySwitch
-                                    enabled={active}
-                                    setEnabled={(e) => {
-                                        const value = !active;
-                                        form.setData("value", value);
-                                        setActive(value);
-                                    }}
+                                <div className="text-right">
+                                    <PrimarySwitch
+                                        enabled={active}
+                                        setEnabled={(e) => {
+                                            const value = !active;
+                                            form.setData("value", value);
+                                            setActive(value);
+                                        }}
+                                    />
+                                </div>
+                            )}
+                            {data?.attrib?.data_type === "textarea" && (
+                                <Textarea
+                                    value={form.data.value}
+                                    onChange={(e) =>
+                                        form.setData("value", e.target.value)
+                                    }
                                 />
                             )}
-                            <Button
+                            {form.invalid("value") && (
+                                <span className="text-danger text-xs">
+                                    {form.errors.value}
+                                </span>
+                            )}
+                        </div>
+                        <div>
+                            <div
                                 onClick={(e) => submit()}
-                                className="shadow-none hover:bg-none border-slate-300 px-[0.2rem]"
+                                className="font-bold shadow-none hover:bg-none border-slate-300 cursor-pointer p-1"
                             >
                                 <CheckIcon
-                                    className="h-5 text-green-800"
-                                    title="Close"
+                                    className="h-4 text-green-800"
+                                    title="Save"
                                 />
-                            </Button>
-                            <Button
+                            </div>
+                            <div
                                 onClick={(e) => closeForm()}
-                                className="shadow-none hover:bg-none border-slate-300 px-[0.2rem]"
+                                className="font-bold shadow-none hover:bg-none border-slate-300 cursor-pointer p-1"
                             >
                                 <XMarkIcon
-                                    className="h-5 text-pink-800"
-                                    title="Close"
+                                    className="h-4 text-pink-800"
+                                    title="Cancel"
                                 />
-                            </Button>
+                            </div>
                         </div>
-                        {form.invalid("value") && (
-                            <span className="text-danger text-xs">
-                                {form.errors.value}
-                            </span>
-                        )}
                     </div>
                 </div>
             )}

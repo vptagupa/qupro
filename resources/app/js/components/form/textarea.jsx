@@ -13,6 +13,8 @@ export default forwardRef((props, ref) => {
             {...clone.props}
             _class={props.className}
             className="p-2 w-full shadow-sm border text-sm rounded-lg"
-        />
+        >
+            {props.children}
+        </Base>
     );
 });
