@@ -4,6 +4,10 @@ import {
     UserPlusIcon,
     UserGroupIcon,
     WrenchScrewdriverIcon,
+    WindowIcon,
+    PuzzlePieceIcon,
+    CubeIcon,
+    SquaresPlusIcon,
 } from "@heroicons/react/24/solid";
 
 export default [
@@ -17,14 +21,14 @@ export default [
     {
         id: "tellers",
         name: "Tellers",
-        icon: <UsersIcon className="h-3" />,
+        icon: <WindowIcon className="h-3" />,
         route: "admin.tellers.index",
         permission: "DASHBOARD_TELLER",
     },
     {
         id: "qu",
         name: "Qu",
-        icon: <UserPlusIcon className="h-3" />,
+        icon: <PuzzlePieceIcon className="h-3" />,
         route: "admin.qu.index",
         permission: "QU",
     },
@@ -38,14 +42,14 @@ export default [
     {
         id: "account.types",
         name: "Account Types",
-        icon: <WrenchScrewdriverIcon className="h-3" />,
+        icon: <CubeIcon className="h-3" />,
         route: "admin.account-types.index",
         permission: "ACCOUNT_TYPES",
     },
     {
         id: "numformat",
         name: "Formats",
-        icon: <WrenchScrewdriverIcon className="h-3" />,
+        icon: <SquaresPlusIcon className="h-3" />,
         route: "admin.formats.index",
         permission: "CONFIGURATIONS",
     },

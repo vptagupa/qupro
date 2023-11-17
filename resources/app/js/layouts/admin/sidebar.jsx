@@ -18,7 +18,7 @@ export default () => {
                             className={
                                 "py-2 px-3" +
                                 (isActive(nav)
-                                    ? " shadow-md shadow-slate-200/70 rounded-lg"
+                                    ? " shadow-lg shadow-gray-300/50 rounded-lg"
                                     : "")
                             }
                         >
@@ -29,7 +29,7 @@ export default () => {
                                             "mr-2 p-2 rounded-lg" +
                                             (isActive(nav)
                                                 ? " bg-purple-500 text-white"
-                                                : "")
+                                                : " shadow-md shadow-gray-300/100")
                                         }
                                     >
                                         {nav.icon}
