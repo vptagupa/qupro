@@ -10,4 +10,11 @@ trait NumFormat
             $builder->active();
         });
     }
+
+    protected function titleCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['title']) && $query['title'], function ($builder) use ($query) {
+            $builder->where('title', 'like', '%' . $query['title'] . '%');
+        });
+    }
 }
