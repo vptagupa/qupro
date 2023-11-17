@@ -19,12 +19,13 @@ class Qu extends Model
         'teller_id',
         'account_type_id',
         'num_fulltext',
-        'teller_name',
+        'counter_name',
         'priority',
         'skipped_at',
         'completed_at',
         'called_at',
         'is_representative',
+        'active'
     ];
 
     protected $appends = [

@@ -42,10 +42,13 @@ class Config extends Model
         return Config::where('name', 'Priority Series Separate')->first()?->value ? true : false;
     }
 
-    public function attrib(): Attribute
+    public static function screenMessage()
     {
-        return Attribute::make(
-            get: fn() => $this->attrib[str()->snake($this->name)] ?? null
-        );
+        return Config::where('name', 'Screen Text')->first()?->value;
+    }
+
+    public static function screenInterval()
+    {
+        return Config::where('name', 'Screen Interval')->first()?->value;
     }
 }

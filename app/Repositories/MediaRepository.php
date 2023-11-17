@@ -28,8 +28,15 @@ class MediaRepository extends Repository
         $media->save();
     }
 
-    public function delete($id)
+    public function getActive()
     {
-        $media = $this->find($id);
+        return $this->list(
+            query: [
+                'active' => true,
+                'file' => true
+            ],
+            paginate: false
+        )->orderBy('seq', 'asc')
+            ->paginate();
     }
 }

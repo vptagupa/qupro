@@ -9,9 +9,9 @@ const Component = () => {
     const { user } = usePage().props;
     const { form } = useForm({
         method: "patch",
-        route: route("admin.tellers.update_teller_name"),
+        route: route("admin.tellers.update_counter_name"),
         data: {
-            name: user.data?.teller_name ?? "",
+            name: user.data?.counter_name ?? "",
         },
     });
 

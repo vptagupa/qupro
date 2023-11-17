@@ -19,14 +19,14 @@ class TellersControllers extends AdminController
         return $this->render('admin/teller/index');
     }
 
-    public function updateTellerName(Request $request)
+    public function updateCounterName(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
         ], $request->only('name'));
 
         $this->repository->update([
-            'teller_name' => $request->get('name')
+            'counter_name' => $request->get('name')
         ], $request->user()->id);
     }
 

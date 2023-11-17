@@ -14,6 +14,19 @@ export default {
                 xs: "0.75rem",
                 xxs: "0.55rem",
             },
+            animation: {
+                marquee: "marquee 20s linear infinite",
+            },
+            keyframes: {
+                marquee: {
+                    from: {
+                        transform: "translateX(98%)",
+                    },
+                    to: {
+                        transform: "translateX(-200%)",
+                    },
+                },
+            },
         },
     },
     plugins: [],

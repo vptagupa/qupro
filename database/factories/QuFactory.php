@@ -38,7 +38,7 @@ class QuFactory extends Factory
                     fake()->randomNumber(5, true)
                 );
             },
-            'teller_name' => '',
+            'counter_name' => '',
             'priority' => rand(0, 1),
             'skipped_at' => null,
             'completed_at' => null,

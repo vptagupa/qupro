@@ -44,7 +44,9 @@ export default ({ accountType, form }) => {
                     className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
                 >
                     {accountType.name}
-                    {user.data.teller_name ? " - " + user.data.teller_name : ""}
+                    {user.data.counter_name
+                        ? " - " + user.data.counter_name
+                        : ""}
                 </div>
                 <div>
                     <Switch

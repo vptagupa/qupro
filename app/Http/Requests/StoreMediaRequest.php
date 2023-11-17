@@ -42,10 +42,10 @@ class StoreMediaRequest extends FormRequest
                         $file = $this->file;
 
                         if (in_array($file?->getMimeType() ?? '', $videoTypes)) {
-                            return 10 * 1024;
+                            return config('media.video_max') * 1024;
                         }
 
-                        return 12 * 1024;
+                        return config('media.image_max') * 1024;
                     })())
             ]
         ];

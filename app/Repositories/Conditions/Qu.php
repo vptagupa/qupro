@@ -109,7 +109,9 @@ trait Qu
     protected function accountTypeIdCondition(&$builder, $query)
     {
         return $builder->when(isset($query['account_type_id']) && $query['account_type_id'], function ($builder) use ($query) {
-            $builder->whereAccountTypeId($query['account_type_id']);
+            $ids = is_array($query['account_type_id']) ? $query['account_type_id'] : [$query['account_type_id']];
+
+            $builder->whereIn('account_type_id', $ids);
         });
     }
 }

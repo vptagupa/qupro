@@ -37,6 +37,22 @@ class QuRepository extends Repository
         )->count();
     }
 
+    public function called(array $accountTypeIds)
+    {
+        return $this->list(
+            query: [
+                'called' => true,
+                'account_type_id' => $accountTypeIds
+            ],
+            paginate: false,
+            orderBy: ['called_at', 'desc'],
+            get: false
+        )
+            ->groupBy('counter_name')
+            ->whereDate('created_at', now()->format('Y-m-d'))
+            ->get();
+    }
+
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {

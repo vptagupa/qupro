@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\{
     QuController,
     MediaController
 };
-use App\Http\Controllers\FrontEnd\QuController as FrontendQuController;
+use App\Http\Controllers\FrontEnd\{LayoutsController, QuController as FrontendQuController};
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\RedirectIfTemporaryPassword;
@@ -49,7 +49,7 @@ Route::middleware([
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
             Route::post('/', [QuController::class, 'next'])->name('next');
             Route::patch('/', [TellersControllers::class, 'updateServeAccountType'])->name('update_serve_account_type');
-            Route::patch('/updateTellerName', [TellersControllers::class, 'updateTellerName'])->name('update_teller_name');
+            Route::patch('/updateCounterName', [TellersControllers::class, 'updateCounterName'])->name('update_counter_name');
         });
         Route::name('formats.')->prefix('formats')->group(function () {
             Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
@@ -104,6 +104,10 @@ Route::middleware([
         Route::get('/', [FrontendQuController::class, 'index'])->name('index');
         Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
+});
+
+Route::name('layout.')->prefix('layout')->group(function () {
+    Route::get('/', [LayoutsController::class, 'index'])->name('index');
 });
 
 Route::redirect('/admin', '/admin/dashboard');

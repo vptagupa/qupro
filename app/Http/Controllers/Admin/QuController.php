@@ -89,13 +89,14 @@ class QuController extends BasedQuController
             $this->repository->update([
                 'teller_id' => $request->user()->id,
                 'completed_at' => Carbon::now(),
-                'teller_name' => $request->user()->teller_name
+                'counter_name' => $request->user()->counter_name,
+                'active' => false
             ], $request->safe()->qu);
         }
 
         $accountTypeId = $request->safe()->account_type['id'];
 
-        $qu = Qu::next($accountTypeId, $request->user()->teller_name, $request->safe()->priority);
+        $qu = Qu::next($accountTypeId, $request->user()->counter_name, $request->safe()->priority);
 
         return $this->render('admin/teller/index', [
             'next' => new QuResource($qu)

@@ -37,7 +37,7 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Screen Text",
-                'value' => '',
+                'value' => 'Hellow World!',
                 'type' => 'textarea'
             ],
             [

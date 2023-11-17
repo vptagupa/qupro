@@ -29,7 +29,7 @@ class User extends Authenticatable
         'role',
         'password',
         'login_at',
-        'teller_name',
+        'counter_name',
         'serve_account_type_ids'
     ];
 

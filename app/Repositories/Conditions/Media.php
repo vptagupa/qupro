@@ -10,4 +10,11 @@ trait Media
             $builder->with('file');
         });
     }
+
+    protected function activeCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['active']) && $query['active'], function ($builder) use ($query) {
+            $builder->active();
+        });
+    }
 }
