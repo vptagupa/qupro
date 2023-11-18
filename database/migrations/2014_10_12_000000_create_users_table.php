@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\Role;
 
 return new class extends Migration {
     /**
@@ -18,7 +19,7 @@ return new class extends Migration {
             $table->json('serve_account_type_ids')->nullable();
             $table->string('email')->unique();
             $table->foreignId('file_id')->nullable()->constrained('files');
-            $table->enum('role', ['administrator', 'teller']);
+            $table->enum('role', array_map(fn($role) => $role->value, Role::cases()));
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('login_at')->nullable();
             $table->string('password');
