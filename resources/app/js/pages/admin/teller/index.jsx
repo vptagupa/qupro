@@ -26,7 +26,7 @@ const Component = (props) => {
                                         key={type.id}
                                         className="lg:w-1/4 md:w-1/3 sm:w-1/2 xs:w-full"
                                     >
-                                        <Card type={type} />
+                                        <Card accountType={type} />
                                     </div>
                                 );
                             })}

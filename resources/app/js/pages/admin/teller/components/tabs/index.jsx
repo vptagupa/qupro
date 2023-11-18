@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import Serve from "../table/serve";
-import Teller from "../teller";
+import Teller from "../widgets/teller";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");

@@ -1,38 +1,29 @@
 import { Modal, Title } from "@/js/components/modal";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Event from "@/js/helpers/event";
-import { useState, useEffect, useCallback } from "react";
 import Tab from "../tabs";
 import { usePage } from "@inertiajs/react";
 import { Switch } from "@/js/components/switch";
+import { CardContext } from "../context/card";
+import { useState, useEffect, memo, useContext } from "react";
 
-export default ({ accountType, form }) => {
+export default memo(() => {
     const { user } = usePage().props;
     const [open, setOpen] = useState(false);
-
-    const closeFormHandler = () => {
-        setOpen(false);
-    };
-
-    const cardSwitcherHandler = useCallback(() => {
-        if (form.data.priority == "regular") {
-            form.setData("priority", "priority");
-        } else {
-            form.setData("priority", "regular");
-        }
-    }, [form.data.priority]);
-
-    const isPriorityCard = () => {
-        return form.data.priority == "priority";
-    };
-
+    const cardContext = useContext(CardContext);
+    console.log("Rendered records");
+    /* 
+        This will listen to events for closing the modal form
+        References
+        Re-selecting Qu
+    */
     useEffect(() => {
-        Event.on(`${accountType.id}.modal.records.show`, (show) => {
+        Event.on(`${cardContext.accountType.id}.modal.records.show`, (show) => {
             setOpen(show);
         });
 
         return () => {
-            Event.off(`${accountType.id}.modal.records.show`);
+            Event.off(`${cardContext.accountType.id}.modal.records.show`);
         };
     }, []);
 
@@ -43,7 +34,7 @@ export default ({ accountType, form }) => {
                     onClick={(e) => setOpen(true)}
                     className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
                 >
-                    {accountType.name}
+                    {cardContext.accountType.name}
                     {user.data.counter_name
                         ? " - " + user.data.counter_name
                         : ""}
@@ -51,8 +42,8 @@ export default ({ accountType, form }) => {
                 <div>
                     <Switch
                         className="bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
-                        enabled={isPriorityCard()}
-                        setEnabled={cardSwitcherHandler}
+                        enabled={cardContext.isPriority()}
+                        setEnabled={(e) => cardContext.onPriorityChange()}
                         colorActive="bg-gradient-to-tr from-pink-400 to-rose-300"
                         colorInActive="bg-gradient-to-tr from-purple-400 to-fuchsia-400"
                     />
@@ -63,16 +54,16 @@ export default ({ accountType, form }) => {
                 <div className="relative">
                     <div
                         className="absolute cursor-pointer -right-2 -top-2 p-2 rounded-full bg-rose-300 text-white hover:bg-rose-500 hover:text-white"
-                        onClick={(e) => closeFormHandler()}
+                        onClick={(e) => setOpen(false)}
                     >
                         <XMarkIcon className="h-4" title="Close Form" />
                     </div>
                 </div>
                 <Title>Serving Records</Title>
                 <div className="min-h-[480px]">
-                    <Tab accountType={accountType} />
+                    <Tab accountType={cardContext.accountType} />
                 </div>
             </Modal>
         </>
     );
-};
+});

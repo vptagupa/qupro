@@ -1,20 +1,19 @@
-import Qu from "../qu";
-import Waiting from "../waiting";
+import Qu from "../widgets/qu";
+import Waiting from "../widgets/waiting";
 import PropTypes from "prop-types";
 import { useForm } from "@/js/helpers/form";
-import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Event from "@/js/helpers/event";
 import NextButton from "../buttons/next";
 import Records from "../modal/records";
+import { CardContext } from "../context/card";
+import PriorityTotals from "../badge/priority.totals";
 
-const Component = ({ type }) => {
-    const [waiting, setWaiting] = useState([]);
+const Component = ({ accountType }) => {
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isPriorityIncluded, setIncludePriority] = useState(true);
-    const [totalPriorities, setTotalPriorities] = useState({
+    const [total, setTotal] = useState({
         priorities: 0,
         regulars: 0,
     });
@@ -23,109 +22,97 @@ const Component = ({ type }) => {
         route: route("admin.tellers.next"),
         data: {
             priority: "regular",
-            account_type: type,
+            account_type: accountType,
             qu: null,
         },
     });
-    const isPriority = () => form.data.priority == "priority";
+
+    const isPriority = useMemo(
+        () => () => form.data.priority == "priority",
+        [form.data.priority],
+    );
+
+    const onPriorityChange = useCallback(() => {
+        if (form.data.priority == "regular") {
+            form.setData("priority", "priority");
+        } else {
+            form.setData("priority", "regular");
+        }
+    }, [form.data.priority]);
+
+    const onWaitingUpdate = useMemo(
+        () => ({
+            setHasNextPriority,
+            setHasNextRegular,
+            setTotal,
+        }),
+        [],
+    );
+
+    const cardContextValue = useMemo(
+        () => ({
+            onPriorityChange,
+            isPriority,
+            accountType,
+        }),
+        [onPriorityChange, isPriority, accountType],
+    );
+
     const hasQu = () => (form.data.qu?.id ? true : false);
     const submitLabel = () => {
         if (hasQu()) {
-            if (waiting.length > 0) {
-                return "Next";
+            if (isPriority()) {
+                return hasNextPriority ? "Next" : "Done";
+            } else {
+                return hasNextRegular ? "Next" : "Done";
             }
-            return "Done";
         }
 
         return "Start";
     };
 
-    const isSubmitEnabled = () => {
-        if (form.data.priority == "regular" && hasNextRegular) {
-            return true;
-        } else if (form.data.priority == "priority" && hasNextPriority) {
-            return true;
-        }
+    const isSubmitEnabled = useMemo(() => {
+        return () => {
+            if (isPriority() && hasNextPriority) {
+                return true;
+            }
+            if (!isPriority() && hasNextRegular) {
+                return true;
+            }
 
-        if (hasQu()) {
-            return true;
-        }
+            if (hasQu()) {
+                return true;
+            }
 
-        return false;
-    };
+            return false;
+        };
+    }, [isPriority, hasQu, hasNextRegular, hasNextPriority]);
 
-    const submit = () => {
-        if (isSubmitEnabled() && !loading) {
-            form.submit({
-                only: ["errors", "qu", "waiting", "next"],
-                preserveState: true,
-                preserveScroll: true,
-                onBefore: () => setLoading(true),
-                onSuccess: (page) => {
-                    eventResetAllCardsQu(form.data.qu);
-                    form.setData("qu", page.props.next.data);
-                    setLoading(false);
-                    getWaiting();
-                },
-                onError: () => setLoading(false),
-                onFinal: () => setLoading(false),
-            });
-        }
-    };
-
-    const getWaiting = () => requestWaiting(isPriorityIncluded, isPriority());
-    const requestWaiting = useCallback(
-        (include_priority = null, priority = null) => {
-            const data = async () => {
-                const response = await axios.post(
-                    route("admin.qu.waiting", {
-                        type: type.id,
-                    }),
-                    {
-                        include_priority,
-                        priority,
+    const submit = useMemo(() => {
+        return () => {
+            if (isSubmitEnabled() && !loading) {
+                form.submit({
+                    only: ["errors", "qu", "waiting", "next"],
+                    preserveState: true,
+                    preserveScroll: true,
+                    onBefore: () => setLoading(true),
+                    onSuccess: (page) => {
+                        eventResetAllCardsQu(form.data.qu);
+                        form.setData("qu", page.props.next.data);
+                        Event.emit(`${accountType.id}.waiting-reload`);
+                        setLoading(false);
                     },
-                );
-                const data = response.data;
-
-                setWaiting(data.data.waiting);
-                setHasNextPriority(data.meta.has_next_priority);
-                setHasNextRegular(data.meta.has_next_regular);
-                setTotalPriorities({
-                    priorities: data.data.total_priorities,
-                    regulars: data.data.total_regulars,
+                    onError: () => setLoading(false),
+                    onFinal: () => setLoading(false),
                 });
-            };
-            data();
-        },
-        [],
-    );
+            }
+        };
+    }, [form, isSubmitEnabled]);
 
     const eventResetAllCardsQu = (qu) => {
         if (qu?.id) {
             Event.emit(`${qu.id}.reset`);
         }
-    };
-
-    const eventsListener = () => {
-        Event.on(
-            `${type.id}.set-qu`,
-            (qu) => {
-                form.setData({
-                    ...form.data,
-                    qu,
-                    priority: qu?.priority == 1 ? "priority" : "regular",
-                });
-            },
-            this,
-        );
-        Event.on(`${type.id}.waiting-list`, (qu) => {
-            getWaiting();
-        });
-
-        Echo.private(`${type.id}.account-type`).listen("QuCreated", (e) => {
-            getWaiting();
-        });
     };
 
     useEffect(() => {
@@ -141,64 +128,58 @@ const Component = ({ type }) => {
     }, [form.data.qu]);
 
     useEffect(() => {
-        if (isPriority()) {
-            requestWaiting(false, 1);
-        } else {
-            requestWaiting(isPriorityIncluded, isPriority());
-        }
-    }, [isPriorityIncluded, form.data.priority]);
-
-    useEffect(() => {
-        getWaiting();
-        eventsListener();
+        Event.on(
+            `${accountType.id}.set-qu`,
+            (qu) => {
+                form.setData({
+                    ...form.data,
+                    qu,
+                    priority: qu?.priority == 1 ? "priority" : "regular",
+                });
+            },
+            this,
+        );
 
         return () => {
-            Event.off(`${type.id}.set-qu`);
-            Event.off(`${type.id}.waiting-list`);
-            Echo.leave(`${type.id}.account-type`);
+            Event.off(`${accountType.id}.set-qu`);
         };
     }, []);
 
     return (
         <>
-            <Records accountType={type} form={form} />
-            <div
-                className={`${
-                    isPriority()
-                        ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
-                        : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
-                } p-3 mt-1 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30`}
-            >
-                <div className="flex flex-col w-full">
-                    <div>
-                        <Qu
-                            data={form.data.qu}
-                            is_priority={isPriority()}
-                            type={type}
-                            totalPriorities={totalPriorities}
-                        />
-                    </div>
-                    <div className="mt-3">
-                        <Waiting
-                            data={waiting}
-                            isPriority={isPriority()}
-                            isPriorityIncluded={isPriorityIncluded}
-                            setIncludePriority={setIncludePriority}
-                        />
-                    </div>
-                    <div className="mt-[12%] flex gap-2">
-                        <div className="grow">
-                            <NextButton
-                                isPriority={isPriority}
-                                label={submitLabel()}
-                                submit={submit}
-                                loading={loading}
-                                enabled={isSubmitEnabled()}
-                            />
+            <CardContext.Provider value={cardContextValue}>
+                <Records />
+                <div
+                    className={`${
+                        isPriority()
+                            ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
+                            : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
+                    } p-3 mt-1 border border-slate-300 rounded-2xl shadow-lg shadow-slate-400/30`}
+                >
+                    <div className="flex flex-col w-full">
+                        <div>
+                            <PriorityTotals total={total} />
+                        </div>
+                        <div>
+                            <Qu data={form.data.qu} />
+                        </div>
+                        <div className="mt-3">
+                            <Waiting onWaitingUpdate={onWaitingUpdate} />
+                        </div>
+                        <div className="mt-[12%] flex gap-2">
+                            <div className="grow">
+                                <NextButton
+                                    isPriority={isPriority}
+                                    label={submitLabel()}
+                                    submit={submit}
+                                    loading={loading}
+                                    enabled={isSubmitEnabled()}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </CardContext.Provider>
         </>
     );
 };

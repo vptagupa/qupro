@@ -1,10 +1,9 @@
-import PropTypes from "prop-types";
 import { Checkbox } from "@/js/components/form";
 
-const Component = ({
+export default ({
+    isPriorityIncluded,
     data,
     isPriority,
-    isPriorityIncluded,
     setIncludePriority,
 }) => {
     return (
@@ -74,9 +73,3 @@ const Component = ({
         </>
     );
 };
-
-Component.propTypes = {
-    data: PropTypes.array.isRequired,
-};
-
-export default Component;

@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
+import { memo } from "react";
 
-const Component = ({ priorities = 0, regulars = 0 }) => {
+export default memo(({ total }) => {
+    console.log("Rendered total priorities");
     return (
         <>
             <div className="flex items-center justify-start gap-1 text-xs">
@@ -9,7 +10,7 @@ const Component = ({ priorities = 0, regulars = 0 }) => {
                         className="flex items-center justify-center font-bold rounded-lg w-10 h-4 p-0 text-center bg-slate-200 text-slate-600"
                         title="Regular Totals"
                     >
-                        {regulars}
+                        {total.regulars}
                     </div>
                 </div>
                 <div>
@@ -17,17 +18,10 @@ const Component = ({ priorities = 0, regulars = 0 }) => {
                         className="flex items-center justify-center font-bold rounded-lg w-10 h-4 p-0 text-center bg-rose-400 text-white"
                         title="Priorities Totals"
                     >
-                        {priorities}
+                        {total.priorities}
                     </div>
                 </div>
             </div>
         </>
     );
-};
-
-Component.propTypes = {
-    priorities: PropTypes.number.isRequired,
-    regulars: PropTypes.number.isRequired,
-};
-
-export default Component;
+});
