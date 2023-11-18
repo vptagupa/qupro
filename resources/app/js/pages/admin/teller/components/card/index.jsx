@@ -46,7 +46,7 @@ const Component = ({ accountType }) => {
             setComplete(form.data.qu.id);
             setQu(null);
         }
-    }, [form.data.priority, form.data.qu]);
+    }, [form.data]);
 
     const onWaitingUpdate = useMemo(
         () => ({
@@ -156,7 +156,7 @@ const Component = ({ accountType }) => {
             Event.off(`${accountType.id}.set-qu`);
         };
     }, []);
-    console.log(form.data);
+
     return (
         <>
             <CardContext.Provider value={cardContextValue}>
