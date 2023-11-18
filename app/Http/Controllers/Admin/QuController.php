@@ -102,10 +102,8 @@ class QuController extends BasedQuController
         ]);
     }
 
-    public function skip(int $id)
+    public function recalled(int $id, Request $request)
     {
-        $this->repository->update([
-            'skipped_at' => Carbon::now(),
-        ], $id);
+        Qu::recalled($request->user(), $id);
     }
 }

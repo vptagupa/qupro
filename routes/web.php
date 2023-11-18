@@ -96,6 +96,7 @@ Route::middleware([
             Route::post('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\AccountType');
             Route::get('/skip/{id}', [QuController::class, 'skip'])->name('skip');
             Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
+            Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

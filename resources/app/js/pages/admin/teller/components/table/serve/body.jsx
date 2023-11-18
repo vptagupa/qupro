@@ -10,20 +10,11 @@ import {
 } from "@/js/components/table";
 import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
-import {
-    MagnifyingGlassIcon,
-    CursorArrowRippleIcon,
-} from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
+import ReSelect from "./reselect";
 
-const Component = ({
-    data,
-    roles,
-    pagination,
-    setSearch,
-    handleSearch,
-    handleReselect,
-}) => {
+const Component = ({ data, pagination, setSearch, handleSearch }) => {
     return (
         <>
             <div className="flex justify-end space-x-2 p-2">
@@ -91,15 +82,7 @@ const Component = ({
                                         <Td>{item.teller_name}</Td>
                                         <Td>{item.num_fulltext}</Td>
                                         <Td>
-                                            <div className="flex space-x-2 justify-end">
-                                                <CursorArrowRippleIcon
-                                                    className="h-5 cursor-pointer hover:text-green-400"
-                                                    title="Re-select"
-                                                    onClick={(e) =>
-                                                        handleReselect(item)
-                                                    }
-                                                />
-                                            </div>
+                                            <ReSelect item={item} />
                                         </Td>
                                     </Tr>
                                 );

@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Repositories\QuRepository;
 use Illuminate\Support\Facades\App;
 use App\Models\Qu as Model;
+use App\Models\User;
 use App\Events\QuCalled;
 use Carbon\Carbon;
 
@@ -16,6 +17,26 @@ class Qu
     public function __construct(private QuRepository $repository)
     {
 
+    }
+    public static function recalled(User $user, int $id)
+    {
+        $service = new self(
+            App::make(QuRepository::class)
+        );
+
+        return $service->again($user, $id);
+    }
+
+    public function again(User $user, int $id)
+    {
+        $this->repository->update([
+            'teller_id' => $user->id,
+            'called_at' => Carbon::now(),
+            'counter_name' => $user->counter_name,
+            'active' => false,
+        ], $id);
+
+        $this->dispatchEvent($this->repository->find($id));
     }
 
     public static function next(int $accountTypeId, string $counterName, bool $priority = false): ?Model
@@ -41,8 +62,7 @@ class Qu
             $qu->active = true;
             $qu->save();
 
-            // Dispatch event to update tellers and screens display information
-            QuCalled::dispatch($qu);
+            $this->dispatchEvent($qu);
         }
 
         if ($qu) {
@@ -50,5 +70,11 @@ class Qu
         }
 
         return null;
+    }
+
+    public function dispatchEvent($qu)
+    {
+        // Dispatch event to update tellers and screens display information
+        QuCalled::dispatch($qu);
     }
 }
