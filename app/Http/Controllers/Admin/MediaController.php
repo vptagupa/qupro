@@ -22,8 +22,9 @@ class MediaController extends AdminController
     {
         return MediaResource::collection(
             $this->repository->list(
-                ['name' => $request->get('query'), 'file' => true],
-                $request->get('per_page'),
+                query: ['name' => $request->get('query'), 'file' => true],
+                perPage: $request->get('per_page'),
+                orderBy: ['seq', 'asc']
             )
         );
     }

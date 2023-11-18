@@ -1,6 +1,5 @@
 import {
     HomeIcon,
-    UsersIcon,
     UserPlusIcon,
     UserGroupIcon,
     WrenchScrewdriverIcon,

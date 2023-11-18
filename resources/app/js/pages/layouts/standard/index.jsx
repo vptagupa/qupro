@@ -3,22 +3,15 @@ import Layout from "@/js/layouts/public";
 import Message from "../components/message";
 import Media from "../components/media";
 import Counter from "../components/counter";
-import { useState, useCallback } from "react";
 
 export default ({ media, config, qus }) => {
-    const [count, setCount] = useState(0);
-    console.log(qus);
-    const click = () => {
-        setCount(count + 1);
-    };
-
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
                     <div className="xs:max-lg:w-full lg:w-[30%] h-screen p-10">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
-                            {qus[0].num_fulltext}
+                            {qus[0]?.num_fulltext ?? "0"}
                         </div>
                         <div className="mt-[20%]">
                             <Counter qus={qus} />

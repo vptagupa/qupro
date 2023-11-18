@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\{
     QuController,
     MediaController
 };
-use App\Http\Controllers\FrontEnd\{LayoutsController, QuController as FrontendQuController};
+use App\Http\Controllers\FrontEnd\{ScreenController, QuController as FrontendQuController};
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\RedirectIfTemporaryPassword;
@@ -106,8 +106,8 @@ Route::middleware([
     });
 });
 
-Route::name('layout.')->prefix('layout')->group(function () {
-    Route::get('/', [LayoutsController::class, 'index'])->name('index');
+Route::name('screen.')->prefix('screen')->group(function () {
+    Route::get('/', [ScreenController::class, 'index'])->name('index');
 });
 
 Route::redirect('/admin', '/admin/dashboard');

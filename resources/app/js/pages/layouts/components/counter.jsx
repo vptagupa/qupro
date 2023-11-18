@@ -1,4 +1,6 @@
-export default ({ qus }) => {
+import { memo } from "react";
+
+export default memo(({ qus }) => {
     return (
         <>
             <div className="">
@@ -34,4 +36,4 @@ export default ({ qus }) => {
             </div>
         </>
     );
-};
+});

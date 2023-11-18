@@ -38,6 +38,19 @@ const Component = ({ data, pagination, handleDelete, seqHandler }) => {
                                         <Td>
                                             <div className="flex items-center gap-2">
                                                 <div>
+                                                    <Input
+                                                        type="text"
+                                                        className="!w-[30px] text-center border-0 border-b rounded-none"
+                                                        defaultValue={item.seq}
+                                                        onChange={(e) =>
+                                                            seqHandler(
+                                                                item.id,
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                                <div>
                                                     <FontAwesomeIcon
                                                         icon={faFileImage}
                                                         className="h-5"
@@ -50,19 +63,6 @@ const Component = ({ data, pagination, handleDelete, seqHandler }) => {
                                                     >
                                                         {item.file.filename}
                                                     </a>
-                                                </div>
-                                                <div>
-                                                    <Input
-                                                        type="text"
-                                                        className="!w-[30px] text-center border-0 border-b rounded-none"
-                                                        defaultValue={item.seq}
-                                                        onChange={(e) =>
-                                                            seqHandler(
-                                                                item.id,
-                                                                e.target.value,
-                                                            )
-                                                        }
-                                                    />
                                                 </div>
                                             </div>
                                         </Td>

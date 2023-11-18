@@ -8,7 +8,7 @@ use App\Models\Config;
 use App\Models\AccountType;
 use App\Repositories\QuRepository;
 
-class LayoutsController extends Controller
+class ScreenController extends Controller
 {
 
     public function __construct(private MediaRepository $media, private QuRepository $qu)
