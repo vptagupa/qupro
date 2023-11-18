@@ -24,10 +24,19 @@ class Qu
             App::make(QuRepository::class)
         );
 
-        return $service->again($user, $id);
+        return $service->setRecalled($user, $id);
     }
 
-    public function again(User $user, int $id)
+    public static function completed(User $user, int $id)
+    {
+        $service = new self(
+            App::make(QuRepository::class)
+        );
+
+        return $service->setCompleted($user, $id);
+    }
+
+    public function setRecalled(User $user, int $id)
     {
         $this->repository->update([
             'teller_id' => $user->id,
@@ -37,6 +46,16 @@ class Qu
         ], $id);
 
         $this->dispatchEvent($this->repository->find($id));
+    }
+
+    public function setCompleted(User $user, int $id)
+    {
+        $this->repository->update([
+            'teller_id' => $user->id,
+            'completed_at' => Carbon::now(),
+            'counter_name' => $user->counter_name,
+            'active' => false,
+        ], $id);
     }
 
     public static function next(int $accountTypeId, string $counterName, bool $priority = false): ?Model

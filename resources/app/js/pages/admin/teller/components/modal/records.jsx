@@ -11,7 +11,7 @@ export default memo(() => {
     const { user } = usePage().props;
     const [open, setOpen] = useState(false);
     const cardContext = useContext(CardContext);
-    console.log("Rendered records");
+
     /* 
         This will listen to events for closing the modal form
         References

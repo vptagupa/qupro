@@ -1,7 +1,6 @@
 import { memo } from "react";
 
 export default memo(({ total }) => {
-    console.log("Rendered total priorities");
     return (
         <>
             <div className="flex items-center justify-start gap-1 text-xs">

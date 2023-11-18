@@ -55,8 +55,6 @@ export default memo(({ onWaitingUpdate }) => {
         };
     }, [isPriorityIncluded, cardContext.isPriority()]);
 
-    console.log("Rendered waiting.");
-
     return (
         <Body
             isPriorityIncluded={isPriorityIncluded}

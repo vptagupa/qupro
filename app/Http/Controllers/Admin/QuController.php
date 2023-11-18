@@ -75,6 +75,7 @@ class QuController extends BasedQuController
                     'called' => true,
                     'accountType' => true
                 ],
+                orderBy: ['called_at', 'desc'],
                 perPage: $request->get('per_page'),
                 paginate: true
             )
@@ -84,12 +85,7 @@ class QuController extends BasedQuController
     public function next(NextQuRequest $request)
     {
         if ($request->safe()->qu) {
-            $this->repository->update([
-                'teller_id' => $request->user()->id,
-                'completed_at' => Carbon::now(),
-                'counter_name' => $request->user()->counter_name,
-                'active' => false
-            ], $request->safe()->qu);
+            Qu::completed($request->user(), $request->safe()->qu);
         }
 
         $accountTypeId = $request->safe()->account_type['id'];
@@ -105,5 +101,10 @@ class QuController extends BasedQuController
     public function recalled(int $id, Request $request)
     {
         Qu::recalled($request->user(), $id);
+    }
+
+    public function completed(int $id, Request $request)
+    {
+        Qu::completed($request->user(), $id);
     }
 }

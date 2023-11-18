@@ -97,6 +97,7 @@ Route::middleware([
             Route::get('/skip/{id}', [QuController::class, 'skip'])->name('skip');
             Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
             Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
+            Route::patch('/completed/{id}', [QuController::class, 'completed'])->name('completed');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

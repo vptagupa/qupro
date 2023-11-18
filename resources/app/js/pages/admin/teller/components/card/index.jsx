@@ -8,6 +8,7 @@ import NextButton from "../buttons/next";
 import Records from "../modal/records";
 import { CardContext } from "../context/card";
 import PriorityTotals from "../badge/priority.totals";
+import { completed } from "../api";
 
 const Component = ({ accountType }) => {
     const [hasNextPriority, setHasNextPriority] = useState(false);
@@ -27,6 +28,8 @@ const Component = ({ accountType }) => {
         },
     });
 
+    const setQu = (qu) => form.setData("qu", qu);
+
     const isPriority = useMemo(
         () => () => form.data.priority == "priority",
         [form.data.priority],
@@ -38,7 +41,12 @@ const Component = ({ accountType }) => {
         } else {
             form.setData("priority", "regular");
         }
-    }, [form.data.priority]);
+
+        if (hasQu()) {
+            setComplete(form.data.qu.id);
+            setQu(null);
+        }
+    }, [form.data.priority, form.data.qu]);
 
     const onWaitingUpdate = useMemo(
         () => ({
@@ -71,6 +79,10 @@ const Component = ({ accountType }) => {
         return "Start";
     };
 
+    const setComplete = async (id) => {
+        await completed(id);
+    };
+
     const isSubmitEnabled = useMemo(() => {
         return () => {
             if (isPriority() && hasNextPriority) {
@@ -98,9 +110,9 @@ const Component = ({ accountType }) => {
                     onBefore: () => setLoading(true),
                     onSuccess: (page) => {
                         eventResetAllCardsQu(form.data.qu);
-                        form.setData("qu", page.props.next.data);
-                        Event.emit(`${accountType.id}.waiting-reload`);
+                        setQu(page.props.next.data);
                         setLoading(false);
+                        Event.emit(`${accountType.id}.waiting-reload`);
                     },
                     onError: () => setLoading(false),
                     onFinal: () => setLoading(false),
@@ -118,7 +130,7 @@ const Component = ({ accountType }) => {
     useEffect(() => {
         if (form.data.qu?.id) {
             Event.on(`${form.data.qu.id}.reset`, (qu) => {
-                form.setData("qu", null);
+                setQu(null);
             });
         }
 
@@ -144,7 +156,7 @@ const Component = ({ accountType }) => {
             Event.off(`${accountType.id}.set-qu`);
         };
     }, []);
-
+    console.log(form.data);
     return (
         <>
             <CardContext.Provider value={cardContextValue}>

@@ -15,7 +15,6 @@ export default memo(
             type: "student",
         },
     }) => {
-        console.log("Rendered Qu.");
         return (
             <>
                 <div className="flex text-lg flex-col w-full">
