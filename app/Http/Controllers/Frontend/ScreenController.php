@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\MediaRepository;
-use App\Repositories\ScreenRepository;
 use App\Models\Config;
 use App\Models\Screen;
-use App\Models\AccountType;
 use App\Repositories\QuRepository;
-use App\Http\Resources\ScreenResource;
+use App\Models\Qu;
 
 class ScreenController extends Controller
 {

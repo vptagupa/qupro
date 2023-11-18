@@ -1,6 +1,9 @@
 <?php
 
+
 use Illuminate\Support\Facades\Broadcast;
+use App\Enums\Access;
+use App\Enums\Action;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('{id}.account-type', function ($user, $id) {
+    return $user->hasAccess(Access::SCREEN, Action::VIEW);
 });

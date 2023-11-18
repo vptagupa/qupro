@@ -1,5 +1,4 @@
 import Qu from "../qu";
-import Priority from "../priority";
 import Waiting from "../waiting";
 import PropTypes from "prop-types";
 import { useForm } from "@/js/helpers/form";
@@ -56,7 +55,7 @@ const Component = ({ type }) => {
     };
 
     const submit = () => {
-        if (isSubmitEnabled()) {
+        if (isSubmitEnabled() && !loading) {
             form.submit({
                 only: ["errors", "qu", "waiting", "next"],
                 preserveState: true,
@@ -108,7 +107,7 @@ const Component = ({ type }) => {
         }
     };
 
-    const events = () => {
+    const eventsListener = () => {
         Event.on(
             `${type.id}.set-qu`,
             (qu) => {
@@ -121,6 +120,10 @@ const Component = ({ type }) => {
             this,
         );
         Event.on(`${type.id}.waiting-list`, (qu) => {
+            getWaiting();
+        });
+
+        Echo.private(`${type.id}.account-type`).listen("QuCreated", (e) => {
             getWaiting();
         });
     };
@@ -147,11 +150,12 @@ const Component = ({ type }) => {
 
     useEffect(() => {
         getWaiting();
-        events();
+        eventsListener();
 
         return () => {
             Event.off(`${type.id}.set-qu`);
             Event.off(`${type.id}.waiting-list`);
+            Echo.leave(`${type.id}.account-type`);
         };
     }, []);
 

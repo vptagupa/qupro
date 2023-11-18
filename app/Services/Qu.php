@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Repositories\QuRepository;
 use Illuminate\Support\Facades\App;
 use App\Models\Qu as Model;
+use App\Events\QuCalled;
 use Carbon\Carbon;
 
 class Qu
@@ -33,11 +34,15 @@ class Qu
         };
 
         $qu = $next($accountTypeId, $priority);
+
         if ($qu) {
             $qu->called_at = Carbon::now();
             $qu->counter_name = $counterName;
             $qu->active = true;
             $qu->save();
+
+            // Dispatch event to update tellers and screens display information
+            QuCalled::dispatch($qu);
         }
 
         if ($qu) {

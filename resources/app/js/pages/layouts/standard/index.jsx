@@ -30,14 +30,14 @@ export default ({ screen_id }) => {
 
     useEffect(() => {
         config.account_type_ids.forEach((id) => {
-            Event.on(`${id}.screen_update`, () => {
+            Echo.private(`${id}.account-type`).listen("QuCalled", (e) => {
                 updated();
             });
         });
 
         return () => {
             config.account_type_ids.forEach((id) => {
-                Event.off(`${id}.screen_update`);
+                Echo.leave(`${id}.account-type`);
             });
         };
     }, [config.account_type_ids]);

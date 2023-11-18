@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\QuCreated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -39,6 +40,13 @@ class Qu extends Model
         'called_at' => 'datetime',
         'type' => Type::class
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (Qu $model) {
+            QuCreated::dispatch($model);
+        });
+    }
 
     public function teller()
     {

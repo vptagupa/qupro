@@ -19,7 +19,7 @@ class QuRepository extends Repository
         return $this->waiting(
             accountTypeId: $accountTypeId,
             priority: $priority,
-            limit: 1,
+            limit: 2,
             paginate: false
         )->first();
     }
@@ -44,25 +44,36 @@ class QuRepository extends Repository
                 'called' => true,
                 'account_type_id' => $accountTypeIds
             ],
+            columns: [
+                'num_fulltext',
+                'counter_name',
+                'type',
+            ],
             paginate: false,
             orderBy: ['called_at', 'desc'],
-            get: false
+            get: false,
         )
-            ->groupBy('counter_name')
-            ->whereDate('created_at', now()->format('Y-m-d'))
+            ->groupBy(['counter_name', 'num_fulltext', 'called_at', 'type'])
+            ->whereDate('called_at', now()->format('Y-m-d'))
+            ->limit(5)
             ->get();
     }
 
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {
-            return $this->waiting(
-                accountTypeId: $accountTypeId,
-                limit: $limit,
-                paginate: false
-            )
-                ->groupBy('priority')
-                ->paginate();
+            $data = collect([
+                $this->waiting(
+                    accountTypeId: $accountTypeId,
+                    priority: 0
+                )->first(),
+                $this->waiting(
+                    accountTypeId: $accountTypeId,
+                    priority: 1
+                )->first()
+            ]);
+
+            return $data->filter(null);
         }
 
         return $this->waiting(
@@ -88,7 +99,8 @@ class QuRepository extends Repository
             ],
             paginate: $paginate,
             orderBy: ['id', 'asc'],
-            perPage: $limit
+            perPage: $limit,
+            limit: $limit
         );
     }
 

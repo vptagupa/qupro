@@ -57,12 +57,29 @@ class Repository
         return $builder;
     }
 
-    public function list($query = [], $perPage = 10, $paginate = true, $first = false, $get = false, array $orderBy = [])
-    {
-        $builder = $this->conditions($this->model, $query);
+    public function list(
+        $query = [],
+        $perPage = 10,
+        $paginate = true,
+        $first = false,
+        $get = false,
+        $columns = ['*'],
+        $limit = null,
+        array $orderBy = []
+    ) {
+        $builder = $this->model->newQuery();
+        if ($columns[0] != '*') {
+            $builder->select($columns);
+        }
+
+        $builder = $this->conditions($builder, $query);
 
         if ($orderBy) {
             $builder->orderBy($orderBy[0], $orderBy[1]);
+        }
+
+        if (!$paginate && $limit) {
+            $builder->limit($limit);
         }
 
         if ($paginate && !$first) {

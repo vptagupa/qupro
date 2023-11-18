@@ -9,8 +9,6 @@ use App\Http\Requests\StoreQuRequest;
 use App\Http\Requests\UpdateQuRequest;
 use App\Http\Requests\NextQuRequest;
 use App\Http\Resources\QuCollection;
-use App\Http\Resources\NextQuResource;
-use App\Http\Resources\WaitingCollection;
 use App\Http\Resources\WaitResource;
 use Carbon\Carbon;
 use App\Services\Qu;

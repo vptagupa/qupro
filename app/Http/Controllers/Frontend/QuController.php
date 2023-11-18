@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
+
 use App\Http\Controllers\Shared\BasedQuController;
 use App\Http\Requests\StoreQuRequest;
 use App\Http\Requests\UpdateQuRequest;
+
 
 class QuController extends BasedQuController
 {
