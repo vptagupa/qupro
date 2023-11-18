@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Enums\Screen;
+use App\Enums\Screen as Enum;
 
 class Screen extends Model
 {
@@ -19,6 +19,6 @@ class Screen extends Model
 
     protected $casts = [
         'account_type_ids' => 'array',
-        'screen' => Screen::class
+        'screen' => Enum::class
     ];
 }

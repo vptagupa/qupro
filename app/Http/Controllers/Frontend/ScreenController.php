@@ -29,6 +29,7 @@ class ScreenController extends Controller
                 'config' => [
                     'message' => Config::screenMessage(),
                     'interval' => Config::screenInterval(),
+                    'account_type_ids' => AccountType::pluck('id')->toArray(),
                 ],
                 'qus' => $this->qu->called(AccountType::pluck('id')->toArray())
             ]

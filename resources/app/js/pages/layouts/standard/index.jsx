@@ -3,8 +3,14 @@ import Layout from "@/js/layouts/public";
 import Message from "../components/message";
 import Media from "../components/media";
 import Counter from "../components/counter";
+import Event from "@/js/helpers/event";
+import { useEffect } from "react";
 
-export default ({ media, config, qus }) => {
+export default ({ media, config, qus, account_type_ids }) => {
+    useEffect(() => {
+        Event.on();
+    }, []);
+
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
