@@ -32,7 +32,12 @@ export default memo(
                         </div>
                     </div>
                     <div className="text-center  flex items-center text-purple-600 font-bold justify-center uppercase mb-3">
-                        <div>{data?.name ?? "-"}</div>
+                        {data?.is_representative && (
+                            <div>{data?.name ?? "-"}</div>
+                        )}
+                        {!data?.is_representative && (
+                            <div>{data?.student_name ?? "-"}</div>
+                        )}
                     </div>
                     <div className="flex flex-col p-2 border border-white rounded-xl">
                         <div className="text-left flex items-center justify-between uppercase">
