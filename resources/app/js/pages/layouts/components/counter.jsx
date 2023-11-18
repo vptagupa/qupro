@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-export default memo(({ qus }) => {
+export default memo(({ tickets }) => {
     return (
         <>
             <div className="">
@@ -16,17 +16,17 @@ export default memo(({ qus }) => {
                         </tr>
                     </thead>
                     <tbody className="text-3xl">
-                        {qus.map((qu, idx) => {
+                        {tickets.map((ticket, idx) => {
                             return (
                                 <tr
                                     key={idx}
                                     className=" border-b border-solid border-slate-300"
                                 >
                                     <td className="p-4 text-left w-1/2 ">
-                                        {qu.counter_name}
+                                        {ticket.counter_name}
                                     </td>
                                     <td className="text-right ">
-                                        {qu.num_fulltext}
+                                        {ticket.num_fulltext}
                                     </td>
                                 </tr>
                             );

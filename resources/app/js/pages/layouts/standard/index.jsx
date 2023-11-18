@@ -4,11 +4,48 @@ import Message from "../components/message";
 import Media from "../components/media";
 import Counter from "../components/counter";
 import Event from "@/js/helpers/event";
-import { useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-export default ({ media, config, qus, account_type_ids }) => {
+export default ({ screen_id }) => {
+    const [media, setMedia] = useState([]);
+    const [config, setConfig] = useState({
+        interval: 5,
+        account_type_ids: [],
+    });
+    const [tickets, setTickets] = useState([]);
+
+    const updated = useCallback(() => {
+        axios
+            .get(
+                route("screen.updated", {
+                    screen: screen_id,
+                }),
+            )
+            .then(({ data }) => {
+                setMedia(data.media.data);
+                setConfig(data.config);
+                setTickets(data.tickets);
+            });
+    }, []);
+
     useEffect(() => {
-        Event.on();
+        config.account_type_ids.forEach((id) => {
+            Event.on(`${id}.screen_update`, () => {
+                updated();
+            });
+        });
+
+        return () => {
+            config.account_type_ids.forEach((id) => {
+                Event.off(`${id}.screen_update`);
+            });
+        };
+    }, [config.account_type_ids]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            updated();
+        }, 1000);
     }, []);
 
     return (
@@ -17,24 +54,26 @@ export default ({ media, config, qus, account_type_ids }) => {
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
                     <div className="xs:max-lg:w-full lg:w-[30%] h-screen p-10">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
-                            {qus[0]?.num_fulltext ?? "0"}
+                            {tickets[0]?.num_fulltext ?? "0"}
                         </div>
                         <div className="mt-[20%]">
-                            <Counter qus={qus} />
+                            <Counter tickets={tickets} />
                         </div>
                     </div>
                     <div className="grow xs:max-lg:hidden">
                         <div className="relative h-screen">
                             <div className="absolute top-5 h-[80%] w-full flex items-center justify-center">
                                 <div className="p-2">
-                                    <Media
-                                        media={media.data}
-                                        interval={config.interval}
-                                    />
+                                    {media.length > 0 && (
+                                        <Media
+                                            media={media}
+                                            interval={config?.interval ?? 0}
+                                        />
+                                    )}
                                 </div>
                             </div>
                             <div className="absolute bottom-0 h-[20%]flex items-center justify-center">
-                                <Message text={config.message} />
+                                <Message text={config?.message ?? ""} />
                             </div>
                         </div>
                     </div>

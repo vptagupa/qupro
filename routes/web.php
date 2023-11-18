@@ -107,7 +107,8 @@ Route::middleware([
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
-    Route::get('/', [ScreenController::class, 'index'])->name('index');
+    Route::get('/{screen}', [ScreenController::class, 'index'])->name('index');
+    Route::get('/updated/{screen}', [ScreenController::class, 'updated'])->name('updated');
 });
 
 Route::redirect('/admin', '/admin/dashboard');
