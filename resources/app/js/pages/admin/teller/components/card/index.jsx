@@ -197,7 +197,7 @@ const Component = ({ accountType }) => {
 };
 
 Component.propTypes = {
-    type: PropTypes.shape({
+    accountType: PropTypes.shape({
         id: PropTypes.number.isRequired,
     }),
 };
