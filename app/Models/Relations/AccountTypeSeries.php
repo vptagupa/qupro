@@ -12,7 +12,7 @@ trait AccountTypeSeries
     public function captureSharedSeries($priority): SharedSeries
     {
         $shared = null;
-        if ($priority && Config::isPrioritySeriesSeparate()) {
+        if ($priority) {
             $shared = $this->getPrioritySharedSeries();
         }
 
@@ -50,12 +50,15 @@ trait AccountTypeSeries
         return $query->when($priority && Config::isPrioritySeriesSeparate(), function ($builder) {
             $builder->where('priority', true);
         })
-            // If priority and continues series
+            // Continues series
             ->when($priority && !Config::isPrioritySeriesSeparate(), function ($builder) {
-                $builder->where('priority', false);
+                if ($this->capatureHasAnySharedSeries() && $this->captureHasPrioritySharedSeries()) {
+                    $builder->where('priority', true);
+                } else {
+                    $builder->where('priority', false);
+                }
             })
-            // If not priority continues series
-            ->when(!$priority || !Config::isPrioritySeriesSeparate(), function ($builder) {
+            ->when(!$priority, function ($builder) {
                 $builder->where('priority', false);
             });
     }

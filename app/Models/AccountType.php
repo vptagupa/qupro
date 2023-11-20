@@ -94,8 +94,7 @@ class AccountType extends Model
     {
         if ($priority && $this->captureHasPrioritySharedSeries()) {
             return true;
-        }
-        if (!$priority && $this->captureHasNonPrioritySharedSeries()) {
+        } elseif ($this->captureHasNonPrioritySharedSeries()) {
             return true;
         }
 
