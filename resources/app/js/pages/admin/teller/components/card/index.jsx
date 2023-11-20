@@ -119,7 +119,7 @@ const Component = ({ accountType }) => {
                 });
             }
         };
-    }, [form, isSubmitEnabled]);
+    }, [form, isSubmitEnabled, loading]);
 
     const eventResetAllCardsQu = (qu) => {
         if (qu?.id) {

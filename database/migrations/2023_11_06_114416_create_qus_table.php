@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreignId('teller_id')->nullable()->constrained('users');
             $table->foreignId('account_type_id')->nullable()->constrained('account_types');
             $table->string('num_fulltext')->nullable();
+            $table->unsignedInteger('num')->nullable();
             $table->string('counter_name')->nullable();
             $table->boolean('active')->default(false)->nullable();
             $table->boolean('priority')->default(false);
@@ -26,6 +27,7 @@ return new class extends Migration {
             $table->datetime('skipped_at')->nullable();
             $table->datetime('called_at')->nullable();
             $table->datetime('completed_at')->nullable();
+            $table->datetime('notified_at')->nullable();
             $table->timestamps();
         });
     }

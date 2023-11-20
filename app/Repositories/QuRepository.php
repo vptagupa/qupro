@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\AccountType;
 use App\Models\Qu;
 
 class QuRepository extends Repository
@@ -113,5 +114,30 @@ class QuRepository extends Repository
             ],
             first: true
         );
+    }
+
+    public function getForReminders(
+        AccountType $accountType,
+        int $start,
+        int $block,
+        bool $priority = false,
+    ) {
+        $accountTypeIds = [$accountType->id];
+        if ($accountType->capatureHasAnySharedSeries()) {
+            if ($priority && $accountType->captureHasPrioritySharedSeries()) {
+                $accountTypeIds = $accountType->getPrioritySharedSeries()->account_type_ids;
+            } else {
+                $accountTypeIds = $accountType->getNonPrioritySharedSeries()->account_type_ids;
+            }
+        }
+
+        $models = $this->model->where('num', '>=', $start)
+            ->whereIn('account_type_id', $accountTypeIds)
+            ->wherePriority($priority)
+            ->orderBy('num', 'asc')
+            ->limit($block)
+            ->get();
+
+        return $models->filter(fn($qu) => !$qu->notified_at)->values();
     }
 }

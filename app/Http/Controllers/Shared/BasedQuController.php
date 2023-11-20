@@ -59,7 +59,8 @@ class BasedQuController extends AdminController
             'account_type_id' => $request->get('account_type')['id'],
             'student_no' => $request->get('student_info')['student_no'],
             'student_name' => $request->get('student_info')['name'],
-            'num_fulltext' => $series->num_fulltext
+            'num_fulltext' => $series->num_fulltext,
+            'num' => $series->num,
         ]);
 
         return $this->repository->create($safe->only([
@@ -70,7 +71,8 @@ class BasedQuController extends AdminController
             'student_name',
             'is_representative',
             'priority',
-            'num_fulltext'
+            'num_fulltext',
+            'num'
         ]));
     }
 }

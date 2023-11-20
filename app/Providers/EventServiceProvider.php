@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\StudentReminder;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,7 +26,14 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(function (StudentReminder $event) {
+            foreach ($event->students as $student) {
+                $student->notified_at = now()->format('Y-m-d H:i:s');
+                $student->save();
+                \Log::info($student->id);
+            }
+            \Log::info($event->students->pluck('id'));
+        });
     }
 
     /**

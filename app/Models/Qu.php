@@ -20,11 +20,13 @@ class Qu extends Model
         'teller_id',
         'account_type_id',
         'num_fulltext',
+        'num',
         'counter_name',
         'priority',
         'skipped_at',
         'completed_at',
         'called_at',
+        'notified_at',
         'is_representative',
         'active'
     ];
@@ -38,6 +40,7 @@ class Qu extends Model
         'completed_at' => 'datetime',
         'is_representative' => 'boolean',
         'called_at' => 'datetime',
+        'notified_at' => 'datetime',
         'type' => Type::class
     ];
 

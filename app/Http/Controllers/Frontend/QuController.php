@@ -32,16 +32,4 @@ class QuController extends BasedQuController
             'qu' => $qu
         ]);
     }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateQuRequest $request, int $id)
-    {
-        $qu = parent::update($request, $id);
-        return $this->render('qu/public', [
-            'qu' => $qu
-        ]);
-    }
 }

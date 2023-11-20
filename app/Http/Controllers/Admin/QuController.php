@@ -36,19 +36,6 @@ class QuController extends BasedQuController
         ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateQuRequest $request, int $id)
-    {
-        $qu = parent::update($request, $id);
-        return $this->render('admin/qu/index', [
-            'qu' => $qu
-        ]);
-    }
-
-
     public function getWaitingList(int $type, Request $request)
     {
         return

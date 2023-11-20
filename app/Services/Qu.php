@@ -3,10 +3,12 @@
 namespace App\Services;
 
 
+use App\Events\StudentReminder;
 use App\Repositories\QuRepository;
 use Illuminate\Support\Facades\App;
 use App\Models\Qu as Model;
 use App\Models\User;
+use App\Models\Config;
 use App\Events\QuCalled;
 use Carbon\Carbon;
 
@@ -36,6 +38,14 @@ class Qu
         return $service->setCompleted($user, $id);
     }
 
+    public static function reminder(int $id)
+    {
+        $repository = App::make(QuRepository::class);
+        $service = new self($repository);
+
+        return $service->dispatchReminderEvent($repository->find($id));
+    }
+
     public function setRecalled(User $user, int $id)
     {
         $this->repository->update([
@@ -45,7 +55,7 @@ class Qu
             'active' => false,
         ], $id);
 
-        $this->dispatchEvent($this->repository->find($id));
+        $this->dispatchCalledEvent($this->repository->find($id));
     }
 
     public function setCompleted(User $user, int $id)
@@ -64,10 +74,10 @@ class Qu
             App::make(QuRepository::class)
         );
 
-        return $service->then($accountTypeId, $counterName, $priority);
+        return $service->getNext($accountTypeId, $counterName, $priority);
     }
 
-    public function then(int $accountTypeId, string $counterName, bool $priority = false): ?Model
+    public function getNext(int $accountTypeId, string $counterName, bool $priority = false): ?Model
     {
         $next = function ($accountTypeId, $priority) {
             return $this->repository->getNext($accountTypeId, $priority);
@@ -81,7 +91,8 @@ class Qu
             $qu->active = true;
             $qu->save();
 
-            $this->dispatchEvent($qu);
+            $this->dispatchCalledEvent($qu);
+            $this->dispatchReminderEvent($qu);
         }
 
         if ($qu) {
@@ -91,9 +102,19 @@ class Qu
         return null;
     }
 
-    public function dispatchEvent($qu)
+    public function dispatchCalledEvent($qu)
     {
-        // Dispatch event to update tellers and screens display information
         QuCalled::dispatch($qu);
+    }
+
+    public function dispatchReminderEvent($qu)
+    {
+        StudentReminder::dispatch(
+            $this->repository->getForReminders(
+                $qu->accountType,
+                $qu->num + Config::reminderThreshold(),
+                Config::reminderBlock(),
+            )
+        );
     }
 }

@@ -17,6 +17,8 @@ use App\Enums\Type;
  */
 class QuFactory extends Factory
 {
+    static $counter = 0;
+
     /**
      * Define the model's default state.
      *
@@ -26,24 +28,37 @@ class QuFactory extends Factory
     {
         $types = Type::cases();
 
+        self::$counter++;
+
         return [
             'type' => $types[rand(0, 1)]->value,
-            'name' => fake()->name(),
+            'name' => function ($attributes) {
+                if ($attributes['is_representative']) {
+                    return fake()->name();
+                }
+                return null;
+            },
             'student_no' => substr(fake()->uuid(), 0, 8),
             'student_name' => fake()->name(),
-            'teller_id' => User::first()->id,
-            'account_type_id' => AccountType::find(rand(AccountType::first()->id, AccountType::latest()->first()->id)),
+            'teller_id' => User::factory(),
+            'account_type_id' => AccountType::factory(),
             'num_fulltext' => function ($attributes) {
                 return AccountType::find($attributes['account_type_id'])->first()->format->fulltext(
-                    fake()->randomNumber(5, true)
+                    $attributes['num']
                 );
             },
+            'num' => self::$counter,
             'counter_name' => '',
             'priority' => rand(0, 1),
             'skipped_at' => null,
             'completed_at' => null,
             'called_at' => null,
-            'is_representative' => fake()->name(),
+            'is_representative' => rand(0, 1),
         ];
+    }
+
+    public function resetCounter()
+    {
+        self::$counter = 0;
     }
 }
