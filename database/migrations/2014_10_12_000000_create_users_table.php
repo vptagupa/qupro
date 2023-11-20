@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->json('serve_account_type_ids')->nullable();
             $table->string('email')->unique();
             $table->foreignId('file_id')->nullable()->constrained('files');
-            $table->enum('role', array_map(fn($role) => $role->value, Role::cases()));
+            $table->enum('role', array_map(fn($role) => $role->value, Role::cases()))->length(35);
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('login_at')->nullable();
             $table->string('password');

@@ -12,7 +12,7 @@ export default ({ prev, next, ...props }) => {
     useEffect(() => {
         props.controls.prev(prev);
         props.controls.next(next);
-        props.controls.setEnabledPrev(true);
+        props.controls.setEnabledPrev(prev ? true : false);
         props.controls.setNextLabel("Next");
     }, []);
 

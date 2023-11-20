@@ -18,7 +18,7 @@ const Component = ({ controls: { form } }) => {
     const clickHandler = (type) => {
         form.setData("priority", type);
     };
-    console.log(form.data);
+
     return (
         <>
             <div className="flex flex-wrap gap-5 items-center justify-center">

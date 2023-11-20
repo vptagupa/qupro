@@ -91,13 +91,14 @@ export default ({ url, priority = null }) => {
         } else {
             firstScreenHandler();
         }
+
         controls.form.clearErrors();
         controls.form.reset();
-    }, []);
 
-    const Transition = memo((props) => {
-        return props.show && props.children;
-    });
+        if (priority !== null) {
+            controls.form.setData("priority", priority);
+        }
+    }, []);
 
     useEffect(() => {
         if (priority !== null) {

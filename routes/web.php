@@ -14,9 +14,8 @@ use App\Http\Controllers\Admin\{
     TellersControllers,
     QuController,
     MediaController,
-    PriorityController,
 };
-use App\Http\Controllers\FrontEnd\{ScreenController, QuController as FrontendQuController};
+use App\Http\Controllers\FrontEnd\{ScreenController, QuController as FrontendQuController, PriorityController};
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\RedirectIfTemporaryPassword;
@@ -100,15 +99,16 @@ Route::middleware([
             Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
             Route::patch('/completed/{id}', [QuController::class, 'completed'])->name('completed');
         });
-        Route::name('priority.')->prefix('priority')->group(function () {
-            Route::get('/', [PriorityController::class, 'index'])->name('index');
-        });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 
     Route::name('qu.')->prefix('qu')->group(function () {
         Route::get('/', [FrontendQuController::class, 'index'])->name('index');
         Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+    });
+    Route::name('priority.')->prefix('priority')->group(function () {
+        Route::get('/', [PriorityController::class, 'index'])->name('index');
+        Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
 });
 
