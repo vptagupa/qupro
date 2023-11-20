@@ -51,4 +51,9 @@ class Config extends Model
     {
         return Config::where('name', 'Screen Interval')->first()?->value;
     }
+
+    public static function isEnabledPriorityOnQuRegistration()
+    {
+        return Config::where('name', 'Enable priority on Qu registration')->first()?->value;
+    }
 }

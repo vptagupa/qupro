@@ -1,4 +1,4 @@
-import QuType from "../priority";
+import Priority from "../priority";
 import { useEffect } from "react";
 
 export default ({ prev, next, ...props }) => {
@@ -18,7 +18,7 @@ export default ({ prev, next, ...props }) => {
 
     return (
         <>
-            <QuType {...props} />
+            <Priority {...props} />
             {process.env.NODE_ENV == "development" && (
                 <div className="mt-10">
                     <div>Zero Screen</div>

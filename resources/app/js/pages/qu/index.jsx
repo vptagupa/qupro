@@ -7,11 +7,15 @@ import FinalScreen from "./components/screens/final.screen";
 import { useState, useEffect, memo, useCallback } from "react";
 import { useControls } from "./components/controls";
 
-export default ({ url }) => {
+export default ({ url, priority = null }) => {
     const controls = useControls({ url });
 
-    const [zeroScreen, setZeroScreen] = useState(true);
-    const [firstScreen, setFirstScreen] = useState(false);
+    const [zeroScreen, setZeroScreen] = useState(
+        priority == null ? true : false,
+    );
+    const [firstScreen, setFirstScreen] = useState(
+        priority == null ? false : true,
+    );
     const [secondScreen, setSecondScreen] = useState(false);
     const [thirdScreen, setThirdScreen] = useState(false);
     const [fourthScreen, setFourthScreen] = useState(false);
@@ -82,12 +86,24 @@ export default ({ url }) => {
     }, [controls]);
 
     const printHandler = useCallback(() => {
-        zeroScreenHandler();
+        if (priority === null) {
+            zeroScreenHandler();
+        } else {
+            firstScreenHandler();
+        }
+        controls.form.clearErrors();
+        controls.form.reset();
     }, []);
 
     const Transition = memo((props) => {
         return props.show && props.children;
     });
+
+    useEffect(() => {
+        if (priority !== null) {
+            controls.form.setData("priority", priority === true);
+        }
+    }, []);
 
     return (
         <>
@@ -102,7 +118,7 @@ export default ({ url }) => {
                     {firstScreen && (
                         <FirstScreen
                             controls={controls}
-                            prev={zeroScreenHandler}
+                            prev={priority === null ? zeroScreenHandler : null}
                             next={secondScreenHandler}
                         />
                     )}
@@ -136,11 +152,11 @@ export default ({ url }) => {
                     )}
                 </div>
 
-                <Transition show={!finalScreen}>
+                {!finalScreen && (
                     <div className="mt-[15%]">
                         <controls.Controls />
                     </div>
-                </Transition>
+                )}
             </div>
         </>
     );

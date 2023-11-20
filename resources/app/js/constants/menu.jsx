@@ -29,7 +29,14 @@ export default [
         name: "Qu",
         icon: <PuzzlePieceIcon className="h-3" />,
         route: "admin.qu.index",
-        permission: "QU",
+        permission: "REGISTRATION",
+    },
+    {
+        id: "priority",
+        name: "Priority",
+        icon: <PuzzlePieceIcon className="h-3" />,
+        route: "admin.priority.index",
+        permission: "REGISTRATION",
     },
     {
         id: "advance.print",

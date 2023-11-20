@@ -1,7 +1,7 @@
 import Layout from "@/js/layouts/layout.admin";
 import Qu from "@/js/pages/qu";
 
-export default ({ priorityEnabled = true }) => {
+export default () => {
     return (
         <Layout>
             <div className="font-bold text-lg">
@@ -10,10 +10,7 @@ export default ({ priorityEnabled = true }) => {
                 </a>
             </div>
             <div>
-                <Qu
-                    url={route("admin.qu.store")}
-                    priorityEnabled={priorityEnabled}
-                />
+                <Qu url={route("admin.qu.store")} />
             </div>
         </Layout>
     );

@@ -47,6 +47,12 @@ class GlobalConfigSeeder extends Seeder
                 'label' => 'In seconds'
 
             ],
+            [
+                "name" => "Enable priority on Qu registration",
+                'value' => true,
+                'type' => 'boolean',
+                'label' => 'If enabled, the Qu\'s are required to select either regular or priority upon registration'
+            ],
 
         ];
 

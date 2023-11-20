@@ -6,6 +6,7 @@ enum Role: string
 {
     case ADMIN = "administrator";
     case TELLER = "teller";
+    case REGISTRATION = "registration";
 
     public static function all(): array
     {
@@ -17,8 +18,8 @@ enum Role: string
     public function toArray(): array
     {
         return [
-            'id' => str()->slug($this->value),
-            'name' => str()->ucfirst($this->value)
+            'id' => str($this->value)->slug(),
+            'name' => str($this->value)->ucfirst()
         ];
     }
 

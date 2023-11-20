@@ -3,12 +3,10 @@
 namespace Tests\Unit;
 
 use App\Repositories\QuRepository;
-use Database\Factories\SharedSeriesFactory;
 use Tests\TestCase;
 use App\Models\Qu;
 use App\Models\AccountType;
 use App\Models\SharedSeries;
-use App\Models\NumFormat;
 use App\Services\Qu as QuService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Testing\DatabaseTruncation;

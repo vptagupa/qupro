@@ -13,7 +13,8 @@ use App\Http\Controllers\Admin\{
     GlobalConfigController,
     TellersControllers,
     QuController,
-    MediaController
+    MediaController,
+    PriorityController,
 };
 use App\Http\Controllers\FrontEnd\{ScreenController, QuController as FrontendQuController};
 
@@ -98,6 +99,9 @@ Route::middleware([
             Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
             Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
             Route::patch('/completed/{id}', [QuController::class, 'completed'])->name('completed');
+        });
+        Route::name('priority.')->prefix('priority')->group(function () {
+            Route::get('/', [PriorityController::class, 'index'])->name('index');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });

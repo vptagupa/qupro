@@ -13,7 +13,7 @@ class QuPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::VIEW_ANY);
+        return $user->hasAccess(Access::REGISTRATION, Action::VIEW_ANY);
     }
 
     /**
@@ -21,7 +21,7 @@ class QuPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::VIEW);
+        return $user->hasAccess(Access::REGISTRATION, Action::VIEW);
     }
 
     /**
@@ -29,7 +29,7 @@ class QuPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::CREATE);
+        return $user->hasAccess(Access::REGISTRATION, Action::CREATE);
     }
 
     /**
@@ -37,7 +37,7 @@ class QuPolicy
      */
     public function updateAny(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::UPDATE);
+        return $user->hasAccess(Access::REGISTRATION, Action::UPDATE);
     }
 
     /**
@@ -45,7 +45,7 @@ class QuPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::DELETE);
+        return $user->hasAccess(Access::REGISTRATION, Action::DELETE);
     }
 
     /**
@@ -53,7 +53,7 @@ class QuPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::RESTORE);
+        return $user->hasAccess(Access::REGISTRATION, Action::RESTORE);
     }
 
     /**
@@ -61,6 +61,6 @@ class QuPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->hasAccess(Access::QU, Action::FORCE_DELETE);
+        return $user->hasAccess(Access::REGISTRATION, Action::FORCE_DELETE);
     }
 }

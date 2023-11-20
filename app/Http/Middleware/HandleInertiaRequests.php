@@ -81,7 +81,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'config' => [
-                // 'enable_skip_seconds' => Config::enableSkipButton()
+                'enabled_prioritY_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration()
             ]
         ];
     }
