@@ -16,6 +16,7 @@ export default memo(({ onWaitingUpdate }) => {
             const response = await getWaitingList(
                 cardContext.accountType.id,
                 include_priority,
+                priority,
             );
 
             const data = response.data;
