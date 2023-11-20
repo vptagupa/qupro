@@ -97,7 +97,7 @@ class ReminderTest extends TestCase
         );
 
         // Test reminders are not yet notified
-        // 7 to 10 is skip since it was previoulsy notified
+        // 7 to 10 are skip since it was previoulsy notified
         $this->assertEquals([11], $reminders->pluck('id')->toArray());
     }
 
