@@ -28,6 +28,7 @@ class Qu extends Model
         'called_at',
         'notified_at',
         'is_representative',
+        'is_advance',
         'active'
     ];
 
@@ -41,6 +42,7 @@ class Qu extends Model
         'is_representative' => 'boolean',
         'called_at' => 'datetime',
         'notified_at' => 'datetime',
+        'is_advance' => 'boolean',
         'type' => Type::class
     ];
 

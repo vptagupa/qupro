@@ -6,6 +6,10 @@ export default ({
     isPriority,
     setIncludePriority,
 }) => {
+    const getVal = (is_advance, value) => {
+        return is_advance ? "Advance" : value ?? "-";
+    };
+
     return (
         <>
             <div className="flex items-center justify-start gap-2 p-2">
@@ -38,10 +42,14 @@ export default ({
                             className="flex  pb-1 pt-1 justify-between items-center uppercase border-b border-slate-300"
                         >
                             {!qu?.is_student && (
-                                <div className="grow ">{qu?.name}</div>
+                                <div className="grow ">
+                                    {getVal(qu.is_advance, qu?.name)}
+                                </div>
                             )}
                             {qu?.is_student && (
-                                <div className="grow">{qu.student_name}</div>
+                                <div className="grow">
+                                    {getVal(qu.is_advance, qu.student_name)}
+                                </div>
                             )}
                             <div className="grow-0 w-[50px]">
                                 {qu?.num_fulltext}

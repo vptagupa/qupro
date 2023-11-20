@@ -43,7 +43,7 @@ export default [
         name: "Advance Print",
         icon: <UserPlusIcon className="h-3" />,
         route: "admin.advance-print.index",
-        permission: "ADVANCE_PRINT",
+        permission: "REGISTRATION",
     },
     {
         id: "account.types",

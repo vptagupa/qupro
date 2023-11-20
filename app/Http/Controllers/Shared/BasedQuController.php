@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Shared;
 
 use App\Http\Controllers\AdminController;
-use App\Repositories\AccountTypeRepository;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuCollection;
 use App\Http\Requests\StoreQuRequest;
 use App\Repositories\QuRepository;
+use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
 
 class BasedQuController extends AdminController

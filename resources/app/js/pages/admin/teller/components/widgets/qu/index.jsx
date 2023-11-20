@@ -13,8 +13,13 @@ export default memo(
             num_fulltext: "00099",
             is_representative: false,
             type: "student",
+            is_advance: false,
         },
     }) => {
+        const getVal = (value) => {
+            return data?.is_advance ? "Advance" : value ?? "-";
+        };
+
         return (
             <>
                 <div className="flex text-lg flex-col w-full">
@@ -33,10 +38,10 @@ export default memo(
                     </div>
                     <div className="text-center  flex items-center text-purple-600 font-bold justify-center uppercase mb-3">
                         {data?.is_representative && (
-                            <div>{data?.name ?? "-"}</div>
+                            <div>{getVal(data?.name)}</div>
                         )}
                         {!data?.is_representative && (
-                            <div>{data?.student_name ?? "-"}</div>
+                            <div>{getVal(data?.student_name)}</div>
                         )}
                     </div>
                     <div className="flex flex-col p-2 border border-white rounded-xl">

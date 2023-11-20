@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->boolean('active')->default(false)->nullable();
             $table->boolean('priority')->default(false);
             $table->boolean('is_representative')->default(false);
+            $table->boolean('is_advance')->default(false);
             $table->datetime('skipped_at')->nullable();
             $table->datetime('called_at')->nullable();
             $table->datetime('completed_at')->nullable();

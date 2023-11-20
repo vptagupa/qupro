@@ -14,8 +14,13 @@ use App\Http\Controllers\Admin\{
     TellersControllers,
     QuController,
     MediaController,
+    AdvancePrintController,
 };
-use App\Http\Controllers\FrontEnd\{ScreenController, QuController as FrontendQuController, PriorityController};
+use App\Http\Controllers\FrontEnd\{
+    ScreenController,
+    QuController as FrontendQuController,
+    PriorityController
+};
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use App\Http\Middleware\RedirectIfTemporaryPassword;
@@ -98,6 +103,10 @@ Route::middleware([
             Route::post('/served-list', [QuController::class, 'getServedList'])->name('served_list');
             Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
             Route::patch('/completed/{id}', [QuController::class, 'completed'])->name('completed');
+        });
+        Route::name('advance-print.')->prefix('advance-print')->group(function () {
+            Route::get('/', [AdvancePrintController::class, 'index'])->name('index');
+            Route::post('/', [AdvancePrintController::class, 'store'])->middleware('can:create, App\Models\Qu')->name('store');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
