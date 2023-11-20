@@ -7,6 +7,8 @@ use App\Http\Requests\StoreAdvancePrintRequest;
 use App\Repositories\QuRepository;
 use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
+use App\Services\Printer;
+use Limetec\PhpNetworkLprPrinter\PhpNetworkLprPrinter;
 
 class AdvancePrintController extends AdminController
 {
@@ -31,6 +33,10 @@ class AdvancePrintController extends AdminController
      */
     public function store(StoreAdvancePrintRequest $request)
     {
+        // $lpr = new PhpNetworkLprPrinter('192.168.100.37', 3911);
+        // $lpr->printText("Hello world!");
+        // // Printer::print();
+        // return 1;
         $validated = $request->validated();
         $accountTypeId = $validated['account_type_id'];
         $count = $validated['count'];

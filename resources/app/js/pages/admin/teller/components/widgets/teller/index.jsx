@@ -41,6 +41,11 @@ const Component = () => {
                                 form.setData("name", e.target.value)
                             }
                         />
+                        {form.invalid("name") && (
+                            <span className="text-danger text-xs">
+                                {form.errors.name}
+                            </span>
+                        )}
                     </div>
                     <div className="mt-2 flex items-center justify-end">
                         <Progress

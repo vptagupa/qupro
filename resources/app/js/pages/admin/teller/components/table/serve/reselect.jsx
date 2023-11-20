@@ -3,19 +3,14 @@ import { useState } from "react";
 import Event from "@/js/helpers/event";
 import { useContext } from "react";
 import { AccountTypeContext } from "../../context/card";
+import { reselect } from "../../requests";
 
 export default ({ item }) => {
     const accountType = useContext(AccountTypeContext);
     const [loading, setLoading] = useState(false);
     const handleReselect = (qu) => {
         setLoading(true);
-
-        axios
-            .patch(
-                route("admin.qu.recalled", {
-                    id: qu.id,
-                }),
-            )
+        reselect(qu.id)
             .then((response) => {
                 Event.emit(`${accountType.id}.set-qu`, qu);
                 Event.emit(`${accountType.id}.modal.records.show`, false);

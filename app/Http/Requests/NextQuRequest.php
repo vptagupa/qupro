@@ -27,7 +27,8 @@ class NextQuRequest extends FormRequest
         return [
             'priority' => 'required|boolean',
             'qu' => 'nullable|integer',
-            'account_type.id' => 'integer|required'
+            'account_type.id' => 'integer|required',
+            'counter_name' => 'required'
         ];
     }
 
@@ -35,7 +36,8 @@ class NextQuRequest extends FormRequest
     {
         $this->merge([
             'priority' => $this->priority == PriorityType::PRIORITY->value,
-            'qu' => $this->qu ? $this->qu['id'] : null
+            'qu' => $this->qu ? $this->qu['id'] : null,
+            'counter_name' => $this->user()->counter_name
         ]);
     }
 }

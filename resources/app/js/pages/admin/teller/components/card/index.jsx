@@ -8,12 +8,12 @@ import NextButton from "../buttons/next";
 import Records from "../modal/records";
 import { CardContext } from "../context/card";
 import PriorityTotals from "../badge/priority.totals";
-import { completed } from "../api";
+import { completed } from "../requests";
+import Message from "../widgets/message";
 
 const Component = ({ accountType }) => {
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState({
         priorities: 0,
         regulars: 0,
@@ -102,24 +102,20 @@ const Component = ({ accountType }) => {
 
     const submit = useMemo(() => {
         return () => {
-            if (isSubmitEnabled() && !loading) {
+            if (isSubmitEnabled() && !form.processing) {
                 form.submit({
                     only: ["errors", "qu", "waiting", "next"],
                     preserveState: true,
                     preserveScroll: true,
-                    onBefore: () => setLoading(true),
                     onSuccess: (page) => {
                         eventResetAllCardsQu(form.data.qu);
                         setQu(page.props.next.data);
-                        setLoading(false);
                         Event.emit(`${accountType.id}.waiting-reload`);
                     },
-                    onError: () => setLoading(false),
-                    onFinal: () => setLoading(false),
                 });
             }
         };
-    }, [form, isSubmitEnabled, loading]);
+    }, [form, isSubmitEnabled]);
 
     const eventResetAllCardsQu = (qu) => {
         if (qu?.id) {
@@ -160,6 +156,11 @@ const Component = ({ accountType }) => {
     return (
         <>
             <CardContext.Provider value={cardContextValue}>
+                {form.hasErrors && (
+                    <div className="mb-2">
+                        <Message message={form.errors} />
+                    </div>
+                )}
                 <Records />
                 <div
                     className={`${
@@ -184,7 +185,7 @@ const Component = ({ accountType }) => {
                                     isPriority={isPriority}
                                     label={submitLabel()}
                                     submit={submit}
-                                    loading={loading}
+                                    loading={form.processing}
                                     enabled={isSubmitEnabled()}
                                 />
                             </div>

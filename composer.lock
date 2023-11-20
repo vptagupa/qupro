@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b014f0f02930cfca6bf31b9d6fe65d5c",
+    "content-hash": "3ad8e7f390cfc0a1eb963f27097abded",
     "packages": [
         {
             "name": "brick/math",
@@ -2233,6 +2233,36 @@
                 }
             ],
             "time": "2023-10-17T14:13:20+00:00"
+        },
+        {
+            "name": "limetec/php-network-lpr-printer",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LimetecBiotechnologies/PhpNetworkLprPrinter.git",
+                "reference": "60fab51ac473744b7860b9e8805562e48a3e0d7e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LimetecBiotechnologies/PhpNetworkLprPrinter/zipball/60fab51ac473744b7860b9e8805562e48a3e0d7e",
+                "reference": "60fab51ac473744b7860b9e8805562e48a3e0d7e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Limetec\\PhpNetworkLprPrinter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "PHP class to manage network printers via LPR (Line Printer Daemon Protocol) standard",
+            "support": {
+                "source": "https://github.com/LimetecBiotechnologies/PhpNetworkLprPrinter/tree/v1.2.0"
+            },
+            "time": "2022-05-30T11:51:35+00:00"
         },
         {
             "name": "monolog/monolog",

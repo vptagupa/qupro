@@ -53,7 +53,7 @@ const Component = (props) => {
                         <div>
                             <Input
                                 type="text"
-                                className="h-[15rem] !w-[25rem] text-[10rem] p-5 text-center 
+                                className="h-[15rem] !w-[25rem] !text-[10rem] p-5 text-center 
                                         border-t-0 border-l-0 border-r-0 !border-b-1 !border-b-slate-300
                                         rounded-none bg-transparent disabled:bg-slate-200/50"
                                 disabled={form.data.account_type == ""}

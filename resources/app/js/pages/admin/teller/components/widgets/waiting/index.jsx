@@ -2,6 +2,7 @@ import Body from "./body";
 import { useEffect, useState, useCallback, memo, useContext } from "react";
 import { CardContext } from "../../context/card";
 import Event from "@/js/helpers/event";
+import { getWaitingList } from "../../requests";
 
 export default memo(({ onWaitingUpdate }) => {
     const cardContext = useContext(CardContext);
@@ -12,19 +13,15 @@ export default memo(({ onWaitingUpdate }) => {
 
     const waiting = useCallback((include_priority = null, priority = null) => {
         const data = async () => {
-            const response = await axios.post(
-                route("admin.qu.waiting", {
-                    type: cardContext.accountType.id,
-                }),
-                {
-                    include_priority,
-                    priority,
-                },
+            const response = await getWaitingList(
+                cardContext.accountType.id,
+                include_priority,
             );
 
             const data = response.data;
 
             setData(data.data.waiting);
+
             onWaitingUpdate.setHasNextPriority(data.meta.has_next_priority);
             onWaitingUpdate.setHasNextRegular(data.meta.has_next_regular);
             onWaitingUpdate.setTotal({
