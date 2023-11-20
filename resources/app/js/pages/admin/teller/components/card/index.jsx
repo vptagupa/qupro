@@ -2,7 +2,13 @@ import Qu from "../widgets/qu";
 import Waiting from "../widgets/waiting";
 import PropTypes from "prop-types";
 import { useForm } from "@/js/helpers/form";
-import { useEffect, useState, useCallback, useMemo } from "react";
+import {
+    useEffect,
+    useState,
+    useCallback,
+    useMemo,
+    useTransition,
+} from "react";
 import Event from "@/js/helpers/event";
 import NextButton from "../buttons/next";
 import Records from "../modal/records";
@@ -12,6 +18,7 @@ import { completed } from "../requests";
 import Message from "../widgets/message";
 
 const Component = ({ accountType }) => {
+    const [isPending, startTransition] = useTransition();
     const [hasNextPriority, setHasNextPriority] = useState(false);
     const [hasNextRegular, setHasNextRegular] = useState(false);
     const [total, setTotal] = useState({
@@ -42,10 +49,10 @@ const Component = ({ accountType }) => {
             form.setData("priority", "regular");
         }
 
-        if (hasQu()) {
-            setComplete(form.data.qu.id);
-            setQu(null);
-        }
+        // if (hasQu()) {
+        //     setComplete();
+        //     setQu(null);
+        // }
     }, [form.data]);
 
     const onWaitingUpdate = useMemo(
@@ -79,8 +86,13 @@ const Component = ({ accountType }) => {
         return "Start";
     };
 
-    const setComplete = async (id) => {
-        await completed(id);
+    const setComplete = () => {
+        startTransition(() => {
+            const request = async () => {
+                await completed(Qu.id);
+            };
+            request();
+        });
     };
 
     const isSubmitEnabled = useMemo(() => {
