@@ -1,17 +1,26 @@
 import Image from "./image";
 import Video from "./video";
 import { Transition } from "@headlessui/react";
-import { memo, useCallback, useState, useEffect, useRef } from "react";
+import {
+    memo,
+    useCallback,
+    useState,
+    useEffect,
+    useRef,
+    useDeferredValue,
+} from "react";
 
 export default memo(({ media, interval }) => {
     const ref = useRef(null);
     const [index, setIndex] = useState(0);
-    const [play, setPlay] = useState(media[index]);
-
-    const onShow = (i) => i === index;
+    const deferredIndex = useDeferredValue(index);
 
     const onEnded = useCallback((index) => {
         setIndex(media.length - 1 > index ? index + 1 : 0);
+
+        if (media.length == 1) {
+            onPlay();
+        }
     }, []);
 
     const onEndedVideo = () => {
@@ -25,59 +34,50 @@ export default memo(({ media, interval }) => {
         }, interval * 1000);
     };
 
-    useEffect(() => {
-        setPlay(media[index]);
-    }, [index]);
-
-    useEffect(() => {
-        if (index > 0 && play.is_video) {
+    const onPlay = () => {
+        if (media[index].is_video) {
             onEndedVideo();
         }
 
-        if (play.is_image) {
+        if (media[index].is_image) {
             onEndedImage();
         }
+    };
 
+    useEffect(() => {
+        onPlay();
         return () => clearTimeout(timeoutId);
-    }, [play]);
+    }, [index]);
 
     return (
         <>
             <div>
-                <div
-                    key={media.id}
-                    className="flex items-center justify-center p-2"
-                >
-                    {media.map((play, idx) => {
-                        return (
-                            <Transition
-                                key={play.id}
-                                show={onShow(idx)}
-                                enter="transition-opacity duration-75"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="transition-opacity duration-150"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                                className="w-full"
-                            >
-                                {play.is_image && (
-                                    <Image
-                                        ref={ref}
-                                        url={play.file.url}
-                                        onEnded={onEnded}
-                                    />
-                                )}
-                                {play.is_video && (
-                                    <Video
-                                        ref={ref}
-                                        url={play.file.url}
-                                        onEnded={(e) => onEnded(index)}
-                                    />
-                                )}
-                            </Transition>
-                        );
-                    })}
+                <div className="flex items-center justify-center p-2">
+                    <Transition
+                        show={deferredIndex == index}
+                        enter="transition-opacity duration-75"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity duration-150"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                        className="w-full"
+                    >
+                        {media[index].is_image && (
+                            <Image
+                                ref={ref}
+                                url={media[index].file.url}
+                                onEnded={onEnded}
+                            />
+                        )}
+                        {media[index].is_video && (
+                            <Video
+                                ref={ref}
+                                url={media[index].file.url}
+                                onEnded={(e) => onEnded(index)}
+                            />
+                        )}
+                    </Transition>
                 </div>
             </div>
         </>

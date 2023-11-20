@@ -12,7 +12,7 @@ const Component = (props) => {
             <Layout>
                 <div className="font-bold text-lg mb-4">Configurations</div>
                 <div className="columns-2 gap-3">
-                    <div>
+                    <div className="mb-3">
                         <div>
                             <SharedTitle />
                         </div>
@@ -22,14 +22,14 @@ const Component = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div className="mb-3">
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
                             <div className="rounded-2xl">
                                 <Global />
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div className="mb-3">
                         <div>
                             <MeditTitle />
                         </div>

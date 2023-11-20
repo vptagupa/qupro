@@ -1,9 +1,7 @@
 import Layout from "@/js/layouts/public";
-
 import Message from "../components/message";
 import Media from "../components/media";
 import Counter from "../components/counter";
-import Event from "@/js/helpers/event";
 import { useState, useEffect, useCallback } from "react";
 
 export default ({ screen_id }) => {

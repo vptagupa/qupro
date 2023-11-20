@@ -11,7 +11,7 @@ export default forwardRef((props, ref) => {
                     onEnded={(e) => props.onEnded()}
                     src={props.url}
                     width="100%"
-                    className="w-[100%] border-2 border-slate-200 border-solid rounded-lg"
+                    className="!w-[100%] border-2 border-slate-200 border-solid rounded-lg"
                 >
                     Your browser does not support the video tag.
                 </video>

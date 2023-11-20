@@ -4,7 +4,7 @@ export default memo(({ tickets }) => {
     return (
         <>
             <div className="">
-                <table className="w-full text-4xl uppercase">
+                <table className="w-full text-3xl uppercase">
                     <thead>
                         <tr>
                             <th className="border-b border-solid border-slate-300">
