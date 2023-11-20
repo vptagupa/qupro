@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
             $table->foreignId('file_id')->constrained('files')->cascadeOnDelete();
-            $table->unsignedSmallInteger('seq');
+            $table->unsignedSmallInteger('seq')->default(0);
             $table->boolean('active')->default(true);
             $table->timestamps();
         });
