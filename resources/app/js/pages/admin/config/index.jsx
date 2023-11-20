@@ -3,6 +3,7 @@ import SharedSeries from "./components/shared-series";
 import Global from "./components/global";
 import Media from "./components/media";
 import MeditTitle from "./components/media/title";
+import GlobalTitle from "./components/global/title";
 import SharedTitle from "./components/shared-series/title";
 
 const Component = (props) => {
@@ -22,7 +23,6 @@ const Component = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div className="text-md mb-2">Global</div>
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
                             <div className="rounded-2xl">
                                 <Global />

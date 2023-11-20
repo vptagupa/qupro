@@ -23,6 +23,10 @@ const Component = (props) => {
             preserveState: true,
             preserveScroll: true,
             only: ["errors", "accountTypes"],
+            onSuccess: () => {
+                form.reset();
+                form.clearErrors();
+            },
         });
     };
     console.log(form);
@@ -80,7 +84,7 @@ const Component = (props) => {
                                     className="animate-spin h-10 mr-2 text-opacity-10 text-slate-100"
                                 />
                             ) : (
-                                <PrinterIcon className="h-10" />
+                                <PrinterIcon className="h-10 mr-2" />
                             )}
                             Print
                         </SecondaryButton>
