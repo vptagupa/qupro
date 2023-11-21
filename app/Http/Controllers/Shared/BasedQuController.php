@@ -28,7 +28,7 @@ class BasedQuController extends AdminController
     {
         return [
             'student_no' => '0001',
-            'name' => 'Victor P. Tagupa Jr',
+            'name' => 'John Smith',
             'course_code' => 'BSIT',
             'course' => 'Bachelor of Science in Information Technology'
         ];
