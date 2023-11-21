@@ -74,6 +74,11 @@ const Component = ({ form, completed, active, setActive }) => {
             </div>
             <div>
                 <span className="text-xs">Format:</span>
+                <span className="text-xs block italic ml-2">
+                    E.g.: {"{affix}"}
+                    {"{delimiter}"}
+                    {"{series}"}
+                </span>
                 <Input
                     type="text"
                     name="format"

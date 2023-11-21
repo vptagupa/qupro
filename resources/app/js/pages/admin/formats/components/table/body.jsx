@@ -64,7 +64,6 @@ const Component = ({
                                     <Tr key={item.id}>
                                         <Td>
                                             <div className="flex items-center space-x-1">
-                                                <span>{item.title} </span>
                                                 <span
                                                     className={
                                                         "font-extrabold" +
@@ -72,10 +71,15 @@ const Component = ({
                                                             ? " text-success"
                                                             : "")
                                                     }
-                                                    title="Active"
+                                                    title={`${
+                                                        !item.active
+                                                            ? "Not"
+                                                            : ""
+                                                    } Active`}
                                                 >
                                                     <CheckCircleIcon className="h-4" />
                                                 </span>
+                                                <span>{item.title} </span>
                                             </div>
                                         </Td>
                                         <Td>{item.format}</Td>
