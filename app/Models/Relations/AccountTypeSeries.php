@@ -52,11 +52,11 @@ trait AccountTypeSeries
         })
             // Continues series
             ->when($priority && !Config::isPrioritySeriesSeparate(), function ($builder) {
+                $priority = false;
                 if ($this->capatureHasAnySharedSeries() && $this->captureHasPrioritySharedSeries()) {
-                    $builder->where('priority', true);
-                } else {
-                    $builder->where('priority', false);
+                    $priority = true;
                 }
+                $builder->where('priority', $priority);
             })
             ->when(!$priority, function ($builder) {
                 $builder->where('priority', false);
