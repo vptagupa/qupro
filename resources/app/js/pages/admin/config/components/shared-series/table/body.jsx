@@ -64,14 +64,6 @@ const Component = ({
                                     <Tr key={item.id}>
                                         <Td>
                                             <div className="flex items-center space-x-1">
-                                                <span>
-                                                    {" "}
-                                                    {item.account_types
-                                                        .map(
-                                                            (type) => type.name,
-                                                        )
-                                                        .join(", ")}
-                                                </span>
                                                 <span
                                                     className={
                                                         "font-extrabold" +
@@ -79,9 +71,21 @@ const Component = ({
                                                             ? " text-success"
                                                             : "")
                                                     }
-                                                    title="Priority"
+                                                    title={`${
+                                                        !item.priority
+                                                            ? "Not"
+                                                            : ""
+                                                    } Priority`}
                                                 >
-                                                    <CheckCircleIcon className="h-4" />
+                                                    P
+                                                </span>
+                                                <span>
+                                                    {" "}
+                                                    {item.account_types
+                                                        .map(
+                                                            (type) => type.name,
+                                                        )
+                                                        .join(", ")}
                                                 </span>
                                             </div>
                                         </Td>
