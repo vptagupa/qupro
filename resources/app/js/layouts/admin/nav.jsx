@@ -3,6 +3,8 @@ import { HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import menu from "@/js/constants/menu";
 import { Link } from "@inertiajs/react";
 import Logo from "@/assets/images/logo.svg";
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const activeMenu = () => menu.filter((m) => route().current(m.route))[0] ?? [];
 
@@ -40,9 +42,9 @@ export default () => {
                 <div>
                     <Menu as="div" className="relative ml-3">
                         <Menu.Button className="outline-2 ">
-                            <img
-                                className="h-6 w-auto rounded-full shadow-md"
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            <FontAwesomeIcon
+                                icon={faUserAstronaut}
+                                className="h-6 "
                             />
                         </Menu.Button>
                         <Transition
