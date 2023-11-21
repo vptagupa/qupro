@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->role == Role::TELLER;
     }
 
+    public function isRegistrator()
+    {
+        return $this->role == Role::REGISTRATION;
+    }
+
     public function access(): Attribute
     {
         return Attribute::make(

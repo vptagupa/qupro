@@ -50,7 +50,7 @@ class AuthController extends AdminController
 
             $request->session()->regenerate();
 
-            return $this->inertia()::location(redirect()->intended('/admin/dashboard'));
+            return $this->redirectTo();
         }
 
         return $this->render(
@@ -62,6 +62,19 @@ class AuthController extends AdminController
                 ]
             ]
         );
+    }
+
+    private function redirectTo()
+    {
+        $intended = '/admin/dashboard';
+        $user = Auth::user();
+        if ($user->isTeller()) {
+            $intended = '/admin/tellers';
+        } elseif ($user->isRegistrator()) {
+            $intended = '/admin/qu';
+        }
+
+        return $this->inertia()::location(redirect()->intended($intended));
     }
 
     public function logout(Request $request)
