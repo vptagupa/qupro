@@ -1,22 +1,39 @@
 import { Menu, Transition } from "@headlessui/react";
-import { HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import {
+    HomeIcon,
+    Bars3Icon,
+    Bars3BottomRightIcon,
+} from "@heroicons/react/24/outline";
 import menu from "@/js/constants/menu";
 import { Link } from "@inertiajs/react";
 import Logo from "@/assets/images/logo.svg";
 import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Sidebar from "./sidebar";
+import { useState } from "react";
 
 const activeMenu = () => menu.filter((m) => route().current(m.route))[0] ?? [];
 
 export default () => {
+    const [open, setOpen] = useState(false);
+    const onSiderbarClick = () => {
+        setOpen(!open);
+    };
     return (
         <>
             <div className="flex justify-between items-center h-12">
                 <div className="flex xs:grow lg:hidden">
-                    <div className="lg:hidden mr-2">
-                        <button>
-                            <Bars3Icon className="h-6 w-6" />
-                        </button>
+                    <div className="mr-2">
+                        <span
+                            onClick={(e) => onSiderbarClick()}
+                            className="cursor-pointer"
+                        >
+                            {!open ? (
+                                <Bars3Icon className="h-6 w-6" />
+                            ) : (
+                                <Bars3BottomRightIcon className="h-6 w-6" />
+                            )}
+                        </span>
                     </div>
                     <div className="xs:grow lg:flex-none text-center">
                         <img className="h-8 w-auto inline mr-2" src={Logo} />
@@ -24,6 +41,19 @@ export default () => {
                             QuPro
                         </span>
                     </div>
+                    <Transition
+                        show={open}
+                        enter="transition-opacity duration-75"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity duration-150"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed z-50 bg-white left-0 top-[3rem] p-4 rounded-tr-xl rounded-br-xl">
+                            <Sidebar />
+                        </div>
+                    </Transition>
                 </div>
                 <div className="xs:hidden lg:block">
                     <div className="flex">
