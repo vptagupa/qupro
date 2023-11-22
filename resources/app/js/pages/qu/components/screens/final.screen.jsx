@@ -4,6 +4,20 @@ import { Button } from "@/js/components/buttons";
 import { PrinterIcon } from "@heroicons/react/24/solid";
 
 const Component = ({ printHandler, ...props }) => {
+    const print = () => {
+        axios
+            .get(
+                `${import.meta.env.VITE_PRINTER_URL}/print/${
+                    props.controls.form.data.qu.num_fulltext
+                }`,
+            )
+            .then((res) => {
+                printHandler();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <>
             <div>
@@ -13,7 +27,7 @@ const Component = ({ printHandler, ...props }) => {
                         <div className="flex gap-5 items-center justify-center">
                             <Button
                                 type="button"
-                                onClick={(e) => printHandler()}
+                                onClick={(e) => print()}
                                 className="flex gap-x-2 justify-center h-[5rem] w-[10rem] text-[1.2rem] text-center text-white uppercase font-extrabold bg-gradient-to-r  from-purple-400 to-fuchsia-400"
                             >
                                 <span>

@@ -1,21 +1,28 @@
 const express = require("express");
+var cors = require("cors");
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
-    const printer = require("@thiagoelg/node-printer");
-    console.log(printer.getDefaultPrinterName());
-    printer.printDirect({
-        data: "print from Node.JS buffer", // or simple String: "some text"
-        //, printer:'Foxit Reader PDF Printer' // printer name, if missing then will print to default printer
-        type: "RAW", // type: RAW, TEXT, PDF, JPEG, .. depends on platform
-        success: function (jobID) {
-            console.log("sent to printer with ID: " + jobID);
-        },
-        error: function (err) {
-            console.log(err);
-        },
-    });
+app.use(cors());
+
+app.get("/print/:qu", (req, res) => {
+    const filename = "qu.pdf";
+    const fs = require("fs");
+    const printer = require("pdf-to-printer");
+    const PDFDocument = require("pdfkit");
+    const doc = new PDFDocument();
+
+    doc.fontSize(30);
+    doc.text(req.params.qu);
+    doc.pipe(fs.createWriteStream(filename));
+    doc.end();
+
+    const print = async () => {
+        await printer.print(filename);
+    };
+
+    print();
+
     res.send("Hello World!");
 });
 
