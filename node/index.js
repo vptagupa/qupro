@@ -3,7 +3,12 @@ var cors = require("cors");
 const app = express();
 const port = 3000;
 
-app.use(cors());
+var corsOptions = {
+    origin: "http://qupro.local",
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.get("/print/:qu", (req, res) => {
     const filename = "qu.pdf";
