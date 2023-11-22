@@ -2,9 +2,14 @@ import PropTypes from "prop-types";
 import QuInfo from "../qu.info";
 import { Button } from "@/js/components/buttons";
 import { PrinterIcon } from "@heroicons/react/24/solid";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 const Component = ({ printHandler, ...props }) => {
+    const [loading, setLoading] = useState(false);
     const print = () => {
+        setLoading(true);
         axios
             .get(
                 `${import.meta.env.VITE_PRINTER_URL}/print/${
@@ -12,10 +17,14 @@ const Component = ({ printHandler, ...props }) => {
                 }`,
             )
             .then((res) => {
-                printHandler();
+                // printHandler();
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                printHandler();
+                setLoading(false);
             });
     };
     return (
@@ -31,7 +40,14 @@ const Component = ({ printHandler, ...props }) => {
                                 className="flex gap-x-2 justify-center h-[5rem] w-[10rem] text-[1.2rem] text-center text-white uppercase font-extrabold bg-gradient-to-r  from-purple-400 to-fuchsia-400"
                             >
                                 <span>
-                                    <PrinterIcon className="h-10" />
+                                    {loading ? (
+                                        <FontAwesomeIcon
+                                            className="animate-spin  h-6"
+                                            icon={faSpinner}
+                                        />
+                                    ) : (
+                                        <PrinterIcon className="h-10" />
+                                    )}
                                 </span>
                                 <span>Print</span>
                             </Button>
