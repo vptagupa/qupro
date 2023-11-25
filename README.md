@@ -31,7 +31,7 @@ npm run dev
 
 ## Instructions
 
-To login with default account, locate UserSeeder in database/seeders directory.
+To login with default account, locate UserSeeder in database/seeders directory (use for development mode only).
 
 To generate fake Qu's, execute this:
 
@@ -39,7 +39,9 @@ To generate fake Qu's, execute this:
 php artisan db:seed --class=FakeQuSeeder
 ```
 
-To use the real-time updates, fill-up the pusher API keys in .env.
+### Real-Time Updates
+
+Enable Pusher by filling up the Pusher API keys in .env file.
 
 ### Enable Print
 
@@ -47,7 +49,7 @@ Printing of tickets are executed through nodejs.
 
 ```
 cd node
-# Open index.js, update site origin for your laravel app host url
+# Open index.js, update site origin of your laravel app hosting url
 # Run
 node index.js
 # The printing service will automatically use the default printer in your computer
