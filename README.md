@@ -31,7 +31,7 @@ npm run dev
 
 ## Instructions
 
-To login with default account, locate UserSeeder in database/seeders directory (use for development mode only).
+To login with default account, locate UserSeeder in database/seeders directory (for development mode use only).
 
 To generate fake Qu's, execute this:
 
@@ -41,7 +41,12 @@ php artisan db:seed --class=FakeQuSeeder
 
 ### Real-Time Updates
 
-Enable Pusher by filling up the Pusher API keys in .env file.
+Enable Pusher by updating the broadcast driver and filling up the Pusher API keys in .env file.
+
+```
+BROADCAST_DRIVER=pusher
+
+```
 
 ### Enable Print
 
