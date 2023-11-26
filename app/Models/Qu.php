@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\Type;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class Qu extends Model
 {
@@ -51,6 +53,10 @@ class Qu extends Model
         static::created(function (Qu $model) {
             QuCreated::dispatch($model);
         });
+
+        static::addGlobalScope('now', function (Builder $builder) {
+            $builder->whereDate('created_at', Carbon::now()->format('Y-m-d'));
+        });
     }
 
     public function teller()
@@ -68,5 +74,10 @@ class Qu extends Model
         return Attribute::make(
             get: fn() => $this->type->isStudent()
         );
+    }
+
+    public function scopeNow($query)
+    {
+        return $query->whereDate('created_at', Carbon::now()->format('Y-m-d'));
     }
 }

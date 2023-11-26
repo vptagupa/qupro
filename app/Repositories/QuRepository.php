@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\AccountType;
 use App\Models\Qu;
+use Carbon\Carbon;
 
 class QuRepository extends Repository
 {
@@ -31,7 +32,7 @@ class QuRepository extends Repository
             query: [
                 'uncalled' => true,
                 'priority' => $priority,
-                'account_type_id' => $accountTypeId
+                'account_type_id' => $accountTypeId,
             ],
             paginate: false,
             get: false
@@ -43,7 +44,7 @@ class QuRepository extends Repository
         return $this->list(
             query: [
                 'called' => true,
-                'account_type_id' => $accountTypeIds
+                'account_type_id' => $accountTypeIds,
             ],
             columns: [
                 'num_fulltext',
@@ -55,7 +56,6 @@ class QuRepository extends Repository
             get: false,
         )
             ->groupBy(['counter_name', 'num_fulltext', 'called_at', 'type'])
-            ->whereDate('called_at', now()->format('Y-m-d'))
             ->limit(5)
             ->get();
     }
@@ -96,7 +96,7 @@ class QuRepository extends Repository
                 'uncalled' => true,
                 'accountType' => true,
                 'priority' => $priority,
-                'account_type_id' => $accountTypeId
+                'account_type_id' => $accountTypeId,
             ],
             paginate: $paginate,
             orderBy: ['id', 'asc'],

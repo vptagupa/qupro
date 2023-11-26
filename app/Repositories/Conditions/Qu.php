@@ -114,4 +114,18 @@ trait Qu
             $builder->whereIn('account_type_id', $ids);
         });
     }
+
+    protected function createdAtCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['created_at']) && $query['created_at'], function ($builder) use ($query) {
+            $builder->whereDate('created_at', $query['created_at']);
+        });
+    }
+
+    protected function nowAtCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['now']) && $query['now'], function ($builder) use ($query) {
+            $builder->now();
+        });
+    }
 }
