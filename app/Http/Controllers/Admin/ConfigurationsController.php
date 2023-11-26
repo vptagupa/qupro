@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Screen;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,8 @@ class ConfigurationsController extends AdminController
      */
     public function index()
     {
-        return $this->render('admin/config/index');
+        return $this->render('admin/config/index', [
+            'screens' => Screen::all()
+        ]);
     }
 }

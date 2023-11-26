@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 35);
             $table->json('account_type_ids');
-            $table->enum('screen', array_map(fn($screen) => $screen->value, Screen::cases()));
+            $table->enum('screen', array_map(fn($screen) => $screen->value, Screen::cases()))->length(35);
             $table->timestamps();
         });
     }

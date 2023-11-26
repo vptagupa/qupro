@@ -2,11 +2,13 @@ import Layout from "@/js/layouts/layout.admin";
 import SharedSeries from "./components/shared-series";
 import Global from "./components/global";
 import Media from "./components/media";
+import Screen from "./components/screen";
 import MeditTitle from "./components/media/title";
-import GlobalTitle from "./components/global/title";
+import ScreenTitle from "./components/screen/title";
 import SharedTitle from "./components/shared-series/title";
 
 const Component = (props) => {
+    console.log(props);
     return (
         <>
             <Layout>
@@ -19,6 +21,16 @@ const Component = (props) => {
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
                             <div className="rounded-2xl">
                                 <SharedSeries />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <div>
+                            <ScreenTitle />
+                        </div>
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                            <div className="rounded-2xl">
+                                <Screen />
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,86 @@
+import Form from "./form";
+import { Modal, Title, Footer } from "@/js/components/modal";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { useEffect } from "react";
+import Event from "@/js/helpers/event";
+import FooterForm from "./form.footer";
+import { useForm } from "@/js/helpers/form";
+import { useAccountTypes } from "../shared/account.types";
+
+export default ({ data }) => {
+    const {
+        data: accountTypes,
+        check: accountTypeHandler,
+        setData: setAccountTypes,
+    } = useAccountTypes();
+    const { open, setOpen, form, closeForm } = useForm({
+        method: "patch",
+        route: route("admin.configurations.screen.update", {
+            screen: data.id,
+        }),
+        data: {
+            id: data.id,
+            screen: data.screen,
+            account_types: data.account_types,
+            name: data.name,
+        },
+    });
+
+    const submit = (e) => {
+        form.submit({
+            preseverScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+                Event.emit("reload");
+                form.clearErrors();
+                setTimeout(() => {
+                    setOpen(false);
+                }, 1000);
+            },
+        });
+    };
+
+    useEffect(() => {
+        setAccountTypes(
+            accountTypes.map((type) => {
+                type.checked = false;
+                if (data.account_type_ids.includes(type.id)) {
+                    type.checked = true;
+                }
+
+                return type;
+            }),
+        );
+    }, [open]);
+
+    useEffect(() => {
+        form.setData(
+            "account_types",
+            accountTypes.filter((type) => type.checked),
+        );
+    }, [accountTypes]);
+
+    return (
+        <>
+            <div className="cursor" onClick={(e) => setOpen(true)}>
+                <PencilSquareIcon className="h-5 text-slate-500" />
+            </div>
+            <Modal open={open}>
+                <Title>Update</Title>
+                <Form
+                    form={form}
+                    successful={form.recentlySuccessful}
+                    accountTypes={accountTypes}
+                    setAccountTypesHandler={accountTypeHandler}
+                />
+                <Footer>
+                    <FooterForm
+                        form={form}
+                        closeForm={closeForm}
+                        submit={submit}
+                    />
+                </Footer>
+            </Modal>
+        </>
+    );
+};

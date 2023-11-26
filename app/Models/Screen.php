@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 use App\Enums\Screen as Enum;
 
@@ -21,4 +22,15 @@ class Screen extends Model
         'account_type_ids' => 'array',
         'screen' => Enum::class
     ];
+
+    protected $appends = [
+        'account_types'
+    ];
+
+    public function accountTypes(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => AccountType::whereIn('id', $this->account_type_ids)->get()
+        );
+    }
 }

@@ -15,9 +15,10 @@ use App\Http\Controllers\Admin\{
     QuController,
     MediaController,
     AdvancePrintController,
+    ScreenController,
 };
 use App\Http\Controllers\FrontEnd\{
-    ScreenController,
+    ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
     PriorityController
 };
@@ -92,6 +93,12 @@ Route::middleware([
                 Route::patch('/active/{id}', [MediaController::class, 'active'])->middleware('can:updateAny, App\Models\File')->name('active');
                 Route::delete('/{id}', [MediaController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\File');
             });
+            Route::name('screen.')->prefix('screen')->group(function () {
+                Route::post('/list', [ScreenController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Screen');
+                Route::post('/', [ScreenController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Screen'])->name('store');
+                Route::patch('/{screen}', [ScreenController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Screen'])->name('update');
+                Route::delete('/{screen}', [ScreenController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Screen');
+            });
         });
         Route::name('qu.')->prefix('qu')->group(function () {
             Route::get('/', [QuController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Qu');
@@ -122,8 +129,8 @@ Route::middleware([
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
-    Route::get('/{screen}', [ScreenController::class, 'index'])->name('index');
-    Route::get('/updated/{screen}', [ScreenController::class, 'updated'])->name('updated');
+    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
+    Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
 });
 
 Route::redirect('/admin', '/admin/dashboard');
