@@ -6,9 +6,10 @@ import { AlertSuccess } from "@/js/components/alerts";
 import { Transition } from "@headlessui/react";
 import { PrinterIcon } from "@heroicons/react/24/solid";
 import Circle from "@/assets/images/circle.svg";
+import { print } from "@/js/helpers";
 
 const Component = (props) => {
-    const { form, completed } = useForm({
+    const { form } = useForm({
         method: "post",
         route: route("admin.advance-print.store"),
         data: {
@@ -22,14 +23,20 @@ const Component = (props) => {
         form.submit({
             preserveState: true,
             preserveScroll: true,
-            only: ["errors", "accountTypes"],
-            onSuccess: () => {
+            only: ["errors", "accountTypes", "data"],
+            onSuccess: (page) => {
                 form.reset();
                 form.clearErrors();
+                print(page.props.data)
+                    .then((res) => {})
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                    .finally(() => {});
             },
         });
     };
-    console.log(form);
+
     return (
         <>
             <div>

@@ -5,20 +5,14 @@ import { PrinterIcon } from "@heroicons/react/24/solid";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { print } from "@/js/helpers";
 
 const Component = ({ printHandler, ...props }) => {
     const [loading, setLoading] = useState(false);
-    const print = () => {
+    const printer = () => {
         setLoading(true);
-        axios
-            .get(
-                `${import.meta.env.VITE_PRINTER_URL}/print/${
-                    props.controls.form.data.qu.num_fulltext
-                }`,
-            )
-            .then((res) => {
-                // printHandler();
-            })
+        print(props.controls.form.data.qu.num_fulltext)
+            .then((res) => {})
             .catch((err) => {
                 console.log(err);
             })
@@ -36,7 +30,7 @@ const Component = ({ printHandler, ...props }) => {
                         <div className="flex gap-5 items-center justify-center">
                             <Button
                                 type="button"
-                                onClick={(e) => print()}
+                                onClick={(e) => printer()}
                                 className="flex gap-x-2 justify-center h-[5rem] w-[10rem] text-[1.2rem] text-center text-white uppercase font-extrabold bg-gradient-to-r  from-purple-400 to-fuchsia-400"
                             >
                                 <span>

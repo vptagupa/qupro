@@ -35,3 +35,9 @@ export const debounce = (fn, delay) => {
         }, delay);
     };
 };
+
+export const print = (ticket) => {
+    return axios.post(`${import.meta.env.VITE_PRINTER_URL}/print`, {
+        ticket,
+    });
+};
