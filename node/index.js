@@ -4,7 +4,7 @@ const express = require("express");
 var cors = require("cors");
 const app = express();
 const port = 3000;
-console.log(process.env?.HOST_URL ?? "http://qupro.local");
+
 var corsOptions = {
     origin: process.env?.HOST_URL ?? "http://qupro.local",
     optionsSuccessStatus: 200,
@@ -26,7 +26,7 @@ app.post("/print", (req, res) => {
     const data = Array.isArray(req.body.ticket)
         ? req.body.ticket
         : [req.body.ticket];
-    console.log(data);
+
     doc.fontSize(30);
     doc.text(data[0]);
     data.slice(1).forEach((ticket) => {
@@ -40,7 +40,7 @@ app.post("/print", (req, res) => {
         await printer.print(filename);
     };
 
-    // print();
+    print();
 
     res.send("Hello World!");
 });
