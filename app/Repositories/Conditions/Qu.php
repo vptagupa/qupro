@@ -128,4 +128,12 @@ trait Qu
             $builder->now();
         });
     }
+
+    public function nameCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
+            $builder->where('name', 'like', '%' . $query['name'] . '%');
+            $builder->Orwhere('num_fulltext', 'like', '%' . $query['name'] . '%');
+        });
+    }
 }
