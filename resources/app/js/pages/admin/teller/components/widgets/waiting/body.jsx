@@ -25,7 +25,7 @@ export default ({
                                         setIncludePriority(e.target.checked)
                                     }
                                 />
-                                <div className="text-sm">Include priority</div>
+                                <div className="text-sm">Show priority</div>
                             </>
                         ) : (
                             <div className="text-sm">Priorities</div>
