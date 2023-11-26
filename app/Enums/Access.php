@@ -36,6 +36,8 @@ enum Access
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],
+                Access::REGISTRATION->name => [Action::ALL->name],
+                Access::SCREEN->name => [Action::ALL->name],
             ],
             Role::REGISTRATION->name => [
                 Access::REGISTRATION->name => [Action::ALL->name],

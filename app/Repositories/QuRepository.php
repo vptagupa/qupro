@@ -47,17 +47,17 @@ class QuRepository extends Repository
                 'account_type_id' => $accountTypeIds,
             ],
             columns: [
-                'num_fulltext',
+                'id',
                 'counter_name',
-                'type',
+                'num_fulltext',
+                'type'
             ],
             paginate: false,
             orderBy: ['called_at', 'desc'],
             get: false,
         )
-            ->groupBy(['counter_name', 'num_fulltext', 'called_at', 'type'])
-            ->limit(5)
             ->get();
+
     }
 
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)

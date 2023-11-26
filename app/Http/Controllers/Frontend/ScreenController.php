@@ -35,13 +35,21 @@ class ScreenController extends Controller
 
     public function updated(Screen $screen)
     {
+        $tickets = $this->qu->called($screen->account_type_ids)
+            ->groupBy('counter_name')->map(function ($list) {
+                return $list[0];
+            });
+
         return [
             'config' => [
                 'message' => Config::screenMessage(),
                 'interval' => Config::screenInterval(),
                 'account_type_ids' => $screen->account_type_ids,
             ],
-            'tickets' => $this->qu->called($screen->account_type_ids)
+            'tickets' => [
+                'data' => $tickets->sortBy('counter_name')->flatten(),
+                'current' => $tickets->sortByDesc('called_at')->first()
+            ]
         ];
     }
 
