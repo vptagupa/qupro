@@ -34,7 +34,6 @@ export default ({ screen_id }) => {
                 updated();
             })
             .listen("ScreenRefresh", (e) => {
-                console.log("ScreenRefresh");
                 updated();
                 router.reload();
             });
@@ -64,7 +63,7 @@ export default ({ screen_id }) => {
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex flex-col items-center justify-center h-screen">
-                    <div className="p-10 !h-[80%] w-[40%]">
+                    <div className="p-10 !h-[80%] lg:w-[40%] xs:w-full">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
                             {tickets[0]?.num_fulltext ?? "0"}
                         </div>
@@ -72,7 +71,7 @@ export default ({ screen_id }) => {
                             <Counter tickets={tickets} />
                         </div>
                     </div>
-                    <div className="">
+                    <div className="xs:max-sm:hidden">
                         <Message text={config?.message ?? ""} />
                     </div>
                 </div>
