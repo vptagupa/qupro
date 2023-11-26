@@ -22,10 +22,10 @@ export default memo(({ tickets }) => {
                                     key={idx}
                                     className=" border-b border-solid border-slate-300"
                                 >
-                                    <td className="p-4 text-left w-1/2 ">
+                                    <td className="p-4 text-center w-1/2 ">
                                         {ticket.counter_name}
                                     </td>
-                                    <td className="text-right ">
+                                    <td className="text-center ">
                                         {ticket.num_fulltext}
                                     </td>
                                 </tr>

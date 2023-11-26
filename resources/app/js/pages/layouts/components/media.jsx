@@ -15,13 +15,18 @@ export default memo(({ media, interval }) => {
     const [index, setIndex] = useState(0);
     const deferredIndex = useDeferredValue(index);
 
-    const onEnded = useCallback((index) => {
-        setIndex(media.length - 1 > index ? index + 1 : 0);
+    const onEnded = useCallback(
+        (index) => {
+            const idx = media.length - 1 > index ? index + 1 : 0;
 
-        if (media.length == 1) {
-            onPlay();
-        }
-    }, []);
+            setIndex(idx);
+
+            if (media.length > 0) {
+                onPlay();
+            }
+        },
+        [media],
+    );
 
     const onEndedVideo = () => {
         ref.current.play();
@@ -46,8 +51,9 @@ export default memo(({ media, interval }) => {
 
     useEffect(() => {
         onPlay();
+
         return () => clearTimeout(timeoutId);
-    }, [index]);
+    }, [index, media]);
 
     return (
         <>

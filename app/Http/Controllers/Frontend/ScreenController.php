@@ -25,7 +25,7 @@ class ScreenController extends Controller
     public function index(Screen $screen)
     {
         return $this->render(
-            view: 'layouts/standard/index',
+            view: "layouts/{$screen->screen->value}/index",
             layout: 'app-layout',
             options: [
                 'screen_id' => $screen->id
@@ -36,7 +36,6 @@ class ScreenController extends Controller
     public function updated(Screen $screen)
     {
         return [
-            'media' => $this->media->getActive(),
             'config' => [
                 'message' => Config::screenMessage(),
                 'interval' => Config::screenInterval(),
@@ -44,5 +43,10 @@ class ScreenController extends Controller
             ],
             'tickets' => $this->qu->called($screen->account_type_ids)
         ];
+    }
+
+    public function updatedMedia(Screen $screen)
+    {
+        return $this->media->getActive();
     }
 }

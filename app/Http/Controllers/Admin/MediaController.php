@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MediaRefresh;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\MediaResource;
@@ -35,6 +36,8 @@ class MediaController extends AdminController
     public function store(StoreMediaRequest $request)
     {
         $this->repository->create($request->file);
+
+        MediaRefresh::dispatch();
     }
 
     /**
@@ -45,6 +48,8 @@ class MediaController extends AdminController
         $this->repository->update([
             'seq' => $request->get('seq'),
         ], $id);
+
+        MediaRefresh::dispatch();
     }
 
     /**
@@ -55,6 +60,8 @@ class MediaController extends AdminController
         $this->repository->update([
             'active' => $request->get('active'),
         ], $id);
+
+        MediaRefresh::dispatch();
     }
 
 
@@ -64,5 +71,7 @@ class MediaController extends AdminController
     public function destroy(int $id)
     {
         $this->repository->delete($id);
+
+        MediaRefresh::dispatch();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ScreenRefresh;
 use App\Http\Controllers\AdminController;
 use App\Http\Requests\StoreScreenRequest;
 use App\Http\Requests\UpdateScreenRequest;
@@ -50,6 +51,8 @@ class ScreenController extends AdminController
             'account_type_ids',
             'screen',
         ]), $id);
+
+        ScreenRefresh::dispatch($this->repository->find($id));
     }
 
     /**

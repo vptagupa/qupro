@@ -19,3 +19,12 @@ use App\Enums\Action;
 Broadcast::channel('{id}.account-type', function ($user, $id) {
     return $user->hasAccess(Access::SCREEN, Action::VIEW);
 });
+
+Broadcast::channel('{id}.screen', function ($user, $id) {
+    return $user->hasAccess(Access::SCREEN, Action::VIEW);
+});
+
+Broadcast::channel('media', function ($user) {
+    return $user->hasAccess(Access::SCREEN, Action::VIEW);
+});
+

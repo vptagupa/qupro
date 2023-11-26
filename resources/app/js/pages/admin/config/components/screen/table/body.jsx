@@ -59,7 +59,17 @@ const Component = ({
                             {tableList.map((item) => {
                                 return (
                                     <Tr key={item.id}>
-                                        <Td>{item.name}</Td>
+                                        <Td>
+                                            <a
+                                                href={route("screen.index", {
+                                                    screen: item.id,
+                                                })}
+                                                className="text-blue-600"
+                                                target="_blank"
+                                            >
+                                                {item.id}# {item.name}
+                                            </a>
+                                        </Td>
                                         <Td>
                                             {item.account_types
                                                 .map((type) => type.name)

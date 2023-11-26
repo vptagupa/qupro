@@ -1,12 +1,10 @@
 import Layout from "@/js/layouts/public";
 import Message from "../components/message";
-import Media from "../components/media";
 import Counter from "../components/counter";
 import { debounce } from "@/js/helpers";
 import { useState, useEffect, useCallback } from "react";
 
 export default ({ screen_id }) => {
-    const [media, setMedia] = useState([]);
     const [config, setConfig] = useState({
         interval: 5,
         account_type_ids: [],
@@ -29,28 +27,9 @@ export default ({ screen_id }) => {
         1000,
     );
 
-    const updatedMedia = debounce(
-        useCallback(() => {
-            axios
-                .get(
-                    route("screen.updated.media", {
-                        screen: screen_id,
-                    }),
-                )
-                .then(({ data: { data } }) => {
-                    setMedia(data);
-                });
-        }, []),
-        1000,
-    );
-
     useEffect(() => {
         Echo.private(`${screen_id}.screen`).listen("ScreenRefresh", (e) => {
             updated();
-        });
-
-        Echo.private(`media`).listen("MediaRefresh", (e) => {
-            updatedMedia();
         });
 
         config.account_type_ids.forEach((id) => {
@@ -70,38 +49,23 @@ export default ({ screen_id }) => {
     useEffect(() => {
         setTimeout(() => {
             updated();
-            updatedMedia();
         }, 1000);
     }, []);
-    console.log(media);
+
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
-                <div className="flex items-center justify-center xs:max-lg:flex-col">
-                    <div className="xs:max-lg:w-full lg:w-[30%] h-screen p-10">
+                <div className="flex flex-col items-center justify-center h-screen">
+                    <div className="p-10 !h-[80%] w-[40%]">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
                             {tickets[0]?.num_fulltext ?? "0"}
                         </div>
-                        <div className="mt-[20%]">
+                        <div className="mt-[10%]">
                             <Counter tickets={tickets} />
                         </div>
                     </div>
-                    <div className="grow xs:max-lg:hidden">
-                        <div className="relative h-screen">
-                            <div className="absolute top-5 h-[80%] w-full flex items-center justify-center">
-                                <div className="p-2">
-                                    {media.length > 0 && (
-                                        <Media
-                                            media={media}
-                                            interval={config?.interval ?? 0}
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                            <div className="absolute bottom-0 h-[20%]flex items-center justify-center">
-                                <Message text={config?.message ?? ""} />
-                            </div>
-                        </div>
+                    <div className="">
+                        <Message text={config?.message ?? ""} />
                     </div>
                 </div>
             </div>
