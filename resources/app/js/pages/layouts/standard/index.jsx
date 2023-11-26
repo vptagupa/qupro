@@ -4,6 +4,7 @@ import Media from "../components/media";
 import Counter from "../components/counter";
 import { debounce } from "@/js/helpers";
 import { useState, useEffect, useCallback } from "react";
+import { router } from "@inertiajs/react";
 
 export default ({ screen_id }) => {
     const [media, setMedia] = useState([]);
@@ -45,9 +46,14 @@ export default ({ screen_id }) => {
     );
 
     useEffect(() => {
-        Echo.private(`${screen_id}.screen`).listen("ScreenRefresh", (e) => {
-            updated();
-        });
+        Echo.private(`${screen_id}.screen`)
+            .listen("CounterRefresh", (e) => {
+                updated();
+            })
+            .listen("ScreenRefresh", (e) => {
+                updated();
+                router.reload();
+            });
 
         Echo.private(`media`).listen("MediaRefresh", (e) => {
             updatedMedia();
@@ -64,6 +70,7 @@ export default ({ screen_id }) => {
                 Echo.leave(`${id}.account-type`);
             });
             Echo.leave(`${screen_id}.screen`);
+            Echo.leave(`media`);
         };
     }, [config.account_type_ids]);
 
@@ -73,7 +80,7 @@ export default ({ screen_id }) => {
             updatedMedia();
         }, 1000);
     }, []);
-    console.log(media);
+
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">

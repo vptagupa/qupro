@@ -54,9 +54,9 @@ const Component = ({
                         );
                     })}
                 </div>
-                {form.invalid("account_types") && (
+                {form.invalid("account_type_ids") && (
                     <span className="text-danger text-xs">
-                        {form.errors.account_types}
+                        {form.errors.account_type_ids}
                     </span>
                 )}
             </div>

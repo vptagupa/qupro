@@ -3,6 +3,7 @@ import Message from "../components/message";
 import Counter from "../components/counter";
 import { debounce } from "@/js/helpers";
 import { useState, useEffect, useCallback } from "react";
+import { router } from "@inertiajs/react";
 
 export default ({ screen_id }) => {
     const [config, setConfig] = useState({
@@ -28,9 +29,15 @@ export default ({ screen_id }) => {
     );
 
     useEffect(() => {
-        Echo.private(`${screen_id}.screen`).listen("ScreenRefresh", (e) => {
-            updated();
-        });
+        Echo.private(`${screen_id}.screen`)
+            .listen("CounterRefresh", (e) => {
+                updated();
+            })
+            .listen("ScreenRefresh", (e) => {
+                console.log("ScreenRefresh");
+                updated();
+                router.reload();
+            });
 
         config.account_type_ids.forEach((id) => {
             Echo.private(`${id}.account-type`).listen("QuCalled", (e) => {
@@ -43,6 +50,7 @@ export default ({ screen_id }) => {
                 Echo.leave(`${id}.account-type`);
             });
             Echo.leave(`${screen_id}.screen`);
+            Echo.leave(`media`);
         };
     }, [config.account_type_ids]);
 
