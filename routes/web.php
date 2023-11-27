@@ -50,6 +50,7 @@ Route::middleware([
             Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\User');
             Route::post('/', [UsersController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\User'])->name('store');
             Route::patch('/{user}', [UsersController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\User'])->name('update');
+            Route::patch('/reset-password/{user}', [UsersController::class, 'resetPassword'])->middleware('can:updateAny, App\Models\User')->name('reset-password');
         });
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [TellersControllers::class, 'index'])->name('index');

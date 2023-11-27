@@ -21,6 +21,14 @@ const Component = (props) => {
         );
     };
 
+    const handleReset = async (id) => {
+        await axios.patch(
+            route("admin.users.reset-password", {
+                user: id,
+            }),
+        );
+    };
+
     return (
         <Body
             data={data}
@@ -29,6 +37,7 @@ const Component = (props) => {
             setSearch={setSearch}
             handleSearch={searchHandler}
             handleDelete={handleDelete}
+            handleReset={handleReset}
         />
     );
 };

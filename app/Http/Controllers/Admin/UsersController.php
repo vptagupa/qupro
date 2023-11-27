@@ -68,6 +68,16 @@ class UsersController extends AdminController
     }
 
     /**
+     * Reset user password
+     */
+    public function resetPassword(int $id)
+    {
+        $this->repository->update([
+            'password' => bcrypt(config('auth.default_password'))
+        ], $id);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(int $id)

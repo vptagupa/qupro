@@ -14,6 +14,7 @@ import { MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 import Edit from "../edit";
 import Delete from "../confirm.delete";
+import ResetPassword from "../reset.password";
 
 const Component = ({
     data,
@@ -86,6 +87,7 @@ const Component = ({
                                                     user={item}
                                                     roles={roles}
                                                 />
+                                                <ResetPassword id={item.id} />
                                                 <Delete
                                                     handleDelete={(e) =>
                                                         handleDelete(item.id)
