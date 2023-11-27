@@ -1,8 +1,10 @@
 import { debounce } from "@/js/helpers";
 import { router } from "@inertiajs/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import beep from "@/assets/audio/2.mp3";
 
 export const useTickets = (screen_id) => {
+    const beepRef = useRef();
     const [config, setConfig] = useState({
         interval: 5,
         account_type_ids: [],
@@ -29,7 +31,7 @@ export const useTickets = (screen_id) => {
 
     useEffect(() => {
         config.account_type_ids.forEach((id) => {
-            Echo.private(`${id}.account-type`).listen("QuCalled", (e) => {
+            Echo.private(`${id}.account-type`).listen("QuCalled", (qu) => {
                 updated();
             });
         });
@@ -56,10 +58,21 @@ export const useTickets = (screen_id) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (beepRef.current) {
+            beepRef.current.play();
+        }
+    }, [current]);
+
+    const Beep = () => {
+        return <audio src={beep} ref={beepRef}></audio>;
+    };
+
     return {
         tickets,
         current,
         updated,
         config,
+        Beep,
     };
 };

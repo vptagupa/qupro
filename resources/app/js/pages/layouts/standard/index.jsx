@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 
 export default ({ screen_id }) => {
     const [media, setMedia] = useState([]);
-    const { tickets, current, config, updated } = useTickets(screen_id);
+    const { tickets, current, config, updated, Beep } = useTickets(screen_id);
 
     const updatedMedia = debounce(
         useCallback(() => {
@@ -70,6 +70,9 @@ export default ({ screen_id }) => {
                                 <Message text={config?.message ?? ""} />
                             </div>
                         </div>
+                    </div>
+                    <div className="hidden">
+                        <Beep />
                     </div>
                 </div>
             </div>

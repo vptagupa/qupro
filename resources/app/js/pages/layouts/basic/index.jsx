@@ -5,7 +5,7 @@ import { useTickets } from "../tickets";
 import { useEffect } from "react";
 
 export default ({ screen_id }) => {
-    const { tickets, current, config, updated } = useTickets(screen_id);
+    const { tickets, current, config, updated, Beep } = useTickets(screen_id);
 
     useEffect(() => {
         setTimeout(() => {
@@ -28,6 +28,9 @@ export default ({ screen_id }) => {
                     <div className="xs:max-sm:hidden">
                         <Message text={config?.message ?? ""} />
                     </div>
+                </div>
+                <div className="hidden">
+                    <Beep />
                 </div>
             </div>
         </Layout>

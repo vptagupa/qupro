@@ -8,6 +8,7 @@ export default forwardRef((props, ref) => {
                     ref={ref}
                     controls
                     autoPlay={true}
+                    muted
                     onEnded={(e) => props.onEnded()}
                     src={props.url}
                     width="100%"
