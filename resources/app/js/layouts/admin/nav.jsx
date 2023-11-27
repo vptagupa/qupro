@@ -37,7 +37,7 @@ export default () => {
                     </div>
                     <div className="xs:grow lg:flex-none text-center">
                         <img className="h-8 w-auto inline mr-2" src={Logo} />
-                        <span className="xs:max-sm:hidden inline text-slate-600 text-xs font-semibold">
+                        <span className="xs:max-sm:hidden inline text-slate-600 text-md font-semibold">
                             QuPro
                         </span>
                     </div>
