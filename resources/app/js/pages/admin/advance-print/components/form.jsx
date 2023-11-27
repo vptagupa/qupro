@@ -84,7 +84,7 @@ const Component = (props) => {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <SecondaryButton className="h-[7rem] w-[15rem] text-[3rem] font-bold uppercase flex items-center justify-center">
+                        <SecondaryButton className="h-[7rem] w-[15rem] !text-[3rem] font-bold uppercase flex items-center justify-center">
                             {form.processing ? (
                                 <img
                                     src={Circle}
