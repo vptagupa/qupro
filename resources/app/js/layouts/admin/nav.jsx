@@ -86,7 +86,7 @@ export default () => {
                             leaveTo="opacity-0"
                         >
                             <Menu.Items className="absolute right-0 z-10 mt-1 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <Menu.Item>
+                                <Menu.Item className="hidden">
                                     {(active) => (
                                         <a
                                             className="block px-4 py-2 text-sm text-gray-700"
