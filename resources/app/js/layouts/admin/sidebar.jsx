@@ -34,7 +34,7 @@ export default () => {
                                     >
                                         {nav.icon}
                                     </div>
-                                    <div className="text-xs">{nav.name}</div>
+                                    <div className="">{nav.name}</div>
                                 </div>
                             </Link>
                         </li>
