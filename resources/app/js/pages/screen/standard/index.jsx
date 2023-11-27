@@ -46,7 +46,7 @@ export default ({ screen_id }) => {
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
-                    <div className="xs:max-lg:w-full lg:w-[30%] h-screen p-10">
+                    <div className="xs:max-lg:w-full lg:w-[40%] h-screen p-10 bg-slate-300 text-slate-700 rounded-tr-2xl rounded-br-2xl">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
                             {current?.num_fulltext ?? "0"}
                         </div>
@@ -54,21 +54,19 @@ export default ({ screen_id }) => {
                             <Counter tickets={tickets} />
                         </div>
                     </div>
-                    <div className="grow xs:max-lg:hidden">
-                        <div className="relative h-screen">
-                            <div className="absolute top-5 h-[80%] w-full flex items-center justify-center">
-                                <div className="p-2">
-                                    {media.length > 0 && (
-                                        <Media
-                                            media={media}
-                                            interval={config?.interval ?? 0}
-                                        />
-                                    )}
-                                </div>
+                    <div className="flex flex-col h-screen grow xs:max-lg:hidden">
+                        <div className="flex items-center justify-center">
+                            <div className="p-2">
+                                {media.length > 0 && (
+                                    <Media
+                                        media={media}
+                                        interval={config?.interval ?? 0}
+                                    />
+                                )}
                             </div>
-                            <div className="absolute bottom-0 h-[20%]flex items-center justify-center">
-                                <Message text={config?.message ?? ""} />
-                            </div>
+                        </div>
+                        <div className="h-[20%]">
+                            <Message text={config?.message ?? ""} />
                         </div>
                     </div>
                     <div className="hidden">

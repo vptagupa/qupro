@@ -7,10 +7,10 @@ export default memo(({ tickets }) => {
                 <table className="w-full text-3xl uppercase">
                     <thead>
                         <tr>
-                            <th className="border-b border-solid border-slate-300">
+                            <th className="border-b border-solid border-slate-400">
                                 Counter
                             </th>
-                            <th className="border-b border-solid border-slate-300 text-xl">
+                            <th className="border-b border-solid border-slate-400 text-xl">
                                 Ticket Number
                             </th>
                         </tr>
@@ -20,7 +20,7 @@ export default memo(({ tickets }) => {
                             return (
                                 <tr
                                     key={idx}
-                                    className=" border-b border-solid border-slate-300"
+                                    className=" border-b border-solid border-slate-400"
                                 >
                                     <td className="p-4 text-center w-1/2 ">
                                         {ticket.counter_name}

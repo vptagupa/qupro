@@ -17,7 +17,7 @@ export default ({ screen_id }) => {
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex flex-col items-center justify-center h-screen">
-                    <div className="!p-2 p-10 !h-[80%] lg:w-[30%] xs:w-full">
+                    <div className="pt-10 !h-[80%] lg:w-[30%] xs:w-full bg-slate-300 text-slate-700 rounded-2xl">
                         <div className="text-center text-[5rem] leading-[5rem] uppercase">
                             {current?.num_fulltext ?? "0"}
                         </div>
