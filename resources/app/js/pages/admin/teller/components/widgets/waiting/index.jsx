@@ -47,6 +47,13 @@ export default memo(({ onWaitingUpdate }) => {
             },
         );
 
+        Echo.private(`${cardContext.accountType.id}.account-type`).listen(
+            "QuCalled",
+            (qu) => {
+                get();
+            },
+        );
+
         return () => {
             Event.off(`${cardContext.accountType.id}.waiting-reload`);
             Echo.leave(`${cardContext.accountType.id}.account-type`);
