@@ -72,7 +72,7 @@ class Qu extends Model
     public function isStudent(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->type->isStudent()
+            get: fn() => $this->type ? $this->type->isStudent() : null
         );
     }
 

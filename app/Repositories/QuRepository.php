@@ -39,23 +39,32 @@ class QuRepository extends Repository
         )->count();
     }
 
-    public function called(array $accountTypeIds)
+    public function currentServed()
     {
         return $this->list(
             query: [
                 'called' => true,
-                'account_type_id' => $accountTypeIds,
-            ],
-            columns: [
-                'id',
-                'counter_name',
-                'num_fulltext',
-                'type'
             ],
             paginate: false,
             orderBy: ['called_at', 'desc'],
             get: false,
+            first: true
+        );
+    }
+
+    public function counters()
+    {
+        return $this->list(
+            query: [
+                'called' => true,
+            ],
+            columns: [
+                'counter_name',
+            ],
+            paginate: false,
+            get: false,
         )
+            ->groupBy('counter_name')
             ->get();
 
     }

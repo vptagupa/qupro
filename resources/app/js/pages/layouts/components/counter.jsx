@@ -26,7 +26,7 @@ export default memo(({ tickets }) => {
                                         {ticket.counter_name}
                                     </td>
                                     <td className="text-center ">
-                                        {ticket.num_fulltext}
+                                        {ticket.served}
                                     </td>
                                 </tr>
                             );

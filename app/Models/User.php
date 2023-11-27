@@ -81,4 +81,14 @@ class User extends Authenticatable
             get: fn($value) => $this->getAccess()
         );
     }
+
+    public function qus()
+    {
+        return $this->hasMany(Qu::class, 'counter_name', 'counter_name');
+    }
+
+    public function served()
+    {
+        return $this->qus()->whereNotNull('called_at')->orderBy('called_at', 'desc');
+    }
 }
