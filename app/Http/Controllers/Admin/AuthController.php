@@ -66,7 +66,7 @@ class AuthController extends AdminController
 
     private function redirectTo()
     {
-        $intended = '/admin/dashboard';
+        $intended = '/admin/tellers';
         $user = Auth::user();
         if ($user->isTeller()) {
             $intended = '/admin/tellers';

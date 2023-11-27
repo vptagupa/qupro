@@ -11,13 +11,6 @@ import {
 
 export default [
     {
-        id: "dashboard",
-        name: "Dashboard",
-        icon: <HomeIcon className="h-3" />,
-        route: "admin.dashboard.index",
-        permission: "DASHBOARD_ADMIN",
-    },
-    {
         id: "tellers",
         name: "Tellers",
         icon: <WindowIcon className="h-3" />,
