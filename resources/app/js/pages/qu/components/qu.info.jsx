@@ -10,7 +10,7 @@ const Component = ({
     return (
         <>
             <div className="flex flex-col gap-y-2 justify-center">
-                <div className="text-center text-[5rem] font-extrabold uppercase ">
+                <div className="text-center text-[5rem] font-extrabold uppercase mb-7">
                     <div>{qu.num_fulltext}</div>
                 </div>
                 {qu.type == "student" && (
