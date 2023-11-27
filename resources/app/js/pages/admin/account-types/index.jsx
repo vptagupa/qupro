@@ -6,7 +6,7 @@ const Component = (props) => {
     return (
         <>
             <Layout>
-                <div className="font-bold text-lg">Account Types</div>
+                <div className="font-bold text-lg">Departments</div>
                 <div className="mb-2">
                     <New formats={props.formats.data} />
                 </div>

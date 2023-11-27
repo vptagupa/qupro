@@ -36,7 +36,7 @@ const Component = ({
                 )}
             </div>
             <div>
-                <span className="text-xs">Account Types:</span>
+                <span className="text-xs">Departments:</span>
                 <div className="flex flex-wrap gap-2 items-center justify-start mt-1 border border-solid border-slate-300 p-2 rounded-lg">
                     {accountTypes.map((type) => {
                         return (

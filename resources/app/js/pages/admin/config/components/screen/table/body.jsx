@@ -50,7 +50,7 @@ const Component = ({
                         <Theader>
                             <TrH>
                                 <Th>Name</Th>
-                                <Th>Account Types</Th>
+                                <Th>Departments</Th>
                                 <Th>Screen</Th>
                                 <Th>Action</Th>
                             </TrH>

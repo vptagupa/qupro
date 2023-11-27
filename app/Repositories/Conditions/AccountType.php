@@ -10,4 +10,11 @@ trait AccountType
             $builder->with(['priorityFormat']);
         });
     }
+
+    protected function formatCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['format']) && $query['format'], function ($builder) use ($query) {
+            $builder->with(['format']);
+        });
+    }
 }

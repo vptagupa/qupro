@@ -34,7 +34,7 @@ export default ({ data }) => {
             preseverScroll: true,
             preserveState: true,
             onSuccess: () => {
-                Event.emit("reload");
+                Event.emit("shared-series.reload");
                 setCompleted(true);
                 form.clearErrors();
                 setTimeout(() => {

@@ -52,7 +52,7 @@ const Component = ({
                     <>
                         <Theader>
                             <TrH>
-                                <Th>Account Types</Th>
+                                <Th>Departments</Th>
                                 <Th>Num start</Th>
                                 <Th>Format</Th>
                                 <Th>Action</Th>

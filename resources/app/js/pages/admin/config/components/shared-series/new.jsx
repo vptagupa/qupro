@@ -36,7 +36,7 @@ export default () => {
             onSuccess: () => {
                 setCompleted(true);
                 closeFormHandler();
-                Event.emit("reload");
+                Event.emit("shared-series.reload");
             },
         });
     };

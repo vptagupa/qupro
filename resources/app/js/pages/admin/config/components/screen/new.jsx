@@ -32,7 +32,7 @@ export default () => {
             only: ["errors"],
             onSuccess: () => {
                 closeFormHandler();
-                Event.emit("reload");
+                Event.emit("screen.reload");
             },
         });
     };

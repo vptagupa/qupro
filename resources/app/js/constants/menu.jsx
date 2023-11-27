@@ -40,7 +40,7 @@ export default [
     },
     {
         id: "account.types",
-        name: "Account Types",
+        name: "Departments",
         icon: <CubeIcon className="h-4" />,
         route: "admin.account-types.index",
         permission: "ACCOUNT_TYPES",

@@ -31,7 +31,7 @@ export default ({ data }) => {
             preseverScroll: true,
             preserveState: true,
             onSuccess: () => {
-                Event.emit("reload");
+                Event.emit("screen.reload");
                 form.clearErrors();
                 setTimeout(() => {
                     setOpen(false);
