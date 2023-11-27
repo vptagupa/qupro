@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Media;
 use App\Models\File;
+use Storage;
 
 class MediaRepository extends Repository
 {
@@ -38,5 +39,13 @@ class MediaRepository extends Repository
             paginate: false
         )->orderBy('seq', 'asc')
             ->paginate();
+    }
+
+    public function delete($id)
+    {
+        $media = $this->find($id);
+
+        Storage::delete('app/' . $media->file->path);
+        parent::delete($id);
     }
 }
