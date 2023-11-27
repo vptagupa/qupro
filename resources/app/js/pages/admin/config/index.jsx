@@ -18,7 +18,7 @@ const Component = (props) => {
                         <div>
                             <SharedTitle />
                         </div>
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
                             <div className="rounded-2xl">
                                 <SharedSeries />
                             </div>
@@ -28,14 +28,14 @@ const Component = (props) => {
                         <div>
                             <ScreenTitle />
                         </div>
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
                             <div className="rounded-2xl">
                                 <Screen />
                             </div>
                         </div>
                     </div>
                     <div className="mb-3">
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
                             <div className="rounded-2xl">
                                 <Global />
                             </div>
@@ -45,7 +45,7 @@ const Component = (props) => {
                         <div>
                             <MeditTitle />
                         </div>
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3">
+                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
                             <div className="rounded-2xl">
                                 <Media />
                             </div>

@@ -6,6 +6,7 @@ const INITIAL_PARAMS = { search: "", filter: false, page: 0, perPage: 10 };
 const Component = (props) => {
     const { data, setSearch, pagination, deleteHandler, searchHandler } =
         useTable({
+            name: "shared-series",
             initialParams: INITIAL_PARAMS,
             listRoute: route("admin.configurations.shared-series.list"),
         });
