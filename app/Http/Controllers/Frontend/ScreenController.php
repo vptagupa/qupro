@@ -28,7 +28,7 @@ class ScreenController extends Controller
     public function index(Screen $screen)
     {
         return $this->render(
-            view: "layouts/{$screen->screen->value}/index",
+            view: "screen/{$screen->screen->value}/index",
             layout: 'app-layout',
             options: [
                 'screen_id' => $screen->id
