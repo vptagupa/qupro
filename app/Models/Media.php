@@ -21,6 +21,15 @@ class Media extends Model
         'is_video'
     ];
 
+    public static function booted()
+    {
+        static::deleted(function ($model) {
+            if ($model->file) {
+                $model->file->delete();
+            }
+        });
+    }
+
     public function file()
     {
         return $this->belongsTo(File::class);

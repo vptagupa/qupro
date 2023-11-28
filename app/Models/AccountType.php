@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Storage;
 
 class AccountType extends Model
 {
@@ -16,8 +17,9 @@ class AccountType extends Model
         'num_format_id',
         'priority_format_id',
         'num_start',
+        'file_id',
         'reset_at',
-        'reset_by'
+        'reset_by',
     ];
 
     protected $casts = [
@@ -26,9 +28,23 @@ class AccountType extends Model
 
     protected $priority = false;
 
+    public static function booted()
+    {
+        static::deleted(function ($model) {
+            if ($model->file) {
+                $model->file->delete();
+            }
+        });
+    }
+
     public function resetBy()
     {
         return $this->belongsTo(User::class, 'reset_by');
+    }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
     }
 
     public function format()

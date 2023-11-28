@@ -20,14 +20,39 @@ class File extends Model
     ];
 
     protected $appends = [
-        'url'
+        'url',
+        'is_image',
+        'is_video'
     ];
 
+    public static function booted()
+    {
+        static::deleted(function ($file) {
+            if ($file) {
+                $x = Storage::delete('app/' . $file->path);
+                \Log::info('deleted: ' . $x);
+            }
+        });
+    }
 
     public function url(): Attribute
     {
         return Attribute::make(
             get: fn() => asset('storage/' . str_replace('public/', '', $this->path))
+        );
+    }
+
+    public function isImage(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => str($this->type)->startsWith('image/')
+        );
+    }
+
+    public function isVideo(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => str($this->type)->startsWith('video/')
         );
     }
 }

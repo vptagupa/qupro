@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { Button, PrimaryButton } from "@/js/components/buttons";
+import Circle from "@/assets/images/circle.svg";
 
 const Component = ({ closeForm, submit, form }) => {
     return (
@@ -18,6 +19,12 @@ const Component = ({ closeForm, submit, form }) => {
                         onClick={(e) => submit()}
                         disabled={form.processing}
                     >
+                        {form.processing && (
+                            <img
+                                src={Circle}
+                                className="animate-spin mr-2 text-opacity-10 text-slate-100"
+                            />
+                        )}
                         Submit
                     </PrimaryButton>
                 </div>

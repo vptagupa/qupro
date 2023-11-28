@@ -61,7 +61,10 @@ const Component = ({ data, pagination, handleDelete, seqHandler }) => {
                                                         href={item.file.url}
                                                         target="_blank"
                                                     >
-                                                        {item.file.filename}
+                                                        {
+                                                            item.file
+                                                                .orig_filename
+                                                        }
                                                     </a>
                                                 </div>
                                             </div>

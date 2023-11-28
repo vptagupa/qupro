@@ -10,10 +10,9 @@ import {
 } from "@/js/components/table";
 import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
-import {
-    MagnifyingGlassIcon,
-    CheckCircleIcon,
-} from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import Edit from "../edit";
 import Delete from "../confirm.delete";
@@ -98,6 +97,25 @@ const Component = ({
                                         </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
+                                                <a
+                                                    href={
+                                                        item?.file?.url ?? "#"
+                                                    }
+                                                    target="_blank"
+                                                >
+                                                    <FontAwesomeIcon
+                                                        className={`h-5 text-${
+                                                            item?.file?.url
+                                                                ? "purple"
+                                                                : "slate"
+                                                        }-500`}
+                                                        icon={faPhotoFilm}
+                                                        title={
+                                                            item?.file
+                                                                ?.orig_filename
+                                                        }
+                                                    />
+                                                </a>
                                                 <Edit
                                                     data={item}
                                                     formats={formats}
