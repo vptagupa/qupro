@@ -6,12 +6,14 @@ export default ({ file }) => {
         return "";
     }
 
-    let url = file?.url ?? "";
+    let url = "";
     if (file instanceof File && file.type.startsWith("image/")) {
         url = URL.createObjectURL(file);
+    } else if (file?.is_image) {
+        url = file.url;
     }
 
-    if (url && file?.is_image) {
+    if (url) {
         return <img src={url} className="h-12" />;
     }
 

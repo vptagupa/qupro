@@ -15,7 +15,7 @@ const Component = ({ handleDelete }) => {
                 onClick={(e) => setOpen(true)}
             >
                 <FontAwesomeIcon
-                    className="h-5 text-pink-500"
+                    className="h-4 text-pink-500"
                     icon={faTrashCan}
                 />
             </div>

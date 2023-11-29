@@ -1,6 +1,5 @@
 import { Form, Input, Select } from "@/js/components/form";
 import { AlertSuccess, AlertDanger } from "@/js/components/alerts";
-import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import Media from "./media";
 

@@ -55,13 +55,13 @@ export default ({ data, formats, ...props }) => {
         <>
             <div className="cursor" onClick={(e) => setOpen(true)}>
                 <FontAwesomeIcon
-                    className="h-5 text-teal-500"
+                    className="h-4 text-teal-500"
                     icon={faPenToSquare}
                 />
             </div>
             <Modal open={open}>
                 <Title>Update</Title>
-                <Form form={form} completed={completed} formats={formats} />
+                <Form form={form} formats={formats} />
                 <Footer>
                     <FooterForm
                         form={form}

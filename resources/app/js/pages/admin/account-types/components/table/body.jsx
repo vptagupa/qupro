@@ -104,7 +104,7 @@ const Component = ({
                                                     target="_blank"
                                                 >
                                                     <FontAwesomeIcon
-                                                        className={`h-5 text-${
+                                                        className={`h-4 text-${
                                                             item?.file?.url
                                                                 ? "purple"
                                                                 : "slate"
