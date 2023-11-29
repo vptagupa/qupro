@@ -55,7 +55,9 @@ class Qu extends Model
         });
 
         static::addGlobalScope('now', function (Builder $builder) {
-            $builder->whereDate('created_at', Carbon::now()->format('Y-m-d'));
+            $from = explode('as ', $builder->getQuery()->from);
+            $from = isset($from[1]) ? $from[1] : $from[0];
+            $builder->whereDate($from . '.created_at', Carbon::now()->format('Y-m-d'));
         });
     }
 

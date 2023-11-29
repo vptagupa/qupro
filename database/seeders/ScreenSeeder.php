@@ -17,8 +17,8 @@ class ScreenSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Standard',
-                'screen' => ScreenEnum::STANDARD->value,
+                'name' => 'Premium',
+                'screen' => ScreenEnum::PREMIUM->value,
                 'account_type_ids' => json_encode(AccountType::pluck('id')->toArray()),
             ]
         ];

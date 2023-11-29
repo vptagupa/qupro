@@ -1,9 +1,9 @@
-import Form from "./form";
+import Form from "../components/form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import { useForm } from "@/js/helpers/form";
-import FooterForm from "./form.footer";
+import FooterForm from "../components/form.footer";
 import Event from "@/js/helpers/event";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";

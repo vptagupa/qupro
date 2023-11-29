@@ -11,11 +11,11 @@ import {
 import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import Edit from "../edit";
-import Delete from "../confirm.delete";
+import Edit from "../../actions/edit";
+import Delete from "../../actions/confirm.delete";
+import ViewFile from "../../actions/view.file";
+import Color from "../../actions/change.color";
 
 const Component = ({
     data,
@@ -97,25 +97,8 @@ const Component = ({
                                         </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
-                                                <a
-                                                    href={
-                                                        item?.file?.url ?? "#"
-                                                    }
-                                                    target="_blank"
-                                                >
-                                                    <FontAwesomeIcon
-                                                        className={`h-4 text-${
-                                                            item?.file?.url
-                                                                ? "purple"
-                                                                : "slate"
-                                                        }-500`}
-                                                        icon={faPhotoFilm}
-                                                        title={
-                                                            item?.file
-                                                                ?.orig_filename
-                                                        }
-                                                    />
-                                                </a>
+                                                <Color id={item.id} />
+                                                <ViewFile item={item} />
                                                 <Edit
                                                     data={item}
                                                     formats={formats}

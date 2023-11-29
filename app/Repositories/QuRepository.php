@@ -44,6 +44,7 @@ class QuRepository extends Repository
         return $this->list(
             query: [
                 'called' => true,
+                'accountType' => true
             ],
             paginate: false,
             orderBy: ['called_at', 'desc'],
@@ -52,21 +53,35 @@ class QuRepository extends Repository
         );
     }
 
-    public function counters()
+    public function getLatestServed()
     {
-        return $this->list(
-            query: [
-                'called' => true,
-            ],
-            columns: [
-                'counter_name',
-            ],
-            paginate: false,
-            get: false,
-        )
-            ->groupBy('counter_name')
+        $counters = ($this->model->newQuery())
+            ->select(['counter_name', 'account_type_id'])
+            ->addSelect([
+                'department' => AccountType::select('name')
+                    ->whereColumn('account_type_id', 'account_types.id')
+                    ->limit(1)
+            ])
+            ->groupBy('counter_name', 'account_type_id')
+            ->whereNotNull('called_at')
+            ->orderBy('department', 'asc')
             ->get();
 
+        $data = collect([]);
+        foreach ($counters as $counter) {
+            $data->push([
+                'num_fulltext' => Qu::select('num_fulltext')
+                    ->where('counter_name', $counter->counter_name)
+                    ->where('account_type_id', $counter->account_type_id)
+                    ->orderBy('called_at', 'desc')
+                    ->first()->num_fulltext,
+                'counter_name' => $counter->counter_name,
+                'department' => $counter->department,
+                'counter' => $counter->department . ' ' . $counter->counter_name
+            ]);
+        }
+
+        return $data;
     }
 
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)

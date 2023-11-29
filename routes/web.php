@@ -130,9 +130,12 @@ Route::middleware([
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
-    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
+    Route::name('color.')->prefix('color')->group(function () {
+        Route::get('/', [FrontendScreenController::class, 'color'])->name('index')->middleware('auth');
+    });
+    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
 });
 
 Route::redirect('/admin', '/admin/dashboard');

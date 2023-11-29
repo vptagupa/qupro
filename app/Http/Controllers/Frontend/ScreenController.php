@@ -8,7 +8,6 @@ use App\Repositories\MediaRepository;
 use App\Models\Config;
 use App\Models\Screen;
 use App\Repositories\QuRepository;
-use App\Repositories\UserRepository;
 
 class ScreenController extends Controller
 {
@@ -17,7 +16,6 @@ class ScreenController extends Controller
         private MediaRepository $media,
         private QuRepository $qu,
         private AccountTypeRepository $accountType,
-        private UserRepository $user
     ) {
 
     }
@@ -36,6 +34,21 @@ class ScreenController extends Controller
         );
     }
 
+
+    /**
+     * Display a color chanage page
+     */
+    public function color()
+    {
+        return $this->render(
+            view: "screen/premium/index",
+            layout: 'app-layout',
+            options: [
+                'screen_id' => Screen::premium()->id
+            ]
+        );
+    }
+
     public function updated(Screen $screen)
     {
         return [
@@ -45,7 +58,7 @@ class ScreenController extends Controller
                 'account_type_ids' => $screen->account_type_ids,
             ],
             'tickets' => [
-                'data' => $this->user->getLatestServed($this->qu->counters()->pluck('counter_name')->toArray()),
+                'data' => $this->qu->getLatestServed(),
                 'current' => $this->qu->currentServed()
             ]
         ];

@@ -6,6 +6,7 @@ enum Screen: string
 {
     case BASIC = 'basic';
     case STANDARD = 'standard';
+    case PREMIUM = 'premium';
 
     public static function all(): array
     {

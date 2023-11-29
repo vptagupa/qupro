@@ -33,4 +33,9 @@ class Screen extends Model
             get: fn() => AccountType::whereIn('id', $this->account_type_ids)->get()
         );
     }
+
+    public static function premium()
+    {
+        return (new self)->whereScreen(Enum::PREMIUM)->first();
+    }
 }
