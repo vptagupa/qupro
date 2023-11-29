@@ -9,7 +9,10 @@ export default ({ ticket, isActive = false }) => {
             }`}
         >
             <div
-                className={`grow text-center  leading-9 text-3xl p-2 ${
+                style={{
+                    textWrap: "balance",
+                }}
+                className={`grow text-center leading-9 text-3xl p-2 ${
                     isActive ? "p-3" : ""
                 }`}
             >
@@ -31,6 +34,9 @@ export default ({ ticket, isActive = false }) => {
                 )}
             </div>
             <div
+                style={{
+                    textWrap: "balance",
+                }}
                 className={`w-1/2 text-center text-2xl font-bold p-4 rounded-tl-[2rem] rounded-bl-[2rem] 
                                      ${
                                          isActive

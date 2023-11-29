@@ -11,7 +11,7 @@ export default memo(({ tickets, current }) => {
     const active = tickets.filter((ticket) => isActive(ticket))[0];
 
     const groups = useCallback(
-        (perPage = 8) => {
+        (perPage = 7) => {
             let data = [];
             const lists = tickets.filter((ticket) => !isActive(ticket));
             for (var i = 0; i < lists.length; i += perPage) {

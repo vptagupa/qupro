@@ -84,6 +84,29 @@ class QuRepository extends Repository
         return $data;
     }
 
+    public function getTotalServedByAccountType(?int $id = null)
+    {
+        return $this->list(
+            query: [
+                'called' => true,
+                'account_type_id' => $id
+            ],
+            paginate: false,
+            get: false,
+        )->count();
+    }
+
+    public function getTotalByAccountType(?int $id = null)
+    {
+        return $this->list(
+            query: [
+                'account_type_id' => $id
+            ],
+            paginate: false,
+            get: false,
+        )->count();
+    }
+
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {

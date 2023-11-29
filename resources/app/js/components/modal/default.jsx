@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 export default ({
     open = false,
     onClose,
-    size = "xs:w-[90%] xs:max-w-lg",
+    className = "xs:w-[90%] xs:max-w-lg bg-white rounded-lg",
     ...props
 }) => {
     const cancelButtonRef = useRef(null);
@@ -45,7 +45,7 @@ export default ({
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <Dialog.Panel
-                                className={`${size} relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all xs:my-8`}
+                                className={`${className} relative transform overflow-hidden text-left shadow-xl transition-all xs:my-8`}
                             >
                                 <div className="p-4">{props.children}</div>
                             </Dialog.Panel>

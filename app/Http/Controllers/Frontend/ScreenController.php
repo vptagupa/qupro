@@ -8,6 +8,7 @@ use App\Repositories\MediaRepository;
 use App\Models\Config;
 use App\Models\Screen;
 use App\Repositories\QuRepository;
+use Illuminate\Http\Request;
 
 class ScreenController extends Controller
 {
@@ -23,13 +24,14 @@ class ScreenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Screen $screen)
+    public function index(Request $request, Screen $screen)
     {
         return $this->render(
             view: "screen/{$screen->screen->value}/index",
             layout: 'app-layout',
             options: [
-                'screen_id' => $screen->id
+                'screen_id' => $screen->id,
+                'department_id' => $request->get('department')
             ]
         );
     }
@@ -49,8 +51,9 @@ class ScreenController extends Controller
         );
     }
 
-    public function updated(Screen $screen)
+    public function updated(Request $request, Screen $screen)
     {
+        $totals = $this->totalTickets($request->get('department'));
         return [
             'config' => [
                 'message' => Config::screenMessage(),
@@ -59,7 +62,8 @@ class ScreenController extends Controller
             ],
             'tickets' => [
                 'data' => $this->qu->getLatestServed(),
-                'current' => $this->qu->currentServed()
+                'current' => $this->qu->currentServed(),
+                ...$totals
             ]
         ];
     }
@@ -67,5 +71,27 @@ class ScreenController extends Controller
     public function updatedMedia(Screen $screen)
     {
         return $this->media->getActive();
+    }
+
+    protected function totalTickets(?int $accountTypeId = null)
+    {
+        if ($accountTypeId) {
+            return [
+                'account_type' => $this->accountType->list(
+                    query: [
+                        'id' => $accountTypeId,
+                        'file' => true
+                    ],
+                    first: true
+                ),
+                'served' => $this->qu->getTotalServedByAccountType($accountTypeId),
+                'total' => $this->qu->getTotalByAccountType($accountTypeId),
+            ];
+        }
+
+        return [
+            'served' => $this->qu->getTotalServedByAccountType(),
+            'total' => $this->qu->getTotalByAccountType(),
+        ];
     }
 }

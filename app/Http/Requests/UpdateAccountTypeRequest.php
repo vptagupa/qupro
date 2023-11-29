@@ -51,7 +51,12 @@ class UpdateAccountTypeRequest extends FormRequest
                         }
 
                         return config('media.image_max') * 1024;
-                    })())
+                    })()),
+                (function () use ($imageTypes) {
+                    if (in_array($this->file?->getMimeType() ?? '', $imageTypes)) {
+                        return Rule::dimensions()->Width(1920)->height(1080);
+                    }
+                })()
             ]
         ];
     }

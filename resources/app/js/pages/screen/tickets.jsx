@@ -3,7 +3,7 @@ import { router } from "@inertiajs/react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import beep from "@/assets/audio/2.mp3";
 
-export const useTickets = (screen_id) => {
+export const useTickets = (screen_id, department_id) => {
     const beepRef = useRef();
     const [config, setConfig] = useState({
         interval: 5,
@@ -11,6 +11,12 @@ export const useTickets = (screen_id) => {
     });
     const [tickets, setTickets] = useState([]);
     const [current, setCurrent] = useState([]);
+    const [data, setData] = useState({
+        account_type: null,
+        served: 0,
+        total: 0,
+        all: true,
+    });
 
     const updated = debounce(
         useCallback(() => {
@@ -18,12 +24,19 @@ export const useTickets = (screen_id) => {
                 .get(
                     route("screen.updated", {
                         screen: screen_id,
+                        department: department_id,
                     }),
                 )
                 .then(({ data }) => {
                     setConfig(data.config);
                     setTickets(data.tickets.data);
                     setCurrent(data.tickets.current);
+                    setData({
+                        account_type: data.tickets?.account_type,
+                        served: data.tickets.served,
+                        total: data.tickets.total,
+                        all: data.tickets?.account_type?.id ? false : true,
+                    });
                 });
         }, []),
         1000,
@@ -58,12 +71,6 @@ export const useTickets = (screen_id) => {
         };
     }, []);
 
-    useEffect(() => {
-        if (beepRef.current) {
-            beepRef.current.play();
-        }
-    }, [current]);
-
     const Beep = () => {
         return <audio src={beep} ref={beepRef}></audio>;
     };
@@ -71,6 +78,7 @@ export const useTickets = (screen_id) => {
     return {
         tickets,
         current,
+        data,
         updated,
         config,
         Beep,

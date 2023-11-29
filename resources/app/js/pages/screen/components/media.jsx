@@ -11,7 +11,7 @@ export default memo(({ media, interval }) => {
         (index) => {
             setIndex(media.length - 1 > index ? index + 1 : 0);
             // Auto play video where there is only 1 video in the media
-            if (media.length == 1 && play.is_video) {
+            if (media.length == 1 && play.file.is_video) {
                 onPlayVideo();
             }
         },
@@ -26,16 +26,15 @@ export default memo(({ media, interval }) => {
     const onImage = () => {
         timeoutId = setTimeout(() => {
             onEnded(index);
-            console.log(index);
         }, interval * 1000);
     };
 
     const onPlay = () => {
-        if (play.is_video) {
+        if (play.file.is_video) {
             onPlayVideo();
         }
 
-        if (play.is_image) {
+        if (play.file.is_image) {
             onImage();
         }
     };
@@ -53,8 +52,8 @@ export default memo(({ media, interval }) => {
         <>
             <div>
                 <div className="flex items-center justify-center p-2">
-                    {play.is_image && <Image url={play.file.url} />}
-                    {play.is_video && (
+                    {play.file.is_image && <Image url={play.file.url} />}
+                    {play.file.is_video && (
                         <Video
                             ref={ref}
                             url={play.file.url}
