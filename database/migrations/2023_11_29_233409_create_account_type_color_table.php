@@ -10,12 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('account_type_color', function (Blueprint $table) {
+        Schema::create('account_type_themes', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('account_type_id')->constrained('account_types');
-            $table->string('counter_bg_color')->nullable();
-            $table->string('counter_font_color')->nullable();
-            $table->json('counter_grid_color')->nullable();
-            $table->json('active_counter_grid_color')->nullable();
+            $table->string('name');
+            $table->json('value')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('account_type_color');
+        Schema::dropIfExists('account_type_themes');
     }
 };

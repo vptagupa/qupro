@@ -25,10 +25,10 @@ trait AccountType
         });
     }
 
-    protected function colorCondition(&$builder, $query)
+    protected function themeCondition(&$builder, $query)
     {
-        return $builder->when(isset($query['color']) && $query['color'], function ($builder) use ($query) {
-            $builder->with(['color']);
+        return $builder->when(isset($query['theme']) && $query['theme'], function ($builder) use ($query) {
+            $builder->with(['theme']);
         });
     }
 }

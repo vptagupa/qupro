@@ -127,8 +127,8 @@ class AccountType extends Model
         return $this->shared_series->reject(fn($shared) => $shared->priority == 1)->first();
     }
 
-    public function color()
+    public function theme()
     {
-        return $this->hasOne(AccountTypeColor::class);
+        return $this->hasMany(AccountTypeTheme::class);
     }
 }

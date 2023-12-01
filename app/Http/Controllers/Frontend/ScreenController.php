@@ -65,7 +65,6 @@ class ScreenController extends Controller
                     query: [
                         'id' => $accountTypeId,
                         'file' => true,
-                        'color' => true
                     ],
                     first: true
                 ),
@@ -80,12 +79,22 @@ class ScreenController extends Controller
         ];
     }
 
-    public function updateAccountTypeColor(int $accountType, Request $request)
+    public function updateTheme(int $accountType, Request $request)
     {
-        $this->accountType->updateColor(
-            $accountType,
-            $request->get('field'),
-            $request->get('color')
-        );
+        if ($request->get('themeCounter')) {
+            $this->accountType->updateTheme(
+                $accountType,
+                'themeCounter',
+                $request->get('themeCounter')
+            );
+        }
+        if ($request->get('themeMedia')) {
+            $this->accountType->updateTheme(
+                $accountType,
+                'themeMedia',
+                $request->get('themeMedia')
+            );
+        }
+
     }
 }

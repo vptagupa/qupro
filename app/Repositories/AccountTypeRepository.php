@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\AccountTypeColor;
+use App\Models\AccountTypeTheme;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
 
@@ -48,17 +48,19 @@ class AccountTypeRepository extends Repository
         }
     }
 
-    public function updateColor(int $id, $field, $value)
+    public function updateTheme(int $id, $name, $value)
     {
         $model = $this->find($id);
-        $color = $model->color;
-        if (!$color) {
-            $model->color()->save(new AccountTypeColor([
-                $field => $value
+        $theme = $model->theme()->where('name', $name)->first();
+
+        if (!$theme) {
+            $model->theme()->save(new AccountTypeTheme([
+                'name' => $name,
+                'value' => $value
             ]));
         } else {
-            $color->$field = $value;
-            $color->save();
+            $theme->value = $value;
+            $theme->save();
         }
     }
 

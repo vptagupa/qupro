@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
+    AccountTypeThemeController,
     PriorityController
 };
 
@@ -132,9 +133,10 @@ Route::middleware([
 Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
-    Route::name('colors.')->prefix('colors')->group(function () {
+    Route::name('theme.')->prefix('theme')->group(function () {
         Route::name('account_type.')->group(function () {
-            Route::post('/{accountType}', [FrontendScreenController::class, 'updateAccountTypeColor'])->name('update-color')->middleware('auth');
+            Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme')->middleware('auth');
+            Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
         });
     });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');

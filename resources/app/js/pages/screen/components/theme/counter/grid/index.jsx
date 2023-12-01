@@ -1,12 +1,13 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useDispatch } from "react-redux";
-import { setCurrentTicket, setCurrentWindow } from "../reducer";
+import { setGridTicket, setGridWindow, setGridDevider } from "../reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faClipboardCheck,
     faBuilding,
+    faRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Component() {
@@ -33,8 +34,9 @@ export default function Component() {
 
     const actions = useMemo(
         () => ({
-            ticket: setCurrentTicket,
-            window: setCurrentWindow,
+            ticket: setGridTicket,
+            window: setGridWindow,
+            devider: setGridDevider,
         }),
         [],
     );
@@ -63,6 +65,21 @@ export default function Component() {
                                 }`}
                                 title="Ticket"
                                 onClick={(e) => setType("ticket")}
+                            />
+                        </div>
+                        <div>
+                            <FontAwesomeIcon
+                                icon={faRightLong}
+                                className={`h-5 cursor-pointer  ${
+                                    type == "devider"
+                                        ? "text-teal-500"
+                                        : "text-slate-500"
+                                }`}
+                                title="Devider"
+                                onClick={(e) => {
+                                    setType("devider");
+                                    setStyle("font");
+                                }}
                             />
                         </div>
                         <div>
