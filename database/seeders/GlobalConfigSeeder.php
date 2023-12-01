@@ -53,7 +53,11 @@ class GlobalConfigSeeder extends Seeder
                 'type' => 'boolean',
                 'label' => 'If enabled, the Qu\'s are required to select either regular or priority upon registration'
             ],
+            [
+                "name" => "Default Screen Theme",
+                'value' => "",
 
+            ],
         ];
 
         foreach ($real as $row) {

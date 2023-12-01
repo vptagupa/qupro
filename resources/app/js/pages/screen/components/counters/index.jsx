@@ -36,6 +36,7 @@ export default memo(({ screen_id, account_type_id }) => {
     let interval;
     useEffect(() => {
         interval = setInterval(() => {
+            console.log(chunks().length);
             setPage(page >= chunks().length - 1 ? 0 : page + 1);
         }, 10000);
 
@@ -85,7 +86,7 @@ export default memo(({ screen_id, account_type_id }) => {
             Echo.leave(`${screen_id}.screen`);
         };
     }, [screen_id, account_type_id]);
-
+    console.log(defferPage);
     return (
         <>
             <div className="w-full text-3xl uppercase ">

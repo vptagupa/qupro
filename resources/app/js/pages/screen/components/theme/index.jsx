@@ -1,8 +1,9 @@
 import Popover from "./popover";
 import Tabs from "./tabs";
 import Actions from "./actions";
+import { memo } from "react";
 
-const Component = () => {
+export default memo(function Component() {
     return (
         <>
             <div className="absolute top-2 right-2">
@@ -13,6 +14,4 @@ const Component = () => {
             </div>
         </>
     );
-};
-
-export default Component;
+});

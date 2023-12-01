@@ -21,7 +21,7 @@ export default function Component() {
             setLoading(true);
             await axios.post(
                 route("screen.theme.account_type.update-theme", {
-                    accountType: account_type_id,
+                    accountType: account_type_id ?? 0,
                 }),
                 {
                     themeCounter,
@@ -38,7 +38,7 @@ export default function Component() {
             setResetLoading(true);
             await axios.patch(
                 route("screen.theme.account_type.reset-theme", {
-                    accountType: account_type_id,
+                    accountType: account_type_id ?? 0,
                 }),
             );
             dipatch(CounterReplacer(null));

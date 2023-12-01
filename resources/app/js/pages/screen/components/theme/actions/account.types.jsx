@@ -1,8 +1,9 @@
-import { Fragment, useState, memo, useEffect, useCallback } from "react";
-import { Combobox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { usePage, router } from "@inertiajs/react";
 import { useSelector } from "react-redux";
+
+import { Fragment, useState, memo, useEffect, useCallback } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 export default memo(() => {
     const {
@@ -11,27 +12,18 @@ export default memo(() => {
     const { account_type_id, screen_id } = useSelector(
         (state) => state.counter.param,
     );
-
-    const [selected, setSelected] = useState(
-        accountTypes.filter((t) => t.id == account_type_id)[0],
+    const [list, setList] = useState(
+        [{ id: 0, name: "Default" }].concat(...accountTypes),
     );
-    const [query, setQuery] = useState("");
-
-    const filtered =
-        query === ""
-            ? accountTypes
-            : accountTypes.filter((type) =>
-                  type.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "")
-                      .includes(query.toLowerCase().replace(/\s+/g, "")),
-              );
+    const [selected, setSelected] = useState(
+        list.filter((t) => t.id == (account_type_id ?? 0))[0] ?? "",
+    );
 
     const redirect = useCallback((id) => {
         router.get(
             route("screen.index", {
                 screen: screen_id,
-                department: id,
+                department: id == 0 ? null : id,
             }),
             {},
             {
@@ -42,85 +34,70 @@ export default memo(() => {
     }, []);
 
     useEffect(() => {
-        redirect(selected.id);
+        redirect(selected?.id);
     }, [selected]);
 
     return (
-        <div className="">
-            <Combobox value={selected} onChange={setSelected}>
+        <div className="w-72">
+            <Listbox value={selected} onChange={setSelected}>
                 <div className="relative mt-1">
-                    <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-                        <Combobox.Input
-                            className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                            displayValue={(type) => type.name}
-                            onChange={(event) => setQuery(event.target.value)}
-                        />
-                        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <span className="block truncate">
+                            {selected?.name ?? ""}
+                        </span>
+                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                             <ChevronUpDownIcon
                                 className="h-5 w-5 text-gray-400"
                                 aria-hidden="true"
                             />
-                        </Combobox.Button>
-                    </div>
+                        </span>
+                    </Listbox.Button>
                     <Transition
                         as={Fragment}
                         leave="transition ease-in duration-100"
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
-                        afterLeave={() => setQuery("")}
                     >
-                        <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                            {filtered.length === 0 && query !== "" ? (
-                                <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                                    Nothing found.
-                                </div>
-                            ) : (
-                                filtered.map((type) => (
-                                    <Combobox.Option
-                                        key={type.id}
-                                        className={({ active }) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active
-                                                    ? "bg-teal-600 text-white"
-                                                    : "text-gray-900"
-                                            }`
-                                        }
-                                        value={type}
-                                    >
-                                        {({ selected, active }) => (
-                                            <>
-                                                <span
-                                                    className={`block truncate ${
-                                                        selected
-                                                            ? "font-medium"
-                                                            : "font-normal"
-                                                    }`}
-                                                >
-                                                    {type.name}
+                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                            {list.map((type) => (
+                                <Listbox.Option
+                                    key={type.id}
+                                    className={({ active }) =>
+                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                            active
+                                                ? "bg-amber-100 text-amber-900"
+                                                : "text-gray-900"
+                                        }`
+                                    }
+                                    value={type}
+                                >
+                                    {({ selected }) => (
+                                        <>
+                                            <span
+                                                className={`block truncate ${
+                                                    selected
+                                                        ? "font-medium"
+                                                        : "font-normal"
+                                                }`}
+                                            >
+                                                {type.name}
+                                            </span>
+                                            {selected ? (
+                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                    <CheckIcon
+                                                        className="h-5 w-5"
+                                                        aria-hidden="true"
+                                                    />
                                                 </span>
-                                                {selected ? (
-                                                    <span
-                                                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                                            active
-                                                                ? "text-white"
-                                                                : "text-teal-600"
-                                                        }`}
-                                                    >
-                                                        <CheckIcon
-                                                            className="h-5 w-5"
-                                                            aria-hidden="true"
-                                                        />
-                                                    </span>
-                                                ) : null}
-                                            </>
-                                        )}
-                                    </Combobox.Option>
-                                ))
-                            )}
-                        </Combobox.Options>
+                                            ) : null}
+                                        </>
+                                    )}
+                                </Listbox.Option>
+                            ))}
+                        </Listbox.Options>
                     </Transition>
                 </div>
-            </Combobox>
+            </Listbox>
         </div>
     );
 });

@@ -1,14 +1,15 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPopover } from "../reducer";
 
-export default function Component() {
+export default memo(function Component() {
     const dispatch = useDispatch();
+    const { popover } = useSelector((state) => state.themeCounter);
     const [color, setColor] = useState({
-        bg: null,
-        font: null,
+        bg: popover.bg,
+        font: popover.font,
     });
 
     const [style, setStyle] = useState("font");
@@ -68,4 +69,4 @@ export default function Component() {
             </div>
         </>
     );
-}
+});

@@ -1,14 +1,15 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "./reducer";
 
-export default function Component() {
+export default memo(function Component() {
     const dispatch = useDispatch();
+    const { counter } = useSelector((state) => state.themeCounter);
     const [color, setColor] = useState({
-        bg: null,
-        font: null,
+        bg: counter.bg,
+        font: counter.font,
     });
 
     const [style, setStyle] = useState("bg");
@@ -59,4 +60,4 @@ export default function Component() {
             </div>
         </>
     );
-}
+});

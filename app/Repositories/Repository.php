@@ -21,6 +21,11 @@ class Repository
         return $this->model->where('id', $id)->update($data);
     }
 
+    public function updateBy(array $data, $id, $key = 'id')
+    {
+        $this->model->where($key, $id)->update($data);
+    }
+
     public function delete($id)
     {
         return $this->model->destroy($id);

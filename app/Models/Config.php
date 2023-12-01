@@ -17,6 +17,10 @@ class Config extends Model
         'type'
     ];
 
+    public static $hide = [
+        'Default Screen Theme'
+    ];
+
     public static function numstart()
     {
         return Config::where('name', 'Num start')->first()?->value;
@@ -55,5 +59,10 @@ class Config extends Model
     public static function isEnabledPriorityOnQuRegistration()
     {
         return Config::where('name', 'Enable priority on Qu registration')->first()?->value;
+    }
+
+    public static function screenTheme()
+    {
+        return Config::where('name', 'Default Screen Theme')->first()?->value;
     }
 }

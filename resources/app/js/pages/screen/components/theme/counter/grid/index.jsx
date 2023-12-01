@@ -1,7 +1,7 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGridTicket, setGridWindow, setGridDevider } from "../reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,11 +10,12 @@ import {
     faRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function Component() {
+export default memo(function Component() {
     const dispatch = useDispatch();
+    const { grid } = useSelector((state) => state.themeCounter);
     const [color, setColor] = useState({
-        bg: null,
-        font: null,
+        bg: grid.bg,
+        font: grid.font,
     });
     const [type, setType] = useState("ticket");
     const [style, setStyle] = useState("font");
@@ -127,4 +128,4 @@ export default function Component() {
             </div>
         </>
     );
-}
+});

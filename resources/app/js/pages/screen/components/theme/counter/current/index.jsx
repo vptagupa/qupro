@@ -1,7 +1,7 @@
 import { Button } from "@/js/components/buttons";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTicket, setCurrentWindow } from "../reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,9 +11,10 @@ import {
 
 export default function Component() {
     const dispatch = useDispatch();
+    const { current } = useSelector((state) => state.themeCounter);
     const [color, setColor] = useState({
-        bg: null,
-        font: null,
+        bg: current.bg,
+        font: current.font,
     });
     const [type, setType] = useState("ticket");
     const [style, setStyle] = useState("font");
