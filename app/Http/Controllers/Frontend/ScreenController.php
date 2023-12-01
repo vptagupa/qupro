@@ -31,29 +31,13 @@ class ScreenController extends Controller
             layout: 'app-layout',
             options: [
                 'screen_id' => $screen->id,
-                'department_id' => $request->get('department')
-            ]
-        );
-    }
-
-
-    /**
-     * Display a color chanage page
-     */
-    public function color()
-    {
-        return $this->render(
-            view: "screen/premium/index",
-            layout: 'app-layout',
-            options: [
-                'screen_id' => Screen::premium()->id
+                'account_type_id' => $request->get('department')
             ]
         );
     }
 
     public function updated(Request $request, Screen $screen)
     {
-        $totals = $this->totalTickets($request->get('department'));
         return [
             'config' => [
                 'message' => Config::screenMessage(),
@@ -63,7 +47,7 @@ class ScreenController extends Controller
             'tickets' => [
                 'data' => $this->qu->getLatestServed(),
                 'current' => $this->qu->currentServed(),
-                ...$totals
+                ...(fn() => $this->totalTickets($request->get('accountType')))()
             ]
         ];
     }
@@ -80,7 +64,8 @@ class ScreenController extends Controller
                 'account_type' => $this->accountType->list(
                     query: [
                         'id' => $accountTypeId,
-                        'file' => true
+                        'file' => true,
+                        'color' => true
                     ],
                     first: true
                 ),
@@ -93,5 +78,14 @@ class ScreenController extends Controller
             'served' => $this->qu->getTotalServedByAccountType(),
             'total' => $this->qu->getTotalByAccountType(),
         ];
+    }
+
+    public function updateAccountTypeColor(int $accountType, Request $request)
+    {
+        $this->accountType->updateColor(
+            $accountType,
+            $request->get('field'),
+            $request->get('color')
+        );
     }
 }

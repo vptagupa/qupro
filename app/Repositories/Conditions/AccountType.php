@@ -24,4 +24,11 @@ trait AccountType
             $builder->with(['file']);
         });
     }
+
+    protected function colorCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['color']) && $query['color'], function ($builder) use ($query) {
+            $builder->with(['color']);
+        });
+    }
 }

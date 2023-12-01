@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\AccountTypeColor;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
 
@@ -44,6 +45,20 @@ class AccountTypeRepository extends Repository
 
         if ($prevFile) {
             $prevFile->delete();
+        }
+    }
+
+    public function updateColor(int $id, $field, $value)
+    {
+        $model = $this->find($id);
+        $color = $model->color;
+        if (!$color) {
+            $model->color()->save(new AccountTypeColor([
+                $field => $value
+            ]));
+        } else {
+            $color->$field = $value;
+            $color->save();
         }
     }
 

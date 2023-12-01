@@ -1,16 +1,22 @@
 import { memo } from "react";
 import Counter from "./counter";
+import { router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { useState, useEffect, useCallback, useDeferredValue } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useTickets } from "./tickets";
+import { useSelector } from "react-redux";
 
-export default memo(({ tickets, current }) => {
+export default memo(({ screen_id, account_type_id }) => {
+    const {
+        data: { tickets, current, config },
+    } = useSelector((state) => state.counter);
+
+    const { update } = useTickets(screen_id, account_type_id);
     const [page, setPage] = useState(0);
     const [defferPage, setDefferPage] = useState(page);
-
     const isActive = (ticket) => ticket?.num_fulltext == current?.num_fulltext;
     const active = tickets.filter((ticket) => isActive(ticket))[0];
-
-    const groups = useCallback(
+    const chunks = useCallback(
         (perPage = 7) => {
             let data = [];
             const lists = tickets.filter((ticket) => !isActive(ticket));
@@ -26,13 +32,13 @@ export default memo(({ tickets, current }) => {
     let interval;
     useEffect(() => {
         interval = setInterval(() => {
-            setPage(page >= groups().length - 1 ? 0 : page + 1);
+            setPage(page >= chunks().length - 1 ? 0 : page + 1);
         }, 10000);
 
         return () => {
             clearInterval(interval);
         };
-    }, [page, groups]);
+    }, [page, chunks]);
 
     let timeout;
     useEffect(() => {
@@ -45,13 +51,44 @@ export default memo(({ tickets, current }) => {
         };
     }, [page]);
 
+    useEffect(() => {
+        (config?.account_type_ids ?? []).forEach((id) => {
+            Echo.private(`${id}.account-type`).listen("QuCalled", (qu) => {
+                update();
+            });
+        });
+
+        return () => {
+            (config?.account_type_ids ?? []).forEach((id) => {
+                Echo.leave(`${id}.account-type`);
+            });
+        };
+    }, [config?.account_type_ids]);
+
+    useEffect(() => {
+        update();
+
+        Echo.private(`${screen_id}.screen`)
+            .listen("CounterRefresh", (e) => {
+                update();
+            })
+            .listen("ScreenRefresh", (e) => {
+                update();
+                router.reload();
+            });
+
+        return () => {
+            Echo.leave(`${screen_id}.screen`);
+        };
+    }, []);
+
     return (
         <>
             <div className="w-full text-3xl uppercase ">
                 <div className="mb-4">
-                    <Counter ticket={active} isActive={isActive(active)} />
+                    <Counter ticket={active} isActive={true} />
                 </div>
-                {groups().map((group, idx) => {
+                {chunks().map((tickets, idx) => {
                     return (
                         <Transition
                             show={defferPage == idx}
@@ -68,7 +105,7 @@ export default memo(({ tickets, current }) => {
                                     idx != page ? "hidden" : ""
                                 }`}
                             >
-                                {group.map((ticket, idx) => {
+                                {tickets.map((ticket, idx) => {
                                     return (
                                         <Counter key={idx} ticket={ticket} />
                                     );

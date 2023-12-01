@@ -3,10 +3,7 @@ import { faFillDrip } from "@fortawesome/free-solid-svg-icons";
 
 export default ({ id }) => {
     return (
-        <a
-            href={route("screen.color.index", { department: id })}
-            target="_blank"
-        >
+        <a href="#" target="_blank">
             <FontAwesomeIcon
                 className={`h-4 text-fuchsia-500`}
                 icon={faFillDrip}

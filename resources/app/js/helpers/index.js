@@ -29,10 +29,12 @@ export const copy = (text, ref) => {
 export const debounce = (fn, delay) => {
     let timeoutId;
     return (...args) => {
+        console.log(timeoutId);
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
             fn(...args);
         }, delay);
+        console.log(timeoutId);
     };
 };
 
