@@ -25,9 +25,21 @@ export const reducer = createSlice({
                 ...action.payload,
             };
         },
+        replace: (state, action) => {
+            if (action.payload) {
+                state.set = {
+                    ...state.set,
+                    ...action.payload.set,
+                };
+                state.message = {
+                    ...state.message,
+                    ...action.payload.message,
+                };
+            }
+        },
     },
 });
 
-export const { set, setMessage } = reducer.actions;
+export const { set, setMessage, replace } = reducer.actions;
 
 export default reducer.reducer;

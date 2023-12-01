@@ -16,11 +16,6 @@ class Media extends Model
         'active'
     ];
 
-    protected $appends = [
-        'is_image',
-        'is_video'
-    ];
-
     public static function booted()
     {
         static::deleted(function ($model) {
@@ -38,19 +33,5 @@ class Media extends Model
     public function scopeActive($query)
     {
         return $query->where('active', true);
-    }
-
-    public function isImage(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => str($this->file->type)->startsWith('image/')
-        );
-    }
-
-    public function isVideo(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => str($this->file->type)->startsWith('video/')
-        );
     }
 }

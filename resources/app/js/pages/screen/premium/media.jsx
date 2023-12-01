@@ -5,8 +5,10 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 
-export default memo(({ screen_id }) => {
-    const { data: config } = useSelector((state) => state.counter);
+export default memo(({ screen_id, account_type_id }) => {
+    const {
+        data: { config },
+    } = useSelector((state) => state.counter);
     const [media, setMedia] = useState([]);
     const update = debounce(
         useCallback(() => {
@@ -14,12 +16,13 @@ export default memo(({ screen_id }) => {
                 .get(
                     route("screen.updated.media", {
                         screen: screen_id,
+                        account_type: account_type_id,
                     }),
                 )
                 .then(({ data: { data } }) => {
                     setMedia(data);
                 });
-        }, []),
+        }, [account_type_id]),
         1000,
     );
 
@@ -36,7 +39,7 @@ export default memo(({ screen_id }) => {
             Echo.leave(`media`);
         };
     }, []);
-
+    console.log(config);
     return (
         <>
             {media.length > 0 && (

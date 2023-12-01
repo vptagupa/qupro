@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { replace } from "./counter/reducer";
+import { replace as CounterReplacer } from "./counter/reducer";
+import { replace as MediaReplacer } from "./media/reducer";
 
 export const useThemeUpdate = (account_type_id) => {
     const dispatch = useDispatch();
@@ -13,8 +14,14 @@ export const useThemeUpdate = (account_type_id) => {
             )
             .then((res) => {
                 dispatch(
-                    replace(
+                    CounterReplacer(
                         res.data.filter((t) => t.name == "themeCounter")[0]
+                            ?.value,
+                    ),
+                );
+                dispatch(
+                    MediaReplacer(
+                        res.data.filter((t) => t.name == "themeMedia")[0]
                             ?.value,
                     ),
                 );

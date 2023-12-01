@@ -47,13 +47,13 @@ export default memo(({ media, interval }) => {
     useEffect(() => {
         onPlay();
     }, [play]);
-
+    console.log(interval);
     return (
         <>
             <div>
                 <div className="flex items-center justify-center">
                     <div className="w-[98%]">
-                        {play.file.is_image && <Image url={play.file.url} />}
+                        {play.file.is_image && <Image src={play.file.url} />}
                         {play.file.is_video && (
                             <Video
                                 ref={ref}

@@ -51,7 +51,10 @@ export default function Component({ screen_id, account_type_id }) {
                     >
                         <div className="flex flex-col">
                             <div className="flex h-[75%] grow items-center justify-center mt-2">
-                                <Media screen_id={screen_id} />
+                                <Media
+                                    screen_id={screen_id}
+                                    account_type_id={account_type_id}
+                                />
                             </div>
                             <div className="flex gap-x-5 pr-4">
                                 <Serve />

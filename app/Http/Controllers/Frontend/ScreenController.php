@@ -52,9 +52,17 @@ class ScreenController extends Controller
         ];
     }
 
-    public function updatedMedia(Screen $screen)
+    public function updatedMedia(Request $request, Screen $screen)
     {
-        return $this->media->getActive();
+        $media = $this->media->getActive();
+        if ($request->get('account_type')) {
+            $accountType = $this->accountType->find($request->get('account_type'));
+            $media->push([
+                'file' => $accountType->file
+            ]);
+        }
+
+        return $media;
     }
 
     protected function totalTickets(?int $accountTypeId = null)
@@ -77,24 +85,5 @@ class ScreenController extends Controller
             'served' => $this->qu->getTotalServedByAccountType(),
             'total' => $this->qu->getTotalByAccountType(),
         ];
-    }
-
-    public function updateTheme(int $accountType, Request $request)
-    {
-        if ($request->get('themeCounter')) {
-            $this->accountType->updateTheme(
-                $accountType,
-                'themeCounter',
-                $request->get('themeCounter')
-            );
-        }
-        if ($request->get('themeMedia')) {
-            $this->accountType->updateTheme(
-                $accountType,
-                'themeMedia',
-                $request->get('themeMedia')
-            );
-        }
-
     }
 }
