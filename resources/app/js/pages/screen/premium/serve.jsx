@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 export default memo(() => {
     const data = useSelector((state) => state.counter.data);
+
     return (
         <>
             <Date />

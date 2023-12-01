@@ -26,7 +26,7 @@ export const useThemeUpdate = (account_type_id) => {
                     ),
                 );
             });
-    }, []);
+    }, [account_type_id]);
 
     return {
         update,

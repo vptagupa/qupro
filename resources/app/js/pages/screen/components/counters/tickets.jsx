@@ -3,10 +3,10 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { setData } from "./reducer";
 
-export const useTickets = (screen_id, account_type_id) => {
+export const useTickets = () => {
     const dispatch = useDispatch();
     const update = debounce(
-        useCallback(() => {
+        useCallback((screen_id, account_type_id) => {
             axios
                 .get(
                     route("screen.updated", {

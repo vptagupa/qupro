@@ -1,35 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export const reducer = createSlice({
-    name: "themeCounterReducer",
-    initialState: {
-        counter: {
+const initialState = {
+    counter: {
+        bg: null,
+    },
+    popover: {
+        bg: null,
+        font: null,
+    },
+    current: {
+        ticket: {
             bg: null,
+            font: null,
         },
-        current: {
-            ticket: {
-                bg: null,
-                font: null,
-            },
-            window: {
-                bg: null,
-                font: null,
-            },
-        },
-        grid: {
-            ticket: {
-                bg: null,
-                font: null,
-            },
-            window: {
-                bg: null,
-                font: null,
-            },
-            devider: {
-                font: null,
-            },
+        window: {
+            bg: null,
+            font: null,
         },
     },
+    grid: {
+        ticket: {
+            bg: null,
+            font: null,
+        },
+        window: {
+            bg: null,
+            font: null,
+        },
+        devider: {
+            font: null,
+        },
+    },
+};
+export const reducer = createSlice({
+    name: "themeCounterReducer",
+    initialState: initialState,
     reducers: {
         setCounter: (state, action) => {
             const selector = "counter";
@@ -39,20 +43,22 @@ export const reducer = createSlice({
             };
         },
         replace: (state, action) => {
-            if (action.payload) {
-                state.counter = {
-                    ...state.counter,
-                    ...action.payload.counter,
-                };
-                state.current = {
-                    ...state.current,
-                    ...action.payload.current,
-                };
-                state.grid = {
-                    ...state.grid,
-                    ...action.payload.grid,
-                };
-            }
+            state.counter = {
+                ...state.counter,
+                ...(action.payload?.counter ?? initialState.counter),
+            };
+            state.current = {
+                ...state.current,
+                ...(action.payload?.current ?? initialState.current),
+            };
+            state.grid = {
+                ...state.grid,
+                ...(action.payload?.grid ?? initialState.grid),
+            };
+            state.popover = {
+                ...state.popover,
+                ...(action.payload?.popover ?? initialState.popover),
+            };
         },
 
         setCurrentTicket: (state, action) => {
@@ -110,6 +116,13 @@ export const reducer = createSlice({
                 },
             };
         },
+        setPopover: (state, action) => {
+            const selector = "popover";
+            state[selector] = {
+                ...state[selector],
+                ...action.payload,
+            };
+        },
     },
 });
 
@@ -120,6 +133,7 @@ export const {
     setGridTicket,
     setGridWindow,
     setGridDevider,
+    setPopover,
     replace,
 } = reducer.actions;
 

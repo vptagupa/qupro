@@ -25,7 +25,7 @@ export default function Component({ screen_id, account_type_id }) {
 
     useEffect(() => {
         update();
-    }, []);
+    }, [screen_id, account_type_id]);
 
     return (
         <Layout>

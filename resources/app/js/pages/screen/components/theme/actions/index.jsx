@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import Circle from "@/assets/images/circle.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import AccountTypes from "./account.types";
 
 export default function Component() {
     const [loading, setLoading] = useState(false);
@@ -31,6 +32,9 @@ export default function Component() {
     return (
         <>
             <div className="flex justify-end">
+                <div>
+                    <AccountTypes />
+                </div>
                 <div>
                     <PrimaryButton
                         type="button"

@@ -22,7 +22,7 @@ export default memo(({ screen_id, account_type_id }) => {
                 .then(({ data: { data } }) => {
                     setMedia(data);
                 });
-        }, [account_type_id]),
+        }, [screen_id, account_type_id]),
         1000,
     );
 
@@ -39,7 +39,7 @@ export default memo(({ screen_id, account_type_id }) => {
             Echo.leave(`media`);
         };
     }, []);
-    console.log(config);
+
     return (
         <>
             {media.length > 0 && (
