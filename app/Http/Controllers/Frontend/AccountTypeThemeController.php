@@ -31,6 +31,20 @@ class AccountTypeThemeController extends Controller
             );
         }
     }
+    public function reset(int $accountType, Request $request)
+    {
+        $this->accountType->updateTheme(
+            $accountType,
+            'themeCounter',
+            null
+        );
+
+        $this->accountType->updateTheme(
+            $accountType,
+            'themeMedia',
+            null
+        );
+    }
 
     public function get(int $accountType, Request $request)
     {

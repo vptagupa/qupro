@@ -6,6 +6,7 @@ import { replace as MediaReplacer } from "./media/reducer";
 export const useThemeUpdate = (account_type_id) => {
     const dispatch = useDispatch();
     const update = useCallback(() => {
+        if (!account_type_id) return;
         axios
             .get(
                 route("screen.theme.account_type.getTheme", {

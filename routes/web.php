@@ -137,6 +137,7 @@ Route::name('screen.')->prefix('screen')->group(function () {
         Route::name('account_type.')->group(function () {
             Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme')->middleware('auth');
             Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
+            Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
         });
     });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');

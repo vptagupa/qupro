@@ -1,4 +1,4 @@
-import { Fragment, useState, memo } from "react";
+import { Fragment, useState, memo, useEffect, useCallback } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { usePage, router } from "@inertiajs/react";
@@ -27,7 +27,7 @@ export default memo(() => {
                       .includes(query.toLowerCase().replace(/\s+/g, "")),
               );
 
-    const redirect = (id) => {
+    const redirect = useCallback((id) => {
         router.get(
             route("screen.index", {
                 screen: screen_id,
@@ -39,10 +39,14 @@ export default memo(() => {
                 preserveState: true,
             },
         );
-    };
+    }, []);
+
+    useEffect(() => {
+        redirect(selected.id);
+    }, [selected]);
 
     return (
-        <div className="fixed left-2 w-72">
+        <div className="">
             <Combobox value={selected} onChange={setSelected}>
                 <div className="relative mt-1">
                     <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
@@ -82,7 +86,6 @@ export default memo(() => {
                                             }`
                                         }
                                         value={type}
-                                        onClick={(e) => redirect(type.id)}
                                     >
                                         {({ selected, active }) => (
                                             <>

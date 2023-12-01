@@ -57,9 +57,12 @@ class ScreenController extends Controller
         $media = $this->media->getActive();
         if ($request->get('account_type')) {
             $accountType = $this->accountType->find($request->get('account_type'));
-            $media->push([
-                'file' => $accountType->file
-            ]);
+            if ($file = $accountType->file) {
+                $media->push([
+                    'file' => $file
+                ]);
+            }
+            
         }
 
         return $media;
