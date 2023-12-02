@@ -42,9 +42,7 @@ export default memo(({ current, account_type }) => {
                             <span>{current?.num_fulltext ?? "-"}</span>
                         </div>
                         <div className="text-[6rem] leading-[8rem]">
-                            {(current?.account_type?.name ?? "-") +
-                                " " +
-                                (current?.counter_name ?? "-")}
+                            {current?.counter ?? "-"}
                         </div>
                     </div>
                 </div>
