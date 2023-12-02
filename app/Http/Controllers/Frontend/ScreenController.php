@@ -43,6 +43,7 @@ class ScreenController extends Controller
                 'message' => Config::screenMessage(),
                 'interval' => Config::screenInterval(),
                 'account_type_ids' => $screen->account_type_ids,
+                'screen_tickets_limit' => Config::screenTicketsLimit()
             ],
             'tickets' => [
                 'data' => $this->qu->getLatestServed($request->get('page')),

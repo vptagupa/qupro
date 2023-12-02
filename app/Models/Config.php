@@ -18,7 +18,8 @@ class Config extends Model
     ];
 
     public static $hide = [
-        'Default Screen Theme'
+        'Default Screen Theme',
+        'Screen Tickets Limit'
     ];
 
     public static function numstart()
@@ -64,5 +65,10 @@ class Config extends Model
     public static function screenTheme()
     {
         return Config::where('name', 'Default Screen Theme')->first()?->value;
+    }
+
+    public static function screenTicketsLimit()
+    {
+        return Config::where('name', 'Screen Tickets Limit')->first()?->value;
     }
 }

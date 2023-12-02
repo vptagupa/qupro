@@ -56,7 +56,10 @@ class GlobalConfigSeeder extends Seeder
             [
                 "name" => "Default Screen Theme",
                 'value' => "",
-
+            ],
+            [
+                "name" => "Screen Tickets Limit",
+                'value' => 5,
             ],
         ];
 

@@ -38,7 +38,7 @@ export default memo(({ screen_id, account_type_id }) => {
         return () => {
             Echo.leave(`media`);
         };
-    }, []);
+    }, [account_type_id]);
 
     return (
         <>

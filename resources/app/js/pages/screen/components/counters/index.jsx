@@ -2,7 +2,7 @@ import { memo } from "react";
 import Counter from "./counter";
 import { router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTickets } from "./tickets";
 import { useSelector, useDispatch } from "react-redux";
 import { ticket as pushTicket } from "./reducer";
@@ -16,20 +16,20 @@ export default memo(({ screen_id, account_type_id }) => {
     const [page, setPage] = useState(0);
     const [defferPage, setDefferPage] = useState(page);
     const isActive = (ticket) => ticket?.counter == current?.counter;
-
     const active = tickets.filter((ticket) => isActive(ticket))[0];
-    const chunks = useCallback(
-        (perPage = 5) => {
+
+    const chunks = useMemo(() => {
+        return (limiter = 5) => {
             let data = [];
             const lists = tickets.filter((ticket) => !isActive(ticket));
-            for (var i = 0; i < lists.length; i += perPage) {
-                data.push(lists.slice(i, i + perPage));
+            for (var i = 0; i < lists.length; i += limiter) {
+                data.push(lists.slice(i, i + limiter));
             }
 
             return data;
-        },
-        [tickets],
-    );
+        };
+    }, [tickets]);
+
     const ticketUpdater = useCallback(
         () => update(screen_id, account_type_id),
         [screen_id, account_type_id],
@@ -65,17 +65,13 @@ export default memo(({ screen_id, account_type_id }) => {
     }, [page]);
 
     useEffect(() => {
-        (config?.account_type_ids ?? []).forEach((id) => {
-            Echo.private(`${id}.account-type`).listen("QuCalled", (event) => {
-                ticketPusher(event.qu.ticket);
-                totalsUpdater();
-            });
+        Echo.channel(`screen`).listen("QuCalled", (event) => {
+            ticketPusher(event.qu.ticket);
+            totalsUpdater();
         });
 
         return () => {
-            (config?.account_type_ids ?? []).forEach((id) => {
-                Echo.leave(`${id}.account-type`);
-            });
+            Echo.leave(`screen`);
         };
     }, [config?.account_type_ids]);
 
