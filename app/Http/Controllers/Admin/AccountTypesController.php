@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\NumFormatCollection;
 use App\Http\Resources\AccountTypeCollection;
-use App\Http\Resources\AccountTypeResource;
 use App\Http\Requests\StoreAccountTypeRequest;
 use App\Http\Requests\UpdateAccountTypeRequest;
 use App\Repositories\AccountTypeRepository;
@@ -36,7 +35,12 @@ class AccountTypesController extends AdminController
     {
         return new AccountTypeCollection(
             $this->repository->list(
-                ['name' => $request->get('query'), 'priorityFormat' => true, 'format' => true],
+                [
+                    'name' => $request->get('query'),
+                    'priorityFormat' => true,
+                    'format' => true,
+                    'file' => true
+                ],
                 $request->get('per_page'),
             )
         );
@@ -47,16 +51,12 @@ class AccountTypesController extends AdminController
      */
     public function store(StoreAccountTypeRequest $request)
     {
-        $safe = $request->safe()->merge([
-            'num_format_id' => $request->get('format'),
-            'priority_format_id' => $request->get('priority_format'),
-        ]);
-
-        $this->repository->create($safe->only([
+        $this->repository->create($request->safe()->only([
             'name',
             'num_format_id',
             'num_start',
-            'priority_format_id'
+            'priority_format_id',
+            'file'
         ]));
     }
 
@@ -66,16 +66,12 @@ class AccountTypesController extends AdminController
      */
     public function update(UpdateAccountTypeRequest $request, int $id)
     {
-        $safe = $request->safe()->merge([
-            'num_format_id' => $request->get('format'),
-            'priority_format_id' => $request->get('priority_format'),
-        ]);
-
-        $this->repository->update($safe->only([
+        $this->repository->update($request->safe()->only([
             'name',
             'num_format_id',
             'num_start',
-            'priority_format_id'
+            'priority_format_id',
+            'file'
         ]), $id);
     }
 

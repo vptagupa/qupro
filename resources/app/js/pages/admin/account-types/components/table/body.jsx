@@ -10,13 +10,12 @@ import {
 } from "@/js/components/table";
 import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
-import {
-    MagnifyingGlassIcon,
-    CheckCircleIcon,
-} from "@heroicons/react/24/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
-import Edit from "../edit";
-import Delete from "../confirm.delete";
+import Edit from "../../actions/edit";
+import Delete from "../../actions/confirm.delete";
+import ViewFile from "../../actions/view.file";
+import Color from "../../actions/change.color";
 
 const Component = ({
     data,
@@ -98,6 +97,8 @@ const Component = ({
                                         </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
+                                                <Color id={item.id} />
+                                                <ViewFile item={item} />
                                                 <Edit
                                                     data={item}
                                                     formats={formats}

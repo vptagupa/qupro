@@ -34,7 +34,7 @@ export default () => {
                             leaveFrom="opacity-100 translate-y-0"
                             leaveTo="opacity-0 translate-y-1"
                         >
-                            <Popover.Panel className="absolute xs:-right-14 sm:-right-10 md:-right-12 lg:-right-12 z-10 mt-3 -translate-x-1/2 transform px-4 sm:px-0">
+                            <Popover.Panel className="absolute w-[300px] max-h-[400px] overflow-auto right-0 z-10 mt-3 px-4 sm:px-0">
                                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                                     <div className="bg-gray-50 p-4 flex flex-col gap-2">
                                         {accountTypes.data.map((type) => (

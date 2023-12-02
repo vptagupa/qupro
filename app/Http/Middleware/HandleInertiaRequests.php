@@ -61,8 +61,8 @@ class HandleInertiaRequests extends Middleware
         $data = [];
         if (\Auth::check()) {
             $data = [
-                'permissions' => Access::all(),
-                'user' => new UserResource($request->user()),
+                'permissions' => fn() => Access::all(),
+                'user' => fn() => new UserResource($request->user()),
             ];
         }
 
@@ -73,7 +73,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
-            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list())),
+            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(perPage: 100, orderBy: ['name', 'asc']))),
         ];
     }
 
@@ -81,7 +81,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'config' => [
-                'enabled_prioritY_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration()
+                'enabled_prioritY_on_qu_registration' => fn() => Config::isEnabledPriorityOnQuRegistration()
             ]
         ];
     }

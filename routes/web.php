@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
+    AccountTypeThemeController,
     PriorityController
 };
 
@@ -69,7 +70,7 @@ Route::middleware([
             Route::get('/', [AccountTypesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\AccountType');
             Route::post('/list', [AccountTypesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\AccountType');
             Route::post('/', [AccountTypesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\AccountType'])->name('store');
-            Route::patch('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
+            Route::post('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
             Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
         });
         Route::name('configurations.')->prefix('configurations')->group(function () {
@@ -127,12 +128,23 @@ Route::middleware([
         Route::get('/', [PriorityController::class, 'index'])->name('index');
         Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
+
+    Route::name('screen.')->prefix('screen')->group(function () {
+        Route::name('theme.')->prefix('theme')->group(function () {
+            Route::name('account_type.')->group(function () {
+                Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme')->middleware('auth');
+                Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
+                Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
+            });
+        });
+    });
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
-    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
+    Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
+    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
 });
 
 Route::redirect('/admin', '/admin/dashboard');

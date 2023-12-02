@@ -17,10 +17,13 @@ class AccountTypeFactory extends Factory
      */
     public function definition(): array
     {
+        $format = NumFormat::whereTitle('format')->first();
+        $format = $format ? $format : NumFormat::factory();
+
         return [
             'name' => fake()->name(),
-            'num_format_id' => NumFormat::factory(),
-            'priority_format_id' => NumFormat::factory(),
+            'num_format_id' => $format,
+            'priority_format_id' => $format,
             'num_start' => 1,
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\App;
 use App\Models\Media;
 use App\Models\File;
 use Storage;
@@ -9,23 +10,21 @@ use Storage;
 class MediaRepository extends Repository
 {
     use Conditions\Media;
+
+    private $file;
+
     public function __construct(Media $model)
     {
         $this->model = $model;
+        $this->file = App::make(FileRepository::class);
     }
 
     public function create($file)
     {
-        $path = $file->store('public/files');
-        $model = new File;
-        $model->filename = $file->getClientOriginalName();
-        $model->orig_filename = $file->getClientOriginalName();
-        $model->path = $path;
-        $model->type = $file->getClientMimeType();
-        $model->save();
+        $file = $this->storeFile($file);
 
         $media = new Media;
-        $media->file()->associate($model);
+        $media->file()->associate($file);
         $media->save();
     }
 
@@ -41,11 +40,14 @@ class MediaRepository extends Repository
             ->paginate();
     }
 
-    public function delete($id)
+    protected function storeFile($file)
     {
-        $media = $this->find($id);
+        if (!$file) {
+            return null;
+        }
 
-        Storage::delete('app/' . $media->file->path);
-        parent::delete($id);
+        return $this->file->create([
+            'file' => $file
+        ]);
     }
 }

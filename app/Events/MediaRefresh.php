@@ -21,6 +21,6 @@ class MediaRefresh implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel('media');
+        return new Channel('media');
     }
 }

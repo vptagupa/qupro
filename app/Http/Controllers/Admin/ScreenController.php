@@ -52,7 +52,7 @@ class ScreenController extends AdminController
             'screen',
         ]), $id);
 
-        ScreenRefresh::dispatch($this->repository->find($id));
+        ScreenRefresh::dispatch($this->repository->find($id)->pluck());
     }
 
     /**

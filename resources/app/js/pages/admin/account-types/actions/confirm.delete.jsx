@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { Confirm } from "@/js/components/modal";
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const Component = ({ handleDelete }) => {
     const [open, setOpen] = useState(false);
@@ -12,7 +14,10 @@ const Component = ({ handleDelete }) => {
                 className="cursor"
                 onClick={(e) => setOpen(true)}
             >
-                <TrashIcon className="h-5 text-pink-500" />
+                <FontAwesomeIcon
+                    className="h-4 text-pink-500"
+                    icon={faTrashCan}
+                />
             </div>
             <Confirm
                 open={open}

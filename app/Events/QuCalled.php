@@ -15,12 +15,14 @@ class QuCalled implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $qu;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(public Qu $qu)
+    public function __construct(Qu $qu)
     {
-        //
+        $this->qu = $qu->append('ticket')->toArray();
     }
 
     /**
@@ -30,6 +32,6 @@ class QuCalled implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel($this->qu->accountType->id . '.account-type');
+        return new Channel('screen');
     }
 }

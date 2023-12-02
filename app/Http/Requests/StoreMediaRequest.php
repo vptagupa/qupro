@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\File as Model;
 use App\Enums\Policy;
 use Illuminate\Validation\Rules\File;
-use Illuminate\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class StoreMediaRequest extends FormRequest
 {
@@ -26,7 +26,7 @@ class StoreMediaRequest extends FormRequest
     public function rules(): array
     {
         $videoTypes = ['mp4'];
-        $imageTypes = ['jpg', 'png'];
+        $imageTypes = ['jpg', 'jpeg', 'png'];
 
         return [
             'file' => [
@@ -46,8 +46,26 @@ class StoreMediaRequest extends FormRequest
                         }
 
                         return config('media.image_max') * 1024;
-                    })())
+                    })()),
+                (function () use ($imageTypes) {
+                    $imageTypes = array_map(fn($type) => 'image/' . $type, $imageTypes);
+                    if (in_array($this->file?->getMimeType() ?? '', $imageTypes)) {
+                        return Rule::dimensions()->width(1920)->height(1080);
+                    }
+                })()
             ]
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'file.dimensions' => 'Please use 1920 x 1080 image dimensions',
         ];
     }
 }

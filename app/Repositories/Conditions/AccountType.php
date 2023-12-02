@@ -17,4 +17,18 @@ trait AccountType
             $builder->with(['format']);
         });
     }
+
+    protected function fileCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['file']) && $query['file'], function ($builder) use ($query) {
+            $builder->with(['file']);
+        });
+    }
+
+    protected function themeCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['theme']) && $query['theme'], function ($builder) use ($query) {
+            $builder->with(['theme']);
+        });
+    }
 }

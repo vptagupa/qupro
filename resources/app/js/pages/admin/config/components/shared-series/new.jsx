@@ -5,14 +5,14 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
-import { useAccountTypes } from "./shared/account.types";
+import { useAccountTypes } from "../shared/account.types";
 import { useForm } from "@/js/helpers/form";
 
 export default () => {
     const {
         data: accountTypes,
-        check: accountTypeHandler,
         reset: accountTypeReset,
+        checkArray: accountTypesCheck,
     } = useAccountTypes();
 
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
@@ -79,7 +79,7 @@ export default () => {
                     form={form}
                     completed={completed}
                     accountTypes={accountTypes}
-                    setAccountTypesHandler={accountTypeHandler}
+                    accountTypesCheck={accountTypesCheck}
                 />
                 <Footer>
                     <FooterForm

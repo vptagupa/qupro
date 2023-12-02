@@ -8,7 +8,7 @@ use App\Repositories\MediaRepository;
 use App\Models\Config;
 use App\Models\Screen;
 use App\Repositories\QuRepository;
-use App\Repositories\UserRepository;
+use Illuminate\Http\Request;
 
 class ScreenController extends Controller
 {
@@ -17,7 +17,6 @@ class ScreenController extends Controller
         private MediaRepository $media,
         private QuRepository $qu,
         private AccountTypeRepository $accountType,
-        private UserRepository $user
     ) {
 
     }
@@ -25,34 +24,87 @@ class ScreenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Screen $screen)
+    public function index(Request $request, Screen $screen)
     {
         return $this->render(
             view: "screen/{$screen->screen->value}/index",
             layout: 'app-layout',
             options: [
-                'screen_id' => $screen->id
+                'screen_id' => $screen->id,
+                'account_type_id' => $request->get('department')
             ]
         );
     }
 
-    public function updated(Screen $screen)
+    public function updated(Request $request, Screen $screen)
+    {
+        return [
+            ...$this->getConfig($screen),
+            'tickets' => [
+                'data' => $this->qu->getLatestServed(
+                    page: $request->get('page'),
+                    includedAccountTypes: $screen->account_type_ids
+                ),
+                'current' => $this->qu->currentServed($screen->account_type_ids)->append('counter')->toArray(),
+                ...(fn() => $this->totalTickets($request->get('accountType')))()
+            ]
+        ];
+    }
+
+    public function updatedMedia(Request $request, Screen $screen)
+    {
+        $media = $this->media->getActive();
+        if ($request->get('account_type')) {
+            $accountType = $this->accountType->find($request->get('account_type'));
+            if ($file = $accountType->file) {
+                $media->push([
+                    'file' => $file
+                ]);
+            }
+
+        }
+
+        return $media;
+    }
+
+    public function updatedTotals(Request $request, Screen $screen)
+    {
+        return [
+            ...(fn() => $this->totalTickets($request->get('accountType')))()
+        ];
+    }
+
+    protected function totalTickets(?int $accountTypeId = null)
+    {
+        if ($accountTypeId) {
+            return [
+                'account_type' => $this->accountType->list(
+                    query: [
+                        'id' => $accountTypeId,
+                        'file' => true,
+                    ],
+                    first: true
+                ),
+                'served' => $this->qu->getTotalServedByAccountType($accountTypeId),
+                'total' => $this->qu->getTotalByAccountType($accountTypeId),
+            ];
+        }
+
+        return [
+            'served' => $this->qu->getTotalServedByAccountType(),
+            'total' => $this->qu->getTotalByAccountType(),
+        ];
+    }
+
+    protected function getConfig($screen)
     {
         return [
             'config' => [
                 'message' => Config::screenMessage(),
                 'interval' => Config::screenInterval(),
-                'account_type_ids' => $screen->account_type_ids,
+                'screen_tickets_limit' => Config::screenTicketsLimit(),
+                'screen_account_type_ids' => $screen->account_type_ids,
             ],
-            'tickets' => [
-                'data' => $this->user->getLatestServed($this->qu->counters()->pluck('counter_name')->toArray()),
-                'current' => $this->qu->currentServed()
-            ]
         ];
-    }
-
-    public function updatedMedia(Screen $screen)
-    {
-        return $this->media->getActive();
     }
 }

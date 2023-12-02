@@ -39,34 +39,80 @@ class QuRepository extends Repository
         )->count();
     }
 
-    public function currentServed()
+    public function currentServed($includedAccountTypes = [])
     {
         return $this->list(
             query: [
                 'called' => true,
+                'accountType' => true
             ],
             paginate: false,
             orderBy: ['called_at', 'desc'],
             get: false,
-            first: true
-        );
+        )
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })
+            ->first();
     }
 
-    public function counters()
+    public function getLatestServed($page = 0, $limit = 6, $includedAccountTypes = [])
+    {
+        $counters = ($this->model->newQuery())
+            ->select(['counter_name', 'account_type_id'])
+            ->addSelect([
+                'department' => AccountType::select('name')
+                    ->whereColumn('account_type_id', 'account_types.id')
+                    ->limit(1)
+            ])
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })
+            ->groupBy('counter_name', 'account_type_id')
+            ->whereNotNull('called_at')
+            ->orderBy('department', 'asc')
+            ->get();
+
+        $data = collect([]);
+        foreach ($counters as $counter) {
+            $qu = Qu::where('counter_name', $counter->counter_name)
+                ->where('account_type_id', $counter->account_type_id)
+                ->orderBy('called_at', 'desc')
+                ->first();
+
+            $data->push([
+                'num_fulltext' => $qu->num_fulltext,
+                'counter_name' => $counter->counter_name,
+                'department' => $counter->department,
+                'account_type_id' => $counter->account_type_id,
+                'counter' => $qu->counter
+            ]);
+        }
+
+        return $data;
+    }
+
+    public function getTotalServedByAccountType(?int $id = null)
     {
         return $this->list(
             query: [
                 'called' => true,
-            ],
-            columns: [
-                'counter_name',
+                'account_type_id' => $id
             ],
             paginate: false,
             get: false,
-        )
-            ->groupBy('counter_name')
-            ->get();
+        )->count();
+    }
 
+    public function getTotalByAccountType(?int $id = null)
+    {
+        return $this->list(
+            query: [
+                'account_type_id' => $id
+            ],
+            paginate: false,
+            get: false,
+        )->count();
     }
 
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)

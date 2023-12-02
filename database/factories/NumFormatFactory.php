@@ -20,7 +20,7 @@ class NumFormatFactory extends Factory
             'title' => 'Format',
             'affix' => 'ALL',
             'delimiter' => '-',
-            'format' => '{affix}{delimiter}{(n)series}',
+            'format' => '{affix}{delimiter}{series}',
             'active' => 1,
         ];
     }

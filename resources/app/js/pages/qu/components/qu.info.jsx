@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import QRCode from "react-qr-code";
 
 const Component = ({
     controls: {
@@ -24,6 +25,13 @@ const Component = ({
                         <div>{qu.name}</div>
                     </span>
                 )}
+                <div className="flex items-center justify-center mt-5">
+                    <QRCode
+                        className="w-[100px] h-[100px]"
+                        value={qu.num_fulltext}
+                        viewBox={`0 0 256 256`}
+                    />
+                </div>
             </div>
         </>
     );

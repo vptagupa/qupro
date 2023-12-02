@@ -5,12 +5,12 @@ import { useEffect } from "react";
 import Event from "@/js/helpers/event";
 import FooterForm from "./form.footer";
 import { useForm } from "@/js/helpers/form";
-import { useAccountTypes } from "./shared/account.types";
+import { useAccountTypes } from "../shared/account.types";
 
 export default ({ data }) => {
     const {
         data: accountTypes,
-        check: accountTypeHandler,
+        checkArray: accountTypesCheck,
         setData: setAccountTypes,
     } = useAccountTypes();
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
@@ -83,7 +83,7 @@ export default ({ data }) => {
                     form={form}
                     completed={completed}
                     accountTypes={accountTypes}
-                    setAccountTypesHandler={accountTypeHandler}
+                    accountTypesCheck={accountTypesCheck}
                 />
                 <Footer>
                     <FooterForm

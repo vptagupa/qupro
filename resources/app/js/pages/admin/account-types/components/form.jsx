@@ -1,38 +1,50 @@
 import { Form, Input, Select } from "@/js/components/form";
-import { AlertSuccess } from "@/js/components/alerts";
-import PropTypes from "prop-types";
+import { AlertSuccess, AlertDanger } from "@/js/components/alerts";
 import { Transition } from "@headlessui/react";
+import Media from "./media";
 
-const Component = ({ form, completed, formats }) => {
+const Component = ({ form, formats }) => {
     return (
         <Form>
             <div>
-                <Transition show={completed && !form.hasErrors}>
+                <Transition show={form.recentlySuccessful && !form.hasErrors}>
                     <AlertSuccess>Successfully save.</AlertSuccess>
                 </Transition>
+                <Transition show={form.hasErrors && form.invalid("file")}>
+                    <AlertDanger>{form.errors.file}.</AlertDanger>
+                </Transition>
             </div>
-            <div>
-                <span className="text-xs">Name:</span>
-                <Input
-                    type="text"
-                    name="name"
-                    value={form.data.name}
-                    className={form.invalid("name") ? "has-danger" : ""}
-                    onChange={(e) => form.setData("name", e.target.value)}
-                />
-                {form.invalid("name") && (
-                    <span className="text-danger text-xs">
-                        {form.errors.name}
-                    </span>
-                )}
+            <div className="flex gap-x-2">
+                <div className="w-[80%]">
+                    <span className="text-xs">Name:</span>
+                    <Input
+                        type="text"
+                        name="name"
+                        value={form.data.name}
+                        className={form.invalid("name") ? "has-danger" : ""}
+                        onChange={(e) => form.setData("name", e.target.value)}
+                    />
+                    {form.invalid("name") && (
+                        <span className="text-danger text-xs">
+                            {form.errors.name}
+                        </span>
+                    )}
+                </div>
+                <div className="grow flex items-center justify-center border border-slate-300 rounded-lg">
+                    <Media form={form} />
+                </div>
             </div>
             <div>
                 <span className="text-xs">Format:</span>
                 <Select
-                    name="format"
-                    value={form.data.format}
-                    className={form.invalid("format") ? "has-danger" : ""}
-                    onChange={(e) => form.setData("format", e.target.value)}
+                    name="num_format_id"
+                    value={form.data.num_format_id}
+                    className={
+                        form.invalid("num_format_id") ? "has-danger" : ""
+                    }
+                    onChange={(e) =>
+                        form.setData("num_format_id", e.target.value)
+                    }
                 >
                     <option value="">Select</option>
                     {formats.map((format) => {
@@ -43,9 +55,9 @@ const Component = ({ form, completed, formats }) => {
                         );
                     })}
                 </Select>
-                {form.invalid("format") && (
+                {form.invalid("num_format_id") && (
                     <span className="text-danger text-xs">
-                        {form.errors.format}
+                        {form.errors.num_format_id}
                     </span>
                 )}
             </div>
@@ -68,12 +80,12 @@ const Component = ({ form, completed, formats }) => {
                 <span className="text-xs">Priority Format:</span>
                 <Select
                     name="priority_format"
-                    value={form.data.priority_format}
+                    value={form.data.priority_format_id}
                     className={
-                        form.invalid("priority_format") ? "has-danger" : ""
+                        form.invalid("priority_format_id") ? "has-danger" : ""
                     }
                     onChange={(e) =>
-                        form.setData("priority_format", e.target.value)
+                        form.setData("priority_format_id", e.target.value)
                     }
                 >
                     <option value="">Select</option>
@@ -85,18 +97,14 @@ const Component = ({ form, completed, formats }) => {
                         );
                     })}
                 </Select>
-                {form.invalid("priority_format") && (
+                {form.invalid("priority_format_id") && (
                     <span className="text-danger text-xs">
-                        {form.errors.priority_format}
+                        {form.errors.priority_format_id}
                     </span>
                 )}
             </div>
         </Form>
     );
-};
-
-Component.propTypes = {
-    completed: PropTypes.bool.isRequired,
 };
 
 export default Component;

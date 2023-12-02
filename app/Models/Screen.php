@@ -23,14 +23,15 @@ class Screen extends Model
         'screen' => Enum::class
     ];
 
-    protected $appends = [
-        'account_types'
-    ];
-
     public function accountTypes(): Attribute
     {
         return Attribute::make(
             get: fn() => AccountType::whereIn('id', $this->account_type_ids)->get()
         );
+    }
+
+    public static function premium()
+    {
+        return (new self)->whereScreen(Enum::PREMIUM)->first();
     }
 }

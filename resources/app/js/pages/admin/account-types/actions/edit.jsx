@@ -1,24 +1,27 @@
-import Form from "./form";
+import Form from "../components/form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import { useForm } from "@/js/helpers/form";
-import FooterForm from "./form.footer";
+import FooterForm from "../components/form.footer";
 import Event from "@/js/helpers/event";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default ({ data, formats, ...props }) => {
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
-            method: "patch",
+            method: "post",
             route: route("admin.account-types.update", {
                 type: data.id,
             }),
             data: {
                 id: data.id,
                 name: data.name,
-                format: data.num_format_id ?? "",
+                num_format_id: data.num_format_id ?? "",
                 num_start: data.num_start ?? "",
-                priority_format: data.priority_format_id ?? "",
+                priority_format_id: data.priority_format_id ?? "",
+                file: data?.file ?? "",
             },
         },
     );
@@ -27,6 +30,8 @@ export default ({ data, formats, ...props }) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            only: ["errors"],
+            forceFormData: true,
             onSuccess: () => {
                 Event.emit("reload");
                 setCompleted(true);
@@ -49,11 +54,14 @@ export default ({ data, formats, ...props }) => {
     return (
         <>
             <div className="cursor" onClick={(e) => setOpen(true)}>
-                <PencilSquareIcon className="h-5 text-slate-500" />
+                <FontAwesomeIcon
+                    className="h-4 text-teal-500"
+                    icon={faPenToSquare}
+                />
             </div>
             <Modal open={open}>
                 <Title>Update</Title>
-                <Form form={form} completed={completed} formats={formats} />
+                <Form form={form} formats={formats} />
                 <Footer>
                     <FooterForm
                         form={form}

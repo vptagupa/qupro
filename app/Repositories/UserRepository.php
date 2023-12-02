@@ -35,17 +35,4 @@ class UserRepository extends Repository
         $user->serve_account_type_ids = $serve;
         $user->save();
     }
-
-
-    public function getLatestServed(array $counters)
-    {
-        return $this->model->addSelect([
-            'served' => \App\Models\Qu::select('num_fulltext')
-                ->whereColumn('counter_name', 'users.counter_name')
-                ->orderBy('called_at', 'desc')
-                ->limit(1)
-        ])->whereIn('counter_name', $counters)
-            ->orderBy('counter_name', 'asc')
-            ->get();
-    }
 }

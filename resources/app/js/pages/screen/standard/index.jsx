@@ -1,79 +1,76 @@
 import Layout from "@/js/layouts/public";
+import Media from "./media";
+import Counter from "./counter";
+import Serve from "./serve";
 import Message from "../components/message";
-import Media from "../components/media";
-import Counter from "../components/counter";
-import { debounce } from "@/js/helpers";
-import { useTickets } from "../tickets";
-import { useState, useEffect, useCallback } from "react";
+import { useThemeUpdate } from "../components/theme/update";
+import { useDispatch } from "react-redux";
+import { setParam } from "../components/counters/reducer";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
-export default ({ screen_id }) => {
-    const [media, setMedia] = useState([]);
-    const { tickets, current, config, updated, Beep } = useTickets(screen_id);
-
-    const updatedMedia = debounce(
-        useCallback(() => {
-            axios
-                .get(
-                    route("screen.updated.media", {
-                        screen: screen_id,
-                    }),
-                )
-                .then(({ data: { data } }) => {
-                    setMedia(data);
-                });
-        }, []),
-        1000,
+export default function Component({ screen_id, account_type_id }) {
+    const dispatch = useDispatch();
+    const { update } = useThemeUpdate(account_type_id);
+    const { counter: themeCounter } = useSelector(
+        (state) => state.themeCounter,
     );
+    const themeMedia = useSelector((state) => state.themeMedia);
+    const { config } = useSelector((state) => state.counter.data);
 
     useEffect(() => {
-        Echo.private(`media`).listen("MediaRefresh", (e) => {
-            updatedMedia();
-        });
-
-        return () => {
-            Echo.leave(`media`);
-        };
-    }, []);
+        dispatch(setParam({ screen_id, account_type_id }));
+    }, [screen_id, account_type_id]);
 
     useEffect(() => {
-        setTimeout(() => {
-            updated();
-            updatedMedia();
-        }, 1000);
-    }, []);
+        update();
+    }, [screen_id, account_type_id]);
 
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
-                    <div className="xs:max-lg:w-full lg:w-[40%] h-screen p-10 bg-slate-300 text-slate-700 rounded-tr-2xl rounded-br-2xl">
-                        <div className="text-center text-[5rem] leading-[5rem] uppercase">
-                            {current?.num_fulltext ?? "0"}
-                        </div>
-                        <div className="mt-[15%]">
-                            <Counter tickets={tickets} />
-                        </div>
+                    <div
+                        className="xs:max-lg:w-full w-[30%] h-screen bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
+                        style={{
+                            background: themeCounter.bg,
+                        }}
+                    >
+                        <Counter
+                            screen_id={screen_id}
+                            account_type_id={account_type_id}
+                        />
                     </div>
-                    <div className="flex flex-col h-screen grow xs:max-lg:hidden">
-                        <div className="flex items-center justify-center">
-                            <div className="p-2">
-                                {media.length > 0 && (
-                                    <Media
-                                        media={media}
-                                        interval={config?.interval ?? 0}
-                                    />
-                                )}
+                    <div
+                        className="w-[70%] h-screen xs:max-lg:hidden"
+                        style={{
+                            background: themeMedia.set.bg,
+                            color: themeMedia.set.font,
+                        }}
+                    >
+                        <div className="flex flex-col">
+                            <div className="flex h-[75%] grow items-center justify-center mt-2">
+                                <Media
+                                    screen_id={screen_id}
+                                    account_type_id={account_type_id}
+                                />
+                            </div>
+                            <div className="">
+                                <Serve />
+                            </div>
+                            <div>
+                                <Message
+                                    text={config?.message ?? ""}
+                                    style={{
+                                        background: themeMedia.message.bg,
+                                        color: themeMedia.message.font,
+                                    }}
+                                />
                             </div>
                         </div>
-                        <div className="h-[20%]">
-                            <Message text={config?.message ?? ""} />
-                        </div>
-                    </div>
-                    <div className="hidden">
-                        <Beep />
                     </div>
                 </div>
             </div>
         </Layout>
     );
-};
+}

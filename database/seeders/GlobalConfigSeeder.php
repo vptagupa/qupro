@@ -37,7 +37,7 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Screen Text",
-                'value' => 'THE WORLD IS AMAZING PLACE TO LIVE!',
+                'value' => 'THE WORLD IS AN AMAZING PLACE TO LIVE!',
                 'type' => 'textarea'
             ],
             [
@@ -53,7 +53,14 @@ class GlobalConfigSeeder extends Seeder
                 'type' => 'boolean',
                 'label' => 'If enabled, the Qu\'s are required to select either regular or priority upon registration'
             ],
-
+            [
+                "name" => "Default Screen Theme",
+                'value' => "",
+            ],
+            [
+                "name" => "Screen Tickets Limit",
+                'value' => 5,
+            ],
         ];
 
         foreach ($real as $row) {

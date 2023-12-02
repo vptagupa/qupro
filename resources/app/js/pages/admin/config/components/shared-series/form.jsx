@@ -5,13 +5,9 @@ import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import { usePage } from "@inertiajs/react";
 import { useState } from "react";
+import AccountTypesForm from "@/js/helpers/account.types.combo";
 
-const Component = ({
-    form,
-    accountTypes,
-    completed,
-    setAccountTypesHandler,
-}) => {
+const Component = ({ form, accountTypes, completed, accountTypesCheck }) => {
     const [priority, setPriority] = useState(form.data.priority);
     const { formats } = usePage().props;
     return (
@@ -40,22 +36,13 @@ const Component = ({
             </div>
             <div>
                 <span className="text-xs">Departments:</span>
-                <div className="flex flex-wrap gap-2 items-center justify-start mt-1 border border-solid border-slate-300 p-2 rounded-lg">
-                    {accountTypes.map((type) => {
-                        return (
-                            <div key={type.id} className="text-xs mr-2">
-                                <label className="flex items-center space-x-1">
-                                    <Checkbox
-                                        checked={type?.checked ?? false}
-                                        onChange={(e) =>
-                                            setAccountTypesHandler(type.id)
-                                        }
-                                    />{" "}
-                                    <span>{type.name}</span>
-                                </label>
-                            </div>
-                        );
-                    })}
+                <div className="flex flex-col gap-2 items-center justify-start mt-1">
+                    <div className="w-full">
+                        <AccountTypesForm
+                            data={accountTypes}
+                            handler={accountTypesCheck}
+                        />
+                    </div>
                 </div>
                 {form.invalid("account_types") && (
                     <span className="text-danger text-xs">
@@ -109,7 +96,7 @@ Component.propTypes = {
     form: PropTypes.object.isRequired,
     completed: PropTypes.bool.isRequired,
     accountTypes: PropTypes.array.isRequired,
-    setAccountTypesHandler: PropTypes.func.isRequired,
+    accountTypesCheck: PropTypes.func.isRequired,
 };
 
 export default Component;

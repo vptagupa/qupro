@@ -21,9 +21,10 @@ export default memo(({ formats, ...props }) => {
         route: route("admin.account-types.store"),
         data: {
             name: "",
-            format: "",
+            num_format_id: "",
             num_start: "",
-            priority_format: "",
+            priority_format_id: "",
+            file: "",
         },
     });
 
@@ -31,11 +32,10 @@ export default memo(({ formats, ...props }) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            only: ["errors"],
             onSuccess: () => {
-                setCompleted(true);
                 clearForm();
                 Event.emit("reload");
-                console.log("submitted");
             },
         });
     };
@@ -59,7 +59,9 @@ export default memo(({ formats, ...props }) => {
             </Button>
             <Modal open={open}>
                 <Title>Add New</Title>
-                <Form form={form} completed={completed} formats={formats} />
+
+                <Form form={form} formats={formats} />
+
                 <Footer>
                     <FooterForm
                         form={form}
