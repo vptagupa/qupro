@@ -85,7 +85,7 @@ export default ({ url, priority = null }) => {
         controls.form.clearErrors();
     }, [controls]);
 
-    const printHandler = useCallback(() => {
+    const finalHandler = useCallback(() => {
         if (priority === null) {
             zeroScreenHandler();
         } else {
@@ -109,7 +109,7 @@ export default ({ url, priority = null }) => {
     return (
         <>
             <div className="lg:w-2/3 xs:w-full m-auto mt-[2%] p-5">
-                <div className="h-[300px] flex flex-col items-center justify-center">
+                <div className="min-h-[300px] flex flex-col items-center justify-center">
                     {zeroScreen && (
                         <ZeroScreen
                             controls={controls}
@@ -146,10 +146,7 @@ export default ({ url, priority = null }) => {
                         />
                     )}
                     {finalScreen && (
-                        <FinalScreen
-                            printHandler={printHandler}
-                            controls={controls}
-                        />
+                        <FinalScreen final={finalHandler} controls={controls} />
                     )}
                 </div>
 

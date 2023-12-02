@@ -75,7 +75,7 @@ const Component = ({ controls: { form } }) => {
                     }
                 />
             </div>
-            <div>
+            <div className="min-h-[250px]">
                 {chunk().map((types, idx) => {
                     return (
                         <Transition
