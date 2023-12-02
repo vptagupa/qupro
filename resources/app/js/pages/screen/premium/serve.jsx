@@ -8,12 +8,18 @@ export default memo(() => {
 
     return (
         <>
-            <Date />
-            <Serve
-                accountType={data.account_type?.name ?? ""}
-                served={data?.served ?? 0}
-                total={data?.total ?? 0}
-            />
+            <div className="flex gap-x-5 pr-4">
+                <div className="w-1/2">
+                    <Date />
+                </div>
+                <div className="grow">
+                    <Serve
+                        accountType={data.account_type?.name ?? ""}
+                        served={data?.served ?? 0}
+                        total={data?.total ?? 0}
+                    />
+                </div>
+            </div>
         </>
     );
 });

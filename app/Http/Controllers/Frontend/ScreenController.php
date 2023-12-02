@@ -68,6 +68,18 @@ class ScreenController extends Controller
         return $media;
     }
 
+    public function updatedTotals(Request $request, Screen $screen)
+    {
+        return [
+            'config' => [
+                'message' => Config::screenMessage(),
+                'interval' => Config::screenInterval(),
+                'account_type_ids' => $screen->account_type_ids,
+            ],
+            ...(fn() => $this->totalTickets($request->get('accountType')))()
+        ];
+    }
+
     protected function totalTickets(?int $accountTypeId = null)
     {
         if ($accountTypeId) {

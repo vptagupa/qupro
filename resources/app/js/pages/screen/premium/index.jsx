@@ -56,7 +56,7 @@ export default function Component({ screen_id, account_type_id }) {
                                     account_type_id={account_type_id}
                                 />
                             </div>
-                            <div className="flex gap-x-5 pr-4">
+                            <div className="">
                                 <Serve />
                             </div>
                             <div>

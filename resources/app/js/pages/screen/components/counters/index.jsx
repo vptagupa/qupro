@@ -12,7 +12,7 @@ export default memo(({ screen_id, account_type_id }) => {
         data: { tickets, current, config },
     } = useSelector((state) => state.counter);
     const dispatch = useDispatch();
-    const { update } = useTickets();
+    const { update, updateTotals } = useTickets();
     const [page, setPage] = useState(0);
     const [defferPage, setDefferPage] = useState(page);
     const isActive = (ticket) => ticket?.num_fulltext == current?.num_fulltext;
@@ -32,6 +32,10 @@ export default memo(({ screen_id, account_type_id }) => {
     );
     const ticketUpdater = useCallback(
         () => update(screen_id, account_type_id),
+        [screen_id, account_type_id],
+    );
+    const totalsUpdater = useCallback(
+        () => updateTotals(screen_id, account_type_id),
         [screen_id, account_type_id],
     );
     const ticketPusher = useCallback((ticket) => {
@@ -64,6 +68,7 @@ export default memo(({ screen_id, account_type_id }) => {
         (config?.account_type_ids ?? []).forEach((id) => {
             Echo.private(`${id}.account-type`).listen("QuCalled", (event) => {
                 ticketPusher(event.qu.ticket);
+                totalsUpdater();
             });
         });
 

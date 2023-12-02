@@ -1,6 +1,6 @@
-export default ({ accountType, served, total }) => {
+export default function Component({ accountType, served, total }) {
     return (
-        <div className="grow flex justify-end gap-x-20">
+        <div className="flex justify-between">
             <div>
                 {accountType && (
                     <div className="uppercase text-sm hidden">
@@ -9,13 +9,17 @@ export default ({ accountType, served, total }) => {
                 )}
                 <div className="pl-16">
                     <div className="uppercase">Total Served</div>
-                    <div className="text-[5rem] leading-[5rem]">{served}</div>
+                    <div className="text-[5rem] leading-[5rem] text-center">
+                        {served}
+                    </div>
                 </div>
             </div>
             <div>
                 <div className="uppercase">Total Tickets</div>
-                <div className="text-[7rem] leading-[5rem]">{total}</div>
+                <div className="text-[7rem] leading-[5rem] text-center">
+                    {total}
+                </div>
             </div>
         </div>
     );
-};
+}

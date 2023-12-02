@@ -27,11 +27,11 @@ class ConfigRepository extends Repository
 
         $data->push([
             'name' => 'themeCounter',
-            'value' => $value->themeCounter
+            'value' => $value?->themeCounter
         ]);
         $data->push([
             'name' => 'themeMedia',
-            'value' => $value->themeMedia
+            'value' => $value?->themeMedia
         ]);
 
         return $data;
