@@ -19,7 +19,7 @@ export default memo(({ screen_id, account_type_id }) => {
 
     const active = tickets.filter((ticket) => isActive(ticket))[0];
     const chunks = useCallback(
-        (perPage = 7) => {
+        (perPage = 5) => {
             let data = [];
             const lists = tickets.filter((ticket) => !isActive(ticket));
             for (var i = 0; i < lists.length; i += perPage) {

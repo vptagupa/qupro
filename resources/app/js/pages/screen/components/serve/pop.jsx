@@ -8,8 +8,8 @@ export default memo(({ current, account_type }) => {
     } = useSelector((state) => state.themeCounter);
 
     useEffect(() => {
-        if (current?.account_type?.id) {
-            setOpen(account_type?.id == current?.account_type?.id);
+        if (current?.account_type_id) {
+            setOpen(account_type?.id == current?.account_type_id);
         }
     }, [current]);
 
