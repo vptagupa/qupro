@@ -26,7 +26,7 @@ class StoreAccountTypeRequest extends FormRequest
     public function rules(): array
     {
         $videoTypes = ['mp4'];
-        $imageTypes = ['jpg', 'png'];
+        $imageTypes = ['jpg', 'jpeg', 'png'];
 
         return [
             'name' => 'required|unique:App\Models\AccountType',
@@ -52,6 +52,7 @@ class StoreAccountTypeRequest extends FormRequest
                         return config('media.image_max') * 1024;
                     })()),
                 (function () use ($imageTypes) {
+                    $imageTypes = array_map(fn($type) => 'image/' . $type, $imageTypes);
                     if (in_array($this->file?->getMimeType() ?? '', $imageTypes)) {
                         return Rule::dimensions()->Width(1920)->height(1080);
                     }
@@ -70,6 +71,18 @@ class StoreAccountTypeRequest extends FormRequest
         return [
             'num_format_id' => 'format',
             'priority_format_id' => 'priority format',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'file.dimensions' => 'Please use 1920 x 1080 image dimensions',
         ];
     }
 }
