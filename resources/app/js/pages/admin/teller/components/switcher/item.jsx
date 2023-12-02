@@ -12,7 +12,7 @@ export default ({ type }) => {
 
     return (
         <>
-            <div className="flex gap-2 items-center justify-start border-b border-slate-200 pb-2">
+            <div className="flex gap-2 items-center justify-start border-b border-slate-200 pb-2 last:border-b-0">
                 <div>
                     <PrimarySwitch
                         enabled={active}
