@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     counter: {
-        bg: null,
+        set: {
+            bg: null,
+        },
     },
     popover: {
-        bg: null,
-        font: null,
+        set: {
+            bg: null,
+            font: null,
+        },
+        open: false,
     },
     current: {
         ticket: {
@@ -58,12 +63,14 @@ export const reducer = createSlice({
             state.popover = {
                 ...state.popover,
                 ...(action.payload?.popover ?? initialState.popover),
+                open: false,
             };
         },
 
         setCurrentTicket: (state, action) => {
             const selector = "current";
             const type = "ticket";
+            console.log(action.payload);
             state[selector] = {
                 ...state[selector],
                 [type]: {
@@ -120,8 +127,19 @@ export const reducer = createSlice({
             const selector = "popover";
             state[selector] = {
                 ...state[selector],
-                ...action.payload,
+                set: {
+                    ...state[selector].set,
+                    ...action.payload,
+                },
             };
+        },
+        setPopoverOpen: (state, action) => {
+            const selector = "popover";
+            state[selector] = {
+                ...state[selector],
+                open: action.payload,
+            };
+            console.log(action.payload);
         },
     },
 });
@@ -134,6 +152,7 @@ export const {
     setGridWindow,
     setGridDevider,
     setPopover,
+    setPopoverOpen,
     replace,
 } = reducer.actions;
 

@@ -4,17 +4,19 @@ import { router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
 import { useState, useEffect, useCallback } from "react";
 import { useTickets } from "./tickets";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { ticket as pushTicket } from "./reducer";
 
 export default memo(({ screen_id, account_type_id }) => {
     const {
         data: { tickets, current, config },
     } = useSelector((state) => state.counter);
-
+    const dispatch = useDispatch();
     const { update } = useTickets();
     const [page, setPage] = useState(0);
     const [defferPage, setDefferPage] = useState(page);
     const isActive = (ticket) => ticket?.num_fulltext == current?.num_fulltext;
+
     const active = tickets.filter((ticket) => isActive(ticket))[0];
     const chunks = useCallback(
         (perPage = 7) => {
@@ -32,13 +34,15 @@ export default memo(({ screen_id, account_type_id }) => {
         () => update(screen_id, account_type_id),
         [screen_id, account_type_id],
     );
+    const ticketPusher = useCallback((ticket) => {
+        dispatch(pushTicket(ticket));
+    }, []);
 
     let interval;
     useEffect(() => {
         interval = setInterval(() => {
-            console.log(chunks().length);
             setPage(page >= chunks().length - 1 ? 0 : page + 1);
-        }, 10000);
+        }, 5000);
 
         return () => {
             clearInterval(interval);
@@ -58,8 +62,8 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         (config?.account_type_ids ?? []).forEach((id) => {
-            Echo.private(`${id}.account-type`).listen("QuCalled", (qu) => {
-                ticketUpdater();
+            Echo.private(`${id}.account-type`).listen("QuCalled", (event) => {
+                ticketPusher(event.qu.ticket);
             });
         });
 
@@ -86,7 +90,7 @@ export default memo(({ screen_id, account_type_id }) => {
             Echo.leave(`${screen_id}.screen`);
         };
     }, [screen_id, account_type_id]);
-    console.log(defferPage);
+
     return (
         <>
             <div className="w-full text-3xl uppercase ">

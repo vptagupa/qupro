@@ -45,7 +45,7 @@ class ScreenController extends Controller
                 'account_type_ids' => $screen->account_type_ids,
             ],
             'tickets' => [
-                'data' => $this->qu->getLatestServed(),
+                'data' => $this->qu->getLatestServed($request->get('page')),
                 'current' => $this->qu->currentServed(),
                 ...(fn() => $this->totalTickets($request->get('accountType')))()
             ]
@@ -62,7 +62,7 @@ class ScreenController extends Controller
                     'file' => $file
                 ]);
             }
-            
+
         }
 
         return $media;

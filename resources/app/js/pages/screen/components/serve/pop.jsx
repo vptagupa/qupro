@@ -3,7 +3,10 @@ import { useSelector } from "react-redux";
 
 export default memo(({ current, account_type }) => {
     const [open, setOpen] = useState(false);
-    const { popover: theme } = useSelector((state) => state.themeCounter);
+    const {
+        popover: { set: theme, open: forceOpen },
+    } = useSelector((state) => state.themeCounter);
+
     useEffect(() => {
         if (current?.account_type?.id) {
             setOpen(account_type?.id == current?.account_type?.id);
@@ -12,16 +15,20 @@ export default memo(({ current, account_type }) => {
 
     let timeout;
     useEffect(() => {
-        if (open) {
+        if (open && !forceOpen) {
             timeout = setTimeout(() => {
                 setOpen(false);
             }, 3000);
         }
         return () => clearTimeout(timeout);
-    }, [open]);
+    }, [open, forceOpen]);
 
+    useEffect(() => {
+        setOpen(forceOpen);
+    }, [forceOpen]);
+    console.log(forceOpen);
     return (
-        open && (
+        (open || forceOpen) && (
             <div className="absolute h-1/2 w-screen top-[20%] z-10">
                 <div className="flex items-center justify-center text-slate-300 uppercase">
                     <div

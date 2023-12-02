@@ -53,7 +53,7 @@ class QuRepository extends Repository
         );
     }
 
-    public function getLatestServed()
+    public function getLatestServed($page = 0, $limit = 6)
     {
         $counters = ($this->model->newQuery())
             ->select(['counter_name', 'account_type_id'])
@@ -69,15 +69,17 @@ class QuRepository extends Repository
 
         $data = collect([]);
         foreach ($counters as $counter) {
+            $qu = Qu::where('counter_name', $counter->counter_name)
+                ->where('account_type_id', $counter->account_type_id)
+                ->orderBy('called_at', 'desc')
+                ->first();
+
             $data->push([
-                'num_fulltext' => Qu::select('num_fulltext')
-                    ->where('counter_name', $counter->counter_name)
-                    ->where('account_type_id', $counter->account_type_id)
-                    ->orderBy('called_at', 'desc')
-                    ->first()->num_fulltext,
+                'num_fulltext' => $qu->num_fulltext,
                 'counter_name' => $counter->counter_name,
                 'department' => $counter->department,
-                'counter' => $counter->department . ' ' . $counter->counter_name
+                'account_type_id' => $counter->account_type_id,
+                'counter' => $qu->counter
             ]);
         }
 

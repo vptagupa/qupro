@@ -1,5 +1,5 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTicket, setCurrentWindow } from "../reducer";
@@ -8,29 +8,13 @@ import {
     faClipboardCheck,
     faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "../../theme";
 
 export default function Component() {
     const dispatch = useDispatch();
     const { current } = useSelector((state) => state.themeCounter);
-    const [color, setColor] = useState({
-        bg: current.bg,
-        font: current.font,
-    });
-    const [type, setType] = useState("ticket");
-    const [style, setStyle] = useState("font");
-    const getStyle = useCallback(
-        () => (style == "bg" ? color.bg : color.font),
-        [style, color],
-    );
-
-    const onChangeColor = useCallback(
-        (value) => {
-            setColor({
-                [style]: value,
-            });
-        },
-        [style],
-    );
+    const { getStyle, onChangeStyle, setType, setStyle, type, style } =
+        useTheme("ticket", "font", current);
 
     const actions = useMemo(
         () => ({
@@ -104,7 +88,7 @@ export default function Component() {
                     <div>
                         <ColorPicker
                             value={getStyle()}
-                            onChange={onChangeColor}
+                            onChange={onChangeStyle}
                         />
                     </div>
                 </div>

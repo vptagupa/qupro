@@ -29,9 +29,29 @@ export const reducer = createSlice({
                 ...action.payload,
             };
         },
+        ticket: (state, action) => {
+            const index = state.data.tickets.findIndex(
+                (ticket) => ticket.counter == action.payload.counter,
+            );
+            let tickets = state.data.tickets;
+
+            if (index !== -1) {
+                tickets[index] = action.payload;
+            } else {
+                tickets = tickets
+                    .concat(action.payload)
+                    .sort((a, b) => a.counter.localeCompare(b.counter));
+            }
+
+            state.data = {
+                ...state.data,
+                tickets,
+                current: action.payload,
+            };
+        },
     },
 });
 
-export const { setData, setParam } = reducer.actions;
+export const { setData, setParam, ticket } = reducer.actions;
 
 export default reducer.reducer;

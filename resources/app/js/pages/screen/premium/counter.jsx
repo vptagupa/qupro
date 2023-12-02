@@ -14,6 +14,8 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         if (beepRef.current) {
+            beepRef.current.pause();
+            beepRef.current.currentTime = 0;
             beepRef.current.play();
         }
     }, [current]);

@@ -6,6 +6,7 @@ import CounterPopover from "./counter/popover";
 import Counter from "./counter";
 import Media from "./media";
 import MediaMessage from "./media/message";
+import { useState } from "react";
 
 export default function Component() {
     return (

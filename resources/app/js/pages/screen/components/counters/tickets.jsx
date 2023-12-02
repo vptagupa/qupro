@@ -6,12 +6,13 @@ import { setData } from "./reducer";
 export const useTickets = () => {
     const dispatch = useDispatch();
     const update = debounce(
-        useCallback((screen_id, account_type_id) => {
+        useCallback((screen_id, account_type_id, page) => {
             axios
                 .get(
                     route("screen.updated", {
                         screen: screen_id,
                         accountType: account_type_id,
+                        page,
                     }),
                 )
                 .then(

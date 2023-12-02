@@ -1,5 +1,5 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useMemo, useCallback, memo } from "react";
+import { useEffect, useMemo, memo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { setGridTicket, setGridWindow, setGridDevider } from "../reducer";
@@ -9,29 +9,13 @@ import {
     faBuilding,
     faRightLong,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "../../theme";
 
 export default memo(function Component() {
     const dispatch = useDispatch();
     const { grid } = useSelector((state) => state.themeCounter);
-    const [color, setColor] = useState({
-        bg: grid.bg,
-        font: grid.font,
-    });
-    const [type, setType] = useState("ticket");
-    const [style, setStyle] = useState("font");
-    const getStyle = useCallback(
-        () => (style == "bg" ? color.bg : color.font),
-        [style, color],
-    );
-
-    const onChangeColor = useCallback(
-        (value) => {
-            setColor({
-                [style]: value,
-            });
-        },
-        [style],
-    );
+    const { getStyle, onChangeStyle, setType, setStyle, type, style } =
+        useTheme("ticket", "font", grid);
 
     const actions = useMemo(
         () => ({
@@ -121,7 +105,7 @@ export default memo(function Component() {
                     <div>
                         <ColorPicker
                             value={getStyle()}
-                            onChange={onChangeColor}
+                            onChange={onChangeStyle}
                         />
                     </div>
                 </div>

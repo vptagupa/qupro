@@ -1,38 +1,34 @@
 import { Button } from "@/js/components/buttons";
-import { useState, useEffect, useCallback, memo } from "react";
+import { useEffect, memo, useCallback } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useDispatch, useSelector } from "react-redux";
-import { setPopover } from "../reducer";
+import { setPopover, setPopoverOpen } from "../reducer";
+import { useTheme } from "../../theme";
 
 export default memo(function Component() {
     const dispatch = useDispatch();
+
     const { popover } = useSelector((state) => state.themeCounter);
-    const [color, setColor] = useState({
-        bg: popover.bg,
-        font: popover.font,
-    });
-
-    const [style, setStyle] = useState("font");
-    const getStyle = useCallback(
-        () => (style == "bg" ? color.bg : color.font),
-        [style, color],
+    const { getStyle, onChangeStyle, setStyle, style } = useTheme(
+        "set",
+        "font",
+        popover,
     );
 
-    const onChangeColor = useCallback(
-        (value) => {
-            setColor({
-                [style]: value,
-            });
-        },
-        [style],
-    );
-
+    let timeout;
     useEffect(() => {
         dispatch(
             setPopover({
                 [style]: getStyle(),
             }),
         );
+        dispatch(setPopoverOpen(true));
+        // Auto close after a few seconds
+        timeout = setTimeout(() => {
+            dispatch(setPopoverOpen(false));
+        }, 5000);
+
+        return () => clearTimeout(timeout);
     }, [style, getStyle]);
 
     return (
@@ -62,7 +58,7 @@ export default memo(function Component() {
                     <div>
                         <ColorPicker
                             value={getStyle()}
-                            onChange={onChangeColor}
+                            onChange={onChangeStyle}
                         />
                     </div>
                 </div>

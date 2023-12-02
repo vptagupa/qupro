@@ -78,6 +78,27 @@ class Qu extends Model
         );
     }
 
+    public function ticket(): Attribute
+    {
+        $accountType = $this->accountType;
+        return Attribute::make(
+            get: fn() => [
+                'num_fulltext' => $this->num_fulltext,
+                'counter_name' => $this->counter_name,
+                'department' => $accountType->name,
+                'account_type_id' => $this->account_type_id,
+                'counter' => $this->counter
+            ]
+        );
+    }
+
+    public function counter(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->accountType->name . ' ' . $this->counter_name
+        );
+    }
+
     public function scopeNow($query)
     {
         return $query->whereDate('created_at', Carbon::now()->format('Y-m-d'));
