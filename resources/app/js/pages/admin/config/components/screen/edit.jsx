@@ -10,7 +10,7 @@ import { useAccountTypes } from "../shared/account.types";
 export default ({ data }) => {
     const {
         data: accountTypes,
-        check: accountTypeHandler,
+        checkArray: accountTypesCheck,
         setData: setAccountTypes,
     } = useAccountTypes();
     const { open, setOpen, form, closeForm } = useForm({
@@ -71,7 +71,7 @@ export default ({ data }) => {
                     form={form}
                     successful={form.recentlySuccessful}
                     accountTypes={accountTypes}
-                    setAccountTypesHandler={accountTypeHandler}
+                    accountTypesCheck={accountTypesCheck}
                 />
                 <Footer>
                     <FooterForm

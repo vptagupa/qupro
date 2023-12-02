@@ -11,7 +11,7 @@ import { useForm } from "@/js/helpers/form";
 export default () => {
     const {
         data: accountTypes,
-        check: accountTypeHandler,
+        checkArray: accountTypesCheck,
         reset: accountTypeReset,
     } = useAccountTypes();
 
@@ -67,7 +67,7 @@ export default () => {
                     form={form}
                     successful={form.recentlySuccessful}
                     accountTypes={accountTypes}
-                    setAccountTypesHandler={accountTypeHandler}
+                    accountTypesCheck={accountTypesCheck}
                 />
                 <Footer>
                     <FooterForm

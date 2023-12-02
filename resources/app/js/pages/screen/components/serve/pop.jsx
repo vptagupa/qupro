@@ -26,7 +26,7 @@ export default memo(({ current, account_type }) => {
     useEffect(() => {
         setOpen(forceOpen);
     }, [forceOpen]);
-    console.log(forceOpen);
+
     return (
         (open || forceOpen) && (
             <div className="absolute h-1/2 w-screen top-[20%] z-10">

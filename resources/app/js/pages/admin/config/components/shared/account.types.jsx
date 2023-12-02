@@ -15,10 +15,25 @@ export const useAccountTypes = () => {
     };
 
     const check = (id) => {
+        const idx = Array.isArray(id) ? id : [id];
         setData(
             data.map((d) => {
-                if (d.id === id) {
+                if (idx.includes(d.id)) {
                     d.checked = !d.checked;
+                }
+
+                return d;
+            }),
+        );
+    };
+
+    const checkArray = (id, checked = false) => {
+        const idx = Array.isArray(id) ? id : [id];
+        setData(
+            data.map((d) => {
+                d.checked = false;
+                if (idx.includes(d.id)) {
+                    d.checked = checked;
                 }
 
                 return d;
@@ -31,5 +46,6 @@ export const useAccountTypes = () => {
         check,
         reset,
         setData,
+        checkArray,
     };
 };

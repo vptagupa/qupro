@@ -8,7 +8,6 @@ import ScreenTitle from "./components/screen/title";
 import SharedTitle from "./components/shared-series/title";
 
 const Component = (props) => {
-    console.log(props);
     return (
         <>
             <Layout>
