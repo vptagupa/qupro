@@ -1,36 +1,23 @@
 import Layout from "@/js/layouts/public";
 import Message from "../components/message";
-import Counter from "../components/counter";
-import { useTickets } from "../tickets";
-import { useEffect } from "react";
+import Counter from "./counter";
+import { useSelector } from "react-redux";
 
-export default ({ screen_id }) => {
-    const { tickets, current, config, updated, Beep } = useTickets(screen_id);
-
-    useEffect(() => {
-        setTimeout(() => {
-            updated();
-        }, 1000);
-    }, []);
-
+export default ({ screen_id, account_type_id }) => {
+    const { config } = useSelector((state) => state.counter.data);
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex flex-col items-center justify-center h-screen">
-                    <div className="pt-10 !h-[80%] lg:w-[30%] xs:w-full bg-slate-300 text-slate-700 rounded-2xl">
-                        <div className="text-center text-[5rem] leading-[5rem] uppercase">
-                            {current?.num_fulltext ?? "0"}
-                        </div>
-                        <div className="mt-[10%]">
-                            <Counter tickets={tickets} />
-                        </div>
+                    <div className="!h-[80%] lg:w-[30%] xs:w-full  rounded-2xl">
+                        <Counter
+                            screen_id={screen_id}
+                            account_type_id={account_type_id}
+                        />
                     </div>
                     <div className="xs:max-sm:hidden">
                         <Message text={config?.message ?? ""} />
                     </div>
-                </div>
-                <div className="hidden">
-                    <Beep />
                 </div>
             </div>
         </Layout>

@@ -39,7 +39,7 @@ class QuRepository extends Repository
         )->count();
     }
 
-    public function currentServed()
+    public function currentServed($includedAccountTypes = [])
     {
         return $this->list(
             query: [
@@ -49,11 +49,14 @@ class QuRepository extends Repository
             paginate: false,
             orderBy: ['called_at', 'desc'],
             get: false,
-            first: true
-        );
+        )
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })
+            ->first();
     }
 
-    public function getLatestServed($page = 0, $limit = 6)
+    public function getLatestServed($page = 0, $limit = 6, $includedAccountTypes = [])
     {
         $counters = ($this->model->newQuery())
             ->select(['counter_name', 'account_type_id'])
@@ -62,6 +65,9 @@ class QuRepository extends Repository
                     ->whereColumn('account_type_id', 'account_types.id')
                     ->limit(1)
             ])
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })
             ->groupBy('counter_name', 'account_type_id')
             ->whereNotNull('called_at')
             ->orderBy('department', 'asc')

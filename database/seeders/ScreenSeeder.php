@@ -17,10 +17,20 @@ class ScreenSeeder extends Seeder
     {
         $data = [
             [
+                'name' => 'Basic',
+                'screen' => ScreenEnum::BASIC->value,
+                'account_type_ids' => json_encode(AccountType::pluck('id')->toArray()),
+            ],
+            [
+                'name' => 'Standard',
+                'screen' => ScreenEnum::STANDARD->value,
+                'account_type_ids' => json_encode(AccountType::pluck('id')->toArray()),
+            ],
+            [
                 'name' => 'Premium',
                 'screen' => ScreenEnum::PREMIUM->value,
                 'account_type_ids' => json_encode(AccountType::pluck('id')->toArray()),
-            ]
+            ],
         ];
 
         foreach ($data as $row) {
