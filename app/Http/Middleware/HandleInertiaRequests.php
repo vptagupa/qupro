@@ -73,7 +73,7 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
-            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(perPage: 100))),
+            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(perPage: 100, orderBy: ['name', 'asc']))),
         ];
     }
 
