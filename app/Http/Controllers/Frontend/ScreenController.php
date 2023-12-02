@@ -46,7 +46,7 @@ class ScreenController extends Controller
             ],
             'tickets' => [
                 'data' => $this->qu->getLatestServed($request->get('page')),
-                'current' => $this->qu->currentServed(),
+                'current' => $this->qu->currentServed()->append('counter')->toArray(),
                 ...(fn() => $this->totalTickets($request->get('accountType')))()
             ]
         ];

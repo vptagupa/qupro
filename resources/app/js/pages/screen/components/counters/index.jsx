@@ -15,7 +15,7 @@ export default memo(({ screen_id, account_type_id }) => {
     const { update, updateTotals } = useTickets();
     const [page, setPage] = useState(0);
     const [defferPage, setDefferPage] = useState(page);
-    const isActive = (ticket) => ticket?.num_fulltext == current?.num_fulltext;
+    const isActive = (ticket) => ticket?.counter == current?.counter;
 
     const active = tickets.filter((ticket) => isActive(ticket))[0];
     const chunks = useCallback(
