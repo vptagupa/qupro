@@ -151,7 +151,7 @@ export default ({ url, priority = null }) => {
                 </div>
 
                 {!finalScreen && (
-                    <div className="mt-[15%]">
+                    <div className="mt-[5%]">
                         <controls.Controls />
                     </div>
                 )}
