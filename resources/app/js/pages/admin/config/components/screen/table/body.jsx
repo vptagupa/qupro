@@ -50,7 +50,6 @@ const Component = ({
                         <Theader>
                             <TrH>
                                 <Th>Name</Th>
-                                <Th>Departments</Th>
                                 <Th>Screen</Th>
                                 <Th>Action</Th>
                             </TrH>
@@ -69,11 +68,6 @@ const Component = ({
                                             >
                                                 {item.id}# {item.name}
                                             </a>
-                                        </Td>
-                                        <Td>
-                                            {item.account_types
-                                                .map((type) => type.name)
-                                                .join(", ")}
                                         </Td>
                                         <Td>{item.screen}</Td>
                                         <Td>

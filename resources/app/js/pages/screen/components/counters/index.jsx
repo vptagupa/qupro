@@ -14,21 +14,20 @@ export default memo(({ screen_id, account_type_id }) => {
     const dispatch = useDispatch();
     const { update, updateTotals } = useTickets();
     const [page, setPage] = useState(0);
+    const [limiter, setLimiter] = useState(5);
     const [defferPage, setDefferPage] = useState(page);
     const isActive = (ticket) => ticket?.counter == current?.counter;
     const active = tickets.filter((ticket) => isActive(ticket))[0];
 
     const chunks = useMemo(() => {
-        return (limiter = 5) => {
-            let data = [];
-            const lists = tickets.filter((ticket) => !isActive(ticket));
-            for (var i = 0; i < lists.length; i += limiter) {
-                data.push(lists.slice(i, i + limiter));
-            }
+        let data = [];
+        const lists = tickets.filter((ticket) => !isActive(ticket));
+        for (var i = 0; i < lists.length; i += limiter) {
+            data.push(lists.slice(i, i + limiter));
+        }
 
-            return data;
-        };
-    }, [tickets]);
+        return data;
+    }, [tickets, limiter]);
 
     const ticketUpdater = useCallback(
         () => update(screen_id, account_type_id),
@@ -45,7 +44,7 @@ export default memo(({ screen_id, account_type_id }) => {
     let interval;
     useEffect(() => {
         interval = setInterval(() => {
-            setPage(page >= chunks().length - 1 ? 0 : page + 1);
+            setPage(page >= chunks.length - 1 ? 0 : page + 1);
         }, 5000);
 
         return () => {
@@ -66,19 +65,24 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         Echo.channel(`screen`).listen("QuCalled", (event) => {
-            ticketPusher(event.qu.ticket);
-            totalsUpdater();
+            if (
+                config.screen_account_type_ids.includes(
+                    event.qu.account_type_id,
+                )
+            ) {
+                ticketPusher(event.qu.ticket);
+                totalsUpdater();
+            }
         });
 
         return () => {
             Echo.leave(`screen`);
         };
-    }, [config?.account_type_ids]);
+    }, [config?.screen_account_type_ids]);
 
     useEffect(() => {
         ticketUpdater();
-
-        Echo.private(`${screen_id}.screen`)
+        Echo.channel(`${screen_id}.screen`)
             .listen("CounterRefresh", (e) => {
                 ticketUpdater();
             })
@@ -98,7 +102,7 @@ export default memo(({ screen_id, account_type_id }) => {
                 <div className="mb-4">
                     <Counter ticket={active} isActive={true} />
                 </div>
-                {chunks().map((tickets, idx) => {
+                {chunks.map((tickets, idx) => {
                     return (
                         <Transition
                             show={defferPage == idx}

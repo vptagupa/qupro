@@ -31,13 +31,13 @@ export default [
         route: "priority.index",
         permission: "REGISTRATION",
     },
-    {
-        id: "advance.print",
-        name: "Advance Print",
-        icon: <UserPlusIcon className="h-4" />,
-        route: "admin.advance-print.index",
-        permission: "REGISTRATION",
-    },
+    // {
+    //     id: "advance.print",
+    //     name: "Advance Print",
+    //     icon: <UserPlusIcon className="h-4" />,
+    //     route: "admin.advance-print.index",
+    //     permission: "REGISTRATION",
+    // },
     {
         id: "account.types",
         name: "Departments",

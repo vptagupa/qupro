@@ -23,10 +23,6 @@ class Screen extends Model
         'screen' => Enum::class
     ];
 
-    protected $appends = [
-        'account_types'
-    ];
-
     public function accountTypes(): Attribute
     {
         return Attribute::make(

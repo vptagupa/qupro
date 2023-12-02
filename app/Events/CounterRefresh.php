@@ -31,6 +31,6 @@ class CounterRefresh implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel($this->screen->id . '.screen');
+        return new Channel($this->screen->id . '.screen');
     }
 }

@@ -31,7 +31,7 @@ export default memo(({ screen_id, account_type_id }) => {
             update();
         }, 1000);
 
-        Echo.private(`media`).listen("MediaRefresh", (e) => {
+        Echo.channel(`media`).listen("MediaRefresh", (e) => {
             update();
         });
 

@@ -47,7 +47,7 @@ export default memo(({ media, interval }) => {
     useEffect(() => {
         onPlay();
     }, [play]);
-    console.log(media);
+
     return (
         <>
             <div>

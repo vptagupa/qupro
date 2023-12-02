@@ -39,12 +39,7 @@ class ScreenController extends Controller
     public function updated(Request $request, Screen $screen)
     {
         return [
-            'config' => [
-                'message' => Config::screenMessage(),
-                'interval' => Config::screenInterval(),
-                'account_type_ids' => $screen->account_type_ids,
-                'screen_tickets_limit' => Config::screenTicketsLimit()
-            ],
+            ...$this->getConfig($screen),
             'tickets' => [
                 'data' => $this->qu->getLatestServed($request->get('page')),
                 'current' => $this->qu->currentServed()->append('counter')->toArray(),
@@ -72,11 +67,6 @@ class ScreenController extends Controller
     public function updatedTotals(Request $request, Screen $screen)
     {
         return [
-            'config' => [
-                'message' => Config::screenMessage(),
-                'interval' => Config::screenInterval(),
-                'account_type_ids' => $screen->account_type_ids,
-            ],
             ...(fn() => $this->totalTickets($request->get('accountType')))()
         ];
     }
@@ -100,6 +90,18 @@ class ScreenController extends Controller
         return [
             'served' => $this->qu->getTotalServedByAccountType(),
             'total' => $this->qu->getTotalByAccountType(),
+        ];
+    }
+
+    protected function getConfig($screen)
+    {
+        return [
+            'config' => [
+                'message' => Config::screenMessage(),
+                'interval' => Config::screenInterval(),
+                'screen_tickets_limit' => Config::screenTicketsLimit(),
+                'screen_account_type_ids' => $screen->account_type_ids,
+            ],
         ];
     }
 }

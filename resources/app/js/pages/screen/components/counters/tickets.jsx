@@ -15,10 +15,9 @@ export const useTickets = () => {
                         accountType: account_type_id,
                     }),
                 )
-                .then(({ data: { config, served, total } }) => {
+                .then(({ data: { served, total } }) => {
                     dispatch(
                         setData({
-                            config,
                             served,
                             total,
                         }),
