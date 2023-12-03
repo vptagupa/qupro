@@ -11,7 +11,7 @@ export default memo(function Component() {
     const { popover } = useSelector((state) => state.themeCounter);
     const { getStyle, onChangeStyle, setStyle, style } = useTheme(
         "set",
-        "font",
+        "bg",
         popover,
     );
 

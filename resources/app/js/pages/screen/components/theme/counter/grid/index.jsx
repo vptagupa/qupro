@@ -15,7 +15,7 @@ export default memo(function Component() {
     const dispatch = useDispatch();
     const { grid } = useSelector((state) => state.themeCounter);
     const { getStyle, onChangeStyle, setType, setStyle, type, style } =
-        useTheme("ticket", "font", grid);
+        useTheme("ticket", "bg", grid);
 
     const actions = useMemo(
         () => ({

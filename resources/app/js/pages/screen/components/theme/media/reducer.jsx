@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-    set: {
-        bg: null,
-        font: null,
+    media: {
+        set: {
+            bg: null,
+            font: null,
+        },
     },
     message: {
-        bg: null,
-        font: null,
+        set: {
+            bg: null,
+            font: null,
+        },
     },
 };
 export const reducer = createSlice({
@@ -14,21 +18,31 @@ export const reducer = createSlice({
     initialState: initialState,
     reducers: {
         set: (state, action) => {
-            state.set = {
-                ...state.set,
-                ...action.payload,
+            const selector = "media";
+            const type = "set";
+            state[selector] = {
+                ...state[selector],
+                [type]: {
+                    ...state[selector][type],
+                    ...action.payload,
+                },
             };
         },
         setMessage: (state, action) => {
-            state.message = {
-                ...state.message,
-                ...action.payload,
+            const selector = "message";
+            const type = "set";
+            state[selector] = {
+                ...state[selector],
+                [type]: {
+                    ...state[selector][type],
+                    ...action.payload,
+                },
             };
         },
         replace: (state, action) => {
-            state.set = {
-                ...state.set,
-                ...(action.payload?.set ?? initialState.set),
+            state.media = {
+                ...state.media,
+                ...(action.payload?.media ?? initialState.media),
             };
             state.message = {
                 ...state.message,
