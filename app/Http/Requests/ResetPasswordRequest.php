@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Password;
 
-class UpdateUserPasswordRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +23,13 @@ class UpdateUserPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'token' => 'required',
+            'email' => 'required|email',
             'password' => [
                 'required',
+                'confirmed',
                 ...Password::ensure(),
             ],
         ];
-    }
-
-    /**
-     * Handle a passed validation attempt.
-     */
-    protected function passedValidation(): void
-    {
-        $this->replace(['password' => bcrypt($this->password)]);
     }
 }

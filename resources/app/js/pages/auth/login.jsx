@@ -1,13 +1,13 @@
-import Layout from "@/js/layouts/layout.auth";
 import { Form, Input } from "@/js/components/form";
 import { Button } from "@/js/components/buttons";
 import { useForm } from "laravel-precognition-react-inertia";
-import { AlertDanger } from "@/js/components/alerts";
-import { useState, useEffect } from "react";
+import { AlertDanger, AlertSuccess } from "@/js/components/alerts";
 import Remember from "./remember";
+import { useState, useEffect } from "react";
 
-export default () => {
+export default function Component({ setTab }) {
     const [remember, setRemember] = useState(false);
+
     const form = useForm("post", route("login.auth"), {
         email: "victortagupa@gmail.com",
         password: "secret",
@@ -27,7 +27,7 @@ export default () => {
     }, [remember]);
 
     return (
-        <Layout>
+        <div className="flex flex-col space-y-4">
             <Form onSubmit={submit}>
                 <div className="flex flex-col space-y-4">
                     <div>
@@ -76,6 +76,12 @@ export default () => {
                     </div>
                 </div>
             </Form>
-        </Layout>
+            <p
+                className="text-end cursor-pointer text-sm text-blue-600 hover:text-blue-800"
+                onClick={(e) => setTab("forgot")}
+            >
+                Forgot Password
+            </p>
+        </div>
     );
-};
+}

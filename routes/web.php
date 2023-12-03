@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
-    AuthController,
     SharedSeriesController,
     DashboardController,
     UsersController,
@@ -21,7 +20,10 @@ use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
     AccountTypeThemeController,
-    PriorityController
+    PriorityController,
+    AuthController,
+    ForgotPasswordController,
+    ResetPasswordController
 };
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -147,9 +149,25 @@ Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
 });
 
-Route::redirect('/admin', '/admin/dashboard');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
-Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
-Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('auth.change-password.update');
+Route::prefix('change-password')->name('auth.')->group(function () {
+    Route::get('/', [AuthController::class, 'changePassword'])->name('change-password');
+    Route::post('/', [AuthController::class, 'updatePassword'])->name('change-password.update');
+})->middleware('auth');
+
+Route::prefix('login')->name('login.')->group(function () {
+    Route::get('/', [AuthController::class, 'login'])->name('index');
+    Route::post('/', [AuthController::class, 'auth'])->name('auth');
+})->middleware('guest');
+
+Route::prefix('forgot-password')->name('forgot-password.')->group(function () {
+    Route::post('/', [ForgotPasswordController::class, 'send'])->name('send');
+})->middleware('guest');
+
+Route::prefix('reset-password')->name('password.')->group(function () {
+    Route::get('/{token}', [ResetPasswordController::class, 'index'])->name('reset');
+    Route::post('/', [ResetPasswordController::class, 'update'])->name('update');
+})->middleware('guest');
+
+
+Route::redirect('/admin', '/admin/tellers');
 
