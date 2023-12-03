@@ -130,22 +130,19 @@ Route::middleware([
         Route::get('/', [PriorityController::class, 'index'])->name('index');
         Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
-
-    Route::name('screen.')->prefix('screen')->group(function () {
-        Route::name('theme.')->prefix('theme')->group(function () {
-            Route::name('account_type.')->group(function () {
-                Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme')->middleware('auth');
-                Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
-                Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
-            });
-        });
-    });
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
     Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
+    Route::name('theme.')->prefix('theme')->group(function () {
+        Route::name('account_type.')->group(function () {
+            Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme');
+            Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
+            Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
+        });
+    });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
 });
 

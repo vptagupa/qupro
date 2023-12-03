@@ -52,7 +52,13 @@ export default memo(
                         dispatch(ticket(event.qu.ticket));
                     }
                 });
+        }, [
+            counter.config?.screen_account_type_ids,
+            selected_account_type_id,
+            data,
+        ]);
 
+        useEffect(() => {
             axios
                 .get(
                     route("screen.updated.totals", {
@@ -66,15 +72,7 @@ export default memo(
                         pending,
                     });
                 });
-
-            return () => {
-                Echo.leave(`screen`);
-            };
-        }, [
-            counter.config?.screen_account_type_ids,
-            selected_account_type_id,
-            data,
-        ]);
+        }, [counter.config?.screen_account_type_ids, selected_account_type_id]);
 
         return (
             <>
