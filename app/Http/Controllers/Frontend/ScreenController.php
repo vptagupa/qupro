@@ -45,7 +45,12 @@ class ScreenController extends Controller
                     page: $request->get('page'),
                     includedAccountTypes: $screen->account_type_ids
                 ),
-                'current' => $this->qu->currentServed($screen->account_type_ids)->append('counter')->toArray(),
+                'current' => (function () use ($screen) {
+                    $qu = $this->qu->currentServed($screen->account_type_ids);
+                    if ($qu)
+                        return $qu->append('counter')->toArray();
+                    return null;
+                })(),
                 ...(fn() => $this->totalTickets($request->get('accountType')))()
             ]
         ];

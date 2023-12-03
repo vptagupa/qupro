@@ -6,27 +6,6 @@ import { setData } from "./reducer";
 export const useTickets = () => {
     const dispatch = useDispatch();
 
-    const updateTotals = debounce(
-        useCallback((screen_id, account_type_id) => {
-            axios
-                .get(
-                    route("screen.updated.totals", {
-                        screen: screen_id,
-                        accountType: account_type_id,
-                    }),
-                )
-                .then(({ data: { served, total } }) => {
-                    dispatch(
-                        setData({
-                            served,
-                            total,
-                        }),
-                    );
-                });
-        }, []),
-        500,
-    );
-
     const update = debounce(
         useCallback((screen_id, account_type_id, page) => {
             axios
@@ -68,6 +47,5 @@ export const useTickets = () => {
 
     return {
         update,
-        updateTotals,
     };
 };

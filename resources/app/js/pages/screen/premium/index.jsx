@@ -57,7 +57,7 @@ export default function Component({ screen_id, account_type_id }) {
                                 />
                             </div>
                             <div className="">
-                                <Serve />
+                                <Serve account_type_id={account_type_id} />
                             </div>
                             <div>
                                 <Message

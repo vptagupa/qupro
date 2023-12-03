@@ -40,7 +40,7 @@ class QuFactory extends Factory
             },
             'student_no' => substr(fake()->uuid(), 0, 8),
             'student_name' => fake()->name(),
-            'teller_id' => User::factory(),
+            'teller_id' => User::first(),
             'account_type_id' => AccountType::factory(),
             'num_fulltext' => function ($attributes) {
                 return AccountType::find($attributes['account_type_id'])->first()->format->fulltext(
