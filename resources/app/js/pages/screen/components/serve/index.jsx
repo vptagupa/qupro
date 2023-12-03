@@ -1,4 +1,4 @@
-export default function Component({ accountType, served, total }) {
+export default function Component({ accountType, served, pending }) {
     return (
         <div className="flex justify-between">
             <div>
@@ -17,7 +17,7 @@ export default function Component({ accountType, served, total }) {
             <div>
                 <div className="uppercase">Total Tickets</div>
                 <div className="text-[7rem] leading-[5rem] text-center">
-                    {total}
+                    {pending}
                 </div>
             </div>
         </div>

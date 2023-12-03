@@ -42,7 +42,6 @@ class ScreenController extends Controller
             ...$this->getConfig($screen),
             'tickets' => [
                 'data' => $this->qu->getLatestServed(
-                    page: $request->get('page'),
                     includedAccountTypes: $screen->account_type_ids
                 ),
                 'current' => (function () use ($screen) {
@@ -51,7 +50,6 @@ class ScreenController extends Controller
                         return $qu->append('counter')->toArray();
                     return null;
                 })(),
-                ...(fn() => $this->totalTickets($request->get('accountType')))()
             ]
         ];
     }
@@ -74,30 +72,17 @@ class ScreenController extends Controller
 
     public function updatedTotals(Request $request, Screen $screen)
     {
-        return [
-            ...(fn() => $this->totalTickets($request->get('accountType')))()
-        ];
+        return $this->totalTickets($screen, $request->get('accountType'));
     }
 
-    protected function totalTickets(?int $accountTypeId = null)
+    protected function totalTickets(Screen $screen, ?int $accountTypeId = null)
     {
-        if ($accountTypeId) {
-            return [
-                'account_type' => $this->accountType->list(
-                    query: [
-                        'id' => $accountTypeId,
-                        'file' => true,
-                    ],
-                    first: true
-                ),
-                'served' => $this->qu->getTotalServedByAccountType($accountTypeId),
-                'total' => $this->qu->getTotalByAccountType($accountTypeId),
-            ];
-        }
+        $totalServed = fn($accountTypeIds) => $this->qu->getTotalServed($accountTypeId, $accountTypeIds);
+        $totalPending = fn($accountTypeIds) => $this->qu->getTotalPending($accountTypeId, $accountTypeIds);
 
         return [
-            'served' => $this->qu->getTotalServedByAccountType(),
-            'total' => $this->qu->getTotalByAccountType(),
+            'served' => $totalServed($accountTypeId ? [] : $screen->account_type_ids),
+            'pending' => $totalPending($accountTypeId ? [] : $screen->account_type_ids),
         ];
     }
 

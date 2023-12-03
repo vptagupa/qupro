@@ -13,20 +13,13 @@ export const useTickets = () => {
                     route("screen.updated", {
                         screen: screen_id,
                         accountType: account_type_id,
-                        page,
                     }),
                 )
                 .then(
                     ({
                         data: {
                             config,
-                            tickets: {
-                                data,
-                                current,
-                                account_type,
-                                served,
-                                total,
-                            },
+                            tickets: { data, current, account_type },
                         },
                     }) => {
                         dispatch(
@@ -35,8 +28,6 @@ export const useTickets = () => {
                                 tickets: data,
                                 current,
                                 account_type,
-                                served,
-                                total,
                             }),
                         );
                     },
