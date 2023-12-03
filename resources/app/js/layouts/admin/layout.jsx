@@ -3,7 +3,7 @@ import Sidebar from "./sidebar";
 import Content from "./content";
 import Footer from "./footer";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import Logo from "@/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.png";
 
 const Layout = (props) => {
     return (
@@ -17,10 +17,7 @@ const Layout = (props) => {
                             </button>
                         </div>
                         <div className="xs:grow lg:flex-none text-center">
-                            <img
-                                className="h-8 w-auto inline mr-2"
-                                src={Logo}
-                            />
+                            <img className="w-[3rem]  inline mr-2" src={Logo} />
                             <span className="xs:max-sm:hidden inline text-slate-600 text-md font-semibold">
                                 QuPro
                             </span>

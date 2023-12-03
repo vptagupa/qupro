@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import menu from "@/js/constants/menu";
 import { Link } from "@inertiajs/react";
-import Logo from "@/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.png";
 import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Sidebar from "./sidebar";

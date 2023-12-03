@@ -1,5 +1,5 @@
 import PublicLayout from "./public";
-import Logo from "@/assets/images/logo.svg";
+import Logo from "@/assets/images/logo.png";
 
 export default (props) => {
     return (
@@ -8,7 +8,7 @@ export default (props) => {
                 <div>
                     <div className="flex flex-col space-y-6 text-center mb-10 mt-2">
                         <span>
-                            <img className="h-14 w-auto inline" src={Logo} />
+                            <img className="w-[6rem] inline" src={Logo} />
                         </span>
                         <span className="text-2xl font-bold">QuPro</span>
                     </div>
