@@ -23,7 +23,7 @@ export default memo(({ screen_id, account_type_id }) => {
     return (
         <>
             <Counters account_type_id={account_type_id} screen_id={screen_id} />
-            <Pop current={current} account_type={account_type} />
+            <Pop current={current} account_type_id={account_type_id} />
             <audio src={beep} ref={beepRef} className="hidden"></audio>
         </>
     );

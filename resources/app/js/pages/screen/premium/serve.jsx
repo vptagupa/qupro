@@ -16,7 +16,6 @@ export default memo(
         useEffect(() => {
             Echo.channel(`screen`)
                 .listen("ScreenQuCreated", (event) => {
-                    console.log(event);
                     if (
                         counter.config.screen_account_type_ids.includes(
                             parseInt(selected_account_type_id),
@@ -26,7 +25,10 @@ export default memo(
                         setData({
                             ...data,
                             pending: selected_account_type_id
-                                ? event.data.account_type_pending_total
+                                ? selected_account_type_id ==
+                                  event.qu.account_type_id
+                                    ? event.data.account_type_pending_total
+                                    : data.pending
                                 : event.data.all_pending_total,
                         });
                     }
@@ -41,7 +43,10 @@ export default memo(
                         setData({
                             ...data,
                             served: selected_account_type_id
-                                ? event.data.account_type_served_total
+                                ? selected_account_type_id ==
+                                  event.qu.account_type_id
+                                    ? event.data.account_type_served_total
+                                    : data.served
                                 : event.data.all_served_total,
                         });
                         dispatch(ticket(event.qu.ticket));
@@ -65,7 +70,11 @@ export default memo(
             return () => {
                 Echo.leave(`screen`);
             };
-        }, [counter.config?.screen_account_type_ids]);
+        }, [
+            counter.config?.screen_account_type_ids,
+            selected_account_type_id,
+            data,
+        ]);
 
         return (
             <>

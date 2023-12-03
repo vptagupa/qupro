@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 
-export default memo(({ current, account_type }) => {
+export default memo(({ current, account_type_id }) => {
     const [open, setOpen] = useState(false);
     const {
         popover: { set: theme, open: forceOpen },
@@ -9,7 +9,7 @@ export default memo(({ current, account_type }) => {
 
     useEffect(() => {
         if (current?.account_type_id) {
-            setOpen(account_type?.id == current?.account_type_id);
+            setOpen(account_type_id == current?.account_type_id);
         }
     }, [current]);
 
