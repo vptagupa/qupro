@@ -9,8 +9,8 @@ export default function Component({ setTab }) {
     const [remember, setRemember] = useState(false);
 
     const form = useForm("post", route("login.auth"), {
-        email: "victortagupa@gmail.com",
-        password: "secret",
+        email: "",
+        password: "",
         remember: remember,
     });
 
