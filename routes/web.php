@@ -120,6 +120,7 @@ Route::middleware([
             Route::post('/', [AdvancePrintController::class, 'store'])->middleware('can:create, App\Models\Qu')->name('store');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::redirect('/admin', '/admin/tellers');
     });
 
     Route::name('qu.')->prefix('qu')->group(function () {
@@ -164,7 +165,3 @@ Route::prefix('reset-password')->name('password.')->group(function () {
     Route::get('/{token}', [ResetPasswordController::class, 'index'])->name('reset');
     Route::post('/', [ResetPasswordController::class, 'update'])->name('update');
 })->middleware('guest');
-
-
-Route::redirect('/admin', '/admin/tellers');
-

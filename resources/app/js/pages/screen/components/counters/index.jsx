@@ -29,9 +29,8 @@ export default memo(({ screen_id, account_type_id }) => {
 
     const ticketUpdater = () => update(screen_id, account_type_id);
 
-    let interval;
     useEffect(() => {
-        interval = setInterval(() => {
+        const interval = setInterval(() => {
             setPage(page >= chunks.length - 1 ? 0 : page + 1);
         }, 5000);
 
@@ -40,9 +39,8 @@ export default memo(({ screen_id, account_type_id }) => {
         };
     }, [page, chunks]);
 
-    let timeout;
     useEffect(() => {
-        timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             setDefferPage(page);
         }, 200);
 
