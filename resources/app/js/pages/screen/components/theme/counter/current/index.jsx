@@ -1,6 +1,6 @@
 import { Button } from "@/js/components/buttons";
 import { useEffect, useMemo } from "react";
-import ColorPicker from "react-best-gradient-color-picker";
+import ColorPicker from "../../color";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentTicket, setCurrentWindow } from "../reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

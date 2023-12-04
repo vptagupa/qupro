@@ -1,6 +1,6 @@
 import { Button } from "@/js/components/buttons";
 import { useState, useEffect, useCallback, memo } from "react";
-import ColorPicker from "react-best-gradient-color-picker";
+import ColorPicker from "../color";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "./reducer";
 import { useTheme } from "../theme";
