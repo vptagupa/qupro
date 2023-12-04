@@ -1,8 +1,8 @@
 import Layout from "@/js/layouts/public";
-import Media from "./media";
-import Counter from "./counter";
+import Media from "../base/media";
+import Counter from "../base/counter";
+import Serve from "../base/serve";
 import Theme from "../components/theme";
-import Serve from "./serve";
 import Message from "../components/message";
 import { useThemeUpdate } from "../components/theme/update";
 import { useDispatch } from "react-redux";

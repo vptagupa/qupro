@@ -52,6 +52,10 @@ export default memo(
                         dispatch(ticket(event.qu.ticket));
                     }
                 });
+
+            return () => {
+                Echo.leave(`screen`);
+            };
         }, [
             counter.config?.screen_account_type_ids,
             selected_account_type_id,
