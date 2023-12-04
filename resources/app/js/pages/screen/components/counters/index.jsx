@@ -2,17 +2,15 @@ import { memo } from "react";
 import Counter from "./counter";
 import { router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTickets } from "./tickets";
-import { useSelector, useDispatch } from "react-redux";
-import { ticket as pushTicket } from "./reducer";
+import { useSelector } from "react-redux";
 
 export default memo(({ screen_id, account_type_id }) => {
     const {
-        data: { tickets, current, config },
+        data: { tickets, current },
     } = useSelector((state) => state.counter);
-    const dispatch = useDispatch();
-    const { update, updateTotals } = useTickets();
+    const { update } = useTickets();
     const [page, setPage] = useState(0);
     const [limiter, setLimiter] = useState(5);
     const [defferPage, setDefferPage] = useState(page);
@@ -29,21 +27,10 @@ export default memo(({ screen_id, account_type_id }) => {
         return data;
     }, [tickets, limiter]);
 
-    const ticketUpdater = useCallback(
-        () => update(screen_id, account_type_id),
-        [screen_id, account_type_id],
-    );
-    const totalsUpdater = useCallback(
-        () => updateTotals(screen_id, account_type_id),
-        [screen_id, account_type_id],
-    );
-    const ticketPusher = useCallback((ticket) => {
-        dispatch(pushTicket(ticket));
-    }, []);
+    const ticketUpdater = () => update(screen_id, account_type_id);
 
-    let interval;
     useEffect(() => {
-        interval = setInterval(() => {
+        const interval = setInterval(() => {
             setPage(page >= chunks.length - 1 ? 0 : page + 1);
         }, 5000);
 
@@ -52,9 +39,8 @@ export default memo(({ screen_id, account_type_id }) => {
         };
     }, [page, chunks]);
 
-    let timeout;
     useEffect(() => {
-        timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             setDefferPage(page);
         }, 200);
 
@@ -62,23 +48,6 @@ export default memo(({ screen_id, account_type_id }) => {
             clearTimeout(timeout);
         };
     }, [page]);
-
-    useEffect(() => {
-        Echo.channel(`screen`).listen("QuCalled", (event) => {
-            if (
-                config.screen_account_type_ids.includes(
-                    event.qu.account_type_id,
-                )
-            ) {
-                ticketPusher(event.qu.ticket);
-                totalsUpdater();
-            }
-        });
-
-        return () => {
-            Echo.leave(`screen`);
-        };
-    }, [config?.screen_account_type_ids]);
 
     useEffect(() => {
         ticketUpdater();

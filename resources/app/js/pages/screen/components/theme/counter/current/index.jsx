@@ -14,7 +14,7 @@ export default function Component() {
     const dispatch = useDispatch();
     const { current } = useSelector((state) => state.themeCounter);
     const { getStyle, onChangeStyle, setType, setStyle, type, style } =
-        useTheme("ticket", "font", current);
+        useTheme("ticket", "bg", current);
 
     const actions = useMemo(
         () => ({

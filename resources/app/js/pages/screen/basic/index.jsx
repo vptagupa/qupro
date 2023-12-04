@@ -1,6 +1,6 @@
 import Layout from "@/js/layouts/public";
 import Message from "../components/message";
-import Counter from "./counter";
+import Counter from "../base/counter";
 import { useSelector } from "react-redux";
 
 export default ({ screen_id, account_type_id }) => {

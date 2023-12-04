@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Repositories\UserRepository;
 
-class AuthController extends AdminController
+class AuthController extends Controller
 {
     public function __construct(private UserRepository $repository)
     {
@@ -18,7 +18,7 @@ class AuthController extends AdminController
     public function login(Request $request)
     {
         return $this->render(
-            view: "admin/auth/login",
+            view: "auth/index",
             layout: "app-auth",
         );
     }
@@ -26,7 +26,7 @@ class AuthController extends AdminController
     public function changePassword(Request $request)
     {
         return $this->render(
-            view: "admin/auth/reset",
+            view: "auth/reset",
             layout: "app-auth",
         );
     }
@@ -54,7 +54,7 @@ class AuthController extends AdminController
         }
 
         return $this->render(
-            view: "admin/auth/login",
+            view: "auth/index",
             layout: "app-login",
             options: [
                 'errors' => [
@@ -83,6 +83,6 @@ class AuthController extends AdminController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return $this->inertia()::location(route('login'));
+        return $this->inertia()::location(route('login.index'));
     }
 }

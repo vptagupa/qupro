@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
-    AuthController,
     SharedSeriesController,
     DashboardController,
     UsersController,
@@ -21,7 +20,10 @@ use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
     AccountTypeThemeController,
-    PriorityController
+    PriorityController,
+    AuthController,
+    ForgotPasswordController,
+    ResetPasswordController
 };
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -118,6 +120,7 @@ Route::middleware([
             Route::post('/', [AdvancePrintController::class, 'store'])->middleware('can:create, App\Models\Qu')->name('store');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::redirect('/admin', '/admin/tellers');
     });
 
     Route::name('qu.')->prefix('qu')->group(function () {
@@ -128,28 +131,37 @@ Route::middleware([
         Route::get('/', [PriorityController::class, 'index'])->name('index');
         Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
-
-    Route::name('screen.')->prefix('screen')->group(function () {
-        Route::name('theme.')->prefix('theme')->group(function () {
-            Route::name('account_type.')->group(function () {
-                Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme')->middleware('auth');
-                Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
-                Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
-            });
-        });
-    });
 });
 
 Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
     Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
+    Route::name('theme.')->prefix('theme')->group(function () {
+        Route::name('account_type.')->group(function () {
+            Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme');
+            Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
+            Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
+        });
+    });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
 });
 
-Route::redirect('/admin', '/admin/dashboard');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'auth'])->name('login.auth');
-Route::get('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
-Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('auth.change-password.update');
+Route::prefix('change-password')->name('auth.')->group(function () {
+    Route::get('/', [AuthController::class, 'changePassword'])->name('change-password');
+    Route::post('/', [AuthController::class, 'updatePassword'])->name('change-password.update');
+})->middleware('auth');
 
+Route::prefix('login')->name('login.')->group(function () {
+    Route::get('/', [AuthController::class, 'login'])->name('index');
+    Route::post('/', [AuthController::class, 'auth'])->name('auth');
+})->middleware('guest');
+
+Route::prefix('forgot-password')->name('forgot-password.')->group(function () {
+    Route::post('/', [ForgotPasswordController::class, 'send'])->name('send');
+})->middleware('guest');
+
+Route::prefix('reset-password')->name('password.')->group(function () {
+    Route::get('/{token}', [ResetPasswordController::class, 'index'])->name('reset');
+    Route::post('/', [ResetPasswordController::class, 'update'])->name('update');
+})->middleware('guest');

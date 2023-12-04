@@ -40,13 +40,6 @@ export const reducer = createSlice({
     name: "themeCounterReducer",
     initialState: initialState,
     reducers: {
-        setCounter: (state, action) => {
-            const selector = "counter";
-            state[selector] = {
-                ...state[selector],
-                ...action.payload,
-            };
-        },
         replace: (state, action) => {
             state.counter = {
                 ...state.counter,
@@ -66,7 +59,17 @@ export const reducer = createSlice({
                 open: false,
             };
         },
-
+        setCounter: (state, action) => {
+            const selector = "counter";
+            const type = "set";
+            state[selector] = {
+                ...state[selector],
+                [type]: {
+                    ...state[selector][type],
+                    ...action.payload,
+                },
+            };
+        },
         setCurrentTicket: (state, action) => {
             const selector = "current";
             const type = "ticket";

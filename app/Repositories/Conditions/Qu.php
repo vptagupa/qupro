@@ -30,14 +30,14 @@ trait Qu
     protected function calledCondition(&$builder, $query)
     {
         return $builder->when(isset($query['called']) && $query['called'], function ($builder) use ($query) {
-            $builder->whereNotNull('called_at');
+            $builder->called();
         });
     }
 
     protected function unCalledCondition(&$builder, $query)
     {
         return $builder->when(isset($query['uncalled']) && $query['uncalled'], function ($builder) use ($query) {
-            $builder->whereNull('called_at');
+            $builder->uncalled();
         });
     }
 

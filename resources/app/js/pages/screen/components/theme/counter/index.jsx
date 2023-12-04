@@ -3,28 +3,15 @@ import { useState, useEffect, useCallback, memo } from "react";
 import ColorPicker from "react-best-gradient-color-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "./reducer";
+import { useTheme } from "../theme";
 
 export default memo(function Component() {
     const dispatch = useDispatch();
     const { counter } = useSelector((state) => state.themeCounter);
-    const [color, setColor] = useState({
-        bg: counter.bg,
-        font: counter.font,
-    });
-
-    const [style, setStyle] = useState("bg");
-    const getStyle = useCallback(
-        () => (style == "bg" ? color.bg : color.font),
-        [style, color],
-    );
-
-    const onChangeColor = useCallback(
-        (value) => {
-            setColor({
-                [style]: value,
-            });
-        },
-        [style],
+    const { getStyle, onChangeStyle, setStyle, style } = useTheme(
+        "set",
+        "bg",
+        counter,
     );
 
     useEffect(() => {
@@ -53,7 +40,7 @@ export default memo(function Component() {
                     <div>
                         <ColorPicker
                             value={getStyle()}
-                            onChange={onChangeColor}
+                            onChange={onChangeStyle}
                         />
                     </div>
                 </div>

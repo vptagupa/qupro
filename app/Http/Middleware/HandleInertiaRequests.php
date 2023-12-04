@@ -46,9 +46,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $data = [];
-
-
         return array_merge(parent::share($request), [
             ...$this->user($request),
             ...$this->others(),
@@ -80,8 +77,8 @@ class HandleInertiaRequests extends Middleware
     private function config()
     {
         return [
-            'config' => [
-                'enabled_prioritY_on_qu_registration' => fn() => Config::isEnabledPriorityOnQuRegistration()
+            'config' => fn() => [
+                'enabled_prioritY_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration()
             ]
         ];
     }

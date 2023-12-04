@@ -1,8 +1,8 @@
 import Layout from "@/js/layouts/public";
-import Media from "./media";
-import Counter from "./counter";
+import Media from "../base/media";
+import Counter from "../base/counter";
+import Serve from "../base/serve";
 import Theme from "../components/theme";
-import Serve from "./serve";
 import Message from "../components/message";
 import { useThemeUpdate } from "../components/theme/update";
 import { useDispatch } from "react-redux";
@@ -16,6 +16,7 @@ export default function Component({ screen_id, account_type_id }) {
     const { counter: themeCounter } = useSelector(
         (state) => state.themeCounter,
     );
+
     const themeMedia = useSelector((state) => state.themeMedia);
     const { config } = useSelector((state) => state.counter.data);
 
@@ -34,7 +35,7 @@ export default function Component({ screen_id, account_type_id }) {
                     <div
                         className="xs:max-lg:w-full w-[30%] h-screen bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
                         style={{
-                            background: themeCounter.bg,
+                            background: themeCounter.set.bg,
                         }}
                     >
                         <Counter
@@ -45,8 +46,8 @@ export default function Component({ screen_id, account_type_id }) {
                     <div
                         className="w-[70%] h-screen xs:max-lg:hidden"
                         style={{
-                            background: themeMedia.set.bg,
-                            color: themeMedia.set.font,
+                            background: themeMedia.media.set.bg,
+                            color: themeMedia.media.set.font,
                         }}
                     >
                         <div className="flex flex-col">
@@ -57,14 +58,17 @@ export default function Component({ screen_id, account_type_id }) {
                                 />
                             </div>
                             <div className="">
-                                <Serve />
+                                <Serve
+                                    screen_id={screen_id}
+                                    account_type_id={account_type_id}
+                                />
                             </div>
                             <div>
                                 <Message
                                     text={config?.message ?? ""}
                                     style={{
-                                        background: themeMedia.message.bg,
-                                        color: themeMedia.message.font,
+                                        background: themeMedia.message.set.bg,
+                                        color: themeMedia.message.set.font,
                                     }}
                                 />
                             </div>

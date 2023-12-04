@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\QuCreated;
+use App\Events\ScreenQuCreated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -52,6 +53,7 @@ class Qu extends Model
     {
         static::created(function (Qu $model) {
             QuCreated::dispatch($model);
+            ScreenQuCreated::dispatch($model, $model->getPendingTotal());
         });
 
         static::addGlobalScope('now', function (Builder $builder) {
@@ -102,5 +104,33 @@ class Qu extends Model
     public function scopeNow($query)
     {
         return $query->whereDate('created_at', Carbon::now()->format('Y-m-d'));
+    }
+
+    public function scopeCalled($query, $accountTypeId = null)
+    {
+        return $query->whereNotNull('called_at')
+            ->when($accountTypeId, fn($builder) => $builder->whereAccountTypeId($accountTypeId));
+    }
+
+    public function scopeUnCalled($query, $accountTypeId = null)
+    {
+        return $query->whereNull('called_at')
+            ->when($accountTypeId, fn($builder) => $builder->whereAccountTypeId($accountTypeId));
+    }
+
+    public function getServedTotal()
+    {
+        return [
+            'account_type_served_total' => $this->called($this->account_type_id)->count(),
+            'all_served_total' => $this->called()->count(),
+        ];
+    }
+
+    public function getPendingTotal()
+    {
+        return [
+            'account_type_pending_total' => $this->uncalled($this->account_type_id)->count(),
+            'all_pending_total' => $this->uncalled()->count(),
+        ];
     }
 }

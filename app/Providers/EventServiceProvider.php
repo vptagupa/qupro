@@ -30,9 +30,7 @@ class EventServiceProvider extends ServiceProvider
             foreach ($event->students as $student) {
                 $student->notified_at = now()->format('Y-m-d H:i:s');
                 $student->save();
-                \Log::info($student->id);
             }
-            \Log::info($event->students->pluck('id'));
         });
     }
 

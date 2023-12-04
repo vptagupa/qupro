@@ -39,7 +39,7 @@ class QuRepository extends Repository
         )->count();
     }
 
-    public function currentServed($includedAccountTypes = [])
+    public function currentServed(array $includedAccountTypes = [])
     {
         return $this->list(
             query: [
@@ -56,7 +56,7 @@ class QuRepository extends Repository
             ->first();
     }
 
-    public function getLatestServed($page = 0, $limit = 6, $includedAccountTypes = [])
+    public function getLatestServed(array $includedAccountTypes = [])
     {
         $counters = ($this->model->newQuery())
             ->select(['counter_name', 'account_type_id'])
@@ -92,7 +92,7 @@ class QuRepository extends Repository
         return $data;
     }
 
-    public function getTotalServedByAccountType(?int $id = null)
+    public function getTotalServed(?int $id = null, array $includedAccountTypes = [])
     {
         return $this->list(
             query: [
@@ -101,18 +101,26 @@ class QuRepository extends Repository
             ],
             paginate: false,
             get: false,
-        )->count();
+        )
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })
+            ->count();
     }
 
-    public function getTotalByAccountType(?int $id = null)
+    public function getTotalPending(?int $id = null, array $includedAccountTypes = [])
     {
         return $this->list(
             query: [
-                'account_type_id' => $id
+                'account_type_id' => $id,
+                'uncalled' => true
             ],
             paginate: false,
             get: false,
-        )->count();
+        )
+            ->when(count($includedAccountTypes) > 0, function ($builder) use ($includedAccountTypes) {
+                $builder->whereIn('account_type_id', $includedAccountTypes);
+            })->count();
     }
 
     public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)

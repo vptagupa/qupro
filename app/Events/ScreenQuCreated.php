@@ -11,18 +11,16 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Qu;
 
-class QuCalled implements ShouldBroadcast
+class ScreenQuCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $qu;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(Qu $qu, public $data)
+    public function __construct(public Qu $qu, public $data)
     {
-        $this->qu = $qu->append('ticket')->toArray();
+        //
     }
 
     /**
