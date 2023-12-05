@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class NumFormat extends Model
+class NumFormat extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = [
         'title',
         'affix',
@@ -18,6 +21,19 @@ class NumFormat extends Model
 
     protected $casts = [
         'active' => 'boolean'
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'title',
+        'affix',
+        'delimiter',
+        'format',
+        'active'
     ];
 
     public function scopeActive($query)

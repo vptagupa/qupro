@@ -14,6 +14,7 @@ enum Access
     case ADVANCE_PRINT;
     case SCREEN;
     case REGISTRATION;
+    case AUDIT;
 
     public static function all(): array
     {
@@ -33,6 +34,7 @@ enum Access
                     // Access::ADVANCE_PRINT->name => [Action::ALL->name],
                 Access::SCREEN->name => [Action::ALL->name],
                 Access::REGISTRATION->name => [Action::ALL->name],
+                Access::AUDIT->name => [Action::ALL->name],
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],

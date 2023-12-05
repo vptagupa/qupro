@@ -32,7 +32,7 @@ class UserRepository extends Repository
             $serve = array_merge($serve, [$accountTypeId]);
         }
 
-        $user->serve_account_type_ids = $serve;
+        $user->serve_account_type_ids = array_values($serve);
         $user->save();
     }
 }
