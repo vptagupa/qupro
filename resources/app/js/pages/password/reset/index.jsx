@@ -30,16 +30,19 @@ export default function Component({ token, status }) {
     };
 
     useEffect(() => {
+        let timeout;
         if (status) {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 router.visit(route("login.index"), {
                     only: ["errors"],
                     preserveScroll: true,
                 });
             }, 2000);
         }
+
+        return () => clearTimeout(timeout);
     }, [status]);
-    console.log(status);
+
     return (
         <Layout>
             <div className="flex flex-col justify-start gap-y-5">
