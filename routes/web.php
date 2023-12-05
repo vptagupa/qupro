@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
@@ -118,6 +119,10 @@ Route::middleware([
         Route::name('advance-print.')->prefix('advance-print')->group(function () {
             Route::get('/', [AdvancePrintController::class, 'index'])->name('index');
             Route::post('/', [AdvancePrintController::class, 'store'])->middleware('can:create, App\Models\Qu')->name('store');
+        });
+        Route::name('audit.')->prefix('audit')->group(function () {
+            Route::get('/', [AuditController::class, 'index'])->name('index')->middleware('can:view, App\Models\Audit');
+            Route::post('/list', [AuditController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Audit');
         });
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::redirect('/admin', '/admin/tellers');

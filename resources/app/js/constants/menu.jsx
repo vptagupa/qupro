@@ -66,4 +66,11 @@ export default [
         route: "admin.users.index",
         permission: "USERS",
     },
+    {
+        id: "audit",
+        name: "Audit Trail",
+        icon: <UserGroupIcon className="h-4" />,
+        route: "admin.audit.index",
+        permission: "AUDIT",
+    },
 ];

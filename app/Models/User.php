@@ -9,14 +9,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
-
+use OwenIt\Auditing\Contracts\Auditable;
 use App\Enums\Role;
 
-class User extends Authenticatable implements CanResetPassword
+class User extends Authenticatable implements CanResetPassword, Auditable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     use Relations\Permission;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +60,22 @@ class User extends Authenticatable implements CanResetPassword
 
     protected $appends = [
         'access'
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'name',
+        'nickname',
+        'email',
+        'role',
+        'password',
+        'login_at',
+        'counter_name',
+        'serve_account_type_ids'
     ];
 
     public function isAdministrator()

@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Storage;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class AccountType extends Model
+class AccountType extends Model implements Auditable
 {
     use HasFactory;
     use Relations\AccountTypeSeries;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
@@ -27,6 +28,20 @@ class AccountType extends Model
     ];
 
     protected $priority = false;
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'name',
+        'num_format_id',
+        'priority_format_id',
+        'num_start',
+        'file_id'
+    ];
+
 
     public static function booted()
     {

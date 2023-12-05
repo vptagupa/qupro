@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 class Repository
 {
+    use Conditions\Conditions;
+
     protected $model;
 
     public function model()
@@ -18,12 +20,12 @@ class Repository
 
     public function update(array $data, $id)
     {
-        return $this->model->where('id', $id)->update($data);
+        return $this->toSave($this->model->find($id), $data);
     }
 
     public function updateBy(array $data, $id, $key = 'id')
     {
-        $this->model->where($key, $id)->update($data);
+        return $this->toSave($this->model->where($key, $id)->first(), $data);
     }
 
     public function delete($id)
@@ -39,27 +41,6 @@ class Repository
     public function all($columns = ["*"])
     {
         return $this->model;
-    }
-
-    public function conditions($builder, $query)
-    {
-        $keys = array_keys($query);
-
-        foreach ($keys as $key) {
-            if (preg_match('/(\w+|\W+|\w+)*\(\d\)/', $key, $matches)) {
-                $key = preg_replace('/\(\d\)/', '', $matches[0]);
-                preg_match('/\d/', $matches[0], $limit);
-
-                $query[$key]['limit'] = $limit[0];
-            }
-
-            $key = str_replace('.', 'With_', $key);
-            $condition = str($key)->camel() . 'Condition';
-
-            $builder = $this->$condition($builder, $query);
-        }
-
-        return $builder;
     }
 
     public function list(
@@ -100,17 +81,12 @@ class Repository
         return $builder;
     }
 
-    public function idCondition(&$builder, $query)
+    protected function toSave($model, $data)
     {
-        return $builder->when(isset($query['id']) && $query['id'], function ($builder) use ($query) {
-            $builder->whereId($query['id']);
-        });
-    }
+        foreach ($data as $key => $value) {
+            $model->$key = $value;
+        }
 
-    public function nameCondition(&$builder, $query)
-    {
-        return $builder->when(isset($query['name']) && $query['name'], function ($builder) use ($query) {
-            $builder->where('name', 'like', '%' . $query['name'] . '%');
-        });
+        return $model->save();
     }
 }

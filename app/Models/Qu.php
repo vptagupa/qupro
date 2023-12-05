@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Enums\Type;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Qu extends Model
+class Qu extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'type',
@@ -47,6 +49,21 @@ class Qu extends Model
         'notified_at' => 'datetime',
         'is_advance' => 'boolean',
         'type' => Type::class
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'counter_name',
+        'teller_id',
+        'num_fulltext',
+        'num',
+        'completed_at',
+        'called_at',
+        'notified_at',
     ];
 
     protected static function booted(): void
