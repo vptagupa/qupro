@@ -98,13 +98,13 @@ export default ({ url, priority = null }) => {
         if (priority !== null) {
             controls.form.setData("priority", priority);
         }
-    }, []);
+    }, [priority]);
 
     useEffect(() => {
         if (priority !== null) {
             controls.form.setData("priority", priority === true);
         }
-    }, []);
+    }, [priority]);
 
     return (
         <>

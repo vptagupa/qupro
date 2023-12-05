@@ -10,13 +10,12 @@ export default ({ controls: { form } }) => {
         }
     };
     const selectedStyle = "!bg-teal-400";
-    const unSelectedStyle = "!bg-gray-200";
+
     const selected = (type) => {
         if (form.data.type != "") {
             if (form.data.type == type) {
                 return selectedStyle;
             }
-            // return unSelectedStyle;
         }
 
         return "";
