@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Admin;
 
-
-use App\Http\Controllers\Shared\BasedQuController;
 use App\Http\Requests\StoreQuRequest;
-
+use App\Http\Controllers\Shared\BasedQuController;
 
 class PriorityController extends BasedQuController
 {
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return $this->render(
-            view: 'priority/public',
+            view: 'admin/priority/index',
             layout: 'app-qu'
         );
     }
@@ -27,7 +24,7 @@ class PriorityController extends BasedQuController
     public function store(StoreQuRequest $request)
     {
         $qu = parent::store($request);
-        return $this->render('priority/public', [
+        return $this->render('admin/priority/index', [
             'qu' => $qu
         ]);
     }
