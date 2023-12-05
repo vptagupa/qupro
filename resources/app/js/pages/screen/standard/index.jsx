@@ -5,7 +5,7 @@ import Serve from "../base/serve";
 import Message from "../components/message";
 import { useThemeUpdate } from "../components/theme/update";
 import { useDispatch } from "react-redux";
-import { setParam } from "../components/counters/reducer";
+import { setParam, setConfig } from "../components/counters/reducer";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -26,12 +26,18 @@ export default function Component({ screen_id, account_type_id }) {
         update();
     }, [screen_id, account_type_id]);
 
+    useEffect(() => {
+        Echo.channel("config.screen").listen("FlushConfig", (event) => {
+            dispatch(setConfig(event.data));
+        });
+    }, []);
+
     return (
         <Layout>
             <div className="m-auto w-screen h-screen">
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
                     <div
-                        className="xs:max-lg:w-full w-[30%] h-screen bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
+                        className="xs:max-lg:w-full w-[30%] h-screen overflow-hidden bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
                         style={{
                             background: themeCounter.set.bg,
                         }}
@@ -63,7 +69,7 @@ export default function Component({ screen_id, account_type_id }) {
                             </div>
                             <div>
                                 <Message
-                                    text={config?.message ?? ""}
+                                    text={config?.screen_text ?? ""}
                                     style={{
                                         background: themeMedia.message.set.bg,
                                         color: themeMedia.message.set.font,
