@@ -7,7 +7,7 @@ export default function Component({ ticket, isActive = false }) {
     return (
         <div
             className={`flex gap-0 items-center justify-start w-full ${
-                isActive ? "bg-slate-300 text-slate-800" : ""
+                isActive ? "bg-slate-300 text-slate-800 h-[120px]" : ""
             }`}
             style={{
                 background: isActive ? current.ticket.bg : grid.ticket.bg,
@@ -18,22 +18,22 @@ export default function Component({ ticket, isActive = false }) {
                     textWrap: "balance",
                     color: isActive ? current.ticket.font : grid.ticket.font,
                 }}
-                className={`grow text-center leading-10 pl-2 ${
-                    isActive ? "text-5xl" : "text-3xl"
+                className={`text-center w-[40%] leading-8 pl-2 ${
+                    isActive ? "text-4xl" : "text-3xl"
                 }`}
             >
                 {ticket?.num_fulltext}
             </div>
             <div
-                className={`flex items-center justify-center text-center w-[4.5rem]  ${
-                    isActive ? "mr-6" : "p-2"
+                className={`flex items-center justify-center text-center w-[10%]  ${
+                    isActive ? "" : ""
                 }`}
             >
                 {isActive && (
                     <>
                         <span
-                            className={`leading-5 ${
-                                isActive ? "text-[1.3rem]" : "text-xs"
+                            className={`leading-3 ${
+                                isActive ? "text-xs" : "text-xs"
                             }`}
                             style={{
                                 color: isActive
@@ -64,11 +64,11 @@ export default function Component({ ticket, isActive = false }) {
                     color: isActive ? current.window.font : grid.window.font,
                     background: isActive ? current.window.bg : grid.window.bg,
                 }}
-                className={`w-1/2 text-center text-2xl font-bold p-4 rounded-tl-[2rem] rounded-bl-[2rem] 
+                className={`w-1/2 text-center font-bold p-4 rounded-tl-[2rem] rounded-bl-[2rem] 
                                      ${
                                          isActive
-                                             ? "bg-teal-400 text-3xl py-12"
-                                             : "bg-purple-900"
+                                             ? "bg-teal-400 text-4xl h-[100%] flex items-center justify-center"
+                                             : "bg-purple-900 text-2xl"
                                      }
                                     `}
             >
