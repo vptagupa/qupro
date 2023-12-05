@@ -10,7 +10,7 @@ export default (props) => {
                         <span>
                             <img className="w-[6rem] inline" src={Logo} />
                         </span>
-                        <span className="text-2xl font-bold">QuPro</span>
+                        <span className="text-4xl font-bold">QuPro</span>
                     </div>
                     <div>{props.children}</div>
                 </div>
