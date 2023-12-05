@@ -5,8 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\File as Model;
 use App\Enums\Policy;
-use Illuminate\Validation\Rules\File;
-use Illuminate\Validation\Rule;
+use App\Rules\File;
 
 class StoreMediaRequest extends FormRequest
 {
@@ -25,35 +24,10 @@ class StoreMediaRequest extends FormRequest
      */
     public function rules(): array
     {
-        $videoTypes = ['mp4'];
-        $imageTypes = ['jpg', 'jpeg', 'png'];
-
         return [
-            'file' => [
+            'file' => array_merge(File::ensure($this->file), [
                 'required',
-                File::types([
-                    ...$videoTypes,
-                    ...$imageTypes,
-                ])
-                    ->max((function () use ($videoTypes, $imageTypes) {
-                        $videoTypes = array_map(fn($type) => 'video/' . $type, $videoTypes);
-                        $imageTypes = array_map(fn($type) => 'image/' . $type, $imageTypes);
-
-                        $file = $this->file;
-
-                        if (in_array($file?->getMimeType() ?? '', $videoTypes)) {
-                            return config('media.video_max') * 1024;
-                        }
-
-                        return config('media.image_max') * 1024;
-                    })()),
-                (function () use ($imageTypes) {
-                    $imageTypes = array_map(fn($type) => 'image/' . $type, $imageTypes);
-                    if (in_array($this->file?->getMimeType() ?? '', $imageTypes)) {
-                        return Rule::dimensions()->width(1920)->height(1080);
-                    }
-                })()
-            ]
+            ])
         ];
     }
 
@@ -65,7 +39,7 @@ class StoreMediaRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'file.dimensions' => 'Please use 1920 x 1080 image dimensions',
+            'file.dimensions' => File::message()
         ];
     }
 }

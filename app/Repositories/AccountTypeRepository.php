@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\AccountTypeTheme;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
+use Illuminate\Http\UploadedFile;
 
 class AccountTypeRepository extends Repository
 {
@@ -20,32 +21,33 @@ class AccountTypeRepository extends Repository
 
     public function create(array $data)
     {
-        $file = $this->storeFile($data['file']);
-
-        unset($data['file']);
-
         $model = parent::create($data);
-        $model->file()->associate($file);
-        $model->save();
+        if ($data['file'] instanceof UploadedFile) {
+            $file = $this->storeFile($data['file']);
+            unset($data['file']);
+            $model->file()->associate($file);
+            $model->save();
+        }
     }
 
     public function update(array $data, $id)
     {
-        $file = $this->storeFile($data['file']);
+        if ($data['file'] instanceof UploadedFile) {
+            $file = $this->storeFile($data['file']);
+            $model = $this->find($id);
+            $prevFile = $model->file;
+
+            $model->file()->associate($file);
+            $model->save();
+
+            if ($prevFile) {
+                $prevFile->delete();
+            }
+        }
 
         unset($data['file']);
 
         parent::update($data, $id);
-
-        $model = $this->find($id);
-        $prevFile = $model->file;
-
-        $model->file()->associate($file);
-        $model->save();
-
-        if ($prevFile) {
-            $prevFile->delete();
-        }
     }
 
     public function updateTheme(int $id, $name, $value)
