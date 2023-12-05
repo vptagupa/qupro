@@ -4,7 +4,12 @@ export const reducer = createSlice({
     name: "reducer",
     initialState: {
         data: {
-            config: null,
+            config: {
+                screen_text: "",
+                screen_interval: 5,
+                screen_tickets_limit: 6,
+                screen_account_type_ids: [],
+            },
             tickets: [],
             current: null,
             served: 0,
@@ -20,6 +25,12 @@ export const reducer = createSlice({
         setData: (state, action) => {
             state.data = {
                 ...state.data,
+                ...action.payload,
+            };
+        },
+        setConfig: (state, action) => {
+            state.data.config = {
+                ...state.data.config,
                 ...action.payload,
             };
         },
@@ -52,6 +63,6 @@ export const reducer = createSlice({
     },
 });
 
-export const { setData, setParam, ticket } = reducer.actions;
+export const { setData, setConfig, setParam, ticket } = reducer.actions;
 
 export default reducer.reducer;

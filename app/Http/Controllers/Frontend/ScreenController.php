@@ -89,12 +89,11 @@ class ScreenController extends Controller
     protected function getConfig($screen)
     {
         return [
-            'config' => [
-                'message' => Config::screenMessage(),
-                'interval' => Config::screenInterval(),
-                'screen_tickets_limit' => Config::screenTicketsLimit(),
-                'screen_account_type_ids' => $screen->account_type_ids,
-            ],
+            'config' =>
+                array_merge(
+                    Config::screen(),
+                    ['screen_account_type_ids' => $screen->account_type_ids]
+                ),
         ];
     }
 }

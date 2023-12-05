@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default memo(({ screen_id, account_type_id }) => {
     const {
-        data: { account_type, current },
+        data: { current },
     } = useSelector((state) => state.counter);
 
     const beepRef = useRef();

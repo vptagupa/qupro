@@ -52,7 +52,7 @@ export default memo(({ media, interval }) => {
         <>
             <div>
                 <div className="flex items-center justify-center">
-                    <div className="w-[98%]">
+                    <div className="w-[98%] h-[100%]">
                         {play.file.is_image && <Image src={play.file.url} />}
                         {play.file.is_video && (
                             <Video

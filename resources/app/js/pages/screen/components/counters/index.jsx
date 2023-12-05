@@ -2,32 +2,37 @@ import { memo } from "react";
 import Counter from "./counter";
 import { router } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useTickets } from "./tickets";
 import { useSelector } from "react-redux";
 
 export default memo(({ screen_id, account_type_id }) => {
     const {
-        data: { tickets, current },
+        data: { tickets, current, config },
     } = useSelector((state) => state.counter);
-    const { update } = useTickets();
+    const { update } = useTickets(screen_id, account_type_id);
     const [page, setPage] = useState(0);
-    const [limiter, setLimiter] = useState(5);
+
     const [defferPage, setDefferPage] = useState(page);
-    const isActive = (ticket) => ticket?.counter == current?.counter;
-    const active = tickets.filter((ticket) => isActive(ticket))[0];
+    const isActive = useCallback(
+        (ticket) => ticket?.counter == current?.counter,
+        [current],
+    );
+    const active = useMemo(
+        () => tickets.filter((ticket) => isActive(ticket))[0],
+        [tickets, isActive],
+    );
 
     const chunks = useMemo(() => {
         let data = [];
+        const limiter = parseInt(config.screen_tickets_limit);
         const lists = tickets.filter((ticket) => !isActive(ticket));
         for (var i = 0; i < lists.length; i += limiter) {
             data.push(lists.slice(i, i + limiter));
         }
 
         return data;
-    }, [tickets, limiter]);
-
-    const ticketUpdater = () => update(screen_id, account_type_id);
+    }, [tickets, config.screen_tickets_limit, isActive]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -42,7 +47,7 @@ export default memo(({ screen_id, account_type_id }) => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             setDefferPage(page);
-        }, 200);
+        }, 100);
 
         return () => {
             clearTimeout(timeout);
@@ -50,13 +55,13 @@ export default memo(({ screen_id, account_type_id }) => {
     }, [page]);
 
     useEffect(() => {
-        ticketUpdater();
+        update();
         Echo.channel(`${screen_id}.screen`)
             .listen("CounterRefresh", (e) => {
-                ticketUpdater();
+                update();
             })
             .listen("ScreenRefresh", (e) => {
-                ticketUpdater();
+                update();
                 router.reload();
             });
 

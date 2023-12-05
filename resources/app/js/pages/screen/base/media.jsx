@@ -42,7 +42,7 @@ export default memo(({ screen_id, account_type_id }) => {
     return (
         <>
             {media.length > 0 && (
-                <Media media={media} interval={config?.interval ?? 0} />
+                <Media media={media} interval={config?.screen_interval ?? 0} />
             )}
             {media.length <= 0 && <Banner />}
         </>

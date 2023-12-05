@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Events\FlushConfig;
 use App\Models\Config;
 
 class ConfigRepository extends Repository
@@ -45,6 +46,15 @@ class ConfigRepository extends Repository
                 'themeMedia' => null
             ],
         ], 'Default Screen Theme', 'name');
+    }
+
+    public function update($data, $id)
+    {
+        parent::update($data, $id);
+
+        if (in_array($data['name'], $this->model->watch)) {
+            FlushConfig::dispatch($this->find($id));
+        }
     }
 
 }

@@ -19,6 +19,18 @@ class Config extends Model
 
     public static $hide = [
         'Default Screen Theme',
+        // 'Screen Tickets Limit'
+    ];
+
+    public $watch = [
+        'Screen Text',
+        'Screen Interval',
+        'Screen Tickets Limit'
+    ];
+
+    public $screen = [
+        'Screen Text',
+        'Screen Interval',
         'Screen Tickets Limit'
     ];
 
@@ -70,5 +82,16 @@ class Config extends Model
     public static function screenTicketsLimit()
     {
         return Config::where('name', 'Screen Tickets Limit')->first()?->value;
+    }
+
+    public static function screen()
+    {
+        $self = new self();
+        return $self->select(['name', 'value'])->whereIn('name', $self->screen)->get()->map(function ($model) {
+            $model->name = str($model->name)->snake();
+            return [
+                (string) $model->name => $model->value
+            ];
+        })->collapse()->all();
     }
 }
