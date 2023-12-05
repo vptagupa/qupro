@@ -44,9 +44,10 @@ Route::middleware([
     'auth',
     RedirectIfTemporaryPassword::class
 ])->group(function () {
+    Route::get('/', [AuthController::class, 'redirectTo']);
     Route::name('admin.')->prefix('admin')->group(function () {
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
+            Route::get('/', [AuthController::class, 'redirectTo'])->name('index');
         });
         Route::name('users.')->prefix('users')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\User');

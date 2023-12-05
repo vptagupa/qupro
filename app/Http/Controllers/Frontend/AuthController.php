@@ -64,7 +64,7 @@ class AuthController extends Controller
         );
     }
 
-    private function redirectTo()
+    public function redirectTo()
     {
         $intended = '/admin/tellers';
         $user = Auth::user();
