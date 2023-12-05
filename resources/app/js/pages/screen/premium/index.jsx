@@ -31,6 +31,10 @@ export default function Component({ screen_id, account_type_id }) {
         Echo.channel("config.screen").listen("FlushConfig", (event) => {
             dispatch(setConfig(event.data));
         });
+
+        return () => {
+            Echo.leave('config.screen');
+        }
     }, []);
 
     return (
