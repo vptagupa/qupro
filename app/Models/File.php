@@ -29,8 +29,7 @@ class File extends Model
     {
         static::deleted(function ($file) {
             if ($file) {
-                $x = Storage::delete('app/' . $file->path);
-                \Log::info('deleted: ' . $x);
+                Storage::delete('app/' . $file->path);
             }
         });
     }
