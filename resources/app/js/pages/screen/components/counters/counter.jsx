@@ -18,22 +18,22 @@ export default function Component({ ticket, isActive = false }) {
                     textWrap: "balance",
                     color: isActive ? current.ticket.font : grid.ticket.font,
                 }}
-                className={`text-center w-[40%] leading-8 pl-2 ${
+                className={`text-center w-[35%] leading-8 pl-2 ${
                     isActive ? "text-4xl" : "text-3xl"
                 }`}
             >
                 {ticket?.num_fulltext}
             </div>
             <div
-                className={`flex items-center justify-center text-center w-[10%]  ${
+                className={`flex items-center justify-center text-center w-[15%]  ${
                     isActive ? "" : ""
                 }`}
             >
                 {isActive && (
                     <>
                         <span
-                            className={`leading-3 ${
-                                isActive ? "text-xs" : "text-xs"
+                            className={`leading-4 ${
+                                isActive ? "text-[1rem]" : "text-xs"
                             }`}
                             style={{
                                 color: isActive
@@ -41,7 +41,9 @@ export default function Component({ ticket, isActive = false }) {
                                     : grid.ticket.font,
                             }}
                         >
-                            NOW SERVING
+                            NOW
+                            <br />
+                            SERVING
                         </span>
                     </>
                 )}
