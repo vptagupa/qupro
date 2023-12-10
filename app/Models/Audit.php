@@ -13,4 +13,9 @@ class Audit extends Model
             get: fn($value) => str($value)->ucfirst()
         );
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

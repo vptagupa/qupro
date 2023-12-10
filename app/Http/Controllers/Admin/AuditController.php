@@ -29,7 +29,7 @@ class AuditController extends AdminController
     {
         return AuditResource::collection(
             $this->repository->list(
-                query: ['auditable_type' => $request->get('query')],
+                query: ['auditable_type' => $request->get('query'), 'user' => true],
                 perPage: $request->get('per_page'),
                 orderBy: ['created_at', 'desc']
             )

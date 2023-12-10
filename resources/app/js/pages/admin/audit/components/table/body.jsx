@@ -42,6 +42,7 @@ const Component = ({ data, pagination, setSearch }) => {
                     <>
                         <Theader>
                             <TrH>
+                                <Th>User</Th>
                                 <Th>Event</Th>
                                 <Th>Model</Th>
                                 <Th>Id</Th>
@@ -57,6 +58,7 @@ const Component = ({ data, pagination, setSearch }) => {
                             {tableList.map((item) => {
                                 return (
                                     <Tr key={item.id}>
+                                        <Td>{item.user.name}</Td>
                                         <Td>{item.event}</Td>
                                         <Td>{item.auditable_type}</Td>
                                         <Td>{item.auditable_id}</Td>
@@ -70,7 +72,10 @@ const Component = ({ data, pagination, setSearch }) => {
                                         <Td>{item.ip_address}</Td>
                                         <Td>{item.user_agent}</Td>
                                         <Td>
-                                            <div className="flex items-center justify-end cursor-pointer">
+                                            <div
+                                                className="flex items-center justify-end cursor-pointer"
+                                                title="View"
+                                            >
                                                 <Info item={item} />
                                             </div>
                                         </Td>

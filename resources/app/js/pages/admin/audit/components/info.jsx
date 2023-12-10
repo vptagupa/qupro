@@ -30,6 +30,10 @@ export default function Component({ item }) {
                     <table className="w-full">
                         <tbody>
                             <tr className={border}>
+                                <td className={styleName}>User:</td>
+                                <td className={style}>{item.user.name}</td>
+                            </tr>
+                            <tr className={border}>
                                 <td className={styleName}>Event:</td>
                                 <td className={style}>{item.event}</td>
                             </tr>
