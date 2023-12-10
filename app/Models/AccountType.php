@@ -146,4 +146,9 @@ class AccountType extends Model implements Auditable
     {
         return $this->hasMany(AccountTypeTheme::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

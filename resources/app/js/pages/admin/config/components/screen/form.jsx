@@ -6,8 +6,8 @@ import { usePage } from "@inertiajs/react";
 import AccountTypesForm from "@/js/helpers/account.types.combo";
 
 const Component = ({ form, accountTypes, successful, accountTypesCheck }) => {
-    const { screens } = usePage().props;
-
+    const { screens, config } = usePage().props;
+    console.log(config);
     return (
         <Form>
             <div>

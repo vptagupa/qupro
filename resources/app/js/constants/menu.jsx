@@ -46,6 +46,13 @@ export default [
         permission: "ACCOUNT_TYPES",
     },
     {
+        id: "categories",
+        name: "Categories",
+        icon: <CubeIcon className="h-4" />,
+        route: "admin.categories.index",
+        permission: "CATEGORIES",
+    },
+    {
         id: "numformat",
         name: "Formats",
         icon: <SquaresPlusIcon className="h-4" />,
