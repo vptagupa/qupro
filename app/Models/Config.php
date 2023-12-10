@@ -95,6 +95,16 @@ class Config extends Model implements Auditable
         return Config::where('name', 'Screen Tickets Limit')->first()?->value;
     }
 
+    public static function isEnabledDepartmentCategories()
+    {
+        return Config::where('name', 'Enable department categories')->first()?->value;
+    }
+
+    public static function isEnabledCategoryStatistics()
+    {
+        return Config::where('name', 'Enable category statistics')->first()?->value;
+    }
+
     public static function screen()
     {
         $self = new self();
