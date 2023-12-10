@@ -62,7 +62,7 @@ class GlobalConfigSeeder extends Seeder
                 'value' => 5,
             ],
             [
-                "name" => "Enable department categories",
+                "name" => "Enable categories",
                 'value' => true,
                 'type' => 'boolean',
             ],

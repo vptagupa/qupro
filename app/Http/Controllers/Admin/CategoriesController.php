@@ -31,10 +31,11 @@ class CategoriesController extends AdminController
     {
         return CategoryResource::collection(
             $this->repository->list(
-                [
+                query: [
                     'name' => $request->get('query'),
                 ],
-                $request->get('per_page'),
+                perPage: $request->get('per_page'),
+                orderBy: ['name', 'asc']
             )
         );
     }

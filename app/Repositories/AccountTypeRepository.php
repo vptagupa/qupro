@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\AccountTypeTheme;
+use App\Models\Config;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
 use Illuminate\Http\UploadedFile;
@@ -29,8 +30,11 @@ class AccountTypeRepository extends Repository
             $model->save();
         }
 
-        $data['categories'] = $data['categories'] ?: [];
-        $model->categories()->sync($data['categories']);
+        if (Config::isEnabledCategories()) {
+            $data['categories'] = $data['categories'] ?: [];
+            $model->categories()->sync($data['categories']);
+        }
+
     }
 
     public function update(array $data, $id)
@@ -48,11 +52,13 @@ class AccountTypeRepository extends Repository
             }
         }
 
-        $data['categories'] = $data['categories'] ?: [];
-        $model->categories()->sync($data['categories']);
+        if (Config::isEnabledCategories()) {
+            $data['categories'] = $data['categories'] ?: [];
+            $model->categories()->sync($data['categories']);
+            unset($data['categories']);
+        }
 
         unset($data['file']);
-        unset($data['categories']);
 
         parent::update($data, $id);
 

@@ -41,7 +41,7 @@ const Component = ({ form, formats }) => {
                     <Media form={form} />
                 </div>
             </div>
-            {config.enabled_department_categories && (
+            {config.enabled_categories && (
                 <div>
                     <span className="text-xs">Categories:</span>
                     <CategorySelect

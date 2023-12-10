@@ -79,7 +79,7 @@ class HandleInertiaRequests extends Middleware
         return [
             'config' => fn() => [
                 'enabled_prioritY_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration(),
-                'enabled_department_categories' => Config::isEnabledDepartmentCategories(),
+                'enabled_categories' => Config::isEnabledCategories(),
                 'enabled_category_statistics' => Config::isEnabledCategoryStatistics(),
             ]
         ];

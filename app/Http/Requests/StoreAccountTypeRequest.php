@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Config;
 use App\Models\AccountType;
 use App\Enums\Policy;
 use App\Rules\File;
@@ -29,7 +30,7 @@ class StoreAccountTypeRequest extends FormRequest
             'num_format_id' => 'required|integer',
             'priority_format_id' => 'nullable|integer',
             'num_start' => 'nullable|integer',
-            'categories' => 'required',
+            'categories' => Config::isEnabledCategories() ? 'required' : 'nullable',
             'file' => array_merge(File::ensure($this->file), [
                 'nullable',
             ]),
@@ -38,9 +39,10 @@ class StoreAccountTypeRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'categories' => array_map(fn($cat) => $cat['id'], $this->categories)
-        ]);
+        if (Config::isEnabledCategories())
+            $this->merge([
+                'categories' => array_map(fn($cat) => $cat['id'], $this->categories)
+            ]);
     }
 
     /**
