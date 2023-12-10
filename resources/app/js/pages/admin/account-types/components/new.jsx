@@ -25,6 +25,7 @@ export default memo(({ formats, ...props }) => {
             num_start: "",
             priority_format_id: "",
             file: "",
+            categories: [],
         },
     });
 

@@ -29,10 +29,18 @@ class StoreAccountTypeRequest extends FormRequest
             'num_format_id' => 'required|integer',
             'priority_format_id' => 'nullable|integer',
             'num_start' => 'nullable|integer',
+            'categories' => 'required',
             'file' => array_merge(File::ensure($this->file), [
                 'nullable',
-            ])
+            ]),
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'categories' => array_map(fn($cat) => $cat['id'], $this->categories)
+        ]);
     }
 
     /**

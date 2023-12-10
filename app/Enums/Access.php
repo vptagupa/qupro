@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Models\Config;
+
 enum Access
 {
     case DASHBOARD_ADMIN;
@@ -36,7 +38,8 @@ enum Access
                 Access::SCREEN->name => [Action::ALL->name],
                 Access::REGISTRATION->name => [Action::ALL->name],
                 Access::AUDIT->name => [Action::ALL->name],
-                Access::CATEGORIES->name => [Action::ALL->name],
+                ...(fn() => Config::isEnabledDepartmentCategories() ?
+                    [Access::CATEGORIES->name => [Action::ALL->name]] : [])(),
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],

@@ -2,8 +2,15 @@ import { Form, Input, Select } from "@/js/components/form";
 import { AlertSuccess, AlertDanger } from "@/js/components/alerts";
 import { Transition } from "@headlessui/react";
 import Media from "./media";
+import CategorySelect from "@/js/helpers/form/select.categories";
+import { usePage } from "@inertiajs/react";
 
 const Component = ({ form, formats }) => {
+    const { config } = usePage().props;
+    const selector = (selected) => {
+        form.setData("categories", selected);
+    };
+
     return (
         <Form>
             <div>
@@ -34,6 +41,21 @@ const Component = ({ form, formats }) => {
                     <Media form={form} />
                 </div>
             </div>
+            {config.enabled_department_categories && (
+                <div>
+                    <span className="text-xs">Categories:</span>
+                    <CategorySelect
+                        selector={selector}
+                        data={form.data.categories}
+                    />
+                    {form.invalid("categories") && (
+                        <span className="text-danger text-xs">
+                            {form.errors.categories}
+                        </span>
+                    )}
+                </div>
+            )}
+
             <div>
                 <span className="text-xs">Format:</span>
                 <Select

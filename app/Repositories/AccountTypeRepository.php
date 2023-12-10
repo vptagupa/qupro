@@ -28,13 +28,16 @@ class AccountTypeRepository extends Repository
             $model->file()->associate($file);
             $model->save();
         }
+
+        $data['categories'] = $data['categories'] ?: [];
+        $model->categories()->sync($data['categories']);
     }
 
     public function update(array $data, $id)
     {
+        $model = $this->find($id);
         if ($data['file'] instanceof UploadedFile) {
             $file = $this->storeFile($data['file']);
-            $model = $this->find($id);
             $prevFile = $model->file;
 
             $model->file()->associate($file);
@@ -45,9 +48,14 @@ class AccountTypeRepository extends Repository
             }
         }
 
+        $data['categories'] = $data['categories'] ?: [];
+        $model->categories()->sync($data['categories']);
+
         unset($data['file']);
+        unset($data['categories']);
 
         parent::update($data, $id);
+
     }
 
     public function updateTheme(int $id, $name, $value)

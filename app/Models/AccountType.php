@@ -149,6 +149,6 @@ class AccountType extends Model implements Auditable
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'account_type_categories');
     }
 }

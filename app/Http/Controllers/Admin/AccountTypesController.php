@@ -39,7 +39,8 @@ class AccountTypesController extends AdminController
                     'name' => $request->get('query'),
                     'priorityFormat' => true,
                     'format' => true,
-                    'file' => true
+                    'file' => true,
+                    'categories' => true
                 ],
                 $request->get('per_page'),
             )
@@ -56,7 +57,8 @@ class AccountTypesController extends AdminController
             'num_format_id',
             'num_start',
             'priority_format_id',
-            'file'
+            'file',
+            'categories'
         ]));
     }
 
@@ -71,7 +73,8 @@ class AccountTypesController extends AdminController
             'num_format_id',
             'num_start',
             'priority_format_id',
-            'file'
+            'file',
+            'categories'
         ]), $id);
     }
 
