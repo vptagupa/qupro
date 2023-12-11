@@ -41,7 +41,17 @@ export default function Component() {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    {tab == "forgot" && <ForgotPassword setTab={setTab} />}
+                    {tab == "forgot" && (
+                        <div className="flex flex-col justify-start gap-y-5">
+                            <ForgotPassword />{" "}
+                            <p
+                                className="mt-5 text-end cursor-pointer text-sm text-blue-600 hover:text-blue-800"
+                                onClick={(e) => setTab("login")}
+                            >
+                                Back to Login
+                            </p>
+                        </div>
+                    )}
                 </Transition>
             </div>
         </Layout>

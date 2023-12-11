@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Events\MediaRefresh;
 use App\Models\AccountTypeTheme;
 use App\Models\Config;
 use Illuminate\Support\Facades\App;
@@ -28,6 +29,8 @@ class AccountTypeRepository extends Repository
             unset($data['file']);
             $model->file()->associate($file);
             $model->save();
+
+            MediaRefresh::dispatch();
         }
 
         if (Config::isEnabledCategories()) {
@@ -50,6 +53,8 @@ class AccountTypeRepository extends Repository
             if ($prevFile) {
                 $prevFile->delete();
             }
+
+            MediaRefresh::dispatch();
         }
 
         if (Config::isEnabledCategories()) {

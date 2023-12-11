@@ -64,7 +64,6 @@ class ScreenController extends Controller
                     'file' => $file
                 ]);
             }
-
         }
 
         return $media;

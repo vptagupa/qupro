@@ -1,5 +1,5 @@
 import Type from "../type";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default ({ next, prev, ...props }) => {
     useEffect(() => {

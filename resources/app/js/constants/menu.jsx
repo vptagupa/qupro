@@ -28,7 +28,7 @@ export default [
         id: "priority",
         name: "Priority",
         icon: <PuzzlePieceIcon className="h-4" />,
-        route: "priority.index",
+        route: "admin.priority.index",
         permission: "REGISTRATION",
     },
     // {

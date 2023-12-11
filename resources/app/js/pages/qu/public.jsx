@@ -8,7 +8,7 @@ export default () => {
             <div className="mt-[5%]">
                 <Qu
                     priority={
-                        config.enabled_prioritY_on_qu_registration == 1
+                        config.enabled_priority_on_qu_registration == 1
                             ? null
                             : false
                     }

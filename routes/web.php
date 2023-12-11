@@ -15,13 +15,14 @@ use App\Http\Controllers\Admin\{
     AdvancePrintController,
     ScreenController,
     CategoriesController,
+    PriorityController,
     AuditController
 };
 use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
     AccountTypeThemeController,
-    PriorityController,
+    PriorityController as FrontendPriorityController,
     AuthController,
     ForgotPasswordController,
     ResetPasswordController
@@ -124,6 +125,10 @@ Route::middleware([
             Route::patch('/recalled/{id}', [QuController::class, 'recalled'])->name('recalled');
             Route::patch('/completed/{id}', [QuController::class, 'completed'])->name('completed');
         });
+        Route::name('priority.')->prefix('priority')->group(function () {
+            Route::get('/', [PriorityController::class, 'index'])->name('index');
+            Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+        });
         Route::name('advance-print.')->prefix('advance-print')->group(function () {
             Route::get('/', [AdvancePrintController::class, 'index'])->name('index');
             Route::post('/', [AdvancePrintController::class, 'store'])->middleware('can:create, App\Models\Qu')->name('store');
@@ -141,8 +146,8 @@ Route::middleware([
         Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
     Route::name('priority.')->prefix('priority')->group(function () {
-        Route::get('/', [PriorityController::class, 'index'])->name('index');
-        Route::post('/', [PriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+        Route::get('/', [FrontendPriorityController::class, 'index'])->name('index');
+        Route::post('/', [FrontendPriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
     });
 });
 
