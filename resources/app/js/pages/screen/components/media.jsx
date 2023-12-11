@@ -41,11 +41,12 @@ export default memo(({ media, interval }) => {
 
     useEffect(() => {
         setPlay(media[index] ?? media[0]);
-        return () => clearTimeout(timeoutId);
     }, [index, media]);
 
     useEffect(() => {
         onPlay();
+
+        return () => clearTimeout(timeoutId);
     }, [play]);
 
     return (

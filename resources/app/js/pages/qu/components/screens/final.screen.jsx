@@ -1,16 +1,10 @@
-import PropTypes from "prop-types";
 import QuInfo from "../qu.info";
 import { Button } from "@/js/components/buttons";
-import { PrinterIcon } from "@heroicons/react/24/solid";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
-import { print } from "@/js/helpers";
 
 const Component = ({ final, ...props }) => {
-    let timeout;
     useEffect(() => {
-        timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             final();
         }, 10000);
 
