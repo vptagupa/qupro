@@ -31,4 +31,11 @@ trait AccountType
             $builder->with(['theme']);
         });
     }
+
+    protected function categoriesCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['categories']) && $query['categories'], function ($builder) use ($query) {
+            $builder->with(['categories']);
+        });
+    }
 }

@@ -1,7 +1,9 @@
 export const stringLimit = (str, limit, extra) => {
     const ex = extra == undefined ? "..." : extra;
 
-    return str.substr(0, limit) + "" + ex;
+    if (str.length > limit) return str.substr(0, limit) + "" + ex;
+
+    return str;
 };
 
 export const classNames = (custom, classNames) => {

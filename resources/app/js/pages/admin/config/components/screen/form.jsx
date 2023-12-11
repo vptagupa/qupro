@@ -3,10 +3,10 @@ import { AlertSuccess } from "@/js/components/alerts";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import { usePage } from "@inertiajs/react";
-import AccountTypesForm from "@/js/helpers/account.types.combo";
+import AccountTypesForm from "@/js/helpers/form/select.accounttypes";
 
 const Component = ({ form, accountTypes, successful, accountTypesCheck }) => {
-    const { screens } = usePage().props;
+    const { screens, config } = usePage().props;
 
     return (
         <Form>

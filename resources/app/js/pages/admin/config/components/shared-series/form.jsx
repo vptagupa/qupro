@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 import { usePage } from "@inertiajs/react";
 import { useState } from "react";
-import AccountTypesForm from "@/js/helpers/account.types.combo";
+import AccountTypesForm from "@/js/helpers/form/select.accounttypes";
 
 const Component = ({ form, accountTypes, completed, accountTypesCheck }) => {
     const [priority, setPriority] = useState(form.data.priority);

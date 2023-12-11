@@ -61,6 +61,16 @@ class GlobalConfigSeeder extends Seeder
                 "name" => "Screen Tickets Limit",
                 'value' => 5,
             ],
+            [
+                "name" => "Enable categories",
+                'value' => true,
+                'type' => 'boolean',
+            ],
+            [
+                "name" => "Enable category statistics",
+                'value' => true,
+                'type' => 'boolean',
+            ],
         ];
 
         foreach ($real as $row) {

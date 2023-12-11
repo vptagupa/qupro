@@ -15,7 +15,8 @@
         "limetec/php-network-lpr-printer": "^1.2",
         "owen-it/laravel-auditing": "^13.5",
         "pusher/pusher-php-server": "^7.2",
-        "tightenco/ziggy": "^1.8"
+        "tightenco/ziggy": "^1.8",
+        "beyondcode/laravel-websockets": "^1.13.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

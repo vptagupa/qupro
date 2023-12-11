@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('student_name')->nullable();
             $table->foreignId('teller_id')->nullable()->constrained('users');
             $table->foreignId('account_type_id')->nullable()->constrained('account_types');
+            $table->foreignId('category_id')->nullable()->constrained('categories');
             $table->string('num_fulltext')->nullable();
             $table->unsignedInteger('num')->nullable();
             $table->string('counter_name')->nullable();

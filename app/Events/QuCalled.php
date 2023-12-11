@@ -20,9 +20,9 @@ class QuCalled implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(Qu $qu, public $data)
+    public function __construct(Qu $qu)
     {
-        $this->qu = $qu->append('ticket')->toArray();
+        $this->qu = $qu->append(['ticket', 'statistics'])->toArray();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Config;
 use App\Rules\File;
 use App\Models\AccountType;
 use App\Enums\Policy;
@@ -31,10 +32,19 @@ class UpdateAccountTypeRequest extends FormRequest
             'num_format_id' => 'required|integer',
             'priority_format_id' => 'nullable|integer',
             'num_start' => 'nullable|integer',
+            'categories' => Config::isEnabledCategories() ? 'required' : 'nullable',
             'file' => array_merge(File::ensure($this->file), [
                 'nullable',
             ])
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if (Config::isEnabledCategories())
+            $this->merge([
+                'categories' => array_map(fn($cat) => $cat['id'], $this->categories)
+            ]);
     }
 
     /**

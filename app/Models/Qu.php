@@ -24,6 +24,7 @@ class Qu extends Model implements Auditable
         'student_name',
         'teller_id',
         'account_type_id',
+        'category_id',
         'num_fulltext',
         'num',
         'counter_name',
@@ -108,6 +109,14 @@ class Qu extends Model implements Auditable
                 'account_type_id' => $this->account_type_id,
                 'counter' => $this->counter
             ]
+        );
+    }
+
+    public function statistics(): Attribute
+    {
+        $accountType = $this->accountType;
+        return Attribute::make(
+            get: fn() => $accountType->statistics
         );
     }
 

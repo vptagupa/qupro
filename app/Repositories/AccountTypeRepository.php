@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Events\MediaRefresh;
 use App\Models\AccountTypeTheme;
+use App\Models\Config;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
 use Illuminate\Http\UploadedFile;
@@ -31,13 +32,19 @@ class AccountTypeRepository extends Repository
 
             MediaRefresh::dispatch();
         }
+
+        if (Config::isEnabledCategories()) {
+            $data['categories'] = $data['categories'] ?: [];
+            $model->categories()->sync($data['categories']);
+        }
+
     }
 
     public function update(array $data, $id)
     {
+        $model = $this->find($id);
         if ($data['file'] instanceof UploadedFile) {
             $file = $this->storeFile($data['file']);
-            $model = $this->find($id);
             $prevFile = $model->file;
 
             $model->file()->associate($file);
@@ -50,9 +57,16 @@ class AccountTypeRepository extends Repository
             MediaRefresh::dispatch();
         }
 
+        if (Config::isEnabledCategories()) {
+            $data['categories'] = $data['categories'] ?: [];
+            $model->categories()->sync($data['categories']);
+            unset($data['categories']);
+        }
+
         unset($data['file']);
 
         parent::update($data, $id);
+
     }
 
     public function updateTheme(int $id, $name, $value)

@@ -1,13 +1,13 @@
-import Priority from "../priority";
+import Departments from "../accounttypes";
 import { useEffect } from "react";
 
 export default ({ prev, next, ...props }) => {
     useEffect(() => {
         props.controls.setEnabledNext(false);
-        if (props.controls.form.data.priority != null) {
-            props.controls.setEnabledNext(true);
+        if (props.controls.form.data.account_type?.id != null) {
+            next();
         }
-    }, [props.controls.form.data.priority]);
+    }, [props.controls.form.data.account_type]);
 
     useEffect(() => {
         props.controls.prev(prev);
@@ -18,7 +18,7 @@ export default ({ prev, next, ...props }) => {
 
     return (
         <>
-            <Priority {...props} />
+            <Departments controls={props.controls} />
             {process.env.NODE_ENV == "development" && (
                 <div className="mt-10">
                     <div>Zero Screen</div>

@@ -70,7 +70,13 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
-            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(perPage: 100, orderBy: ['name', 'asc']))),
+            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(
+                query: [
+                    'categories' => Config::isEnabledCategories()
+                ],
+                perPage: 100,
+                orderBy: ['name', 'asc']
+            ))),
         ];
     }
 
@@ -78,6 +84,8 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'config' => fn() => [
+                'enabled_categories' => Config::isEnabledCategories(),
+                'enabled_category_statistics' => Config::isEnabledCategoryStatistics(),
                 'enabled_priority_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration()
             ]
         ];

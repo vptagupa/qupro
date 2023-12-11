@@ -80,9 +80,9 @@ class Config extends Model implements Auditable
         return Config::where('name', 'Screen Interval')->first()?->value;
     }
 
-    public static function isEnabledPriorityOnQuRegistration()
+    public static function isEnabledPriorityOnQuRegistration(): bool
     {
-        return Config::where('name', 'Enable priority on Qu registration')->first()?->value;
+        return Config::where('name', 'Enable priority on Qu registration')->first()?->value ? true : false;
     }
 
     public static function screenTheme()
@@ -93,6 +93,16 @@ class Config extends Model implements Auditable
     public static function screenTicketsLimit()
     {
         return Config::where('name', 'Screen Tickets Limit')->first()?->value;
+    }
+
+    public static function isEnabledCategories(): bool
+    {
+        return Config::where('name', 'Enable categories')->first()?->value ? true : false;
+    }
+
+    public static function isEnabledCategoryStatistics(): bool
+    {
+        return Config::where('name', 'Enable category statistics')->first()?->value ? true : false;
     }
 
     public static function screen()

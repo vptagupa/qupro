@@ -1,13 +1,13 @@
-import Type from "../account.type";
 import { useEffect } from "react";
+import Categories from "../accounttypes/categories";
 
 export default ({ prev, next, ...props }) => {
     useEffect(() => {
         props.controls.setEnabledNext(false);
-        if (props.controls.form.data.account_type != "") {
+        if (props.controls.form.data.category?.id != null) {
             props.controls.setEnabledNext(true);
         }
-    }, [props.controls.form.data.account_type]);
+    }, [props.controls.form.data.category]);
 
     useEffect(() => {
         props.controls.prev(prev);
@@ -18,7 +18,7 @@ export default ({ prev, next, ...props }) => {
 
     return (
         <>
-            <Type {...props} />
+            <Categories {...props} />
             {process.env.NODE_ENV == "development" && (
                 <div className="mt-10">
                     <div>First Screen</div>

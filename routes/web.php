@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\{
     MediaController,
     AdvancePrintController,
     ScreenController,
+    CategoriesController,
     PriorityController,
     AuditController
 };
@@ -76,6 +77,13 @@ Route::middleware([
             Route::post('/', [AccountTypesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\AccountType'])->name('store');
             Route::post('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
             Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
+        });
+        Route::name('categories.')->prefix('categories')->group(function () {
+            Route::get('/', [CategoriesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Category');
+            Route::post('/list', [CategoriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Category');
+            Route::post('/', [CategoriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Category'])->name('store');
+            Route::post('/{category}', [CategoriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Category'])->name('update');
+            Route::delete('/{category}', [CategoriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Category');
         });
         Route::name('configurations.')->prefix('configurations')->group(function () {
             Route::get('/', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');

@@ -10,4 +10,11 @@ trait Audit
             $builder->where('auditable_type', 'like', '%' . $query['auditable_type'] . '%');
         });
     }
+
+    public function userCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['user']) && $query['user'], function ($builder) use ($query) {
+            $builder->with('user');
+        });
+    }
 }

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             NumFormatSeeder::class,
             AccountTypeSeeder::class,
+            CategoriesSeeder::class,
             GlobalConfigSeeder::class,
             ScreenSeeder::class,
         ]);

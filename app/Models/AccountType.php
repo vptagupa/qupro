@@ -77,6 +77,11 @@ class AccountType extends Model implements Auditable
         return $this->hasMany(Qu::class);
     }
 
+    public function served()
+    {
+        return $this->qus()->whereNotNull('called_at')->orderBy('called_at', 'desc');
+    }
+
     public function waiting()
     {
         return $this->qus()->whereNull('called_at')->orderBy('created_at', 'asc');
@@ -145,5 +150,20 @@ class AccountType extends Model implements Auditable
     public function theme()
     {
         return $this->hasMany(AccountTypeTheme::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'account_type_categories');
+    }
+
+    public function statistics(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => [
+                'served' => $this->served->first(),
+                'queue' => $this->waiting->count()
+            ]
+        );
     }
 }
