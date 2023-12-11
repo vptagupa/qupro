@@ -60,8 +60,6 @@ class Qu extends Model implements Auditable
     protected $auditInclude = [
         'counter_name',
         'teller_id',
-        'num_fulltext',
-        'num',
         'completed_at',
         'called_at',
         'notified_at',
