@@ -37,10 +37,7 @@ class AccountTypesController extends AdminController
             $this->repository->list(
                 [
                     'name' => $request->get('query'),
-                    'priorityFormat' => true,
-                    'format' => true,
-                    'file' => true,
-                    'categories' => true
+                    ...$request->get('extra')['appends'] ?? []
                 ],
                 $request->get('per_page'),
             )

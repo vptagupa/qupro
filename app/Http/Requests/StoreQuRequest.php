@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Config;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Enums\Type;
@@ -32,9 +33,10 @@ class StoreQuRequest extends FormRequest
             ],
             'priority' => 'nullable',
             'name' => 'required_if:type,other|nullable',
-            'student_info.student_no' => 'required_if:type,student|required_if:is_representative,true',
-            'student_info.name' => 'required_if:type,student|nullable',
-            'account_type.id' => 'required|integer',
+            'student_no' => 'required_if:type,student|required_if:is_representative,true',
+            'student_name' => 'required_if:type,student|nullable',
+            'account_type_id' => 'required|integer',
+            'category_id' => Config::isEnabledCategories() ? 'required|integer' : 'nullable',
             'is_representative' => 'nullable',
         ];
     }
@@ -42,7 +44,11 @@ class StoreQuRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'priority' => $this->priority ? true : false,
+            'priority' => $this->is_priority ? true : false,
+            'account_type_id' => $this->account_type['id'],
+            'student_no' => $this->student_info['student_no'],
+            'student_name' => $this->student_info['name'],
+            ...Config::isEnabledCategories() ? ['category_id' => $this->category['id']] : []
         ]);
     }
 }

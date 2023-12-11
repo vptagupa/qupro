@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\AccountType;
@@ -33,12 +34,7 @@ class AccountTypeSeeder extends Seeder
                 "num_format_id" => NumFormat::whereTitle('Accounting Series')->first()->id,
                 "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
             ],
-            [
-                "name" => "Assessment",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('Assessment Series')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
+
         ];
 
         foreach ($real as $row) {
@@ -48,6 +44,10 @@ class AccountTypeSeeder extends Seeder
                 ],
                 $row,
             );
+            $model = AccountType::where([
+                "name" => $row["name"],
+            ])->first();
+            $model->categories()->sync(Category::pluck('id'));
         }
     }
 }

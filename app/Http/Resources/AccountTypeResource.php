@@ -14,9 +14,10 @@ class AccountTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // $data = parent::toArray($request);
-        // $data['waiting_qus'] = new QuCollection($this->whenLoaded('ques'));
+        $data = parent::toArray($request);
 
-        return parent::toArray($request);
+        $data = $this->resource->append(['statistics'])->toArray();
+
+        return $data;
     }
 }

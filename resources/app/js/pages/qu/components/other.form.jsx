@@ -101,13 +101,31 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
     return (
         <>
             <Form onSubmit={(e) => submit(e)}>
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-1">
                     <div>
-                        <label className="flex gap-2 items-center justify-end">
+                        <label className="flex gap-2 items-center justify-start">
+                            <Checkbox
+                                className="lg:p-3 focus:ring focus:border-none"
+                                name="is_priority"
+                                value={form.data.is_priority ?? false}
+                                onChange={(e) => {
+                                    form.setData(
+                                        "is_priority",
+                                        e.target.checked,
+                                    );
+                                }}
+                            />
+                            <div className="lg:text-[1.5rem]">
+                                Check for priority status (PSWD/SR/Pregnant)
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label className="flex gap-2 items-center justify-start">
                             <Checkbox
                                 className="lg:p-3 focus:ring focus:border-none"
                                 name="is_representative"
-                                checked={form.data.is_representative}
+                                value={form.data.is_representative}
                                 onChange={(e) => {
                                     setRepresentative(form, e.target.checked);
                                 }}
@@ -117,7 +135,6 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                             </div>
                         </label>
                     </div>
-
                     <div>
                         <Input
                             ref={nameRef}
@@ -136,6 +153,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                             }
                         />
                     </div>
+
                     {form.data.is_representative && (
                         <div>
                             <Input

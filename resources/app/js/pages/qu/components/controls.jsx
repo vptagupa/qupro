@@ -21,7 +21,7 @@ export const useControls = ({
         method: "post",
         route: url ?? route("qu.store"),
         data: {
-            priority: null,
+            is_priority: null,
             name: "",
             type: "",
             account_type: "",
