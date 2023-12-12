@@ -6,9 +6,11 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuCollection;
 use App\Http\Requests\StoreQuRequest;
+use App\Http\Requests\NextQuRequest;
 use App\Repositories\QuRepository;
 use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
+use App\Services\Qu;
 use Illuminate\Support\Facades\Http;
 
 class BasedQuController extends AdminController
@@ -76,5 +78,20 @@ class BasedQuController extends AdminController
             'num_fulltext',
             'num'
         ]));
+    }
+
+    public function next(NextQuRequest $request)
+    {
+        if ($request->safe()->qu) {
+            Qu::completed($request->user(), $request->safe()->qu);
+        }
+
+        $accountTypeId = $request->safe()->account_type['id'];
+
+        return Qu::next(
+            $request->user(),
+            $accountTypeId,
+            $request->safe()->priority
+        );
     }
 }

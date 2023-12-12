@@ -6,7 +6,11 @@ use App\Http\Controllers\AdminController;
 use App\Repositories\AccountTypeRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-
+use App\Http\Resources\QuResource;
+use App\Repositories\QuRepository;
+use App\Http\Requests\NextQuRequest;
+use App\Http\Controllers\Shared\BasedQuController;
+use Illuminate\Support\Facades\App;
 
 class TellersControllers extends AdminController
 {
@@ -19,6 +23,18 @@ class TellersControllers extends AdminController
     {
         return $this->render('admin/teller/index', [
             'categories' => $this->repository->find($request->user()->id)->categories
+        ]);
+    }
+
+    public function next(NextQuRequest $request)
+    {
+        $qu = (new BasedQuController(
+            App::make(QuRepository::class),
+            App::make(AccountTypeRepository::class),
+        ))->next($request);
+
+        return $this->render('admin/teller/index', [
+            'next' => new QuResource($qu)
         ]);
     }
 

@@ -71,26 +71,6 @@ class QuController extends BasedQuController
         );
     }
 
-    public function next(NextQuRequest $request)
-    {
-        if ($request->safe()->qu) {
-            Qu::completed($request->user(), $request->safe()->qu);
-        }
-
-        $accountTypeId = $request->safe()->account_type['id'];
-
-        $qu = Qu::next(
-            $request->user(),
-            $accountTypeId,
-            $request->safe()->priority
-        );
-
-        return $this->render('admin/teller/index', [
-            'next' => new QuResource($qu)
-
-        ]);
-    }
-
     public function recalled(int $id, Request $request)
     {
         Qu::recalled($request->user(), $id);

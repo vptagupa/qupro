@@ -25,7 +25,8 @@ use App\Http\Controllers\FrontEnd\{
     PriorityController as FrontendPriorityController,
     AuthController,
     ForgotPasswordController,
-    ResetPasswordController
+    ResetPasswordController,
+    TellerController as FrontendTellerController
 };
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -60,7 +61,7 @@ Route::middleware([
         });
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
-            Route::post('/', [QuController::class, 'next'])->name('next');
+            Route::post('/', [TellersControllers::class, 'next'])->name('next');
             Route::patch('/', [TellersControllers::class, 'updateServeAccountType'])->name('update_serve_account_type');
             Route::patch('/{accountType}/{category}', [TellersControllers::class, 'updateServeCategory'])->name('update_serve_category');
             Route::patch('/updateCounterName', [TellersControllers::class, 'updateCounterName'])->name('update_counter_name');
@@ -149,6 +150,10 @@ Route::middleware([
     Route::name('priority.')->prefix('priority')->group(function () {
         Route::get('/', [FrontendPriorityController::class, 'index'])->name('index');
         Route::post('/', [FrontendPriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+    });
+    Route::name('tellers.')->prefix('tellers')->group(function () {
+        Route::get('/', [FrontendTellerController::class, 'index'])->name('index');
+        Route::post('/', [FrontendTellerController::class, 'next'])->name('next');
     });
 });
 
