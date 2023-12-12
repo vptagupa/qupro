@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import Serve from "../table/serve";
 import Teller from "../widgets/teller";
+import Categories from "../widgets/categories";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -16,6 +17,10 @@ export default ({ accountType }) => {
         setup: {
             name: "Counter Name",
             content: <Teller />,
+        },
+        categories: {
+            name: "Categories",
+            content: <Categories accountType={accountType} />,
         },
     });
 

@@ -62,6 +62,7 @@ Route::middleware([
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
             Route::post('/', [QuController::class, 'next'])->name('next');
             Route::patch('/', [TellersControllers::class, 'updateServeAccountType'])->name('update_serve_account_type');
+            Route::patch('/{accountType}/{category}', [TellersControllers::class, 'updateServeCategory'])->name('update_serve_category');
             Route::patch('/updateCounterName', [TellersControllers::class, 'updateCounterName'])->name('update_counter_name');
         });
         Route::name('formats.')->prefix('formats')->group(function () {

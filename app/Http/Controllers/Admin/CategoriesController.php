@@ -33,6 +33,7 @@ class CategoriesController extends AdminController
             $this->repository->list(
                 query: [
                     'name' => $request->get('query'),
+                    ...$request->get('extra')['where'] ?? []
                 ],
                 perPage: $request->get('per_page'),
                 orderBy: ['name', 'asc']

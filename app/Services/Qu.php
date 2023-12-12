@@ -68,26 +68,31 @@ class Qu
         ], $id);
     }
 
-    public static function next(int $accountTypeId, string $counterName, bool $priority = false): ?Model
+    public static function next(User $user, int $accountTypeId, bool $priority = false): ?Model
     {
         $service = new self(
             App::make(QuRepository::class)
         );
 
-        return $service->getNext($accountTypeId, $counterName, $priority);
+        return $service->getNext($user, $accountTypeId, $priority);
     }
 
-    public function getNext(int $accountTypeId, string $counterName, bool $priority = false): ?Model
+    public function getNext(User $user, int $accountTypeId, bool $priority = false): ?Model
     {
-        $next = function ($accountTypeId, $priority) {
-            return $this->repository->getNext($accountTypeId, $priority);
+        $next = function ($user, $accountTypeId, $priority) {
+            return $this->repository->getNext(
+                accountTypeId: $accountTypeId,
+                categoryId: $user->categories($accountTypeId)->pluck('categories.id')->toArray(),
+                priority: $priority
+            );
         };
 
-        $qu = $next($accountTypeId, $priority);
+        $qu = $next($user, $accountTypeId, $priority);
 
         if ($qu) {
             $qu->called_at = Carbon::now();
-            $qu->counter_name = $counterName;
+            $qu->counter_name = $user->counter_name;
+            $qu->teller_id = $user->id;
             $qu->active = true;
             $qu->save();
 

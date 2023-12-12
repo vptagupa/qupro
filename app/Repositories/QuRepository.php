@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\AccountType;
 use App\Models\Qu;
-use Carbon\Carbon;
 
 class QuRepository extends Repository
 {
@@ -16,23 +15,25 @@ class QuRepository extends Repository
     }
 
 
-    public function getNext(int $accountTypeId, bool $priority = false): ?Qu
+    public function getNext(int $accountTypeId, array|int $categoryId, bool $priority = false): ?Qu
     {
         return $this->waiting(
             accountTypeId: $accountTypeId,
+            categoryId: $categoryId,
             priority: $priority,
             limit: 2,
             paginate: false
         )->first();
     }
 
-    public function getTotals(int $accountTypeId, bool $priority): int
+    public function getTotals(int $accountTypeId, array|int $categoryId, bool $priority): int
     {
         return $this->list(
             query: [
                 'uncalled' => true,
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId,
+                'category_id' => $categoryId
             ],
             paginate: false,
             get: false
@@ -123,17 +124,19 @@ class QuRepository extends Repository
             })->count();
     }
 
-    public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
+    public function getWaiting(int $accountTypeId, array|int $categoryId, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {
             $data = collect([
                 $this->waiting(
                     accountTypeId: $accountTypeId,
-                    priority: 0
+                    priority: 0,
+                    categoryId: $categoryId
                 )->first(),
                 $this->waiting(
                     accountTypeId: $accountTypeId,
-                    priority: 1
+                    priority: 1,
+                    categoryId: $categoryId
                 )->first()
             ]);
 
@@ -142,6 +145,7 @@ class QuRepository extends Repository
 
         return $this->waiting(
             accountTypeId: $accountTypeId,
+            categoryId: $categoryId,
             priority: $priority,
             limit: $limit,
             paginate: true
@@ -150,6 +154,7 @@ class QuRepository extends Repository
 
     public function waiting(
         int $accountTypeId,
+        array|int $categoryId,
         bool $priority = null,
         int $limit = 2,
         bool $paginate = true
@@ -160,6 +165,7 @@ class QuRepository extends Repository
                 'accountType' => true,
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId,
+                'category_id' => $categoryId
             ],
             paginate: $paginate,
             orderBy: ['id', 'asc'],

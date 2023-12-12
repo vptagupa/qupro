@@ -1,21 +1,27 @@
 import { usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import { accountTypeSwitcher } from "../requests";
+import { useSelector } from "react-redux";
 
 export const useServe = () => {
-    const { user } = usePage().props;
-    const exists = (id) =>
-        (user.data?.serve_account_type_ids ?? []).includes(id);
+    const { accountTypes } = useSelector((state) => state.teller);
+
+    const exists = (id) => (accountTypes.map((d) => d.id) ?? []).includes(id);
+
+    const existsCategories = (id, categoryId) =>
+        (
+            (accountTypes.filter((d) => d.id == id)[0]?.categories ?? []).map(
+                (d) => d.id,
+            ) ?? []
+        ).includes(categoryId);
 
     const toggle = (id) => {
         accountTypeSwitcher(id).then((res) => {
             router.reload({
-                preserveScroll: true,
-                preserveState: true,
-                only: ["user"],
+                only: ["user", "categories"],
             });
         });
     };
 
-    return { toggle, exists, ids: user.data.serve_account_type_ids };
+    return { toggle, exists, existsCategories };
 };

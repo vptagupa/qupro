@@ -1,7 +1,6 @@
 import { PrimarySwitch } from "@/js/components/switch";
 import { useState } from "react";
 import { useServe } from "../hook/serve.account_type";
-
 export default ({ type }) => {
     const serve = useServe();
     const [active, setActive] = useState(serve.exists(type.id));

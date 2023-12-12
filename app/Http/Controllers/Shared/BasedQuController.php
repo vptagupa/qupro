@@ -9,6 +9,7 @@ use App\Http\Requests\StoreQuRequest;
 use App\Repositories\QuRepository;
 use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
+use Illuminate\Support\Facades\Http;
 
 class BasedQuController extends AdminController
 {
@@ -26,6 +27,9 @@ class BasedQuController extends AdminController
      */
     public function getStudentInfo()
     {
+        // $response = Http::get('https://api.pcu.priisms.online/api/students-api/202233678');
+        // print_r($response->json());
+
         return [
             'student_no' => '0001',
             'name' => 'John Smith',

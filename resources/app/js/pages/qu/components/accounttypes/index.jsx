@@ -19,6 +19,7 @@ const Component = memo(({ controls: { form } }) => {
                 setAccountTypes(
                     accountTypes.map((type) => {
                         const t = data.filter((d) => d.id == type.id)[0];
+
                         type.statistics = t.statistics;
 
                         return type;

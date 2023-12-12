@@ -38,18 +38,20 @@ class QuController extends BasedQuController
 
     public function getWaitingList(int $type, Request $request)
     {
+        $categories = $request->user()->categories($type)->pluck('categories.id')->toArray();
         return
             new WaitResource([
                 'waiting' => new QuCollection(
                     $this->repository->getWaiting(
                         accountTypeId: $type,
+                        categoryId: $categories,
                         includePriority: $request->get('priority') == true ? null : $request->get('include_priority'),
                         priority: $request->get('priority'),
                         limit: 2
                     )
                 ),
-                'priority' => $this->repository->getTotals($type, true),
-                'regular' => $this->repository->getTotals($type, false),
+                'priority' => $this->repository->getTotals($type, $categories, true),
+                'regular' => $this->repository->getTotals($type, $categories, false),
             ]);
     }
 
@@ -77,7 +79,11 @@ class QuController extends BasedQuController
 
         $accountTypeId = $request->safe()->account_type['id'];
 
-        $qu = Qu::next($accountTypeId, $request->user()->counter_name, $request->safe()->priority);
+        $qu = Qu::next(
+            $request->user(),
+            $accountTypeId,
+            $request->safe()->priority
+        );
 
         return $this->render('admin/teller/index', [
             'next' => new QuResource($qu)

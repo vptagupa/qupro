@@ -32,7 +32,6 @@ class User extends Authenticatable implements CanResetPassword, Auditable
         'password',
         'login_at',
         'counter_name',
-        'serve_account_type_ids'
     ];
 
     /**
@@ -55,7 +54,6 @@ class User extends Authenticatable implements CanResetPassword, Auditable
         'login_at' => 'datetime',
         'password' => 'hashed',
         'role' => Role::class,
-        'serve_account_type_ids' => 'array'
     ];
 
     protected $appends = [
@@ -108,5 +106,21 @@ class User extends Authenticatable implements CanResetPassword, Auditable
     public function served()
     {
         return $this->qus()->whereNotNull('called_at')->orderBy('called_at', 'desc');
+    }
+
+    public function accountTypes()
+    {
+        return $this->belongsToMany(AccountType::class, 'user_departments', 'user_id')->groupBy(['user_id', 'account_type_id']);
+    }
+
+    public function categories(?int $accountTypeId = null)
+    {
+        $query = $this->belongsToMany(Category::class, 'user_departments', 'user_id')->withPivot('account_type_id');
+
+        if (!$accountTypeId) {
+            return $query;
+        }
+
+        return $query->wherePivot('account_type_id', $accountTypeId);
     }
 }
