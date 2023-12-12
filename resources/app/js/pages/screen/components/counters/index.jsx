@@ -38,7 +38,7 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setPage(page >= chunks.length - 1 ? 0 : page + 1);
+            // setPage(page >= chunks.length - 1 ? 0 : page + 1);
         }, 5000);
 
         return () => {
@@ -48,7 +48,7 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setDefferPage(page);
+            // setDefferPage(page);
         }, 100);
 
         return () => {
