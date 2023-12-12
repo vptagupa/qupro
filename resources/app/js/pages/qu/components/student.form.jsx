@@ -31,7 +31,6 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                 next();
             })
             .catch((error) => {
-                console.log(error);
                 controls.setLoadingNext(false);
             });
     };

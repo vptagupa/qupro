@@ -47,7 +47,6 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                 next();
             })
             .catch((error) => {
-                console.log(error);
                 controls.setLoadingNext(false);
             });
     };
@@ -75,10 +74,6 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
 
         return true;
     };
-
-    const setRepresentative = useCallback((form, checked) => {
-        form.setData("is_representative", checked);
-    }, []);
 
     const submit = (e) => {
         e.preventDefault();
@@ -127,11 +122,14 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                                 name="is_representative"
                                 value={form.data.is_representative}
                                 onChange={(e) => {
-                                    setRepresentative(form, e.target.checked);
+                                    form.setData(
+                                        "is_representative",
+                                        e.target.checked,
+                                    );
                                 }}
                             />
                             <div className="lg:text-[1.5rem]">
-                                Is student representative
+                                I am a student representative
                             </div>
                         </label>
                     </div>

@@ -1,27 +1,26 @@
-import StudentForm from "../student.form";
-import OtherForm from "../other.form";
 import PropTypes from "prop-types";
-import { useEffect, memo } from "react";
+import StudetInfo from "../student.info";
+import { useEffect } from "react";
+import axios from "axios";
 
-const Component = memo(({ prev, ...props }) => {
+const Component = ({ prev, next, ...props }) => {
+    const nextHandler = () => {
+        props.controls.submit(() => next());
+    };
+
     useEffect(() => {
         props.controls.prev(prev);
+        props.controls.next(nextHandler);
+        props.controls.setNextLabel("Confirm");
         props.controls.setEnabledPrev(true);
+        props.controls.setEnabledCustom(false);
     }, []);
-
     return (
         <>
             <div>
-                {props.controls.form.data.type === "student" && (
-                    <div>
-                        <StudentForm {...props} />
-                    </div>
-                )}
-                {props.controls.form.data.type === "other" && (
-                    <div>
-                        <OtherForm {...props} />
-                    </div>
-                )}
+                <div>
+                    <StudetInfo {...props} />
+                </div>
             </div>
             {process.env.NODE_ENV == "development" && (
                 <div className="mt-10">
@@ -30,12 +29,8 @@ const Component = memo(({ prev, ...props }) => {
             )}
         </>
     );
-});
-
-Component.propTypes = {
-    controls: PropTypes.shape({
-        form: PropTypes.object.isRequired,
-    }),
 };
+
+Component.propTypes = {};
 
 export default Component;
