@@ -27,11 +27,11 @@ export default memo(function Component({ id = 0 }) {
     return (
         <>
             <Switch
-                className="bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
+                className="text-white"
                 enabled={priority}
                 setEnabled={onChange}
                 colorActive="bg-gradient-to-tr from-pink-400 to-rose-300"
-                colorInActive="bg-gradient-to-tr from-purple-400 to-fuchsia-400"
+                colorInActive="bg-gradient-to-tr from-slate-400 to-slate-100"
             />
         </>
     );

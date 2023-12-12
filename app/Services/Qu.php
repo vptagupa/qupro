@@ -111,7 +111,7 @@ class Qu
     public function dispatchCalledEvent($qu)
     {
         QuCalled::dispatch($qu);
-        ScreenQuCalled::dispatch($qu, $qu->getServedTotal());
+        ScreenQuCalled::dispatch($qu, [...$qu->getPendingTotal(), ...$qu->getServedTotal()]);
     }
 
     public function dispatchReminderEvent($qu)

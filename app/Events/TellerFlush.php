@@ -11,16 +11,16 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class TellerFlush
+class TellerFlush implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $user;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(User $user)
+    public function __construct(public User $user)
     {
-        \Log::info($user);
+
     }
 
     /**

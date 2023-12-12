@@ -15,7 +15,7 @@ export default function Component({ accountType, served, pending }) {
                 </div>
             </div>
             <div>
-                <div className="uppercase">Total Tickets</div>
+                <div className="uppercase">Pending Tickets</div>
                 <div className="text-[7rem] leading-[5rem] text-center">
                     {pending}
                 </div>

@@ -53,6 +53,8 @@ export default memo(function Component({ id = 0, url }) {
     const submit = (e) => {
         e.preventDefault();
 
+        if (form.processing) return;
+
         form.submit({
             only: ["errors", "qu", "waiting", "next"],
             preserveState: true,
@@ -93,16 +95,17 @@ export default memo(function Component({ id = 0, url }) {
                     priority
                         ? "enabled:bg-gradient-to-r  from-pink-500 to-rose-500"
                         : "enabled:bg-gradient-to-r  from-purple-500 to-fuchsia-500"
-                } flex justify-center xs:h-[3rem] lg:h-[4rem] w-full !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                } flex items-center w-full justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
                 onClick={(e) => submit(e)}
                 disabled={!enabled()}
             >
                 {form.processing && (
                     <FontAwesomeIcon
                         icon={faSpinner}
-                        className="h-6 mr-2 animate-spin"
+                        className="h-6 mr-2 text-slate-500 animate-spin absolute"
                     />
                 )}
+
                 <span>{label()}</span>
             </Button>
         </>

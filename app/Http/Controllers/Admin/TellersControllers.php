@@ -63,7 +63,7 @@ class TellersControllers extends AdminController
             $this->accountType->find($validated['accountTypeId'])
         );
 
-        // TellerFlush::dispatch($request->user());
+        TellerFlush::dispatch($request->user());
     }
 
     public function updateServeCategory(Request $request, int $accountType, int $category)

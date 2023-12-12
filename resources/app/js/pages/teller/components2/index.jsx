@@ -49,7 +49,7 @@ export default function Component({ url, accountType }) {
                     <div className="w-full text-center">
                         <Ticket id={id} />
                     </div>
-                    <div className="w-full text-center">
+                    <div className="w-full flex justify-center items-center text-center">
                         <Next id={id} url={url} />
                     </div>
                 </div>

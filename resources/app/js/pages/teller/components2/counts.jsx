@@ -2,9 +2,11 @@ import { memo, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNextStatus } from "../reducer";
 import { getWaitingList } from "../components/requests";
+import { usePage } from "@inertiajs/react";
 
 export default memo(function Component({ id = 0 }) {
     const dispatch = useDispatch();
+    const { user } = usePage().props;
     const includePriority = true;
     const [counts, setCounts] = useState({
         regular: 0,
@@ -47,7 +49,7 @@ export default memo(function Component({ id = 0 }) {
 
     useEffect(() => {
         waiting();
-    }, []);
+    }, [user]);
 
     return (
         <>
