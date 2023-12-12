@@ -35,7 +35,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
         controls.setLoadingNext(true);
         axios
             .get(
-                route("admin.qu.student.info", {
+                route("qu.student.info", {
                     studentno: form.data.student_info.student_no,
                 }),
             )

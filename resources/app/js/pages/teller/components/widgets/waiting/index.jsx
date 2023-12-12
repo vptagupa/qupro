@@ -40,7 +40,7 @@ export default memo(({ onWaitingUpdate }) => {
             get();
         });
 
-        Echo.private(`${cardContext.accountType.id}.account-type`)
+        Echo.channel(`${cardContext.accountType.id}.account-type`)
             .listen("QuCreated", (e) => {
                 get();
             })

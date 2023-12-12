@@ -20,7 +20,7 @@ export default memo(function Component({ form, type, updateAccountTypeStat }) {
     };
 
     useEffect(() => {
-        Echo.private(`${type.id}.account-type`).listen("QuCreated", (event) => {
+        Echo.channel(`${type.id}.account-type`).listen("QuCreated", (event) => {
             updateAccountTypeStat(type, event.qu.statistics);
         });
 

@@ -12,16 +12,14 @@ const Component = memo(({ controls: { form } }) => {
 
     useEffect(() => {
         axios
-            .post(route("admin.account-types.list"), {
+            .post(route("account-types.list"), {
                 per_page: 100,
             })
             .then(({ data: { data } }) => {
                 setAccountTypes(
                     accountTypes.map((type) => {
                         const t = data.filter((d) => d.id == type.id)[0];
-
                         type.statistics = t.statistics;
-
                         return type;
                     }),
                 );

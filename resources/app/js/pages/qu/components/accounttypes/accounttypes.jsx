@@ -14,7 +14,7 @@ export default memo(function Component({
                     if (t.id === type.id) {
                         t.statistics = statistics;
                     }
-                    return type;
+                    return t;
                 }),
             );
         },

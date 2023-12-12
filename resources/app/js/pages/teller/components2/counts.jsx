@@ -34,7 +34,7 @@ export default memo(function Component({ id = 0 }) {
     };
 
     useEffect(() => {
-        Echo.private(`${id}.account-type`)
+        Echo.channel(`${id}.account-type`)
             .listen("QuCreated", (e) => {
                 waiting();
             })

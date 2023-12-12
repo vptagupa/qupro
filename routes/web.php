@@ -118,7 +118,6 @@ Route::middleware([
         });
         Route::name('qu.')->prefix('qu')->group(function () {
             Route::get('/', [QuController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Qu');
-            Route::get('/studentinfo/{studentno}', [QuController::class, 'getStudentInfo'])->name('student.info')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
             Route::post('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\Qu');
@@ -143,10 +142,6 @@ Route::middleware([
         Route::redirect('/admin', '/admin/tellers');
     });
 
-    Route::name('qu.')->prefix('qu')->group(function () {
-        Route::get('/', [FrontendQuController::class, 'index'])->name('index');
-        Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
-    });
     Route::name('priority.')->prefix('priority')->group(function () {
         Route::get('/', [FrontendPriorityController::class, 'index'])->name('index');
         Route::post('/', [FrontendPriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
@@ -169,6 +164,16 @@ Route::name('screen.')->prefix('screen')->group(function () {
         });
     });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
+});
+
+Route::name('qu.')->prefix('qu')->group(function () {
+    Route::get('/', [FrontendQuController::class, 'index'])->name('index');
+    Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
+    Route::get('/studentinfo/{studentno}', [FrontendQuController::class, 'getStudentInfo'])->name('student.info');
+});
+
+Route::name('account-types.')->prefix('account-types')->group(function () {
+    Route::post('/list', [AccountTypesController::class, 'list'])->name('list');
 });
 
 Route::prefix('change-password')->name('auth.')->group(function () {

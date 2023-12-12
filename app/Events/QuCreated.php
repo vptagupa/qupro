@@ -32,6 +32,6 @@ class QuCreated implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel($this->qu['account_type']['id'] . '.account-type');
+        return new Channel($this->qu['account_type']['id'] . '.account-type');
     }
 }
