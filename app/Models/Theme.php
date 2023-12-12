@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class AccountTypeTheme extends Model implements Auditable
+class Theme extends Model implements Auditable
 {
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
-        'account_Type_id',
+        'model_type',
+        'model_id',
         'name',
         'value',
     ];
@@ -27,8 +29,14 @@ class AccountTypeTheme extends Model implements Auditable
      * @var array
      */
     protected $auditInclude = [
-        'account_Type_id',
+        'model_type',
+        'model_id',
         'name',
         'value',
     ];
+
+    public function model()
+    {
+        return $this->morphTo();
+    }
 }

@@ -18,8 +18,8 @@ export default function Component({ ticket, isActive = false }) {
                     textWrap: "balance",
                     color: isActive ? current.ticket.font : grid.ticket.font,
                 }}
-                className={`text-center w-[35%] leading-8 pl-2 ${
-                    isActive ? "text-4xl" : "text-3xl"
+                className={`text-center w-[35%] leading-10 pl-2 ${
+                    isActive ? "text-5xl" : "text-4xl"
                 }`}
             >
                 {ticket?.num_fulltext}
@@ -70,7 +70,7 @@ export default function Component({ ticket, isActive = false }) {
                                      ${
                                          isActive
                                              ? "bg-teal-400 text-4xl h-[100%] flex items-center justify-center"
-                                             : "bg-purple-900 text-2xl"
+                                             : "bg-purple-900 text-3xl"
                                      }
                                     `}
             >

@@ -46,4 +46,9 @@ class Screen extends Model implements Auditable
     {
         return (new self)->whereScreen(Enum::PREMIUM)->first();
     }
+
+    public function themes()
+    {
+        return $this->morphMany(Theme::class, 'model');
+    }
 }

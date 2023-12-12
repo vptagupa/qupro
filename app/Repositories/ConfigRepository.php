@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\FlushConfig;
+use App\Events\ScreenRefresh;
 use App\Models\Config;
 
 class ConfigRepository extends Repository
@@ -14,40 +15,6 @@ class ConfigRepository extends Repository
         $this->model = $model;
     }
 
-    public function getTheme()
-    {
-        $data = collect();
-        $value = $this->list(
-            query: [
-                'name' => 'Default Screen Theme'
-            ],
-            first: true
-        )->value;
-
-        $value = json_decode($value);
-
-        $data->push([
-            'name' => 'themeCounter',
-            'value' => $value?->themeCounter
-        ]);
-        $data->push([
-            'name' => 'themeMedia',
-            'value' => $value?->themeMedia
-        ]);
-
-        return $data;
-    }
-
-    public function resetTheme()
-    {
-        $this->updateBy([
-            'value' => [
-                'themeCounter' => null,
-                'themeMedia' => null
-            ],
-        ], 'Default Screen Theme', 'name');
-    }
-
     public function update($data, $id)
     {
         parent::update($data, $id);
@@ -55,6 +22,8 @@ class ConfigRepository extends Repository
         if (in_array($data['name'], $this->model->watch)) {
             FlushConfig::dispatch($this->find($id));
         }
+        if (in_array($data['name'], $this->model->reload)) {
+            \App\Services\Screen::refresh();
+        }
     }
-
 }

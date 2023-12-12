@@ -36,9 +36,8 @@ export default memo(
                 .listen("ScreenQuCalled", (event) => {
                     if (
                         counter.config.screen_account_type_ids.includes(
-                            parseInt(selected_account_type_id),
-                        ) ||
-                        !selected_account_type_id
+                            parseInt(event.qu.account_type_id),
+                        )
                     ) {
                         setData({
                             ...data,

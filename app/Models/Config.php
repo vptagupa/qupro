@@ -26,7 +26,12 @@ class Config extends Model implements Auditable
     public $watch = [
         'Screen Text',
         'Screen Interval',
-        'Screen Tickets Limit'
+        'Screen Tickets Limit',
+        'Counter History Limit'
+    ];
+
+    public $reload = [
+        'Counter History Limit'
     ];
 
     public $screen = [
@@ -93,6 +98,11 @@ class Config extends Model implements Auditable
     public static function screenTicketsLimit()
     {
         return Config::where('name', 'Screen Tickets Limit')->first()?->value;
+    }
+
+    public static function counterHistoryLimit()
+    {
+        return Config::where('name', 'Counter History Limit')->first()?->value;
     }
 
     public static function isEnabledCategories(): bool

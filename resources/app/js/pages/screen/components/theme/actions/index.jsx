@@ -12,6 +12,7 @@ export default function Component() {
     const dipatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [resetLoading, setResetLoading] = useState(false);
+    const counter = useSelector((state) => state.counter);
     const themeCounter = useSelector((state) => state.themeCounter);
     const themeMedia = useSelector((state) => state.themeMedia);
     const { account_type_id } = useSelector((state) => state.counter.param);
@@ -20,8 +21,12 @@ export default function Component() {
         const send = async () => {
             setLoading(true);
             await axios.post(
-                route("screen.theme.account_type.update-theme", {
-                    accountType: account_type_id ?? 0,
+                route("screen.theme.update", {
+                    type: account_type_id == null ? "screen" : "account_type",
+                    type_id:
+                        account_type_id == null
+                            ? counter.param.screen_id
+                            : account_type_id,
                 }),
                 {
                     themeCounter,
@@ -37,8 +42,12 @@ export default function Component() {
         const send = async () => {
             setResetLoading(true);
             await axios.patch(
-                route("screen.theme.account_type.reset-theme", {
-                    accountType: account_type_id ?? 0,
+                route("screen.theme.reset", {
+                    type: account_type_id == null ? "screen" : "account_type",
+                    type_id:
+                        account_type_id == null
+                            ? counter.param.screen_id
+                            : account_type_id,
                 }),
             );
             dipatch(CounterReplacer(null));

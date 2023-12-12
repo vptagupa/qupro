@@ -15,7 +15,9 @@ export default memo(({ screen_id, account_type_id }) => {
 
     const [defferPage, setDefferPage] = useState(page);
     const isActive = useCallback(
-        (ticket) => ticket?.counter == current?.counter,
+        (ticket) =>
+            ticket?.counter == current?.counter &&
+            ticket?.num_fulltext == current?.num_fulltext,
         [current],
     );
     const active = useMemo(

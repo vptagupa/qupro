@@ -62,6 +62,10 @@ class GlobalConfigSeeder extends Seeder
                 'value' => 5,
             ],
             [
+                "name" => "Counter History Limit",
+                'value' => 2,
+            ],
+            [
                 "name" => "Enable categories",
                 'value' => true,
                 'type' => 'boolean',

@@ -20,9 +20,13 @@ export default memo(function Component({ form, type, updateAccountTypeStat }) {
     };
 
     useEffect(() => {
-        Echo.channel(`${type.id}.account-type`).listen("QuCreated", (event) => {
-            updateAccountTypeStat(type, event.qu.statistics);
-        });
+        Echo.channel(`${type.id}.account-type`)
+            .listen("QuCreated", (event) => {
+                updateAccountTypeStat(type, event.qu.statistics);
+            })
+            .listen("QuCalled", (event) => {
+                updateAccountTypeStat(type, event.qu.statistics);
+            });
 
         return () => {
             Echo.leave(`${type.id}.account-type`);

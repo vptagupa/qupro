@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Events\MediaRefresh;
-use App\Models\AccountTypeTheme;
+use App\Models\Theme;
 use App\Models\Config;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
@@ -72,16 +72,19 @@ class AccountTypeRepository extends Repository
     public function updateTheme(int $id, $name, $value)
     {
         $model = $this->find($id);
-        $theme = $model->theme()->where('name', $name)->first();
+        $filter = $model->themes->filter(fn($theme) => $theme->name == $name);
 
-        if (!$theme) {
-            $model->theme()->save(new AccountTypeTheme([
-                'name' => $name,
-                'value' => $value
-            ]));
-        } else {
+        if ($filter->count() > 0) {
+            $theme = $filter->first();
             $theme->value = $value;
             $theme->save();
+        } else {
+            $model->themes()->save(
+                new Theme([
+                    'name' => $name,
+                    'value' => $value
+                ])
+            );
         }
     }
 
