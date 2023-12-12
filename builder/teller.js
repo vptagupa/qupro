@@ -4,14 +4,18 @@ const createWindow = () => {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
     const win = new BrowserWindow({
-        width: 500,
-        height: 220,
-        frame: false,
+        titleBarOverlay: true,
+        titleBarStyle: "default",
+        title: "Counter",
+        width: 400,
+        height: 250,
+        // frame: true,
         maximizable: true,
         movable: true,
         closable: true,
         x: width - 520,
         y: 20,
+        autoHideMenuBar: true,
         webPreferences: {
             webSecurity: false,
             // nodeIntegration: true,

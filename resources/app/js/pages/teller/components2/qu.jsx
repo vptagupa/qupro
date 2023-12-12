@@ -21,8 +21,13 @@ export default memo(function Component({ id = 0 }) {
                 </div>
                 <div className="text-left uppercase p-1 text-xs">
                     <div className="border-b">
-                        {qu?.is_representative && <div>{getVal(qu?.name)}</div>}
-                        {!qu?.is_representative && (
+                        {qu?.type == "other" && qu?.is_representative && (
+                            <div>{getVal(qu?.student_name)}</div>
+                        )}
+                        {qu?.type == "other" && !qu?.is_representative && (
+                            <div>{getVal(qu?.name)}</div>
+                        )}
+                        {!qu?.type == "student" && (
                             <div>{getVal(qu?.student_name)}</div>
                         )}
                     </div>

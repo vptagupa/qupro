@@ -101,7 +101,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
     return (
         <>
             <Form onSubmit={(e) => submit(e)}>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-y-1">
                     <div>
                         <label className="flex gap-2 items-center justify-start">
                             <Checkbox
@@ -116,7 +116,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                                 }}
                             />
                             <div className="lg:text-[1.5rem]">
-                                Check for priority status (PSWD/SR/Pregnant)
+                                Check for priority status (PWD/SR/Pregnant)
                             </div>
                         </label>
                     </div>

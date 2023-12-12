@@ -30,20 +30,26 @@ export default memo(function Component({ form, type, updateAccountTypeStat }) {
     }, []);
     return (
         <>
-            <div className="flex flex-col text-sm mb-2">
-                <div>Served: {type.statistics.served?.num_fulltext ?? "-"}</div>
-                <div>Queue: {type.statistics?.queue ?? 0}</div>
-            </div>
+            <div className="flex flex-col text-sm mb-2"></div>
             <div>
                 <PrimaryButton
                     type="button"
                     onClick={(e) => onClick(type)}
                     className={
-                        "flex justify-center xs:h-[2rem] xs:w-[8rem] xs:text-[0.5rem]  lg:h-[7rem] lg:w-[10rem] lg:text-[0.9rem] text-center uppercase font-extrabold " +
+                        "flex justify-center xs:w-[8rem] xs:text-[0.5rem]  lg:min-h-[10rem] lg:w-[15rem] lg:text-[2rem] text-center uppercase font-extrabold " +
                         selected(type)
                     }
                 >
-                    <span>{type.name}</span>
+                    <div className="flex flex-col gap-y-2">
+                        <div className="leading-8">{type.name}</div>
+                        <div className="flex flex-col items-start justify-center text-xs">
+                            <div>
+                                Current:{" "}
+                                {type.statistics.served?.num_fulltext ?? "-"}
+                            </div>
+                            <div>Queue: {type.statistics?.queue ?? 0}</div>
+                        </div>
+                    </div>
                 </PrimaryButton>
             </div>
         </>

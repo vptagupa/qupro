@@ -41,7 +41,7 @@ export default function Component({ url, accountType }) {
                     </div>
                 </div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex gap-x-2 items-center justify-between">
                 <div className="w-1/2 text-center">
                     <Qu id={id} />
                 </div>
