@@ -33,7 +33,7 @@ export default memo(
                         });
                     }
                 })
-                .listen("QuCalled", (event) => {
+                .listen("ScreenQuCalled", (event) => {
                     if (
                         counter.config.screen_account_type_ids.includes(
                             parseInt(selected_account_type_id),

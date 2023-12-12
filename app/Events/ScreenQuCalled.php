@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Qu;
 
-class QuCalled implements ShouldBroadcast
+class ScreenQuCalled implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,9 +20,9 @@ class QuCalled implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(Qu $qu)
+    public function __construct(Qu $qu, public $data)
     {
-        $this->qu = $qu->append(['statistics'])->toArray();
+        $this->qu = $qu->append(['ticket'])->toArray();
     }
 
     /**
@@ -32,6 +32,6 @@ class QuCalled implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel($this->qu['account_type']['id'] . '.account-type');
+        return new Channel('screen');
     }
 }

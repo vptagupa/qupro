@@ -9,20 +9,18 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Qu;
+use App\Models\User;
 
-class QuCalled implements ShouldBroadcast
+class TellerFlush
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $qu;
-
+    public $user;
     /**
      * Create a new event instance.
      */
-    public function __construct(Qu $qu)
+    public function __construct(User $user)
     {
-        $this->qu = $qu->append(['statistics'])->toArray();
+        \Log::info($user);
     }
 
     /**
@@ -32,6 +30,6 @@ class QuCalled implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new PrivateChannel($this->qu['account_type']['id'] . '.account-type');
+        return new PrivateChannel($this->user->id . '.teller');
     }
 }

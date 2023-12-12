@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\TellerFlush;
 use App\Http\Controllers\AdminController;
 use App\Repositories\AccountTypeRepository;
 use App\Repositories\UserRepository;
@@ -47,6 +48,8 @@ class TellersControllers extends AdminController
         $this->repository->update([
             'counter_name' => $request->get('name')
         ], $request->user()->id);
+
+        TellerFlush::dispatch($request->user());
     }
 
     public function updateServeAccountType(Request $request)
@@ -59,6 +62,8 @@ class TellersControllers extends AdminController
             $request->user()->id,
             $this->accountType->find($validated['accountTypeId'])
         );
+
+        // TellerFlush::dispatch($request->user());
     }
 
     public function updateServeCategory(Request $request, int $accountType, int $category)
@@ -68,5 +73,7 @@ class TellersControllers extends AdminController
             $this->accountType->find($accountType),
             $category
         );
+
+        TellerFlush::dispatch($request->user());
     }
 }

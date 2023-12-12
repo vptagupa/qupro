@@ -2,7 +2,7 @@ import Card from "./components/card";
 import { usePage } from "@inertiajs/react";
 import Switcher from "./components/switcher";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccountTypes } from "./components/reducer";
+import { setAccountTypes } from "./reducer";
 import { useEffect } from "react";
 
 const Component = ({ url }) => {

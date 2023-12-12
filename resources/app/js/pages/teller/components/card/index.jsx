@@ -30,7 +30,7 @@ const Component = ({ accountType, url }) => {
         route: url,
         data: {
             priority: "regular",
-            account_type: accountType,
+            account_type_id: accountType.id,
             qu: null,
         },
     });

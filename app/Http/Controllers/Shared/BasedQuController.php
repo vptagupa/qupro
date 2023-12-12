@@ -86,11 +86,9 @@ class BasedQuController extends AdminController
             Qu::completed($request->user(), $request->safe()->qu);
         }
 
-        $accountTypeId = $request->safe()->account_type['id'];
-
         return Qu::next(
             $request->user(),
-            $accountTypeId,
+            $request->safe()->account_type_id,
             $request->safe()->priority
         );
     }

@@ -28,3 +28,7 @@ Broadcast::channel('media', function ($user) {
     return $user->hasAccess(Access::SCREEN, Action::VIEW);
 });
 
+Broadcast::channel('{id}.teller', function ($user, $id) {
+    return $user->hasAccess(Access::DASHBOARD_TELLER, Action::VIEW);
+});
+

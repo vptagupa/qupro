@@ -10,6 +10,7 @@ use App\Models\Qu as Model;
 use App\Models\User;
 use App\Models\Config;
 use App\Events\QuCalled;
+use App\Events\ScreenQuCalled;
 use Carbon\Carbon;
 
 class Qu
@@ -109,7 +110,8 @@ class Qu
 
     public function dispatchCalledEvent($qu)
     {
-        QuCalled::dispatch($qu, $qu->getServedTotal());
+        QuCalled::dispatch($qu);
+        ScreenQuCalled::dispatch($qu, $qu->getServedTotal());
     }
 
     public function dispatchReminderEvent($qu)
