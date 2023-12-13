@@ -5,10 +5,12 @@ import ThirdScreen from "./components/screens/third.screen";
 import FinalScreen from "./components/screens/final.screen";
 import { useState, useEffect, memo, useCallback } from "react";
 import { useControls } from "./components/controls";
+import { usePage } from "@inertiajs/react";
 
 export default ({ url, priority = null }) => {
+    const { config } = usePage().props;
     const controls = useControls({ url });
-
+    console.log(config);
     const [zeroScreen, setZeroScreen] = useState(
         priority == null ? true : false,
     );
@@ -92,7 +94,11 @@ export default ({ url, priority = null }) => {
                     {zeroScreen && (
                         <ZeroScreen
                             controls={controls}
-                            next={firstScreenHandler}
+                            next={
+                                config.enabled_categories
+                                    ? firstScreenHandler
+                                    : secondScreenHandler
+                            }
                         />
                     )}
                     {firstScreen && (

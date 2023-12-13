@@ -83,7 +83,8 @@ class Qu
         $next = function ($user, $accountTypeId, $priority) {
             return $this->repository->getNext(
                 accountTypeId: $accountTypeId,
-                categoryId: $user->categories($accountTypeId)->pluck('categories.id')->toArray(),
+                categoryId: Config::isEnabledCategories() ?
+                $user->categories($accountTypeId)->pluck('categories.id')->toArray() : null,
                 priority: $priority
             );
         };

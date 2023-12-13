@@ -21,6 +21,7 @@ const Component = memo(({ prev, ...props }) => {
     };
 
     useEffect(() => {
+        props.controls.setEnabledNext(true);
         props.controls.prev(prevHandler);
         props.controls.setEnabledPrev(true);
         props.controls.setEnabledCustom(true);

@@ -15,7 +15,7 @@ class QuRepository extends Repository
     }
 
 
-    public function getNext(int $accountTypeId, array|int $categoryId, bool $priority = false): ?Qu
+    public function getNext(int $accountTypeId, array|int|null $categoryId = null, bool $priority = false): ?Qu
     {
         return $this->waiting(
             accountTypeId: $accountTypeId,
@@ -26,7 +26,7 @@ class QuRepository extends Repository
         )->first();
     }
 
-    public function getTotals(int $accountTypeId, array|int $categoryId, bool $priority): int
+    public function getTotals(int $accountTypeId, array|int|null $categoryId = null, bool $priority): int
     {
         return $this->list(
             query: [
@@ -127,7 +127,7 @@ class QuRepository extends Repository
             })->count();
     }
 
-    public function getWaiting(int $accountTypeId, array|int $categoryId, $includePriority = false, $priority = false, int $limit = 2)
+    public function getWaiting(int $accountTypeId, array|int|null $categoryId = null, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {
             $data = collect([
@@ -157,7 +157,7 @@ class QuRepository extends Repository
 
     public function waiting(
         int $accountTypeId,
-        array|int $categoryId,
+        array|int|null $categoryId = null,
         bool $priority = null,
         int $limit = 2,
         bool $paginate = true

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\QuResource;
+use App\Models\Config;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Shared\BasedQuController;
 use App\Http\Requests\StoreQuRequest;
@@ -38,7 +39,7 @@ class QuController extends BasedQuController
 
     public function getWaitingList(int $type, Request $request)
     {
-        $categories = $request->user()->categories($type)->pluck('categories.id')->toArray();
+        $categories = Config::isEnabledCategories() ? $request->user()->categories($type)->pluck('categories.id')->toArray() : null;
         return
             new WaitResource([
                 'waiting' => new QuCollection(

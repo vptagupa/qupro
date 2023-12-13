@@ -7,7 +7,6 @@ export const useThemeUpdate = (type, type_id) => {
     const dispatch = useDispatch();
     const update = useCallback(
         (type, type_id) => {
-            console.log({ type, type_id });
             axios
                 .get(
                     route("screen.theme.get", {
