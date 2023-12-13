@@ -4,13 +4,13 @@ import Qu from "./qu";
 import Ticket from "./ticket";
 import Next from "./next";
 import Ding from "./ding";
+import Settings from "./settings";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { initial } from "../reducer";
+import { initial, setPageId } from "../reducer";
 import { router, usePage } from "@inertiajs/react";
 
-export default function Component({ url, accountType }) {
-    const { user } = usePage().props;
+export default function Component({ url, accountType, page_id }) {
     const dispatch = useDispatch();
     const id = accountType.id;
     const { data } = useSelector((state) => state.teller);
@@ -19,6 +19,7 @@ export default function Component({ url, accountType }) {
 
     useEffect(() => {
         dispatch(initial(id));
+        dispatch(setPageId(page_id));
     }, []);
 
     return (
@@ -35,7 +36,7 @@ export default function Component({ url, accountType }) {
                     <Ding id={id} />
                 </div>
                 <div className="w-[60%] text-center font-bold uppercase">
-                    {accountType.name} - {user.data.counter_name}
+                    <Settings accountType={accountType} />
                 </div>
                 <div className="w-[20%] flex gap-1 items-center justify-end text-end">
                     <div>

@@ -1,131 +1,46 @@
-import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon, Cog8ToothIcon } from "@heroicons/react/20/solid";
-import { Fragment } from "react";
+import { Modal, Title } from "@/js/components/modal";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import { usePage } from "@inertiajs/react";
-import Item from "./item";
+import { useState, memo, useEffect } from "react";
+import Tabs from "./tabs";
+import Event from "@/js/helpers/event";
 
-export default function Component() {
-    const { accountTypes } = usePage().props;
+export default memo(({ accountType }) => {
+    const { user } = usePage().props;
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        Event.on(`${accountType.id}.settings.status`, (status) => {
+            setOpen(status);
+        });
+
+        return () => Event.off(`${accountType.id}.settings.status`);
+    }, []);
 
     return (
-        <div className="">
-            <Popover className="relative">
-                {({ open }) => (
-                    <>
-                        <Popover.Button
-                            className={`
-                ${open ? "text-white" : "text-slate-400/90"}
-                 group inline-flex items-center text-center rounded-mdp-2 text-base font-medium hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75`}
-                        >
-                            <Cog8ToothIcon
-                                className={`${
-                                    open ? "text-white" : "text-slate-400/90"
-                                }
-                   h-5 w-5 transition duration-150 ease-in-out group-hover:text-white`}
-                                aria-hidden="true"
-                            />
-                        </Popover.Button>
-                        <Transition
-                            as={Fragment}
-                            enter="transition ease-out duration-200"
-                            enterFrom="opacity-0 translate-y-1"
-                            enterTo="opacity-100 translate-y-0"
-                            leave="transition ease-in duration-150"
-                            leaveFrom="opacity-100 translate-y-0"
-                            leaveTo="opacity-0 translate-y-1"
-                        >
-                            <Popover.Panel className="absolute w-[300px] max-h-[200px] overflow-auto right-0 z-10 mt-3 px-4 sm:px-0">
-                                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
-                                    <div className="bg-gray-50 p-4 flex flex-col gap-2 text-slate-500">
-                                        {accountTypes.data.map((type) => (
-                                            <Item key={type.id} type={type} />
-                                        ))}
-                                    </div>
-                                </div>
-                            </Popover.Panel>
-                        </Transition>
-                    </>
-                )}
-            </Popover>
-        </div>
-    );
-}
+        <>
+            <div className="flex justify-center items-center">
+                <div
+                    onClick={(e) => setOpen(true)}
+                    className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
+                >
+                    {accountType?.name + " - " + user.data.counter_name}
+                </div>
+            </div>
 
-function IconOne() {
-    return (
-        <svg
-            width="48"
-            height="48"
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
-            <path
-                d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-                stroke="#FB923C"
-                strokeWidth="2"
-            />
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-                stroke="#FDBA74"
-                strokeWidth="2"
-            />
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-                stroke="#FDBA74"
-                strokeWidth="2"
-            />
-        </svg>
+            <Modal open={open} className="!p-0 xs:w-[90%] xs:max-w-lg bg-white">
+                <div className="relative">
+                    <div
+                        className="absolute cursor-pointer -right-3 -top-3 p-2 rounded-full bg-rose-300 text-white hover:bg-rose-500 hover:text-white"
+                        onClick={(e) => setOpen(false)}
+                    >
+                        <XMarkIcon className="h-4" title="Close Form" />
+                    </div>
+                </div>
+                <div>
+                    <Tabs accountType={accountType} />
+                </div>
+            </Modal>
+        </>
     );
-}
-
-function IconTwo() {
-    return (
-        <svg
-            width="48"
-            height="48"
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
-            <path
-                d="M28.0413 20L23.9998 13L19.9585 20M32.0828 27.0001L36.1242 34H28.0415M19.9585 34H11.8755L15.9171 27"
-                stroke="#FB923C"
-                strokeWidth="2"
-            />
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M18.804 30H29.1963L24.0001 21L18.804 30Z"
-                stroke="#FDBA74"
-                strokeWidth="2"
-            />
-        </svg>
-    );
-}
-
-function IconThree() {
-    return (
-        <svg
-            width="48"
-            height="48"
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
-            <rect x="13" y="32" width="2" height="4" fill="#FDBA74" />
-            <rect x="17" y="28" width="2" height="8" fill="#FDBA74" />
-            <rect x="21" y="24" width="2" height="12" fill="#FDBA74" />
-            <rect x="25" y="20" width="2" height="16" fill="#FDBA74" />
-            <rect x="29" y="16" width="2" height="20" fill="#FB923C" />
-            <rect x="33" y="12" width="2" height="24" fill="#FB923C" />
-        </svg>
-    );
-}
+});

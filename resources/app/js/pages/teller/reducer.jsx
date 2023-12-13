@@ -11,6 +11,7 @@ const init = {
 };
 
 const initialState = {
+    page_id: null,
     accountTypes: [],
     data: {
         0: init,
@@ -69,6 +70,9 @@ export const reducer = createSlice({
                 },
             };
         },
+        setPageId: (state, action) => {
+            state.page_id = action.payload;
+        },
     },
 });
 
@@ -79,6 +83,7 @@ export const {
     setCounts,
     setPriority,
     setNextStatus,
+    setPageId,
 } = reducer.actions;
 
 export default reducer.reducer;

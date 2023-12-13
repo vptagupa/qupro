@@ -9,7 +9,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 export default function Base() {
     const dispatch = useDispatch();
-    const { user } = usePage().props;
+    const { user, page_id } = usePage().props;
     const { accountTypes } = useSelector((state) => state.teller);
 
     useEffect(() => {
@@ -30,9 +30,10 @@ export default function Base() {
 
     useEffect(() => {
         Echo.private(`${user.data.id}.teller`).listen("TellerFlush", (e) => {
-            router.reload({
-                preserveState: false,
-            });
+            if (e.pageId != page_id)
+                router.reload({
+                    preserveState: false,
+                });
         });
 
         return () => {
@@ -61,6 +62,7 @@ export default function Base() {
                                     <Component
                                         accountType={type}
                                         url={route("tellers.next")}
+                                        page_id={page_id}
                                     />
                                 </div>
                             );

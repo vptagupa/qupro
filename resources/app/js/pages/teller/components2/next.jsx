@@ -20,19 +20,6 @@ export default memo(function Component({ id = 0, url }) {
             ? "enabled:bg-gradient-to-r  from-pink-500 to-rose-500"
             : "enabled:bg-gradient-to-r  from-purple-500 to-fuchsia-500";
 
-    const label = () => {
-        if (qu?.id) {
-            if (priority && status.has_next_priority) {
-                return "Next";
-            } else if (status.has_next_regular) {
-                return "Next";
-            }
-            return "Done";
-        }
-
-        return "Start";
-    };
-
     const enabled = (priorityForm) => {
         if (
             (priorityForm && status?.has_next_priority) ||
@@ -45,18 +32,12 @@ export default memo(function Component({ id = 0, url }) {
         }
 
         if (qu?.id) {
-            if (!priority) {
-                if (priorityForm && status?.has_next_regular) {
-                    return false;
-                }
-                if (!priorityForm && status?.has_next_priority) {
-                    return false;
-                }
-
-                return priorityForm && recentTouch;
+            if (
+                (qu?.priority && priorityForm) ||
+                (!qu?.priority && !priorityForm)
+            ) {
+                return true;
             }
-
-            return true;
         }
 
         return false;
@@ -99,6 +80,12 @@ export default memo(function Component({ id = 0, url }) {
         return xform;
     };
 
+    const setFormQu = (qu) => {
+        form.setData("qu", qu);
+        regularForm.setData("qu", qu);
+        priorityForm.setData("qu", qu);
+    };
+
     const submit = (e, formPriority) => {
         e.preventDefault();
 
@@ -124,9 +111,7 @@ export default memo(function Component({ id = 0, url }) {
     };
 
     useEffect(() => {
-        form.setData("qu", qu);
-        regularForm.setData("qu", qu);
-        priorityForm.setData("qu", qu);
+        setFormQu(qu);
     }, [qu]);
 
     useEffect(() => {

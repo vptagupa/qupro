@@ -150,6 +150,7 @@ Route::middleware([
         Route::get('/', [FrontendTellerController::class, 'index'])->name('index');
         Route::post('/', [FrontendTellerController::class, 'next'])->name('next');
         Route::get('/{qu}', [FrontendTellerController::class, 'ding'])->name('ding');
+        Route::patch('/update-counter-name', [FrontendTellerController::class, 'updateCounterName'])->name('update_counter_name');
     });
 });
 
