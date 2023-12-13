@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/js/components/buttons";
 import { useForm } from "@/js/helpers/form";
@@ -11,8 +11,14 @@ export default memo(function Component({ id = 0, url }) {
     const dispatch = useDispatch();
     const { data } = useSelector((state) => state.teller);
     const priority = data[id]?.priority ?? false;
+    const [recentTouch, setRecentTouch] = useState(priority);
     const qu = data[id]?.qu;
     const status = data[id]?.status;
+
+    const style = (priority) =>
+        priority
+            ? "enabled:bg-gradient-to-r  from-pink-500 to-rose-500"
+            : "enabled:bg-gradient-to-r  from-purple-500 to-fuchsia-500";
 
     const label = () => {
         if (qu?.id) {
@@ -27,16 +33,32 @@ export default memo(function Component({ id = 0, url }) {
         return "Start";
     };
 
-    const enabled = () => {
+    const enabled = (priorityForm) => {
         if (
-            (priority && status?.has_next_priority) ||
-            status?.has_next_regular
+            (priorityForm && status?.has_next_priority) ||
+            (priority && status?.has_next_priority)
         ) {
             return true;
         }
-        if (qu?.id) {
+        if (!priorityForm && status?.has_next_regular) {
             return true;
         }
+
+        if (qu?.id) {
+            if (!priority) {
+                if (priorityForm && status?.has_next_regular) {
+                    return false;
+                }
+                if (!priorityForm && status?.has_next_priority) {
+                    return false;
+                }
+
+                return priorityForm && recentTouch;
+            }
+
+            return true;
+        }
+
         return false;
     };
 
@@ -50,12 +72,43 @@ export default memo(function Component({ id = 0, url }) {
         },
     });
 
-    const submit = (e) => {
+    const { form: regularForm } = useForm({
+        method: "post",
+        route: url,
+        data: {
+            priority: "regular",
+            account_type_id: id,
+            qu,
+        },
+    });
+
+    const { form: priorityForm } = useForm({
+        method: "post",
+        route: url,
+        data: {
+            priority: "priority",
+            account_type_id: id,
+            qu,
+        },
+    });
+
+    const xform = (formPriority) => {
+        let xform = form;
+        if (!priority) xform = formPriority ? priorityForm : regularForm;
+
+        return xform;
+    };
+
+    const submit = (e, formPriority) => {
         e.preventDefault();
 
-        if (form.processing) return;
+        setRecentTouch(formPriority);
 
-        form.submit({
+        const submission = xform(formPriority);
+
+        if (submission.processing) return;
+
+        submission.submit({
             only: ["errors", "qu", "waiting", "next"],
             preserveState: true,
             preserveScroll: true,
@@ -72,6 +125,8 @@ export default memo(function Component({ id = 0, url }) {
 
     useEffect(() => {
         form.setData("qu", qu);
+        regularForm.setData("qu", qu);
+        priorityForm.setData("qu", qu);
     }, [qu]);
 
     useEffect(() => {
@@ -89,25 +144,65 @@ export default memo(function Component({ id = 0, url }) {
                     {JSON.stringify(form.errors)}
                 </div>
             )}
-            <Button
-                type="button"
-                className={`${
-                    priority
-                        ? "enabled:bg-gradient-to-r  from-pink-500 to-rose-500"
-                        : "enabled:bg-gradient-to-r  from-purple-500 to-fuchsia-500"
-                } flex items-center w-full justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
-                onClick={(e) => submit(e)}
-                disabled={!enabled()}
-            >
-                {form.processing && (
-                    <FontAwesomeIcon
-                        icon={faSpinner}
-                        className="h-6 mr-2 text-slate-500 animate-spin absolute"
-                    />
-                )}
+            <div className="flex gap-x-2 items-center justify-center">
+                {priority && (
+                    <Button
+                        type="button"
+                        className={`${style(
+                            true,
+                        )} flex items-center grow w-full justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                        onClick={(e) => submit(e, false)}
+                        disabled={!enabled(true)}
+                    >
+                        {xform(true).processing && (
+                            <FontAwesomeIcon
+                                icon={faSpinner}
+                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                            />
+                        )}
 
-                <span>{label()}</span>
-            </Button>
+                        <span>P</span>
+                    </Button>
+                )}
+                {!priority && (
+                    <>
+                        <Button
+                            type="button"
+                            className={`${style(
+                                true,
+                            )} flex items-center w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                            onClick={(e) => submit(e, true)}
+                            disabled={!enabled(true)}
+                        >
+                            {xform(true).processing && (
+                                <FontAwesomeIcon
+                                    icon={faSpinner}
+                                    className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                />
+                            )}
+
+                            <span>P</span>
+                        </Button>
+                        <Button
+                            type="button"
+                            className={`${style(
+                                false,
+                            )} flex items-center w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                            onClick={(e) => submit(e, false)}
+                            disabled={!enabled(false)}
+                        >
+                            {xform(false).processing && (
+                                <FontAwesomeIcon
+                                    icon={faSpinner}
+                                    className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                />
+                            )}
+
+                            <span>R</span>
+                        </Button>
+                    </>
+                )}
+            </div>
         </>
     );
 });

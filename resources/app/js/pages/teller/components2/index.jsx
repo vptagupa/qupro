@@ -3,7 +3,7 @@ import Switch from "./switch";
 import Qu from "./qu";
 import Ticket from "./ticket";
 import Next from "./next";
-import Settings from "./settings";
+import Ding from "./ding";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { initial } from "../reducer";
@@ -15,6 +15,7 @@ export default function Component({ url, accountType }) {
     const id = accountType.id;
     const { data } = useSelector((state) => state.teller);
     const priority = data[id]?.priority ?? false;
+    const qu = data[id]?.qu;
 
     useEffect(() => {
         dispatch(initial(id));
@@ -23,14 +24,15 @@ export default function Component({ url, accountType }) {
     return (
         <div
             className={`p-2 flex flex-col gap-2  text-white ${
-                priority
+                qu?.priority == true || priority
                     ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
                     : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
             }`}
         >
             <div className="flex items-center">
-                <div className="w-[20%]">
+                <div className="grow flex gap-x-1">
                     <Count id={id} />
+                    <Ding id={id} />
                 </div>
                 <div className="w-[60%] text-center font-bold uppercase">
                     {accountType.name} - {user.data.counter_name}

@@ -149,6 +149,7 @@ Route::middleware([
     Route::name('tellers.')->prefix('tellers')->group(function () {
         Route::get('/', [FrontendTellerController::class, 'index'])->name('index');
         Route::post('/', [FrontendTellerController::class, 'next'])->name('next');
+        Route::get('/{qu}', [FrontendTellerController::class, 'ding'])->name('ding');
     });
 });
 

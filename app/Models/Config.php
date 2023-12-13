@@ -97,12 +97,15 @@ class Config extends Model implements Auditable
 
     public static function screenTicketsLimit()
     {
-        return Config::where('name', 'Screen Tickets Limit')->first()?->value;
+        $value = Config::where('name', 'Screen Tickets Limit')->first()?->value;
+
+        return !$value || (int) $value <= 0 ? 1 : $value;
     }
 
     public static function counterHistoryLimit()
     {
-        return Config::where('name', 'Counter History Limit')->first()?->value;
+        $value = Config::where('name', 'Counter History Limit')->first()?->value;
+        return !$value || (int) $value <= 0 ? 1 : $value;
     }
 
     public static function isEnabledCategories(): bool

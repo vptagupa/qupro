@@ -15,12 +15,12 @@ export default memo(function Component({ id = 0 }) {
                 priority,
             }),
         );
-        dispatch(
-            setQu({
-                id,
-                qu: null,
-            }),
-        );
+        // dispatch(
+        //     setQu({
+        //         id,
+        //         qu: null,
+        //     }),
+        // );
         Event.emit(`${id}.set-priority`, priority);
     };
 

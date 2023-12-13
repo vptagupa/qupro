@@ -1,5 +1,7 @@
 import { memo, useState } from "react";
 import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 export default memo(function Component({ id = 0 }) {
     const [processing, setProcessing] = useState(false);
@@ -8,6 +10,7 @@ export default memo(function Component({ id = 0 }) {
 
     const ding = async () => {
         if (processing) return false;
+
         setProcessing(true);
         try {
             await axios.get(
@@ -22,12 +25,11 @@ export default memo(function Component({ id = 0 }) {
 
     return (
         <>
-            <div
-                className="font-bold text-[2.5rem] uppercase cursor-pointer"
+            <FontAwesomeIcon
                 onClick={(e) => ding()}
-            >
-                {qu?.num_fulltext ?? "-"}
-            </div>
+                icon={faBell}
+                className="h-6 text-yellow-400 hover:text-yellow-200 cursor-pointer"
+            />
         </>
     );
 });

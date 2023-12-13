@@ -16,7 +16,7 @@ export default memo(function Component({ id = 0 }) {
     const priority = data[id]?.priority ?? false;
 
     const waiting = async () => {
-        const response = await getWaitingList(id, includePriority, priority);
+        const response = await getWaitingList(id, includePriority);
         const data = response.data;
 
         setCounts({
@@ -53,10 +53,10 @@ export default memo(function Component({ id = 0 }) {
 
     return (
         <>
-            <div className="flex items-center justify-start gap-1 text-xs">
+            <div className="flex items-center justify-start gap-1 text-sm">
                 <div>
                     <div
-                        className="flex items-center justify-center font-bold rounded-lg w-10 h-4 p-0 text-center bg-slate-200 text-slate-600"
+                        className="flex items-center justify-center font-bold rounded-lg w-10 h-6 p-0 text-center bg-slate-200 text-slate-600"
                         title="Regular Totals"
                     >
                         {counts?.regular ?? 0}
@@ -64,7 +64,7 @@ export default memo(function Component({ id = 0 }) {
                 </div>
                 <div>
                     <div
-                        className="flex items-center justify-center font-bold rounded-lg w-10 h-4 p-0 text-center bg-rose-400 text-white"
+                        className="flex items-center justify-center font-bold rounded-lg w-10 h-6 p-0 text-center bg-rose-400 text-white"
                         title="Priority Totals"
                     >
                         {counts?.priority ?? 0}

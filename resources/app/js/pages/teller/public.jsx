@@ -43,7 +43,7 @@ export default function Base() {
     return (
         <Layout>
             <div className="h-screen bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white">
-                <div className="py-2 m-auto w-full">
+                <div className="py-2 m-auto w-full pt-6">
                     <div className="hidden absolute left-2 bottom-1 text-end">
                         <FontAwesomeIcon
                             icon={faClose}

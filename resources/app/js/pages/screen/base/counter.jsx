@@ -7,18 +7,36 @@ import { useSelector } from "react-redux";
 
 export default memo(({ screen_id, account_type_id }) => {
     const {
-        data: { current },
+        data: { current, config },
     } = useSelector((state) => state.counter);
 
     const beepRef = useRef();
 
+    const play = () => {
+        beepRef.current.pause();
+        beepRef.current.currentTime = 0;
+        beepRef.current.play();
+    };
+
     useEffect(() => {
         if (beepRef.current) {
-            beepRef.current.pause();
-            beepRef.current.currentTime = 0;
-            beepRef.current.play();
+            play();
         }
     }, [current]);
+
+    useEffect(() => {
+        Echo.channel(`ding`).listen("Ding", (event) => {
+            if (
+                config.screen_account_type_ids.includes(
+                    event.qu.account_type_id,
+                )
+            ) {
+                play();
+            }
+        });
+
+        return () => Echo.leave(`ding`);
+    }, [config.screen_account_type_ids]);
 
     return (
         <>
