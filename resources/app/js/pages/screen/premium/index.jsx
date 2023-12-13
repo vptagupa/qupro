@@ -32,6 +32,7 @@ export default function Component({ screen_id, account_type_id }) {
 
     useEffect(() => {
         Echo.channel("config.screen").listen("FlushConfig", (event) => {
+            console.log(event.data);
             dispatch(setConfig(event.data));
         });
 

@@ -75,6 +75,18 @@ class GlobalConfigSeeder extends Seeder
                 'value' => true,
                 'type' => 'boolean',
             ],
+            [
+                "name" => "On Called Ring",
+                'value' => "",
+                'acceptable' => json_encode(['mp3']),
+                'type' => 'file',
+            ],
+            [
+                "name" => "On Demand Ring",
+                'value' => "",
+                'acceptable' => json_encode(['mp3']),
+                'type' => 'file',
+            ],
         ];
 
         foreach ($real as $row) {

@@ -15,7 +15,12 @@ class Config extends Model implements Auditable
         'name',
         'value',
         'label',
-        'type'
+        'type',
+        'acceptable'
+    ];
+
+    protected $casts = [
+        'acceptable' => 'array'
     ];
 
     public static $hide = [
@@ -27,7 +32,9 @@ class Config extends Model implements Auditable
         'Screen Text',
         'Screen Interval',
         'Screen Tickets Limit',
-        'Counter History Limit'
+        'Counter History Limit',
+        'On Called Ring',
+        'On Demand Ring'
     ];
 
     public $reload = [
@@ -37,7 +44,9 @@ class Config extends Model implements Auditable
     public $screen = [
         'Screen Text',
         'Screen Interval',
-        'Screen Tickets Limit'
+        'Screen Tickets Limit',
+        'On Called Ring',
+        'On Demand Ring'
     ];
 
     /**
@@ -116,6 +125,16 @@ class Config extends Model implements Auditable
     public static function isEnabledCategoryStatistics(): bool
     {
         return Config::where('name', 'Enable category statistics')->first()?->value ? true : false;
+    }
+
+    public static function onCalledRing(): bool
+    {
+        return Config::where('name', 'On Called Ring')->first()?->value;
+    }
+
+    public static function onDemandRing(): bool
+    {
+        return Config::where('name', 'On Demand Ring')->first()?->value;
     }
 
     public static function screen()

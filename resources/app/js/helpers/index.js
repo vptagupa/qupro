@@ -43,3 +43,11 @@ export const print = (ticket) => {
         ticket,
     });
 };
+
+export const createObjectUrl = (file) => {
+    if (file instanceof File) {
+        return URL.createObjectURL(file);
+    }
+
+    return file;
+};

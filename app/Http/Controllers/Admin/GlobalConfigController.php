@@ -46,6 +46,7 @@ class GlobalConfigController extends AdminController
      */
     public function update(UpdateConfigRequest $request, int $id)
     {
+
         $this->repository->update($request->safe()->only([
             'name',
             'value',

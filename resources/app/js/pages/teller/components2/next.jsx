@@ -139,9 +139,9 @@ export default memo(function Component({ id = 0, url }) {
 
     return (
         <>
-            {form.hasErrors && (
+            {xform(recentTouch).hasErrors && (
                 <div className="mb-2 danger text-xs p-1">
-                    {JSON.stringify(form.errors)}
+                    {JSON.stringify(xform(recentTouch).errors)}
                 </div>
             )}
             <div className="flex gap-x-2 items-center justify-center">

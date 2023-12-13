@@ -9,6 +9,8 @@ export const reducer = createSlice({
                 screen_interval: 5,
                 screen_tickets_limit: 6,
                 screen_account_type_ids: [],
+                on_demand_ring: "",
+                on_called_ring: "",
             },
             tickets: [],
             current: null,

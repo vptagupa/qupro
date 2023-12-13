@@ -10,17 +10,18 @@ export default memo(({ screen_id, account_type_id }) => {
         data: { current, config },
     } = useSelector((state) => state.counter);
 
-    const beepRef = useRef();
+    const onCalled = useRef();
+    const onDemand = useRef();
 
-    const play = () => {
-        beepRef.current.pause();
-        beepRef.current.currentTime = 0;
-        beepRef.current.play();
+    const play = (ref) => {
+        ref.current.pause();
+        ref.current.currentTime = 0;
+        ref.current.play();
     };
 
     useEffect(() => {
-        if (beepRef.current) {
-            play();
+        if (onCalled.current) {
+            play(onCalled);
         }
     }, [current]);
 
@@ -31,7 +32,7 @@ export default memo(({ screen_id, account_type_id }) => {
                     event.qu.account_type_id,
                 )
             ) {
-                play();
+                play(onDemand);
             }
         });
 
@@ -42,7 +43,16 @@ export default memo(({ screen_id, account_type_id }) => {
         <>
             <Counters account_type_id={account_type_id} screen_id={screen_id} />
             <Pop current={current} account_type_id={account_type_id} />
-            <audio src={beep} ref={beepRef} className="hidden"></audio>
+            <audio
+                src={config?.on_called_ring ? config?.on_called_ring : beep}
+                ref={onCalled}
+                className="hidden"
+            ></audio>
+            <audio
+                src={config?.on_demand_ring ? config?.on_demand_ring : beep}
+                ref={onDemand}
+                className="hidden"
+            ></audio>
         </>
     );
 });
