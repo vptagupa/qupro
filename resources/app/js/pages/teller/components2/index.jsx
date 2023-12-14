@@ -8,7 +8,6 @@ import Settings from "./settings";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { initial, setPageId } from "../reducer";
-import { router, usePage } from "@inertiajs/react";
 
 export default function Component({ url, accountType, page_id }) {
     const dispatch = useDispatch();
