@@ -54,7 +54,7 @@ class BasedTellerController extends Controller
             $this->accountType->find($validated['accountTypeId'])
         );
 
-        TellerFlush::dispatch($request->user());
+        TellerFlush::dispatch($request->user(), $request->get('page_id'));
     }
 
     public function updateServeCategory(Request $request, int $accountType, int $category)
