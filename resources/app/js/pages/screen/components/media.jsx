@@ -51,19 +51,15 @@ export default memo(({ media, interval }) => {
 
     return (
         <>
-            <div>
-                <div className="flex items-center justify-center">
-                    <div className="w-[98%] h-[100%]">
-                        {play.file.is_image && <Image src={play.file.url} />}
-                        {play.file.is_video && (
-                            <Video
-                                ref={ref}
-                                url={play.file.url}
-                                onEnded={(e) => onEnded(index)}
-                            />
-                        )}
-                    </div>
-                </div>
+            <div className="w-[98%] h-[100%] relative pb-[55.25%]">
+                {play.file.is_image && <Image src={play.file.url} />}
+                {play.file.is_video && (
+                    <Video
+                        ref={ref}
+                        url={play.file.url}
+                        onEnded={(e) => onEnded(index)}
+                    />
+                )}
             </div>
         </>
     );

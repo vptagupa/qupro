@@ -11,8 +11,7 @@ export default forwardRef((props, ref) => {
                     muted
                     onEnded={(e) => props.onEnded()}
                     src={props.url}
-                    width="100%"
-                    className="rounded-lg opacity-75"
+                    className="rounded-lg opacity-75 w-[100%] h-[100%] absolute"
                 >
                     Your browser does not support the video tag.
                 </video>
