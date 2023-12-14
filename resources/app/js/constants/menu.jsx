@@ -24,13 +24,13 @@ export default [
         route: "admin.qu.index",
         permission: "REGISTRATION",
     },
-    {
-        id: "priority",
-        name: "Priority",
-        icon: <PuzzlePieceIcon className="h-4" />,
-        route: "admin.priority.index",
-        permission: "REGISTRATION",
-    },
+    // {
+    //     id: "priority",
+    //     name: "Priority",
+    //     icon: <PuzzlePieceIcon className="h-4" />,
+    //     route: "admin.priority.index",
+    //     permission: "REGISTRATION",
+    // },
     // {
     //     id: "advance.print",
     //     name: "Advance Print",

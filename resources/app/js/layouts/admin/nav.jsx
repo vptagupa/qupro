@@ -56,7 +56,7 @@ export default () => {
                     </Transition>
                 </div>
                 <div className="xs:hidden lg:block">
-                    <div className="flex">
+                    <div className="flex items-center">
                         <HomeIcon className="h-4 w-4" />
                         <ul className="text-xs text-slate-600">
                             <li className="inline px-1 after:content-['/'] after:ml-1">
