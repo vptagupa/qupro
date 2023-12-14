@@ -15,7 +15,14 @@ export default function Component() {
 
     return (
         <div className="flex flex-col items-center justify-start">
-            <div className="uppercase text-lg">Today</div>
+            <div className="uppercase text-lg">
+                {new Date().toLocaleString("en-PH", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })}
+            </div>
             <div className="text-[5rem] leading-[4rem]" ref={date}></div>
         </div>
     );
