@@ -3,7 +3,7 @@ import { useEffect, useCallback, memo } from "react";
 
 export default memo(function Component({
     form,
-    setTab,
+
     accountTypes,
     setAccountTypes,
 }) {

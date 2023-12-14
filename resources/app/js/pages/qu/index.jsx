@@ -10,7 +10,7 @@ import { usePage } from "@inertiajs/react";
 export default ({ url, priority = null }) => {
     const { config } = usePage().props;
     const controls = useControls({ url });
-    console.log(config);
+
     const [zeroScreen, setZeroScreen] = useState(
         priority == null ? true : false,
     );
@@ -111,7 +111,11 @@ export default ({ url, priority = null }) => {
                     {secondScreen && (
                         <SecondScreen
                             controls={controls}
-                            prev={firstScreenHandler}
+                            prev={
+                                config.enabled_categories
+                                    ? firstScreenHandler
+                                    : zeroScreenHandler
+                            }
                             next={thirdScreenHandler}
                             final={finalScreenHandler}
                         />

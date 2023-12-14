@@ -46,8 +46,8 @@ class StoreQuRequest extends FormRequest
         $this->merge([
             'priority' => $this->is_priority ? true : false,
             'account_type_id' => $this->account_type['id'],
-            'student_no' => $this->student_info['student_no'],
-            'student_name' => $this->student_info['name'],
+            'student_no' => $this->student_info['student_no'] ?? '',
+            'student_name' => $this->student_info['name'] ?? '',
             ...Config::isEnabledCategories() ? ['category_id' => $this->category['id']] : []
         ]);
     }

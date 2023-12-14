@@ -5,7 +5,7 @@ export default ({ prev, next, ...props }) => {
     useEffect(() => {
         props.controls.setEnabledNext(false);
         if (props.controls.form.data.account_type?.id != null) {
-            next();
+            props.controls.setEnabledNext(true);
         }
     }, [props.controls.form.data.account_type]);
 

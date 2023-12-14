@@ -134,6 +134,7 @@ export const useControls = ({
         _next,
         _prev,
         _custom,
+        enabledCustom: _enabledCustom,
         submit,
         Controls,
         setPrevLabel,

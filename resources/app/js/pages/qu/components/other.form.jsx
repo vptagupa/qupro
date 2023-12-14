@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import PropTypes from "prop-types";
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Component = ({ final, next, controls: { form, ...controls } }) => {
     const nameRef = useRef();
@@ -133,7 +133,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                             </div>
                         </label>
                     </div>
-                    <div>
+                    <div className="mt-2">
                         <Input
                             ref={nameRef}
                             type="text"
