@@ -68,10 +68,8 @@ class BasedTellerController extends Controller
         TellerFlush::dispatch($request->user(), $request->get('page_id'));
     }
 
-    public function ding(int $qu)
+    public function ding(int $accountTypeId)
     {
-        Ding::dispatch(
-            (App::make(QuRepository::class))->find($qu)
-        );
+        Ding::dispatch($accountTypeId);
     }
 }

@@ -13,7 +13,7 @@ class NumFormatPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::VIEW_ANY);
+        return $user->hasAccess(Access::FORMATS, Action::VIEW_ANY);
     }
 
     /**
@@ -21,7 +21,7 @@ class NumFormatPolicy
      */
     public function view(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::VIEW);
+        return $user->hasAccess(Access::FORMATS, Action::VIEW);
     }
 
     /**
@@ -29,7 +29,7 @@ class NumFormatPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::CREATE);
+        return $user->hasAccess(Access::FORMATS, Action::CREATE);
     }
 
     /**
@@ -37,7 +37,7 @@ class NumFormatPolicy
      */
     public function updateAny(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::UPDATE);
+        return $user->hasAccess(Access::FORMATS, Action::UPDATE);
     }
 
     /**
@@ -45,7 +45,7 @@ class NumFormatPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::DELETE);
+        return $user->hasAccess(Access::FORMATS, Action::DELETE);
     }
 
     /**
@@ -53,7 +53,7 @@ class NumFormatPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::RESTORE);
+        return $user->hasAccess(Access::FORMATS, Action::RESTORE);
     }
 
     /**
@@ -61,6 +61,6 @@ class NumFormatPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->hasAccess(Access::CONFIGURATIONS, Action::FORCE_DELETE);
+        return $user->hasAccess(Access::FORMATS, Action::FORCE_DELETE);
     }
 }

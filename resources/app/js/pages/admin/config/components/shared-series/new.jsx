@@ -18,7 +18,7 @@ export default () => {
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
             method: "post",
-            route: route("admin.configurations.shared-series.store"),
+            route: route("admin.setup.shared-series.store"),
             data: {
                 format: "",
                 account_types: [],

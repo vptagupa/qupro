@@ -17,9 +17,9 @@ class Ding implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public \App\Models\Qu $qu)
+    public function __construct(public int $accountTypeId)
     {
-        \Log::info($qu);
+
     }
 
     /**

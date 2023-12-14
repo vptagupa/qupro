@@ -1,11 +1,11 @@
-import Form from "./form";
+import Form from "../components/form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import Event from "@/js/helpers/event";
-import FooterForm from "./form.footer";
+import FooterForm from "../components/form.footer";
 import { useForm } from "@/js/helpers/form";
-import { useAccountTypes } from "../shared/account.types";
+import { useAccountTypes } from "@/js/helpers/accounttypes";
 
 export default ({ data }) => {
     const {
@@ -13,29 +13,25 @@ export default ({ data }) => {
         checkArray: accountTypesCheck,
         setData: setAccountTypes,
     } = useAccountTypes();
-    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
-        {
-            method: "patch",
-            route: route("admin.setup.shared-series.update", {
-                shared: data.id,
-            }),
-            data: {
-                id: data.id,
-                format: data.format?.id ?? "",
-                account_types: data.account_types,
-                num_start: data.num_start,
-                priority: data.priority,
-            },
+    const { open, setOpen, form, closeForm } = useForm({
+        method: "patch",
+        route: route("admin.setup.screen.update", {
+            screen: data.id,
+        }),
+        data: {
+            id: data.id,
+            screen: data.screen,
+            account_types: data.account_types,
+            name: data.name,
         },
-    );
+    });
 
     const submit = (e) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
             onSuccess: () => {
-                Event.emit("shared-series.reload");
-                setCompleted(true);
+                Event.emit("screen.reload");
                 form.clearErrors();
                 setTimeout(() => {
                     setOpen(false);
@@ -43,14 +39,6 @@ export default ({ data }) => {
             },
         });
     };
-
-    useEffect(() => {
-        if (completed) {
-            setTimeout(() => {
-                setCompleted(false);
-            }, 2000);
-        }
-    }, [completed]);
 
     useEffect(() => {
         setAccountTypes(
@@ -81,7 +69,6 @@ export default ({ data }) => {
                 <Title>Update</Title>
                 <Form
                     form={form}
-                    completed={completed}
                     accountTypes={accountTypes}
                     accountTypesCheck={accountTypesCheck}
                 />

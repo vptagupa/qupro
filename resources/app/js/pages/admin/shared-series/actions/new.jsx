@@ -1,29 +1,32 @@
-import Form from "./form";
+import Form from "../components/form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import Event from "@/js/helpers/event";
-import FooterForm from "./form.footer";
-import { useAccountTypes } from "../shared/account.types";
+import FooterForm from "../components/form.footer";
+import { useAccountTypes } from "@/js/helpers/accounttypes";
 import { useForm } from "@/js/helpers/form";
 
 export default () => {
     const {
         data: accountTypes,
-        checkArray: accountTypesCheck,
         reset: accountTypeReset,
+        checkArray: accountTypesCheck,
     } = useAccountTypes();
 
-    const { open, setOpen, form, closeForm } = useForm({
-        method: "post",
-        route: route("admin.setup.screen.store"),
-        data: {
-            name: "",
-            screen: "",
-            account_types: [],
+    const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
+        {
+            method: "post",
+            route: route("admin.setup.shared-series.store"),
+            data: {
+                format: "",
+                account_types: [],
+                num_start: "",
+                priority: false,
+            },
         },
-    });
+    );
 
     const submit = () => {
         form.submit({
@@ -31,8 +34,9 @@ export default () => {
             preserveState: true,
             only: ["errors"],
             onSuccess: () => {
+                setCompleted(true);
                 closeFormHandler();
-                Event.emit("screen.reload");
+                Event.emit("shared-series.reload");
             },
         });
     };
@@ -40,6 +44,14 @@ export default () => {
     const closeFormHandler = () => {
         closeForm();
     };
+
+    useEffect(() => {
+        if (completed) {
+            setTimeout(() => {
+                setCompleted(false);
+            }, 2000);
+        }
+    }, [completed]);
 
     useEffect(() => {
         form.setData(
@@ -65,7 +77,7 @@ export default () => {
                 <Title>Add New</Title>
                 <Form
                     form={form}
-                    successful={form.recentlySuccessful}
+                    completed={completed}
                     accountTypes={accountTypes}
                     accountTypesCheck={accountTypesCheck}
                 />

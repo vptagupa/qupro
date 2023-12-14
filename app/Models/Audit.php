@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Audit extends Model
 {
+
     public function event(): Attribute
     {
         return Attribute::make(

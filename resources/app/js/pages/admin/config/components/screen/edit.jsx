@@ -15,7 +15,7 @@ export default ({ data }) => {
     } = useAccountTypes();
     const { open, setOpen, form, closeForm } = useForm({
         method: "patch",
-        route: route("admin.configurations.screen.update", {
+        route: route("admin.setup.screen.update", {
             screen: data.id,
         }),
         data: {

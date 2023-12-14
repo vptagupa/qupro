@@ -27,11 +27,7 @@ export default memo(({ screen_id, account_type_id }) => {
 
     useEffect(() => {
         Echo.channel(`ding`).listen("Ding", (event) => {
-            if (
-                config.screen_account_type_ids.includes(
-                    event.qu.account_type_id,
-                )
-            ) {
+            if (config.screen_account_type_ids.includes(event.accountTypeId)) {
                 play(onDemand);
             }
         });

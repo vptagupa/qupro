@@ -1,11 +1,11 @@
-import Form from "./form";
+import Form from "../components/form";
 import { Modal, Title, Footer } from "@/js/components/modal";
 import { Button } from "@/js/components/buttons";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import Event from "@/js/helpers/event";
-import FooterForm from "./form.footer";
-import { useAccountTypes } from "../shared/account.types";
+import FooterForm from "../components/form.footer";
+import { useAccountTypes } from "@/js/helpers/accounttypes";
 import { useForm } from "@/js/helpers/form";
 
 export default () => {

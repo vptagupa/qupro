@@ -9,7 +9,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 export default ({ data, ...props }) => {
     const { open, setOpen, form, closeForm } = useForm({
         method: "post",
-        route: route("admin.categories.update", {
+        route: route("admin.setup.categories.update", {
             category: data.id,
         }),
         data: {

@@ -25,7 +25,8 @@ class Config extends Model implements Auditable
 
     public static $hide = [
         'Default Screen Theme',
-        // 'Screen Tickets Limit'
+        'Enable category statistics',
+        'Enable priority on Qu registration'
     ];
 
     public $watch = [

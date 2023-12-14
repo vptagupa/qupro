@@ -34,6 +34,10 @@ export default function Component({ item }) {
                                 <td className={style}>{item.user.name}</td>
                             </tr>
                             <tr className={border}>
+                                <td className={styleName}>Date & Time:</td>
+                                <td className={style}>{item.created_at}</td>
+                            </tr>
+                            <tr className={border}>
                                 <td className={styleName}>Event:</td>
                                 <td className={style}>{item.event}</td>
                             </tr>

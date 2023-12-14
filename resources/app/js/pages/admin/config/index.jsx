@@ -14,26 +14,6 @@ const Component = (props) => {
                 <div className="font-bold text-lg mb-4">Configurations</div>
                 <div className="columns-2 gap-3">
                     <div className="mb-3">
-                        <div>
-                            <SharedTitle />
-                        </div>
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
-                            <div className="rounded-2xl">
-                                <SharedSeries />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mb-3">
-                        <div>
-                            <ScreenTitle />
-                        </div>
-                        <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
-                            <div className="rounded-2xl">
-                                <Screen />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="mb-3">
                         <div className="rounded-2xl shadow-sm bg-white pt-2 pb-3 border border-solid border-slate-400">
                             <div className="rounded-2xl">
                                 <Global />

@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateScreenRequest;
 use App\Http\Resources\ScreenResource;
 use Illuminate\Http\Request;
 use App\Repositories\ScreenRepository;
+use App\Enums\Screen;
 
 class ScreenController extends AdminController
 {
@@ -16,6 +17,16 @@ class ScreenController extends AdminController
     public function __construct(private ScreenRepository $repository)
     {
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return $this->render('admin/screen/index', [
+            'screens' => Screen::all()
+        ]);
     }
 
     public function list(Request $request)

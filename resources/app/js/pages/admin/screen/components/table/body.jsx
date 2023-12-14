@@ -12,17 +12,24 @@ import { Input } from "@/js/components/form";
 import { SecondaryButton } from "@/js/components/buttons";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
-import Info from "../info";
+import Edit from "../../actions/edit";
+import Delete from "../../actions/confirm.delete";
 
-const Component = ({ data, pagination, setSearch }) => {
+const Component = ({
+    data,
+    pagination,
+    setSearch,
+    handleSearch,
+    handleDelete,
+}) => {
     return (
         <>
-            <div className="flex justify-end space-x-2 p-2">
+            <div className="flex justify-end items-center space-x-2 p-2">
                 <div className="flex items-center">
                     <Input
                         type="text"
                         placeholder="Search by name"
-                        className="border-r-0 rounded-r-none lg:w-96"
+                        className="border-r-0 rounded-r-none w-full"
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <SecondaryButton
@@ -42,14 +49,8 @@ const Component = ({ data, pagination, setSearch }) => {
                     <>
                         <Theader>
                             <TrH>
-                                <Th>User</Th>
-                                <Th>Event</Th>
-                                <Th>Model</Th>
-                                <Th>Id</Th>
-                                <Th>Old Values</Th>
-                                <Th>New Values</Th>
-                                <Th>Date & Time</Th>
-
+                                <Th>Name</Th>
+                                <Th>Screen</Th>
                                 <Th>Action</Th>
                             </TrH>
                         </Theader>
@@ -57,24 +58,26 @@ const Component = ({ data, pagination, setSearch }) => {
                             {tableList.map((item) => {
                                 return (
                                     <Tr key={item.id}>
-                                        <Td>{item.user.name}</Td>
-                                        <Td>{item.event}</Td>
-                                        <Td>{item.auditable_type}</Td>
-                                        <Td>{item.auditable_id}</Td>
                                         <Td>
-                                            <pre>{item.old_values}</pre>
-                                        </Td>
-                                        <Td>
-                                            <pre>{item.new_values}</pre>
-                                        </Td>
-                                        <Td>{item.created_at}</Td>
-
-                                        <Td>
-                                            <div
-                                                className="flex items-center justify-end cursor-pointer"
-                                                title="View"
+                                            <a
+                                                href={route("screen.index", {
+                                                    screen: item.id,
+                                                })}
+                                                className="text-blue-600"
+                                                target="_blank"
                                             >
-                                                <Info item={item} />
+                                                {item.id}# {item.name}
+                                            </a>
+                                        </Td>
+                                        <Td>{item.screen}</Td>
+                                        <Td>
+                                            <div className="flex space-x-2 justify-end">
+                                                <Edit data={item} />
+                                                <Delete
+                                                    handleDelete={(e) =>
+                                                        handleDelete(item.id)
+                                                    }
+                                                />
                                             </div>
                                         </Td>
                                     </Tr>
@@ -82,12 +85,9 @@ const Component = ({ data, pagination, setSearch }) => {
                             })}
                             {tableList.length <= 0 && (
                                 <Tr>
-                                    <Td colSpan="7" className="text-center">
+                                    <Td colSpan="4" className="text-center">
                                         No records
                                     </Td>
-                                    <Td>&nbsp;</Td>
-                                    <Td>&nbsp;</Td>
-                                    <Td>&nbsp;</Td>
                                     <Td>&nbsp;</Td>
                                     <Td>&nbsp;</Td>
                                 </Tr>

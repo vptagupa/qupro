@@ -20,12 +20,12 @@ const Component = (props) => {
     const { data, setSearch, pagination, deleteHandler, searchHandler } =
         useTable({
             initialParams: INITIAL_PARAMS,
-            listRoute: route("admin.account-types.list"),
+            listRoute: route("admin.setup.account-types.list"),
         });
 
     const handleDelete = async (id) => {
         deleteHandler(
-            route("admin.account-types.destroy", {
+            route("admin.setup.account-types.destroy", {
                 type: id,
             }),
         );

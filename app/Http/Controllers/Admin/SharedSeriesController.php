@@ -19,6 +19,14 @@ class SharedSeriesController extends AdminController
         // 
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return $this->render('admin/shared-series/index');
+    }
+
     public function list(Request $request)
     {
         return new SharedSeriesCollection(

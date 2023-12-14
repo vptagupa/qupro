@@ -15,7 +15,7 @@ export default memo(function Component({ id = 0 }) {
         try {
             await axios.get(
                 route("tellers.ding", {
-                    qu: qu?.id ?? 0,
+                    accountTypeId: id,
                 }),
             );
         } catch (e) {}
@@ -26,9 +26,12 @@ export default memo(function Component({ id = 0 }) {
     return (
         <>
             <FontAwesomeIcon
+                title="On Demand Ring"
                 onClick={(e) => ding()}
                 icon={faBell}
-                className="h-6 text-yellow-400 hover:text-yellow-200 cursor-pointer"
+                className={`h-6 text-yellow-400 hover:text-yellow-200 cursor-pointer ${
+                    processing ? "animate-bounce" : ""
+                }`}
             />
         </>
     );

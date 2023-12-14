@@ -7,7 +7,7 @@ export default function Component({ accountType }) {
 
     useEffect(() => {
         axios
-            .post(route("admin.categories.list"), {
+            .post(route("admin.setup.categories.list"), {
                 extra: {
                     where: { account_type_id: accountType.id },
                 },
