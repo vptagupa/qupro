@@ -64,7 +64,9 @@ export default function Component({ nav }) {
                                     <li
                                         key={nav.name + "" + i}
                                         className={`${
-                                            isActive(nav) ? "font-bold" : ""
+                                            isActive(nav)
+                                                ? "font-bold marker:text-[1rem]"
+                                                : ""
                                         }`}
                                     >
                                         <Link href={url}>

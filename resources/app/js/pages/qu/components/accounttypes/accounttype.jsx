@@ -43,7 +43,7 @@ export default memo(function Component({ form, type, updateAccountTypeStat }) {
                     selected(type)
                 }
             >
-                <div className="grow flex items-center text-2xl leading-8 h-20">
+                <div className="grow flex items-center text-2xl  leading-8 h-20">
                     {type.name}
                 </div>
                 <div className="w-full bg-slate-500 rounded-lg p-2 flex flex-col items-start justify-center text-xs">

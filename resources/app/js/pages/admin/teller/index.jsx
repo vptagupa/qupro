@@ -5,7 +5,14 @@ export default function Component(props) {
     return (
         <>
             <Layout>
-                <Teller url={route("admin.tellers.next")} />
+                <div className="font-bold text-lg">
+                    <a href={route("tellers.index")} target="_blank">
+                        View Outside
+                    </a>
+                </div>
+                <div>
+                    <Teller url={route("admin.tellers.next")} />
+                </div>
             </Layout>
         </>
     );
