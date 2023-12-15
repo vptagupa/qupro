@@ -86,7 +86,8 @@ class HandleInertiaRequests extends Middleware
             'config' => fn() => [
                 'enabled_categories' => Config::isEnabledCategories(),
                 'enabled_category_statistics' => Config::isEnabledCategoryStatistics(),
-                'enabled_priority_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration()
+                'enabled_priority_on_qu_registration' => Config::isEnabledPriorityOnQuRegistration(),
+                'category_limit' => Config::categoryLimit(),
             ]
         ];
     }

@@ -128,6 +128,11 @@ class Config extends Model implements Auditable
         return Config::where('name', 'Enable category statistics')->first()?->value ? true : false;
     }
 
+    public static function categoryLimit(): int
+    {
+        return (int) Config::where('name', 'Category Limit')->first()?->value;
+    }
+
     public static function onCalledRing(): bool
     {
         return Config::where('name', 'On Called Ring')->first()?->value;

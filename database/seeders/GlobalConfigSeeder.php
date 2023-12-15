@@ -66,6 +66,10 @@ class GlobalConfigSeeder extends Seeder
                 'value' => 2,
             ],
             [
+                "name" => "Category Limit",
+                'value' => 2,
+            ],
+            [
                 "name" => "Enable categories",
                 'value' => true,
                 'type' => 'boolean',
@@ -87,6 +91,7 @@ class GlobalConfigSeeder extends Seeder
                 'acceptable' => json_encode(['mp3']),
                 'type' => 'file',
             ],
+
         ];
 
         foreach ($real as $row) {
