@@ -41,11 +41,14 @@ export default memo(function Component({
     return (
         <>
             <div
-                className={`flex flex-wrap justify-center  gap-y-4 gap-x-2 items-center`}
+                className={`flex xs:max-sm:flex-col w-full flex-wrap justify-center  gap-y-4 gap-x-2  items-center`}
             >
                 {accountTypes.map((type) => {
                     return (
-                        <div key={type.id} className="flex flex-col">
+                        <div
+                            key={type.id}
+                            className="xs:max-sm:w-full md:w-[15rem]"
+                        >
                             <AccountType
                                 form={form}
                                 type={type}

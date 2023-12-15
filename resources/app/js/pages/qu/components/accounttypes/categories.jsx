@@ -35,15 +35,15 @@ export default function Component({ controls: { form, ...controls } }) {
 
     return (
         <>
-            <div className="text-lg font-extrabold uppercase mb-4">
+            <div className="text-3xl font-extrabold uppercase mb-4">
                 {form.data.account_type.name}
             </div>
-            <div className="flex flex-wrap w-full justify-center gap-2">
+            <div className="flex xs:max-sm:flex-col flex-wrap w-full justify-center gap-2">
                 {categories.length > config.category_limit && (
                     <InfoButton
                         disabled={page <= 0}
                         type="button"
-                        className={`flex justify-center xs:h-[2rem] xs:w-[8rem] xs:text-[0.5rem]  lg:h-[7rem] lg:w-[10rem]  lg:text-[2rem] text-center uppercase font-extrabold `}
+                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
                         onClick={(e) => {
                             setPage(page - limiter);
                         }}
@@ -53,19 +53,17 @@ export default function Component({ controls: { form, ...controls } }) {
                 )}
 
                 {batch.map((category) => (
-                    <div key={category.id} className="flex flex-col">
-                        <div>
-                            <PrimaryButton
-                                type="button"
-                                className={
-                                    "flex justify-center xs:h-[2rem] xs:w-[8rem] xs:text-[0.5rem]  lg:h-[7rem] lg:w-[10rem]  lg:text-[0.9rem] text-center uppercase font-extrabold " +
-                                    selected(category)
-                                }
-                                onClick={(e) => onClick(category)}
-                            >
-                                <span>{category.name}</span>
-                            </PrimaryButton>
-                        </div>
+                    <div key={category.id}>
+                        <PrimaryButton
+                            type="button"
+                            className={
+                                "flex justify-center xs:max-sm:w-full md:w-[10rem] leading-6  h-24 text-xl text-center uppercase font-extrabold " +
+                                selected(category)
+                            }
+                            onClick={(e) => onClick(category)}
+                        >
+                            <span>{category.name}</span>
+                        </PrimaryButton>
                     </div>
                 ))}
 
@@ -75,7 +73,7 @@ export default function Component({ controls: { form, ...controls } }) {
                             page + limiter < categories.length ? false : true
                         }
                         type="button"
-                        className={`flex justify-center xs:h-[2rem] xs:w-[8rem] xs:text-[0.5rem]  lg:h-[7rem] lg:w-[10rem]  lg:text-[2rem] text-center uppercase font-extrabold `}
+                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
                         onClick={(e) => {
                             setPage(page + limiter);
                         }}
