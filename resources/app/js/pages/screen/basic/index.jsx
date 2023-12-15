@@ -21,7 +21,7 @@ export default function Component({ screen_id, account_type_id }) {
 
     return (
         <Layout>
-            <div className="m-auto w-screen h-screen overflow-hidden">
+            <div className="m-auto w-screen h-screen overflow-hidden bg-layout">
                 <div className="flex flex-col items-center justify-center h-screen">
                     <div className="!h-[80%] lg:w-[30%] xs:w-full  rounded-2xl grow">
                         <Counter

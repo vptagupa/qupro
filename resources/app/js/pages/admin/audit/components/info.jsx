@@ -16,7 +16,7 @@ export default function Component({ item }) {
                 onClick={(e) => setOpen(true)}
             />
 
-            <Modal open={open} className="bg-white rounded-lg">
+            <Modal open={open} className="w-1/2 bg-white rounded-lg">
                 <div className="relative">
                     <div
                         className="absolute cursor-pointer -right-2 -top-2 p-2 rounded-full bg-rose-300 text-white hover:bg-rose-500 hover:text-white"

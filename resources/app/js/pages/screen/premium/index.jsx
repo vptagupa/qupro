@@ -42,7 +42,7 @@ export default function Component({ screen_id, account_type_id }) {
 
     return (
         <Layout>
-            <div className="m-auto w-screen h-screen">
+            <div className="m-auto w-screen h-screen bg-layout">
                 <div className="flex items-center justify-center xs:max-lg:flex-col">
                     <div
                         className="xs:max-lg:w-full w-[35%] h-screen overflow-hidden bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "

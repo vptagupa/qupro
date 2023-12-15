@@ -48,6 +48,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', [AuthController::class, 'redirectTo']);
     Route::name('admin.')->prefix('admin')->group(function () {
+        Route::get('/', [AuthController::class, 'redirectTo']);
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', [AuthController::class, 'redirectTo'])->name('index');
         });

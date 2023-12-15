@@ -1,5 +1,5 @@
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 import { canAccess } from "@/js/helpers/access";
 
@@ -18,6 +18,7 @@ function MenuLink({ nav, onClick, ...props }) {
 }
 
 export default function Component({ nav }) {
+    const { user } = usePage().props;
     const [open, setOpen] = useState(isActive(nav));
     return (
         <>
@@ -57,7 +58,7 @@ export default function Component({ nav }) {
                 <div id={nav.id}>
                     <ul className="ms-4 ps-3 list-disc">
                         {nav.children
-                            .filter((nav) => canAccess(nav.permission))
+                            .filter((nav) => canAccess(user, nav.permission))
                             .map((nav, i) => {
                                 const url = nav?.route ? route(nav.route) : "#";
                                 return (

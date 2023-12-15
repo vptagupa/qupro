@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function render($view, $options = [], $layout = "app-admin")
+    public function render($view, $options = [], $layout = "app")
     {
         $inertia = $this->inertia()::render($view, $options);
 

@@ -28,7 +28,6 @@ class ScreenController extends Controller
     {
         return $this->render(
             view: "screen/{$screen->screen->value}/index",
-            layout: 'app-layout',
             options: [
                 'screen_id' => $screen->id,
                 'account_type_id' => $request->get('department')
