@@ -17,7 +17,6 @@ class TellerController extends BasedTellerController
     {
         return $this->render(
             view: 'teller/public',
-            layout: 'app-qu',
             options: [
                 'page_id' => str()->random(20),
                 'categories' => $this->repository->find($request->user()->id)->categories
