@@ -2,12 +2,13 @@ import ZeroScreen from "./components/screens/zero.screen";
 import FirstScreen from "./components/screens/first.screen";
 import SecondScreen from "./components/screens/second.screen";
 import ThirdScreen from "./components/screens/third.screen";
-import FourthScreen from "./components/screens/fourth.screen";
 import FinalScreen from "./components/screens/final.screen";
 import { useState, useEffect, memo, useCallback } from "react";
 import { useControls } from "./components/controls";
+import { usePage } from "@inertiajs/react";
 
 export default ({ url, priority = null }) => {
+    const { config } = usePage().props;
     const controls = useControls({ url });
 
     const [zeroScreen, setZeroScreen] = useState(
@@ -18,7 +19,6 @@ export default ({ url, priority = null }) => {
     );
     const [secondScreen, setSecondScreen] = useState(false);
     const [thirdScreen, setThirdScreen] = useState(false);
-    const [fourthScreen, setFourthScreen] = useState(false);
     const [finalScreen, setFinalScreen] = useState(false);
 
     const zeroScreenHandler = useCallback(() => {
@@ -26,7 +26,6 @@ export default ({ url, priority = null }) => {
         setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(false);
-        setFourthScreen(false);
         setFinalScreen(false);
         controls.form.clearErrors();
         controls.form.reset();
@@ -37,17 +36,14 @@ export default ({ url, priority = null }) => {
         setFirstScreen(true);
         setSecondScreen(false);
         setThirdScreen(false);
-        setFourthScreen(false);
         setFinalScreen(false);
     }, [controls]);
 
     const secondScreenHandler = useCallback(() => {
         setZeroScreen(false);
         setFirstScreen(false);
-        setFirstScreen(false);
         setSecondScreen(true);
         setThirdScreen(false);
-        setFourthScreen(false);
         setFinalScreen(false);
         controls.form.clearErrors();
     }, [controls]);
@@ -55,21 +51,8 @@ export default ({ url, priority = null }) => {
     const thirdScreenHandler = useCallback(() => {
         setZeroScreen(false);
         setFirstScreen(false);
-        setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(true);
-        setFourthScreen(false);
-        setFinalScreen(false);
-        controls.form.clearErrors();
-    }, [controls]);
-
-    const fourthScreenHandler = useCallback(() => {
-        setZeroScreen(false);
-        setFirstScreen(false);
-        setFirstScreen(false);
-        setSecondScreen(false);
-        setThirdScreen(false);
-        setFourthScreen(true);
         setFinalScreen(false);
         controls.form.clearErrors();
     }, [controls]);
@@ -77,10 +60,8 @@ export default ({ url, priority = null }) => {
     const finalScreenHandler = useCallback(() => {
         setZeroScreen(false);
         setFirstScreen(false);
-        setFirstScreen(false);
         setSecondScreen(false);
         setThirdScreen(false);
-        setFourthScreen(false);
         setFinalScreen(true);
         controls.form.clearErrors();
     }, [controls]);
@@ -113,7 +94,11 @@ export default ({ url, priority = null }) => {
                     {zeroScreen && (
                         <ZeroScreen
                             controls={controls}
-                            next={firstScreenHandler}
+                            next={
+                                config.enabled_categories
+                                    ? firstScreenHandler
+                                    : secondScreenHandler
+                            }
                         />
                     )}
                     {firstScreen && (
@@ -126,25 +111,24 @@ export default ({ url, priority = null }) => {
                     {secondScreen && (
                         <SecondScreen
                             controls={controls}
-                            prev={firstScreenHandler}
+                            prev={
+                                config.enabled_categories
+                                    ? firstScreenHandler
+                                    : zeroScreenHandler
+                            }
                             next={thirdScreenHandler}
+                            final={finalScreenHandler}
                         />
                     )}
                     {thirdScreen && (
                         <ThirdScreen
                             controls={controls}
                             prev={secondScreenHandler}
-                            next={fourthScreenHandler}
+                            next={finalScreenHandler}
                             final={finalScreenHandler}
                         />
                     )}
-                    {fourthScreen && (
-                        <FourthScreen
-                            controls={controls}
-                            prev={thirdScreenHandler}
-                            next={finalScreenHandler}
-                        />
-                    )}
+
                     {finalScreen && (
                         <FinalScreen final={finalHandler} controls={controls} />
                     )}

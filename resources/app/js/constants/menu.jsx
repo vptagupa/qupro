@@ -1,12 +1,12 @@
 import {
-    HomeIcon,
-    UserPlusIcon,
     UserGroupIcon,
     WrenchScrewdriverIcon,
     WindowIcon,
     PuzzlePieceIcon,
     CubeIcon,
     SquaresPlusIcon,
+    Cog6ToothIcon,
+    SwatchIcon,
 } from "@heroicons/react/24/solid";
 
 export default [
@@ -24,13 +24,13 @@ export default [
         route: "admin.qu.index",
         permission: "REGISTRATION",
     },
-    {
-        id: "priority",
-        name: "Priority",
-        icon: <PuzzlePieceIcon className="h-4" />,
-        route: "admin.priority.index",
-        permission: "REGISTRATION",
-    },
+    // {
+    //     id: "priority",
+    //     name: "Priority",
+    //     icon: <PuzzlePieceIcon className="h-4" />,
+    //     route: "admin.priority.index",
+    //     permission: "REGISTRATION",
+    // },
     // {
     //     id: "advance.print",
     //     name: "Advance Print",
@@ -38,33 +38,57 @@ export default [
     //     route: "admin.advance-print.index",
     //     permission: "REGISTRATION",
     // },
-    {
-        id: "account.types",
-        name: "Departments",
-        icon: <CubeIcon className="h-4" />,
-        route: "admin.account-types.index",
-        permission: "ACCOUNT_TYPES",
-    },
-    {
-        id: "categories",
-        name: "Categories",
-        icon: <CubeIcon className="h-4" />,
-        route: "admin.categories.index",
-        permission: "CATEGORIES",
-    },
-    {
-        id: "numformat",
-        name: "Formats",
-        icon: <SquaresPlusIcon className="h-4" />,
-        route: "admin.formats.index",
-        permission: "CONFIGURATIONS",
-    },
+
     {
         id: "configurations",
         name: "Configurations",
-        icon: <WrenchScrewdriverIcon className="h-4" />,
+        icon: <Cog6ToothIcon className="h-4" />,
         route: "admin.configurations.index",
         permission: "CONFIGURATIONS",
+    },
+    {
+        id: "setup",
+        name: "Setup",
+        icon: <WrenchScrewdriverIcon className="h-4" />,
+        route: "admin.setup.*",
+        permission: "CONFIGURATIONS",
+        children: [
+            {
+                id: "account.types",
+                name: "Departments",
+                icon: <CubeIcon className="h-4" />,
+                route: "admin.setup.account-types.index",
+                permission: "ACCOUNT_TYPES",
+            },
+            {
+                id: "categories",
+                name: "Categories",
+                icon: <CubeIcon className="h-4" />,
+                route: "admin.setup.categories.index",
+                permission: "CATEGORIES",
+            },
+            {
+                id: "numformat",
+                name: "Formats",
+                icon: <SquaresPlusIcon className="h-4" />,
+                route: "admin.setup.formats.index",
+                permission: "FORMATS",
+            },
+            {
+                id: "screens",
+                name: "Screens",
+                icon: <SquaresPlusIcon className="h-4" />,
+                route: "admin.setup.screen.index",
+                permission: "SCREENS",
+            },
+            {
+                id: "shared-series",
+                name: "Shared Series",
+                icon: <SquaresPlusIcon className="h-4" />,
+                route: "admin.setup.shared-series.index",
+                permission: "SHARED_SERIES",
+            },
+        ],
     },
     {
         id: "users",
@@ -76,7 +100,7 @@ export default [
     {
         id: "audit",
         name: "Audit Trails",
-        icon: <UserGroupIcon className="h-4" />,
+        icon: <SwatchIcon className="h-4" />,
         route: "admin.audit.index",
         permission: "AUDIT",
     },

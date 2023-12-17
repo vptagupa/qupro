@@ -28,7 +28,6 @@ class ScreenController extends Controller
     {
         return $this->render(
             view: "screen/{$screen->screen->value}/index",
-            layout: 'app-layout',
             options: [
                 'screen_id' => $screen->id,
                 'account_type_id' => $request->get('department')
@@ -42,7 +41,8 @@ class ScreenController extends Controller
             ...$this->getConfig($screen),
             'tickets' => [
                 'data' => $this->qu->getLatestServed(
-                    includedAccountTypes: $screen->account_type_ids
+                    includedAccountTypes: $screen->account_type_ids,
+                    limit: Config::counterHistoryLimit()
                 ),
                 'current' => (function () use ($screen) {
                     $qu = $this->qu->currentServed($screen->account_type_ids);

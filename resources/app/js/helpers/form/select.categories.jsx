@@ -24,7 +24,7 @@ export default function Component({ selector, data: selectedAs, is }) {
 
     useEffect(() => {
         axios
-            .post(route("admin.categories.list"), {
+            .post(route("admin.setup.categories.list"), {
                 query: "",
                 per_page: 100,
             })

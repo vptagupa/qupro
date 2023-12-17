@@ -136,4 +136,13 @@ trait Qu
             $builder->Orwhere('num_fulltext', 'like', '%' . $query['name'] . '%');
         });
     }
+
+    protected function categoryIdCondition(&$builder, $query)
+    {
+        return $builder->when(isset($query['category_id']) && $query['category_id'], function ($builder) use ($query) {
+            $ids = is_array($query['category_id']) ? $query['category_id'] : [$query['category_id']];
+
+            $builder->whereIn('category_id', $ids);
+        });
+    }
 }

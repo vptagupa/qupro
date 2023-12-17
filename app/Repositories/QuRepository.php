@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\AccountType;
 use App\Models\Qu;
-use Carbon\Carbon;
 
 class QuRepository extends Repository
 {
@@ -16,23 +15,25 @@ class QuRepository extends Repository
     }
 
 
-    public function getNext(int $accountTypeId, bool $priority = false): ?Qu
+    public function getNext(int $accountTypeId, array|int|null $categoryId = null, bool $priority = false): ?Qu
     {
         return $this->waiting(
             accountTypeId: $accountTypeId,
+            categoryId: $categoryId,
             priority: $priority,
             limit: 2,
             paginate: false
         )->first();
     }
 
-    public function getTotals(int $accountTypeId, bool $priority): int
+    public function getTotals(int $accountTypeId, array|int|null $categoryId = null, bool $priority): int
     {
         return $this->list(
             query: [
                 'uncalled' => true,
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId,
+                'category_id' => $categoryId
             ],
             paginate: false,
             get: false
@@ -56,7 +57,7 @@ class QuRepository extends Repository
             ->first();
     }
 
-    public function getLatestServed(array $includedAccountTypes = [])
+    public function getLatestServed(array $includedAccountTypes = [], $limit = 2)
     {
         $counters = ($this->model->newQuery())
             ->select(['counter_name', 'account_type_id'])
@@ -75,18 +76,21 @@ class QuRepository extends Repository
 
         $data = collect([]);
         foreach ($counters as $counter) {
-            $qu = Qu::where('counter_name', $counter->counter_name)
+            $qus = Qu::where('counter_name', $counter->counter_name)
                 ->where('account_type_id', $counter->account_type_id)
                 ->orderBy('called_at', 'desc')
-                ->first();
+                ->limit($limit)
+                ->get();
 
-            $data->push([
-                'num_fulltext' => $qu->num_fulltext,
-                'counter_name' => $counter->counter_name,
-                'department' => $counter->department,
-                'account_type_id' => $counter->account_type_id,
-                'counter' => $qu->counter
-            ]);
+            foreach ($qus as $qu) {
+                $data->push([
+                    'num_fulltext' => $qu->num_fulltext,
+                    'counter_name' => $counter->counter_name,
+                    'department' => $counter->department,
+                    'account_type_id' => $counter->account_type_id,
+                    'counter' => $qu->counter
+                ]);
+            }
         }
 
         return $data;
@@ -123,17 +127,19 @@ class QuRepository extends Repository
             })->count();
     }
 
-    public function getWaiting(int $accountTypeId, $includePriority = false, $priority = false, int $limit = 2)
+    public function getWaiting(int $accountTypeId, array|int|null $categoryId = null, $includePriority = false, $priority = false, int $limit = 2)
     {
         if ($includePriority) {
             $data = collect([
                 $this->waiting(
                     accountTypeId: $accountTypeId,
-                    priority: 0
+                    priority: 0,
+                    categoryId: $categoryId
                 )->first(),
                 $this->waiting(
                     accountTypeId: $accountTypeId,
-                    priority: 1
+                    priority: 1,
+                    categoryId: $categoryId
                 )->first()
             ]);
 
@@ -142,6 +148,7 @@ class QuRepository extends Repository
 
         return $this->waiting(
             accountTypeId: $accountTypeId,
+            categoryId: $categoryId,
             priority: $priority,
             limit: $limit,
             paginate: true
@@ -150,6 +157,7 @@ class QuRepository extends Repository
 
     public function waiting(
         int $accountTypeId,
+        array|int|null $categoryId = null,
         bool $priority = null,
         int $limit = 2,
         bool $paginate = true
@@ -160,6 +168,7 @@ class QuRepository extends Repository
                 'accountType' => true,
                 'priority' => $priority,
                 'account_type_id' => $accountTypeId,
+                'category_id' => $categoryId
             ],
             paginate: $paginate,
             orderBy: ['id', 'asc'],

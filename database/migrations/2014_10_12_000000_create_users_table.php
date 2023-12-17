@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('name');
             $table->string('nickname')->nullable();
             $table->string('counter_name')->nullable();
-            $table->json('serve_account_type_ids')->nullable();
             $table->string('email')->unique();
             $table->foreignId('file_id')->nullable()->constrained('files');
             $table->enum('role', array_map(fn($role) => $role->value, Role::cases()))->length(35);

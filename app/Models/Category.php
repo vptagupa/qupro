@@ -13,4 +13,9 @@ class Category extends Model
         'name',
         'description'
     ];
+
+    public function accountTypes()
+    {
+        return $this->belongsToMany(AccountType::class, 'account_type_categories');
+    }
 }

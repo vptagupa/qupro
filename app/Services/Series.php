@@ -38,7 +38,7 @@ class Series
     public function createNext(bool $priority = false)
     {
         $series = $this->accountType->currentSeries($priority);
-        // echo $series->id;
+
         if (!$series) {
             $series = $this->createNew($priority);
         }

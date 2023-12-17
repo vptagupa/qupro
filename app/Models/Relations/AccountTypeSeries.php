@@ -50,15 +50,15 @@ trait AccountTypeSeries
         return $query->when($priority && Config::isPrioritySeriesSeparate(), function ($builder) {
             $builder->where('priority', true);
         })
-            // Continues series
-            ->when($priority && !Config::isPrioritySeriesSeparate(), function ($builder) {
-                $priority = false;
+            // Continues series which means that series will just continue from the regular series
+            // except for the shared series, in which they have separate series numbers
+            ->when($priority && !Config::isPrioritySeriesSeparate(), function ($builder) use ($priority) {
                 if ($this->capatureHasAnySharedSeries() && $this->captureHasPrioritySharedSeries()) {
-                    $priority = true;
+                    $builder->where('priority', true);
                 }
-                $builder->where('priority', $priority);
             })
-            ->when(!$priority, function ($builder) {
+            // Separate series for regular series
+            ->when(!$priority && Config::isPrioritySeriesSeparate(), function ($builder) {
                 $builder->where('priority', false);
             });
     }

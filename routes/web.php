@@ -21,11 +21,12 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\FrontEnd\{
     ScreenController as FrontendScreenController,
     QuController as FrontendQuController,
-    AccountTypeThemeController,
+    ThemeController as FrontendThemeController,
     PriorityController as FrontendPriorityController,
     AuthController,
     ForgotPasswordController,
-    ResetPasswordController
+    ResetPasswordController,
+    TellerController as FrontendTellerController
 };
 
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -47,6 +48,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/', [AuthController::class, 'redirectTo']);
     Route::name('admin.')->prefix('admin')->group(function () {
+        Route::get('/', [AuthController::class, 'redirectTo']);
         Route::name('dashboard.')->prefix('dashboard')->group(function () {
             Route::get('/', [AuthController::class, 'redirectTo'])->name('index');
         });
@@ -60,43 +62,57 @@ Route::middleware([
         });
         Route::name('tellers.')->prefix('tellers')->group(function () {
             Route::get('/', [TellersControllers::class, 'index'])->name('index');
-            Route::post('/', [QuController::class, 'next'])->name('next');
+            Route::post('/', [TellersControllers::class, 'next'])->name('next');
             Route::patch('/', [TellersControllers::class, 'updateServeAccountType'])->name('update_serve_account_type');
+            Route::patch('/{accountType}/{category}', [TellersControllers::class, 'updateServeCategory'])->name('update_serve_category');
             Route::patch('/updateCounterName', [TellersControllers::class, 'updateCounterName'])->name('update_counter_name');
         });
-        Route::name('formats.')->prefix('formats')->group(function () {
-            Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
-            Route::post('/list', [FormatsController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\NumFormat');
-            Route::post('/', [FormatsController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\NumFormat'])->name('store');
-            Route::patch('/{format}', [FormatsController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\NumFormat'])->name('update');
-            Route::delete('/{format}', [FormatsController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\NumFormat');
-        });
-        Route::name('account-types.')->prefix('account-types')->group(function () {
-            Route::get('/', [AccountTypesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\AccountType');
-            Route::post('/list', [AccountTypesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\AccountType');
-            Route::post('/', [AccountTypesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\AccountType'])->name('store');
-            Route::post('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
-            Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
-        });
-        Route::name('categories.')->prefix('categories')->group(function () {
-            Route::get('/', [CategoriesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Category');
-            Route::post('/list', [CategoriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Category');
-            Route::post('/', [CategoriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Category'])->name('store');
-            Route::post('/{category}', [CategoriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Category'])->name('update');
-            Route::delete('/{category}', [CategoriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Category');
-        });
-        Route::name('configurations.')->prefix('configurations')->group(function () {
-            Route::get('/', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');
+
+        Route::name('setup.')->prefix('setup')->group(function () {
+            Route::name('account-types.')->prefix('account-types')->group(function () {
+                Route::get('/', [AccountTypesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\AccountType');
+                Route::post('/list', [AccountTypesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\AccountType');
+                Route::post('/', [AccountTypesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\AccountType'])->name('store');
+                Route::post('/{type}', [AccountTypesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\AccountType'])->name('update');
+                Route::delete('/{type}', [AccountTypesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\AccountType');
+            });
+            Route::name('categories.')->prefix('categories')->group(function () {
+                Route::get('/', [CategoriesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Category');
+                Route::post('/list', [CategoriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Category');
+                Route::post('/', [CategoriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Category'])->name('store');
+                Route::post('/{category}', [CategoriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Category'])->name('update');
+                Route::delete('/{category}', [CategoriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Category');
+            });
+            Route::name('formats.')->prefix('formats')->group(function () {
+                Route::get('/', [FormatsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\NumFormat');
+                Route::post('/list', [FormatsController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\NumFormat');
+                Route::post('/', [FormatsController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\NumFormat'])->name('store');
+                Route::patch('/{format}', [FormatsController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\NumFormat'])->name('update');
+                Route::delete('/{format}', [FormatsController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\NumFormat');
+            });
+            Route::name('screen.')->prefix('screen')->group(function () {
+                Route::get('/', [ScreenController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Screen');
+                Route::post('/list', [ScreenController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Screen');
+                Route::post('/', [ScreenController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Screen'])->name('store');
+                Route::patch('/{screen}', [ScreenController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Screen'])->name('update');
+                Route::delete('/{screen}', [ScreenController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Screen');
+            });
             Route::name('shared-series.')->prefix('shared-series')->group(function () {
+                Route::get('/', [SharedSeriesController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\SharedSeries');
                 Route::post('/list', [SharedSeriesController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\SharedSeries');
                 Route::post('/', [SharedSeriesController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\SharedSeries'])->name('store');
                 Route::patch('/{shared}', [SharedSeriesController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\SharedSeries'])->name('update');
                 Route::delete('/{shared}', [SharedSeriesController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\SharedSeries');
             });
+        });
+
+        Route::name('configurations.')->prefix('configurations')->group(function () {
+            Route::get('/', [ConfigurationsController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Config');
+
             Route::name('global.')->prefix('global')->group(function () {
                 Route::post('/list', [GlobalConfigController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Config');
                 Route::post('/', [GlobalConfigController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Config'])->name('store');
-                Route::patch('/{config}', [GlobalConfigController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Config'])->name('update');
+                Route::post('/{config}', [GlobalConfigController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Config'])->name('update');
                 Route::delete('/{config}', [GlobalConfigController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Config');
             });
             Route::name('media.')->prefix('media')->group(function () {
@@ -107,16 +123,9 @@ Route::middleware([
                 Route::patch('/active/{id}', [MediaController::class, 'active'])->middleware('can:updateAny, App\Models\File')->name('active');
                 Route::delete('/{id}', [MediaController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\File');
             });
-            Route::name('screen.')->prefix('screen')->group(function () {
-                Route::post('/list', [ScreenController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Screen');
-                Route::post('/', [ScreenController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Screen'])->name('store');
-                Route::patch('/{screen}', [ScreenController::class, 'update'])->middleware([HandlePrecognitiveRequests::class, 'can:updateAny, App\Models\Screen'])->name('update');
-                Route::delete('/{screen}', [ScreenController::class, 'destroy'])->name('destroy')->middleware('can:deleteAny, App\Models\Screen');
-            });
         });
         Route::name('qu.')->prefix('qu')->group(function () {
             Route::get('/', [QuController::class, 'index'])->name('index')->middleware('can:viewAny, App\Models\Qu');
-            Route::get('/studentinfo/{studentno}', [QuController::class, 'getStudentInfo'])->name('student.info')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/list', [QuController::class, 'list'])->name('list')->middleware('can:viewAny, App\Models\Qu');
             Route::post('/', [QuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
             Route::post('/waiting/{type}', [QuController::class, 'getWaitingList'])->name('waiting')->middleware('can:viewAny, App\Models\Qu');
@@ -141,13 +150,15 @@ Route::middleware([
         Route::redirect('/admin', '/admin/tellers');
     });
 
-    Route::name('qu.')->prefix('qu')->group(function () {
-        Route::get('/', [FrontendQuController::class, 'index'])->name('index');
-        Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
-    });
     Route::name('priority.')->prefix('priority')->group(function () {
         Route::get('/', [FrontendPriorityController::class, 'index'])->name('index');
         Route::post('/', [FrontendPriorityController::class, 'store'])->middleware([HandlePrecognitiveRequests::class, 'can:create, App\Models\Qu'])->name('store');
+    });
+    Route::name('tellers.')->prefix('tellers')->group(function () {
+        Route::get('/', [FrontendTellerController::class, 'index'])->name('index');
+        Route::post('/', [FrontendTellerController::class, 'next'])->name('next');
+        Route::get('/{accountTypeId}', [FrontendTellerController::class, 'ding'])->name('ding');
+        Route::patch('/update-counter-name', [FrontendTellerController::class, 'updateCounterName'])->name('update_counter_name');
     });
 });
 
@@ -156,13 +167,21 @@ Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
     Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
     Route::name('theme.')->prefix('theme')->group(function () {
-        Route::name('account_type.')->group(function () {
-            Route::get('/{accountType}', [AccountTypeThemeController::class, 'get'])->name('getTheme');
-            Route::post('/{accountType}', [AccountTypeThemeController::class, 'update'])->name('update-theme')->middleware('auth');
-            Route::patch('/{accountType}', [AccountTypeThemeController::class, 'reset'])->name('reset-theme')->middleware('auth');
-        });
+        Route::get('/', [FrontendThemeController::class, 'get'])->name('get');
+        Route::post('/', [FrontendThemeController::class, 'update'])->name('update')->middleware('auth');
+        Route::patch('/', [FrontendThemeController::class, 'reset'])->name('reset')->middleware('auth');
     });
     Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
+});
+
+Route::name('qu.')->prefix('qu')->group(function () {
+    Route::get('/', [FrontendQuController::class, 'index'])->name('index');
+    Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
+    Route::get('/studentinfo/{studentno}', [FrontendQuController::class, 'getStudentInfo'])->name('student.info');
+});
+
+Route::name('account-types.')->prefix('account-types')->group(function () {
+    Route::post('/list', [AccountTypesController::class, 'list'])->name('list');
 });
 
 Route::prefix('change-password')->name('auth.')->group(function () {

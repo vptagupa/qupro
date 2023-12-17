@@ -8,7 +8,7 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 export default ({ data, formats, ...props }) => {
     const { open, setOpen, form, closeForm } = useForm({
         method: "post",
-        route: route("admin.account-types.update", {
+        route: route("admin.setup.account-types.update", {
             type: data.id,
         }),
         data: {

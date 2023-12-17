@@ -22,7 +22,7 @@ class QuCalled implements ShouldBroadcast
      */
     public function __construct(Qu $qu)
     {
-        $this->qu = $qu->append(['ticket', 'statistics'])->toArray();
+        $this->qu = $qu->append(['statistics'])->toArray();
     }
 
     /**
@@ -32,6 +32,6 @@ class QuCalled implements ShouldBroadcast
      */
     public function broadcastOn(): Channel
     {
-        return new Channel('screen');
+        return new Channel($this->qu['account_type']['id'] . '.account-type');
     }
 }

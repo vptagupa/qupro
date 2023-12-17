@@ -15,24 +15,39 @@ class Config extends Model implements Auditable
         'name',
         'value',
         'label',
-        'type'
+        'type',
+        'acceptable'
+    ];
+
+    protected $casts = [
+        'acceptable' => 'array'
     ];
 
     public static $hide = [
         'Default Screen Theme',
-        // 'Screen Tickets Limit'
+        'Enable category statistics',
+        'Enable priority on Qu registration'
     ];
 
     public $watch = [
         'Screen Text',
         'Screen Interval',
-        'Screen Tickets Limit'
+        'Screen Tickets Limit',
+        'Counter History Limit',
+        'On Called Ring',
+        'On Demand Ring'
+    ];
+
+    public $reload = [
+        'Counter History Limit'
     ];
 
     public $screen = [
         'Screen Text',
         'Screen Interval',
-        'Screen Tickets Limit'
+        'Screen Tickets Limit',
+        'On Called Ring',
+        'On Demand Ring'
     ];
 
     /**
@@ -92,7 +107,15 @@ class Config extends Model implements Auditable
 
     public static function screenTicketsLimit()
     {
-        return Config::where('name', 'Screen Tickets Limit')->first()?->value;
+        $value = Config::where('name', 'Screen Tickets Limit')->first()?->value;
+
+        return !$value || (int) $value <= 0 ? 1 : $value;
+    }
+
+    public static function counterHistoryLimit()
+    {
+        $value = Config::where('name', 'Counter History Limit')->first()?->value;
+        return !$value || (int) $value <= 0 ? 1 : $value;
     }
 
     public static function isEnabledCategories(): bool
@@ -103,6 +126,21 @@ class Config extends Model implements Auditable
     public static function isEnabledCategoryStatistics(): bool
     {
         return Config::where('name', 'Enable category statistics')->first()?->value ? true : false;
+    }
+
+    public static function categoryLimit(): int
+    {
+        return (int) Config::where('name', 'Category Limit')->first()?->value;
+    }
+
+    public static function onCalledRing(): bool
+    {
+        return Config::where('name', 'On Called Ring')->first()?->value;
+    }
+
+    public static function onDemandRing(): bool
+    {
+        return Config::where('name', 'On Demand Ring')->first()?->value;
     }
 
     public static function screen()

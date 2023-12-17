@@ -1,6 +1,6 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import PropTypes from "prop-types";
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Component = ({ final, next, controls: { form, ...controls } }) => {
     const nameRef = useRef();
@@ -35,7 +35,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
         controls.setLoadingNext(true);
         axios
             .get(
-                route("admin.qu.student.info", {
+                route("qu.student.info", {
                     studentno: form.data.student_info.student_no,
                 }),
             )
@@ -47,7 +47,6 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                 next();
             })
             .catch((error) => {
-                console.log(error);
                 controls.setLoadingNext(false);
             });
     };
@@ -76,10 +75,6 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
         return true;
     };
 
-    const setRepresentative = useCallback((form, checked) => {
-        form.setData("is_representative", checked);
-    }, []);
-
     const submit = (e) => {
         e.preventDefault();
         controls._next.current();
@@ -101,7 +96,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
     return (
         <>
             <Form onSubmit={(e) => submit(e)}>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-y-1">
                     <div>
                         <label className="flex gap-2 items-center justify-start">
                             <Checkbox
@@ -116,7 +111,7 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                                 }}
                             />
                             <div className="lg:text-[1.5rem]">
-                                Check for priority status (PSWD/SR/Pregnant)
+                                Check for priority status (PWD/SR/Pregnant)
                             </div>
                         </label>
                     </div>
@@ -127,15 +122,18 @@ const Component = ({ final, next, controls: { form, ...controls } }) => {
                                 name="is_representative"
                                 value={form.data.is_representative}
                                 onChange={(e) => {
-                                    setRepresentative(form, e.target.checked);
+                                    form.setData(
+                                        "is_representative",
+                                        e.target.checked,
+                                    );
                                 }}
                             />
                             <div className="lg:text-[1.5rem]">
-                                Is student representative
+                                I am a student representative
                             </div>
                         </label>
                     </div>
-                    <div>
+                    <div className="mt-2">
                         <Input
                             ref={nameRef}
                             type="text"

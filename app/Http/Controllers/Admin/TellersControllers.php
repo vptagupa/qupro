@@ -2,40 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\AdminController;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use App\Http\Resources\QuResource;
+use App\Http\Requests\NextQuRequest;
 
+use App\Http\Controllers\Shared\BasedTellerController;
 
-class TellersControllers extends AdminController
+class TellersControllers extends BasedTellerController
 {
-    public function __construct(private UserRepository $repository)
+    public function index(Request $request)
     {
-
+        return $this->render('admin/teller/index', [
+            'categories' => $this->repository->find($request->user()->id)->categories
+        ]);
     }
 
-    public function index()
+    public function next(NextQuRequest $request)
     {
-        return $this->render('admin/teller/index');
-    }
-
-    public function updateCounterName(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-        ], $request->only('name'));
-
-        $this->repository->update([
-            'counter_name' => $request->get('name')
-        ], $request->user()->id);
-    }
-
-    public function updateServeAccountType(Request $request)
-    {
-        $validated = $request->validate([
-            'accountTypeId' => 'required|integer',
-        ], $request->only('accountTypeId'));
-
-        $this->repository->updateServeAccountType($request->user()->id, $validated['accountTypeId']);
+        return $this->render('admin/teller/index', [
+            'next' => new QuResource(parent::next($request))
+        ]);
     }
 }

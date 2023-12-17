@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 const Component = ({ final, ...props }) => {
     useEffect(() => {
+        props.controls.setEnabledCustom(false);
         const timeout = setTimeout(() => {
             final();
         }, 10000);

@@ -6,15 +6,20 @@ import { useForm } from "@/js/helpers/form";
 export const useControls = ({
     enabledPrev = true,
     enabledNext = false,
+    enabledCustom = false,
     prevLabel = "Prev",
     nextLabel = "Next",
+    customLabel = "Next",
     url,
 }) => {
     const [_enabledPrev, setEnabledPrev] = useState(enabledPrev);
     const [_enabledNext, setEnabledNext] = useState(enabledNext);
+    const [_enabledCustom, setEnabledCustom] = useState(enabledCustom);
     const [_prevLabel, setPrevLabel] = useState(prevLabel);
     const [_nextLabel, setNextLabel] = useState(nextLabel);
+    const [_customLabel, setCustomLabel] = useState(customLabel);
     const [loadingNext, setLoadingNext] = useState(false);
+    const [loadingCustom, setLoadingCustom] = useState(false);
     const [loadingPrev, setLoadingPrev] = useState(false);
 
     const { form } = useForm({
@@ -44,11 +49,16 @@ export const useControls = ({
 
     const _prev = useRef(() => {});
     const _next = useRef(() => {});
+    const _custom = useRef(() => {});
+
     const prev = (callback) => {
         _prev.current = callback;
     };
     const next = (callback) => {
         _next.current = callback;
+    };
+    const custom = (callback) => {
+        _custom.current = callback;
     };
 
     const submit = useCallback(
@@ -96,6 +106,22 @@ export const useControls = ({
 
                     <span>{_nextLabel}</span>
                 </Button>
+                {_enabledCustom && (
+                    <Button
+                        type="button"
+                        onClick={(e) => _custom.current()}
+                        className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] text-white text-center uppercase font-extrabold enabled:bg-gradient-to-r  from-purple-400 to-fuchsia-400"
+                    >
+                        {loadingCustom && (
+                            <img
+                                src={Circle}
+                                className="animate-spin h-5 w-5 mr-1 text-opacity-10 text-slate-100"
+                            />
+                        )}
+
+                        <span>{_customLabel}</span>
+                    </Button>
+                )}
             </div>
         </div>
     );
@@ -104,15 +130,21 @@ export const useControls = ({
         form,
         prev,
         next,
+        custom,
         _next,
         _prev,
+        _custom,
+        enabledCustom: _enabledCustom,
         submit,
         Controls,
         setPrevLabel,
         setNextLabel,
+        setCustomLabel,
         setEnabledPrev,
         setEnabledNext,
+        setEnabledCustom,
         setLoadingNext,
         setLoadingPrev,
+        setLoadingCustom,
     };
 };

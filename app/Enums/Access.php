@@ -18,6 +18,8 @@ enum Access
     case SCREEN;
     case REGISTRATION;
     case AUDIT;
+    case FORMATS;
+    case SCREENS;
 
     public static function all(): array
     {
@@ -40,6 +42,8 @@ enum Access
                 Access::AUDIT->name => [Action::ALL->name],
                 ...Config::isEnabledCategories() ?
                 [Access::CATEGORIES->name => [Action::ALL->name]] : [],
+                Access::FORMATS->name => [Action::ALL->name],
+                Access::SCREENS->name => [Action::ALL->name],
             ],
             Role::TELLER->name => [
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],

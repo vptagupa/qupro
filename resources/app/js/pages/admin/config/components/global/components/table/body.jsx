@@ -20,7 +20,7 @@ const Component = ({ data, pagination }) => {
                                         <Td>
                                             <div className="flex space-x-2 text-[0.9rem] justify-between">
                                                 <div className="flex flex-col">
-                                                    {item.name}
+                                                    {item.name.toUpperCase()}
                                                     {item.label && (
                                                         <div className="text-xs ml-2 italic">
                                                             {item.label}

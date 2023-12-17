@@ -1,0 +1,15 @@
+{
+  "name": "qupro-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "teller": "electron teller",
+    "test": "echo \"Error: no test specified\" && exit s"
+  },
+  "author": "Vic Tagupa",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^28.0.0"
+  }
+}

@@ -9,6 +9,8 @@ export const reducer = createSlice({
                 screen_interval: 5,
                 screen_tickets_limit: 6,
                 screen_account_type_ids: [],
+                on_demand_ring: "",
+                on_called_ring: "",
             },
             tickets: [],
             current: null,
@@ -41,22 +43,27 @@ export const reducer = createSlice({
             };
         },
         ticket: (state, action) => {
-            const index = state.data.tickets.findIndex(
+            const filter = state.data.tickets.filter(
                 (ticket) => ticket.counter == action.payload.counter,
             );
+            const index = state.data.tickets
+                .reverse()
+                .findIndex(
+                    (ticket) => ticket.counter == action.payload.counter,
+                );
             let tickets = state.data.tickets;
 
-            if (index !== -1) {
+            if (index !== -1 && filter.length > 1) {
                 tickets[index] = action.payload;
             } else {
-                tickets = tickets
-                    .concat(action.payload)
-                    .sort((a, b) => a.counter.localeCompare(b.counter));
+                tickets = tickets.concat(action.payload);
             }
 
             state.data = {
                 ...state.data,
-                tickets,
+                tickets: tickets.sort((a, b) =>
+                    a.counter.localeCompare(b.counter),
+                ),
                 current: action.payload,
             };
         },

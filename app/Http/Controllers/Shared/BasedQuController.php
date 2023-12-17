@@ -6,9 +6,12 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuCollection;
 use App\Http\Requests\StoreQuRequest;
+use App\Http\Requests\NextQuRequest;
 use App\Repositories\QuRepository;
 use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
+use App\Services\Qu;
+use Illuminate\Support\Facades\Http;
 
 class BasedQuController extends AdminController
 {
@@ -26,6 +29,9 @@ class BasedQuController extends AdminController
      */
     public function getStudentInfo()
     {
+        // $response = Http::get('https://api.pcu.priisms.online/api/students-api/202233678');
+        // print_r($response->json());
+
         return [
             'student_no' => '0001',
             'name' => 'John Smith',
@@ -72,5 +78,18 @@ class BasedQuController extends AdminController
             'num_fulltext',
             'num'
         ]));
+    }
+
+    public function next(NextQuRequest $request)
+    {
+        if ($request->safe()->qu) {
+            Qu::completed($request->user(), $request->safe()->qu);
+        }
+
+        return Qu::next(
+            $request->user(),
+            $request->safe()->account_type_id,
+            $request->safe()->priority
+        );
     }
 }

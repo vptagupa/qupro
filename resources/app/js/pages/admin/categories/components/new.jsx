@@ -10,7 +10,7 @@ import Event from "@/js/helpers/event";
 export default memo((props) => {
     const { open, setOpen, form, closeForm, clearForm } = useForm({
         method: "post",
-        route: route("admin.categories.store"),
+        route: route("admin.setup.categories.store"),
         data: {
             name: "",
             description: "",

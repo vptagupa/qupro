@@ -147,11 +147,6 @@ class AccountType extends Model implements Auditable
         return $this->shared_series->reject(fn($shared) => $shared->priority == 1)->first();
     }
 
-    public function theme()
-    {
-        return $this->hasMany(AccountTypeTheme::class);
-    }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'account_type_categories');
@@ -165,5 +160,10 @@ class AccountType extends Model implements Auditable
                 'queue' => $this->waiting->count()
             ]
         );
+    }
+
+    public function themes()
+    {
+        return $this->morphMany(Theme::class, 'model');
     }
 }

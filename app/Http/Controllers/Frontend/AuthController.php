@@ -19,7 +19,6 @@ class AuthController extends Controller
     {
         return $this->render(
             view: "auth/index",
-            layout: "app-auth",
         );
     }
 
@@ -27,7 +26,6 @@ class AuthController extends Controller
     {
         return $this->render(
             view: "auth/reset",
-            layout: "app-auth",
         );
     }
 
@@ -36,7 +34,7 @@ class AuthController extends Controller
         $user = Auth::user();
         $this->repository->update($request->validationData(), $user->id);
 
-        return $this->inertia()::location(redirect()->intended('/admin/dashboard'));
+        return redirect()->intended('/admin/dashboard');
     }
 
     public function auth(Request $request)
@@ -55,7 +53,6 @@ class AuthController extends Controller
 
         return $this->render(
             view: "auth/index",
-            layout: "app-login",
             options: [
                 'errors' => [
                     'message' => 'The provided credentials do not match our records.'
@@ -74,7 +71,7 @@ class AuthController extends Controller
             $intended = '/admin/qu';
         }
 
-        return $this->inertia()::location(redirect()->intended($intended));
+        return redirect()->intended($intended);
     }
 
     public function logout(Request $request)
@@ -83,6 +80,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return $this->inertia()::location(route('login.index'));
+        return redirect(route('login.index'));
     }
 }

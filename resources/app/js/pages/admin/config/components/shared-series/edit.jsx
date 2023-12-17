@@ -16,7 +16,7 @@ export default ({ data }) => {
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
             method: "patch",
-            route: route("admin.configurations.shared-series.update", {
+            route: route("admin.setup.shared-series.update", {
                 shared: data.id,
             }),
             data: {

@@ -12,7 +12,7 @@ export default (props) => {
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
             method: "post",
-            route: route("admin.formats.store"),
+            route: route("admin.setup.formats.store"),
             data: {
                 title: "",
                 affix: "",

@@ -1,18 +1,19 @@
 import { useForm } from "@/js/helpers/form";
 import { Input, Textarea } from "@/js/components/form";
 import { PrimarySwitch } from "@/js/components/switch";
-import { memo, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Event from "@/js/helpers/event";
 import {
     PencilSquareIcon,
     XMarkIcon,
     CheckIcon,
 } from "@heroicons/react/24/solid";
+import File from "./file";
 
-export default ({ data }) => {
+export default function Component({ data }) {
     const [active, setActive] = useState(data.value == 1);
     const { open, setOpen, closeForm, form } = useForm({
-        method: "patch",
+        method: "post",
         route: route("admin.configurations.global.update", {
             config: data.id,
         }),
@@ -20,17 +21,20 @@ export default ({ data }) => {
             id: data.id,
             name: data.name,
             value: data.value,
+            acceptable: data.acceptable,
         },
     });
 
     const isTypeText = (type) => ["text", "number"].includes(type);
     const isTypeTextArea = (type) => ["textarea"].includes(type);
     const isTypeBoolean = (type) => ["boolean"].includes(type);
+    const isTypeFile = (type) => ["file"].includes(type);
 
     const submit = () => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            forceFormData: true,
             only: ["user", "permissions", "errors"],
             onSuccess: () => {
                 setOpen(false);
@@ -101,6 +105,12 @@ export default ({ data }) => {
                                     }
                                 />
                             )}
+                            {isTypeFile(data.type) && (
+                                <File
+                                    form={form}
+                                    acceptable={data.acceptable}
+                                />
+                            )}
                             {form.invalid("value") && (
                                 <span className="text-danger text-xs">
                                     {form.errors.value}
@@ -132,4 +142,4 @@ export default ({ data }) => {
             )}
         </>
     );
-};
+}

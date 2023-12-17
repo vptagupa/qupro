@@ -27,7 +27,7 @@ class NextQuRequest extends FormRequest
         return [
             'priority' => 'required|boolean',
             'qu' => 'nullable|integer',
-            'account_type.id' => 'integer|required',
+            'account_type_id' => 'integer|required',
             'counter_name' => 'required'
         ];
     }

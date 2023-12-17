@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             NumFormatSeeder::class,
-            AccountTypeSeeder::class,
             CategoriesSeeder::class,
+            AccountTypeSeeder::class,
             GlobalConfigSeeder::class,
             ScreenSeeder::class,
         ]);

@@ -19,7 +19,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
         controls.setLoadingNext(true);
         axios
             .get(
-                route("admin.qu.student.info", {
+                route("qu.student.info", {
                     studentno: form.data.student_info.student_no,
                 }),
             )
@@ -31,7 +31,6 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                 next();
             })
             .catch((error) => {
-                console.log(error);
                 controls.setLoadingNext(false);
             });
     };
@@ -52,7 +51,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
     return (
         <>
             <Form onSubmit={(e) => submit(e)}>
-                <div>
+                <div className="mb-2">
                     <label className="flex gap-2 items-center justify-start">
                         <Checkbox
                             className="lg:p-3 focus:ring focus:border-none"
@@ -63,7 +62,7 @@ const Component = ({ next, controls: { form, ...controls } }) => {
                             }}
                         />
                         <div className="lg:text-[1.5rem]">
-                            Check for priority status (PSWD/SR/Pregnant)
+                            Check for priority status (PWD/SR/Pregnant)
                         </div>
                     </label>
                 </div>

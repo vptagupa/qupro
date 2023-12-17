@@ -17,7 +17,7 @@ export default () => {
 
     const { open, setOpen, form, closeForm } = useForm({
         method: "post",
-        route: route("admin.configurations.screen.store"),
+        route: route("admin.setup.screen.store"),
         data: {
             name: "",
             screen: "",

@@ -46,11 +46,10 @@ const Component = ({ data, pagination, setSearch }) => {
                                 <Th>Event</Th>
                                 <Th>Model</Th>
                                 <Th>Id</Th>
-                                <Th>Old Values</Th>
-                                <Th>New Values</Th>
                                 <Th>Url</Th>
-                                <Th>IP</Th>
-                                <Th>Browser</Th>
+                                <Th>Ip Address</Th>
+                                <Th>Date & Time</Th>
+
                                 <Th>Action</Th>
                             </TrH>
                         </Theader>
@@ -62,15 +61,11 @@ const Component = ({ data, pagination, setSearch }) => {
                                         <Td>{item.event}</Td>
                                         <Td>{item.auditable_type}</Td>
                                         <Td>{item.auditable_id}</Td>
-                                        <Td>
-                                            <pre>{item.old_values}</pre>
-                                        </Td>
-                                        <Td>
-                                            <pre>{item.new_values}</pre>
-                                        </Td>
                                         <Td>{item.url}</Td>
                                         <Td>{item.ip_address}</Td>
-                                        <Td>{item.user_agent}</Td>
+
+                                        <Td>{item.created_at}</Td>
+
                                         <Td>
                                             <div
                                                 className="flex items-center justify-end cursor-pointer"

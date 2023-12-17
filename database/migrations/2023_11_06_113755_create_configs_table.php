@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->longText('value');
             $table->string('type')->default('text');
             $table->string('label')->nullable();
+            $table->json('acceptable')->nullable();
             $table->timestamps();
         });
     }

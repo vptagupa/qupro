@@ -2,10 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Models\AccountType;
 use App\Models\User;
 
 class UserRepository extends Repository
 {
+    use Conditions\User;
+
     public function __construct(User $model)
     {
         $this->model = $model;
@@ -20,19 +23,30 @@ class UserRepository extends Repository
         parent::create($data);
     }
 
-    public function updateServeAccountType(int $userId, int $accountTypeId)
+    /**
+     * Update teller serving accounts
+     * If category id is empty, then all of the categories of the account type will be assigned by default
+     * If category is not empty, then it will be remove/insert from the assignments
+     */
+    public function updateServe(int $userId, AccountType $accountType, ?int $categoryId = null)
     {
         $user = $this->model->find($userId);
 
-        $serve = $user->serve_account_type_ids ?? [];
-
-        if (in_array($accountTypeId, $serve)) {
-            $serve = array_diff($serve, [$accountTypeId]);
+        if (!$categoryId) {
+            if ($user->accountTypes->filter(fn($d) => $d->id == $accountType->id)->count() > 0) {
+                $user->accountTypes()->detach($accountType->id);
+            } else {
+                foreach ($accountType->categories as $category) {
+                    $user->accountTypes()->attach($accountType->id, [
+                        'category_id' => $category->id
+                    ]);
+                }
+            }
         } else {
-            $serve = array_merge($serve, [$accountTypeId]);
+            $categories = $user->categories()->wherePivot('account_type_id', $accountType->id);
+            $categories->toggle([$categoryId => [
+                'account_type_id' => $accountType->id
+            ]]);
         }
-
-        $user->serve_account_type_ids = array_values($serve);
-        $user->save();
     }
 }

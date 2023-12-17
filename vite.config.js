@@ -17,4 +17,7 @@ export default defineConfig({
             "@": "/resources/app",
         },
     },
+    build: {
+        commonjsOptions: { transformMixedEsModules: true },
+    },
 });

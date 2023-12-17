@@ -1,13 +1,13 @@
 import { useRef, useEffect } from "react";
 
 export default function Component() {
-    let date = useRef();
+    let time = useRef();
     let interval;
 
     useEffect(() => {
         interval = setInterval(() => {
-            if (date.current)
-                date.current.innerText = new Date().toLocaleTimeString("en-PH");
+            if (time.current)
+                time.current.innerText = new Date().toLocaleTimeString("en-PH");
         }, 1000);
 
         return () => clearInterval(interval);
@@ -15,8 +15,18 @@ export default function Component() {
 
     return (
         <div className="flex flex-col items-center justify-start">
-            <div className="uppercase text-lg">Today</div>
-            <div className="text-[5rem] leading-[4rem]" ref={date}></div>
+            <div className="uppercase text-lg">
+                {new Date().toLocaleString("en-PH", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                })}
+            </div>
+            <div
+                className="md:text-[3rem] 2xl:text-[5rem] leading-[4rem]"
+                ref={time}
+            ></div>
         </div>
     );
 }

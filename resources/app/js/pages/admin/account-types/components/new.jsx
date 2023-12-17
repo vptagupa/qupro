@@ -18,7 +18,7 @@ export default memo(({ formats, ...props }) => {
         setCompleted,
     } = useForm({
         method: "post",
-        route: route("admin.account-types.store"),
+        route: route("admin.setup.account-types.store"),
         data: {
             name: "",
             num_format_id: "",

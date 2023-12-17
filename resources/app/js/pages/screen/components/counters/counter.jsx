@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faLeftLong, faLeftRight } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 export default function Component({ ticket, isActive = false }) {
@@ -16,13 +16,18 @@ export default function Component({ ticket, isActive = false }) {
             <div
                 style={{
                     textWrap: "balance",
-                    color: isActive ? current.ticket.font : grid.ticket.font,
+                    color: isActive ? current.window.font : grid.window.font,
+                    background: isActive ? current.window.bg : grid.window.bg,
                 }}
-                className={`text-center w-[35%] leading-8 pl-2 ${
-                    isActive ? "text-4xl" : "text-3xl"
-                }`}
+                className={`w-1/2 text-center font-bold p-4 
+                                     ${
+                                         isActive
+                                             ? "bg-teal-400 text-4xl h-[100%] flex items-center justify-center"
+                                             : "bg-purple-900 text-3xl"
+                                     }
+                                    `}
             >
-                {ticket?.num_fulltext}
+                {ticket?.counter}
             </div>
             <div
                 className={`flex items-center justify-center text-center w-[15%]  ${
@@ -49,7 +54,7 @@ export default function Component({ ticket, isActive = false }) {
                 )}
                 {!isActive && (
                     <FontAwesomeIcon
-                        icon={faRightLong}
+                        icon={faLeftLong}
                         className={`h-7 ${
                             isActive ? "text-slate-800" : "text-slate-300"
                         }`}
@@ -63,18 +68,13 @@ export default function Component({ ticket, isActive = false }) {
             <div
                 style={{
                     textWrap: "balance",
-                    color: isActive ? current.window.font : grid.window.font,
-                    background: isActive ? current.window.bg : grid.window.bg,
+                    color: isActive ? current.ticket.font : grid.ticket.font,
                 }}
-                className={`w-1/2 text-center font-bold p-4 rounded-tl-[2rem] rounded-bl-[2rem] 
-                                     ${
-                                         isActive
-                                             ? "bg-teal-400 text-4xl h-[100%] flex items-center justify-center"
-                                             : "bg-purple-900 text-2xl"
-                                     }
-                                    `}
+                className={`text-center w-[35%] leading-10 p-4  ${
+                    isActive ? "text-5xl" : "text-4xl"
+                }`}
             >
-                {ticket?.counter}
+                {ticket?.num_fulltext}
             </div>
         </div>
     );

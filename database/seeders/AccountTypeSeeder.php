@@ -47,6 +47,7 @@ class AccountTypeSeeder extends Seeder
             $model = AccountType::where([
                 "name" => $row["name"],
             ])->first();
+
             $model->categories()->sync(Category::pluck('id'));
         }
     }

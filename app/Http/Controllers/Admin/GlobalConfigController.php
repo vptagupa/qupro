@@ -23,8 +23,9 @@ class GlobalConfigController extends AdminController
     {
         return new ConfigCollection(
             $this->repository->list(
-                ['name' => $request->get('query'), 'hidden' => true],
-                $request->get('per_page'),
+                query: ['name' => $request->get('query'), 'hidden' => true],
+                perPage: $request->get('per_page'),
+                orderBy: ['name', 'asc']
             )
         );
     }
@@ -46,6 +47,7 @@ class GlobalConfigController extends AdminController
      */
     public function update(UpdateConfigRequest $request, int $id)
     {
+
         $this->repository->update($request->safe()->only([
             'name',
             'value',

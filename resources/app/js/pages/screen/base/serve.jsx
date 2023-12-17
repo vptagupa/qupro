@@ -33,12 +33,11 @@ export default memo(
                         });
                     }
                 })
-                .listen("QuCalled", (event) => {
+                .listen("ScreenQuCalled", (event) => {
                     if (
                         counter.config.screen_account_type_ids.includes(
-                            parseInt(selected_account_type_id),
-                        ) ||
-                        !selected_account_type_id
+                            parseInt(event.qu.account_type_id),
+                        )
                     ) {
                         setData({
                             ...data,
@@ -48,6 +47,12 @@ export default memo(
                                     ? event.data.account_type_served_total
                                     : data.served
                                 : event.data.all_served_total,
+                            pending: selected_account_type_id
+                                ? selected_account_type_id ==
+                                  event.qu.account_type_id
+                                    ? event.data.account_type_pending_total
+                                    : data.pending
+                                : event.data.all_pending_total,
                         });
                         dispatch(ticket(event.qu.ticket));
                     }

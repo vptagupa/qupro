@@ -62,6 +62,14 @@ class GlobalConfigSeeder extends Seeder
                 'value' => 5,
             ],
             [
+                "name" => "Counter History Limit",
+                'value' => 2,
+            ],
+            [
+                "name" => "Category Limit",
+                'value' => 2,
+            ],
+            [
                 "name" => "Enable categories",
                 'value' => true,
                 'type' => 'boolean',
@@ -71,6 +79,19 @@ class GlobalConfigSeeder extends Seeder
                 'value' => true,
                 'type' => 'boolean',
             ],
+            [
+                "name" => "On Called Ring",
+                'value' => "",
+                'acceptable' => json_encode(['mp3']),
+                'type' => 'file',
+            ],
+            [
+                "name" => "On Demand Ring",
+                'value' => "",
+                'acceptable' => json_encode(['mp3']),
+                'type' => 'file',
+            ],
+
         ];
 
         foreach ($real as $row) {

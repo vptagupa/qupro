@@ -11,7 +11,7 @@ export default ({ data, ...props }) => {
     const { open, setOpen, form, closeForm, completed, setCompleted } = useForm(
         {
             method: "patch",
-            route: route("admin.formats.update", {
+            route: route("admin.setup.formats.update", {
                 format: data.id,
             }),
             data: {
