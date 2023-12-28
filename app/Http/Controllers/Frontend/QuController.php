@@ -17,8 +17,7 @@ class QuController extends BasedQuController
     public function index()
     {
         return $this->render(
-            view: 'qu/public',
-            layout: 'app-qu'
+            view: 'qu/public'
         );
     }
 

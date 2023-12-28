@@ -16,7 +16,7 @@ export default function Component({ controls: { form, ...controls } }) {
     }
 
     const batch = categories.slice(page, page + limiter);
-
+    console.log([categories, batch]);
     const onClick = (category) => {
         if (form.data.category?.id != category.id) {
             form.setData("category", category);
@@ -39,19 +39,6 @@ export default function Component({ controls: { form, ...controls } }) {
                 {form.data.account_type.name}
             </div>
             <div className="flex xs:max-sm:flex-col flex-wrap w-full justify-center gap-2">
-                {categories.length > config.category_limit && (
-                    <InfoButton
-                        disabled={page <= 0}
-                        type="button"
-                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
-                        onClick={(e) => {
-                            setPage(page - limiter);
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faAnglesLeft} className="h-10" />
-                    </InfoButton>
-                )}
-
                 {batch.map((category) => (
                     <div key={category.id}>
                         <PrimaryButton
@@ -66,7 +53,18 @@ export default function Component({ controls: { form, ...controls } }) {
                         </PrimaryButton>
                     </div>
                 ))}
-
+                {categories.length > config.category_limit && (
+                    <InfoButton
+                        disabled={page <= 0}
+                        type="button"
+                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
+                        onClick={(e) => {
+                            setPage(page - limiter);
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faAnglesLeft} className="h-10" />
+                    </InfoButton>
+                )}
                 {categories.length > config.category_limit && (
                     <InfoButton
                         disabled={

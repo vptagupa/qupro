@@ -67,7 +67,7 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Category Limit",
-                'value' => 2,
+                'value' => 10,
             ],
             [
                 "name" => "Enable categories",

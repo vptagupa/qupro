@@ -20,7 +20,6 @@ class ResetPasswordController extends Controller
     {
         return $this->render(
             view: 'password/reset/index',
-            layout: "app-auth",
             options: [
                 'token' => $token
             ]
