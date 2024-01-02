@@ -1,22 +1,20 @@
-import { PrimaryButton, InfoButton } from "@/js/components/buttons";
-import { useState } from "react";
+import { PrimaryButton } from "@/js/components/buttons";
+import { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight, faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function Component({ controls: { form, ...controls } }) {
+export default function Component({
+    prev: controlPrev,
+    next: controlNext,
+    controls: { form, ...controls },
+}) {
     const { config } = usePage().props;
     const [page, setPage] = useState(0);
     const categories = form.data.account_type?.categories ?? [];
-
     let limiter = config.category_limit;
-
-    if (categories.length > config.category_limit) {
-        limiter = limiter - 2;
-    }
-
     const batch = categories.slice(page, page + limiter);
-    console.log([categories, batch]);
+
+    const isLastPage = () => page + limiter > categories.length;
+
     const onClick = (category) => {
         if (form.data.category?.id != category.id) {
             form.setData("category", category);
@@ -32,6 +30,46 @@ export default function Component({ controls: { form, ...controls } }) {
 
         return "";
     };
+
+    const prev = () => {
+        if (categories.length > limiter) {
+            setPage(page - limiter);
+        }
+    };
+    const next = () => {
+        if (categories.length > limiter) {
+            setPage(page + limiter);
+        }
+    };
+
+    useEffect(() => {
+        if (form.data.category?.id) {
+            controls.prev(controlPrev);
+            controls.next(controlNext);
+            controls.setEnabledNext(true);
+        } else {
+            controls.prev(prev);
+            controls.next(next);
+            if (isLastPage()) {
+                controls.setEnabledNext(false);
+            }
+        }
+    }, [form.data.category?.id]);
+
+    useEffect(() => {
+        controls.setEnabledPrev(true);
+        controls.setEnabledNext(false);
+
+        controls.prev(prev);
+        controls.next(next);
+
+        if (page <= 0) {
+            controls.prev(controlPrev);
+        }
+        if (!isLastPage()) {
+            controls.setEnabledNext(true);
+        }
+    }, [page]);
 
     return (
         <>
@@ -53,35 +91,6 @@ export default function Component({ controls: { form, ...controls } }) {
                         </PrimaryButton>
                     </div>
                 ))}
-                {categories.length > config.category_limit && (
-                    <InfoButton
-                        disabled={page <= 0}
-                        type="button"
-                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
-                        onClick={(e) => {
-                            setPage(page - limiter);
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faAnglesLeft} className="h-10" />
-                    </InfoButton>
-                )}
-                {categories.length > config.category_limit && (
-                    <InfoButton
-                        disabled={
-                            page + limiter < categories.length ? false : true
-                        }
-                        type="button"
-                        className={`flex justify-center text-center uppercase font-extrabold md:w-[10rem] text-xl`}
-                        onClick={(e) => {
-                            setPage(page + limiter);
-                        }}
-                    >
-                        <FontAwesomeIcon
-                            icon={faAnglesRight}
-                            className="h-10"
-                        />
-                    </InfoButton>
-                )}
             </div>
         </>
     );

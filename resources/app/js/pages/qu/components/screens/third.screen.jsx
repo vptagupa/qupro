@@ -17,11 +17,8 @@ const Component = ({ prev, next, ...props }) => {
     }, []);
     return (
         <>
-            <div>
-                <div>
-                    <StudetInfo {...props} />
-                </div>
-            </div>
+            <StudetInfo {...props} />
+
             {process.env.NODE_ENV == "development" && (
                 <div className="mt-10">
                     <div>Third Screen</div>

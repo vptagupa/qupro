@@ -6,8 +6,9 @@ import FinalScreen from "./components/screens/final.screen";
 import { useState, useEffect, memo, useCallback } from "react";
 import { useControls } from "./components/controls";
 import { usePage } from "@inertiajs/react";
+import { Transition } from "@headlessui/react";
 
-export default ({ url, priority = null }) => {
+export default function Component({ url, priority = null }) {
     const { config } = usePage().props;
     const controls = useControls({ url });
 
@@ -89,57 +90,101 @@ export default ({ url, priority = null }) => {
 
     return (
         <>
-            <div className="lg:w-2/3 xs:w-full m-auto mt-[2%] p-5">
-                <div className="min-h-[300px] flex flex-col items-center justify-center">
-                    {zeroScreen && (
-                        <ZeroScreen
-                            controls={controls}
-                            next={
-                                config.enabled_categories
-                                    ? firstScreenHandler
-                                    : secondScreenHandler
-                            }
-                        />
-                    )}
-                    {firstScreen && (
-                        <FirstScreen
-                            controls={controls}
-                            prev={priority === null ? zeroScreenHandler : null}
-                            next={secondScreenHandler}
-                        />
-                    )}
-                    {secondScreen && (
-                        <SecondScreen
-                            controls={controls}
-                            prev={
-                                config.enabled_categories
-                                    ? firstScreenHandler
-                                    : zeroScreenHandler
-                            }
-                            next={thirdScreenHandler}
-                            final={finalScreenHandler}
-                        />
-                    )}
-                    {thirdScreen && (
-                        <ThirdScreen
-                            controls={controls}
-                            prev={secondScreenHandler}
-                            next={finalScreenHandler}
-                            final={finalScreenHandler}
-                        />
-                    )}
+            <div className="m-auto p-5 lg:w-2/3 xs:w-full min-h-[300px] flex flex-col items-center justify-center">
+                <Transition
+                    show={zeroScreen}
+                    enter="transition-opacity duration-75"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute lg:w-2/3 xs:w-full"
+                >
+                    <ZeroScreen
+                        controls={controls}
+                        next={
+                            config.enabled_categories
+                                ? firstScreenHandler
+                                : secondScreenHandler
+                        }
+                    />
+                </Transition>
 
-                    {finalScreen && (
-                        <FinalScreen final={finalHandler} controls={controls} />
-                    )}
-                </div>
+                <Transition
+                    show={firstScreen}
+                    enter="transition-opacity duration-75"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute lg:w-2/3 xs:w-full"
+                >
+                    <FirstScreen
+                        controls={controls}
+                        prev={priority === null ? zeroScreenHandler : null}
+                        next={secondScreenHandler}
+                    />
+                </Transition>
 
-                {!finalScreen && (
-                    <div className="mt-[5%]">
-                        <controls.Controls />
-                    </div>
-                )}
+                <Transition
+                    show={secondScreen}
+                    enter="transition-opacity duration-75"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute lg:w-2/3 xs:w-full"
+                >
+                    <SecondScreen
+                        controls={controls}
+                        prev={
+                            config.enabled_categories
+                                ? firstScreenHandler
+                                : zeroScreenHandler
+                        }
+                        next={thirdScreenHandler}
+                        final={finalScreenHandler}
+                    />
+                </Transition>
+                <Transition
+                    show={thirdScreen}
+                    enter="transition-opacity duration-75"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute lg:w-2/3 xs:w-full"
+                >
+                    <ThirdScreen
+                        controls={controls}
+                        prev={secondScreenHandler}
+                        next={finalScreenHandler}
+                        final={finalScreenHandler}
+                    />
+                </Transition>
+                <Transition
+                    show={finalScreen}
+                    enter="transition-opacity duration-75"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-150"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    className="absolute lg:w-2/3 xs:w-full"
+                >
+                    <FinalScreen final={finalHandler} controls={controls} />
+                </Transition>
             </div>
+
+            {!finalScreen && (
+                <div className="mt-[5%]">
+                    <controls.Controls />
+                </div>
+            )}
         </>
     );
-};
+}
