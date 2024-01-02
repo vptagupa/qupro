@@ -176,6 +176,7 @@ Route::name('screen.')->prefix('screen')->group(function () {
 
 Route::name('qu.')->prefix('qu')->group(function () {
     Route::get('/', [FrontendQuController::class, 'index'])->name('index');
+    Route::get('/v2', [FrontendQuController::class, 'indexv2'])->name('indexv2');
     Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
     Route::get('/studentinfo/{studentno}', [FrontendQuController::class, 'getStudentInfo'])->name('student.info');
 });

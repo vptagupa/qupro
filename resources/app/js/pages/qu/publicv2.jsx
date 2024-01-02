@@ -1,5 +1,5 @@
 import Layout from "@/js/layouts/public";
-import Qu from "./components/index";
+import Qu from "./componentsv2/index";
 
 export default function Component() {
     return (

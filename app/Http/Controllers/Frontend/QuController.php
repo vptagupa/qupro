@@ -22,6 +22,16 @@ class QuController extends BasedQuController
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function indexv2()
+    {
+        return $this->render(
+            view: 'qu/publicv2'
+        );
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreQuRequest $request)
