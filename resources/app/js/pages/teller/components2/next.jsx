@@ -142,7 +142,7 @@ export default memo(function Component({ id = 0, url }) {
                         {xform(true).processing && (
                             <FontAwesomeIcon
                                 icon={faSpinner}
-                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                className="h-6 mr-2 text-slate-300 animate-spin absolute"
                             />
                         )}
 
@@ -162,7 +162,7 @@ export default memo(function Component({ id = 0, url }) {
                             {xform(true).processing && (
                                 <FontAwesomeIcon
                                     icon={faSpinner}
-                                    className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                    className="h-6 mr-2 text-slate-300 animate-spin absolute"
                                 />
                             )}
 
@@ -179,7 +179,7 @@ export default memo(function Component({ id = 0, url }) {
                             {xform(false).processing && (
                                 <FontAwesomeIcon
                                     icon={faSpinner}
-                                    className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                    className="h-6 mr-2 text-slate-300 animate-spin absolute"
                                 />
                             )}
 

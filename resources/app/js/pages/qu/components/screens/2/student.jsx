@@ -12,6 +12,7 @@ export default function Component({ next, controls }) {
             return;
         }
 
+        controls.form.clearErrors();
         controls.setLoadingNext(true);
         axios
             .get(

@@ -10,6 +10,7 @@ export default function Component({ prev, next, controls }) {
         controls.next(() => controls.submit(() => next()));
         controls.setNextLabel("Confirm");
     }, []);
+
     return (
         <>
             <div className="min-h-[25rem]">

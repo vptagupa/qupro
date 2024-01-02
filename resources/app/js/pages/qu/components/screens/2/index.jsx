@@ -2,18 +2,18 @@ import Student from "./student";
 import Other from "./other";
 import { useEffect } from "react";
 
-export default function Component({ prev, next, controls }) {
+export default function Component({ prev, final, next, controls }) {
     useEffect(() => {
-        controls.setEnabledCustom(true);
         controls.setCustomLabel("I'm not student");
         controls.custom(() => {
             controls.form.setData("type", "other");
             controls.setEnabledCustom(false);
         });
-    }, []);
+    }, [controls.form]);
 
     useEffect(() => {
-        if (controls.form.data.type == "student") {
+        controls.setEnabledCustom(controls.form.data.type === "student");
+        if (controls.form.data.type === "student") {
             controls.prev(() => {
                 prev();
                 controls.setEnabledCustom(false);
@@ -34,7 +34,14 @@ export default function Component({ prev, next, controls }) {
                     />
                 )}
                 {controls.form.data.type === "other" && (
-                    <Other controls={controls} />
+                    <Other
+                        final={final}
+                        next={() => {
+                            controls.setEnabledCustom(false);
+                            next();
+                        }}
+                        controls={controls}
+                    />
                 )}
             </div>
             <div>

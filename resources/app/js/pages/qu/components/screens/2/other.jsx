@@ -1,11 +1,11 @@
 import { Form, Input, Checkbox } from "@/js/components/form";
 import { useEffect, useRef } from "react";
 
-export default function Component({ next, controls }) {
+export default function Component({ prev, final, next, controls }) {
     const nameRef = useRef();
     const studentRef = useRef();
 
-    const handleFinalNext = () => {
+    const handleSubmit = () => {
         const errors = Object.keys(validateInputs(["name"]));
         if (errors.includes("name")) {
             nameRef.current.focus();
@@ -13,7 +13,7 @@ export default function Component({ next, controls }) {
         }
 
         controls.form.clearErrors();
-        controls.submit(() => next());
+        controls.submit(() => final());
     };
 
     const handleNext = () => {
@@ -28,15 +28,13 @@ export default function Component({ next, controls }) {
             return;
         }
 
-        getStudentInfo();
-    };
+        controls.form.clearErrors();
 
-    const getStudentInfo = () => {
         controls.setLoadingNext(true);
         axios
             .get(
                 route("qu.student.info", {
-                    studentno: form.data.student_info.student_no,
+                    studentno: controls.form.data.student_info.student_no,
                 }),
             )
             .then((response) => {
@@ -54,6 +52,7 @@ export default function Component({ next, controls }) {
     const validateInputs = (fields) => {
         let errors = null;
         const studentInfo = ["student_no"];
+
         fields.forEach((field) => {
             let value = controls.form.data[field];
             if (studentInfo.includes(field)) {
@@ -75,33 +74,26 @@ export default function Component({ next, controls }) {
         return true;
     };
 
-    const submit = (e) => {
-        e.preventDefault();
-        controls._next.current();
-    };
-
-    useEffect(() => {
-        controls.next(handleNext);
-    }, [controls.form.data]);
-
     useEffect(() => {
         controls.setNextLabel(
             controls.form.data.is_representative ? "Next" : "Confirm",
         );
-        if (controls.form.data.is_representative) {
-            controls.next(handleNext);
-        } else {
-            controls.next(handleFinalNext);
-        }
+        controls.next(
+            controls.form.data.is_representative ? handleNext : handleSubmit,
+        );
         controls.prev(() => {
             controls.form.setData("type", "student");
-            controls.setEnabledCustom(true);
         });
-    }, [controls.form]);
+    }, [controls.form.data]);
 
     return (
         <>
-            <Form onSubmit={(e) => submit(e)}>
+            <Form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    controls._next.current();
+                }}
+            >
                 <div className="flex flex-col gap-2">
                     <div>
                         <label className="flex gap-2 items-center justify-start">
@@ -109,6 +101,7 @@ export default function Component({ next, controls }) {
                                 className="lg:p-3 focus:ring focus:border-none"
                                 name="is_priority"
                                 value={controls.form.data.is_priority ?? false}
+                                checked={controls.form.data.is_priority}
                                 onChange={(e) => {
                                     controls.form.setData(
                                         "is_priority",
@@ -127,6 +120,7 @@ export default function Component({ next, controls }) {
                                 className="lg:p-3 focus:ring focus:border-none"
                                 name="is_representative"
                                 value={controls.form.data.is_representative}
+                                checked={controls.form.data.is_representative}
                                 onChange={(e) => {
                                     controls.form.setData(
                                         "is_representative",

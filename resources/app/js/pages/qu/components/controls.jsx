@@ -1,7 +1,7 @@
 import { Button } from "@/js/components/buttons";
-import Circle from "@/assets/images/circle.svg";
 import { useState, useRef, useCallback } from "react";
 import { useForm } from "@/js/helpers/form";
+import Circle from "@/assets/images/circle.svg";
 
 export const useControls = ({
     enabledPrev = true,
@@ -12,26 +12,35 @@ export const useControls = ({
     customLabel = "",
     url,
 }) => {
-    const [props, setProps] = useState({
-        prev: {
-            enabled: enabledPrev,
-            hidden: false,
-            label: prevLabel,
-            loading: false,
-        },
-        next: {
-            enabled: enabledNext,
-            hidden: false,
-            label: nextLabel,
-            loading: false,
-        },
-        custom: {
-            enabled: enabledCustom,
-            hidden: false,
-            label: customLabel,
-            loading: false,
-        },
-    });
+    // const [attrib, setAttrib] = useState({
+    //     prev: {
+    //         enabled: enabledPrev,
+    //         hidden: false,
+    //         label: prevLabel,
+    //         loading: false,
+    //     },
+    //     next: {
+    //         enabled: enabledNext,
+    //         hidden: false,
+    //         label: nextLabel,
+    //         loading: false,
+    //     },
+    //     custom: {
+    //         enabled: enabledCustom,
+    //         hidden: false,
+    //         label: customLabel,
+    //         loading: false,
+    //     },
+    // });
+    const [_enabledPrev, setEnabledPrev] = useState(enabledPrev);
+    const [_enabledNext, setEnabledNext] = useState(enabledNext);
+    const [_enabledCustom, setEnabledCustom] = useState(enabledCustom);
+    const [_prevLabel, setPrevLabel] = useState(prevLabel);
+    const [_nextLabel, setNextLabel] = useState(nextLabel);
+    const [_customLabel, setCustomLabel] = useState(customLabel);
+    const [loadingNext, setLoadingNext] = useState(false);
+    const [loadingCustom, setLoadingCustom] = useState(false);
+    const [loadingPrev, setLoadingPrev] = useState(false);
 
     const { form } = useForm({
         method: "post",
@@ -71,87 +80,87 @@ export const useControls = ({
     const custom = (callback) => {
         _custom.current = callback;
     };
-    const setPrevLabel = (label) => {
-        setProps({
-            ...props,
-            prev: {
-                ...props.prev,
-                label,
-            },
-        });
-    };
-    const setNextLabel = (label) => {
-        setProps({
-            ...props,
-            next: {
-                ...props.next,
-                label,
-            },
-        });
-    };
-    const setCustomLabel = (label) => {
-        setProps({
-            ...props,
-            custom: {
-                ...props.custom,
-                label,
-            },
-        });
-    };
-    const setEnabledPrev = (enabled) => {
-        setProps({
-            ...props,
-            prev: {
-                ...props.prev,
-                enabled,
-            },
-        });
-    };
-    const setEnabledNext = (enabled) => {
-        setProps({
-            ...props,
-            next: {
-                ...props.next,
-                enabled,
-            },
-        });
-    };
-    const setEnabledCustom = (enabled) => {
-        setProps({
-            ...props,
-            custom: {
-                ...props.custom,
-                enabled,
-            },
-        });
-    };
-    const setLoadingNext = (loading) => {
-        setProps({
-            ...props,
-            next: {
-                ...props.next,
-                loading,
-            },
-        });
-    };
-    const setLoadingPrev = (loading) => {
-        setProps({
-            ...props,
-            prev: {
-                ...props.prev,
-                loading,
-            },
-        });
-    };
-    const setLoadingCustom = (loading) => {
-        setProps({
-            ...props,
-            custom: {
-                ...props.custom,
-                loading,
-            },
-        });
-    };
+    // const setPrevLabel = (label) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         prev: {
+    //             ...attrib.prev,
+    //             label,
+    //         },
+    //     });
+    // };
+    // const setNextLabel = (label) => {
+    //     setAttrib((state) => ({
+    //         ...state,
+    //         next: {
+    //             ...state.next,
+    //             label,
+    //         },
+    //     }));
+    // };
+    // const setCustomLabel = (label) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         custom: {
+    //             ...attrib.custom,
+    //             label,
+    //         },
+    //     });
+    // };
+    // const setEnabledPrev = (enabled) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         prev: {
+    //             ...attrib.prev,
+    //             enabled,
+    //         },
+    //     });
+    // };
+    // const setEnabledNext = (enabled) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         next: {
+    //             ...attrib.next,
+    //             enabled,
+    //         },
+    //     });
+    // };
+    // const setEnabledCustom = (enabled) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         custom: {
+    //             ...attrib.custom,
+    //             enabled,
+    //         },
+    //     });
+    // };
+    // const setLoadingNext = (loading) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         next: {
+    //             ...attrib.next,
+    //             loading,
+    //         },
+    //     });
+    // };
+    // const setLoadingPrev = (loading) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         prev: {
+    //             ...attrib.prev,
+    //             loading,
+    //         },
+    //     });
+    // };
+    // const setLoadingCustom = (loading) => {
+    //     setAttrib({
+    //         ...attrib,
+    //         custom: {
+    //             ...attrib.custom,
+    //             loading,
+    //         },
+    //     });
+    // };
 
     const submit = useCallback(
         (callback) => {
@@ -175,47 +184,47 @@ export const useControls = ({
     const PrevButton = () => (
         <Button
             type="button"
-            disabled={!props.prev.enabled}
+            disabled={!_enabledPrev}
             onClick={(e) => _prev.current()}
             className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] bg-slate-300 text-center text-white uppercase font-extrabold disabled:bg-slate-200 enabled:bg-gradient-to-r  from-gray-500 to-zinc-500"
         >
-            <span>{props.prev.label}</span>
+            <span>{_prevLabel}</span>
         </Button>
     );
 
     const NextButton = () => (
         <Button
-            disabled={!props.next.enabled}
+            disabled={!_enabledNext}
             type="button"
             onClick={(e) => _next.current()}
             className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] text-white text-center uppercase font-extrabold enabled:bg-gradient-to-r  from-purple-400 to-fuchsia-400"
         >
-            {props.next.loading && (
+            {loadingNext && (
                 <img
                     src={Circle}
                     className="animate-spin h-5 w-5 mr-1 text-opacity-10 text-slate-100"
                 />
             )}
 
-            <span>{props.next.label}</span>
+            <span>{_nextLabel}</span>
         </Button>
     );
 
     const CustomButton = () =>
-        props.custom.enabled && (
+        _enabledCustom && (
             <Button
                 type="button"
                 onClick={(e) => _custom.current()}
                 className="flex justify-center xs:h-[3rem] lg:h-[4rem] w-[8rem] text-[1.2rem] text-white text-center uppercase font-extrabold enabled:bg-gradient-to-r  from-purple-400 to-fuchsia-400"
             >
-                {props.custom.loading && (
+                {loadingCustom && (
                     <img
                         src={Circle}
                         className="animate-spin h-5 w-5 mr-1 text-opacity-10 text-slate-100"
                     />
                 )}
 
-                <span>{props.custom.label}</span>
+                <span>{_customLabel}</span>
             </Button>
         );
 

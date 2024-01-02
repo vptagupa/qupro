@@ -25,7 +25,6 @@ export default function Index({ url }) {
                     show={pager.page == 0}
                     className="absolute w-full flex items-center justify-center"
                     {...transitions}
-                    controls={controls}
                 >
                     <Screens.Page0
                         next={isEnabledCategories ? pager.page1 : pager.page2}
@@ -51,6 +50,7 @@ export default function Index({ url }) {
                     <Screens.Page2
                         prev={isEnabledCategories ? pager.page1 : pager.page0}
                         next={pager.page3}
+                        final={pager.page4}
                         controls={controls}
                     />
                 </Transition>

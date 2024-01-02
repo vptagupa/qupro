@@ -20,7 +20,7 @@ export default {
             keyframes: {
                 marquee: {
                     from: {
-                        transform: "translateX(100%)",
+                        transform: "translateX(200%)",
                     },
                     to: {
                         transform: "translateX(-100%)",
