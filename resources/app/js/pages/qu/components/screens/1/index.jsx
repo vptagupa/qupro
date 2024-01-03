@@ -24,7 +24,7 @@ export default function Component({ prev, next, controls }) {
     }, []);
 
     return (
-        <>
+        <div className="flex flex-col items-center justify-center w-2/3">
             <div className="w-full mb-10 flex items-start gap-x-5 justify-center">
                 <FontAwesomeIcon
                     icon={faArrowLeft}
@@ -54,7 +54,7 @@ export default function Component({ prev, next, controls }) {
                     <div key={category.id} className="w-[15rem]">
                         <PrimaryButton
                             type="button"
-                            className={`flex justify-center w-full leading-6  h-24 text-xl text-center uppercase font-extrabold ${
+                            className={`flex justify-center w-full leading-6  h-20 text-xl text-center uppercase font-extrabold ${
                                 controls.form.data?.category?.id == category.id
                                     ? "!bg-teal-400"
                                     : ""
@@ -72,6 +72,6 @@ export default function Component({ prev, next, controls }) {
             <div className="w-full mt-10 flex items-start justify-center">
                 <controls.PrevButton />
             </div>
-        </>
+        </div>
     );
 }

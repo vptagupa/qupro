@@ -7,9 +7,13 @@ export default function Component({ prev, next, controls }) {
         controls.setEnabledPrev(true);
         controls.setEnabledNext(true);
         controls.prev(prev);
-        controls.next(() => controls.submit(() => next()));
+        controls.next(() => {
+            if (controls.form.processing) return;
+
+            controls.submit(() => next());
+        });
         controls.setNextLabel("Confirm");
-    }, []);
+    }, [controls.form]);
 
     return (
         <>

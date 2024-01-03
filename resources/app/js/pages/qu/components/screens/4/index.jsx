@@ -8,21 +8,22 @@ export default function Component({ next, controls }) {
         controls.form.clearErrors();
         controls.form.reset();
     };
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             finalhandler();
         }, 10000);
 
         return () => clearTimeout(timeout);
-    }, []);
+    }, [controls.form]);
 
     return (
-        <>
+        <div className="flex flex-col items-center justify-center w-2/3">
             <Ticket
                 qu={controls.form.data.qu}
                 studentInfo={controls.form.data?.student_info}
             />
-            <div className="mt-[20%]">
+            <div className="mt-[5%]">
                 <div className="flex gap-5 items-center justify-center">
                     <Button
                         type="button"
@@ -33,6 +34,6 @@ export default function Component({ next, controls }) {
                     </Button>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

@@ -22,8 +22,8 @@ export default function Component({ prev, final, next, controls }) {
     }, [controls.form.data.type]);
 
     return (
-        <>
-            <div className="min-h-[25rem]">
+        <div className="flex flex-col items-center justify-center w-2/3">
+            <div className="min-h-[20rem]">
                 {controls.form.data.type === "student" && (
                     <Student
                         next={() => {
@@ -44,9 +44,9 @@ export default function Component({ prev, final, next, controls }) {
                     />
                 )}
             </div>
-            <div>
+            <div className="mt-4">
                 <controls.Buttons />
             </div>
-        </>
+        </div>
     );
 }

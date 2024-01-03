@@ -13,6 +13,9 @@ export default function Component({ prev, final, next, controls }) {
         }
 
         controls.form.clearErrors();
+
+        if (controls.form.processing) return;
+
         controls.submit(() => final());
     };
 
