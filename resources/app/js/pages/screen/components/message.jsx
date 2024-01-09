@@ -1,12 +1,12 @@
-export default ({ text, style = null }) => {
+export default function Component({ text, style = null }) {
     return (
         <>
             <div
                 style={style}
-                className="px-4 text-[2rem] whitespace-nowrap overflow-hidden animate-marquee transition ease-linear delay-[5000]"
+                className="text-[2rem] animate-marquee whitespace-nowrap overflow-hidden"
             >
                 {text}
             </div>
         </>
     );
-};
+}

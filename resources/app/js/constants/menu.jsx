@@ -21,7 +21,7 @@ export default [
         id: "qu",
         name: "Qu",
         icon: <PuzzlePieceIcon className="h-4" />,
-        route: "admin.qu.index",
+        route: "qu.index",
         permission: "REGISTRATION",
     },
     // {

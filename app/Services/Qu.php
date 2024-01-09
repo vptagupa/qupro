@@ -111,7 +111,7 @@ class Qu
 
     public function dispatchCalledEvent($qu)
     {
-        QuCalled::dispatch($qu);
+        QuCalled::dispatch($qu, $qu->accountType->statistics);
         ScreenQuCalled::dispatch($qu, [...$qu->getPendingTotal(), ...$qu->getServedTotal()]);
     }
 

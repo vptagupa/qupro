@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import Avatar from "@/assets/images/avatar.png";
 
-const Component = ({ controls: { form } }) => {
+export default function Component({ data }) {
     return (
         <>
             <div className="flex flex-col gap-y-6 justify-center">
@@ -14,23 +13,14 @@ const Component = ({ controls: { form } }) => {
                     </div>
                 </div>
                 <div className="flex flex-col justify-center text-center text-xl font-extrabold uppercase">
-                    <div>{form.data.student_info.student_no}</div>
+                    <div>{data.student_no}</div>
                     <div className="mt-5">
                         <span className="border-2 border-solid border-purple-400 p-2 px-8 shadow-lg rounded-xl">
-                            {form.data.student_info.name},{" "}
-                            {form.data.student_info.course_code}
+                            {data.name}, {data.course_code}
                         </span>
                     </div>
                 </div>
             </div>
         </>
     );
-};
-
-Component.propTypes = {
-    controls: PropTypes.shape({
-        form: PropTypes.object.isRequired,
-    }),
-};
-
-export default Component;
+}

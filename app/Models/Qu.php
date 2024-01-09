@@ -68,7 +68,7 @@ class Qu extends Model implements Auditable
     protected static function booted(): void
     {
         static::created(function (Qu $model) {
-            QuCreated::dispatch($model);
+            QuCreated::dispatch($model, $model->accountType->statistics);
             ScreenQuCreated::dispatch($model, $model->getPendingTotal());
         });
 
@@ -107,14 +107,6 @@ class Qu extends Model implements Auditable
                 'account_type_id' => $this->account_type_id,
                 'counter' => $this->counter
             ]
-        );
-    }
-
-    public function statistics(): Attribute
-    {
-        $accountType = $this->accountType;
-        return Attribute::make(
-            get: fn() => $accountType->statistics
         );
     }
 

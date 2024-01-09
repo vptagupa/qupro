@@ -84,7 +84,9 @@ export default function Component({ screen_id, account_type_id }) {
                             color: themeMedia.message.set.font,
                         }}
                     >
-                        <Message text={config?.screen_text ?? ""} />
+                        <div className="flex justify-start">
+                            <Message text={config?.screen_text ?? ""} />
+                        </div>
                     </div>
                 </div>
             </div>

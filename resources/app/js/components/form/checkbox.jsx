@@ -7,6 +7,7 @@ export default forwardRef((props, ref) => {
         ...props,
         className: null,
     });
+
     return (
         <Base
             render={checkbox}

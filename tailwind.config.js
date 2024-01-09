@@ -15,12 +15,12 @@ export default {
                 xxs: "0.55rem",
             },
             animation: {
-                marquee: "marquee 20s linear infinite",
+                marquee: "marquee 19s linear infinite",
             },
             keyframes: {
                 marquee: {
                     from: {
-                        transform: "translateX(100%)",
+                        transform: "translateX(200%)",
                     },
                     to: {
                         transform: "translateX(-100%)",
