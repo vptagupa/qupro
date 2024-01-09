@@ -1,4 +1,4 @@
-const { app, BrowserWindow, screen } = require("electron");
+const { app, BrowserWindow, screen, Tray } = require("electron");
 
 const createWindow = () => {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -29,6 +29,6 @@ app.whenReady().then(() => {
     createWindow();
 });
 
-app.on("window-all-closed", () => {
+app.on("window-all-closed", (e) => {
     if (process.platform !== "darwin") app.quit();
 });

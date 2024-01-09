@@ -47,8 +47,8 @@ export default function Component({ url, accountType, page_id }) {
                 <div className="w-1/2 text-center">
                     <Qu id={id} />
                 </div>
-                <div className="w-1/2 flex flex-col items-center justify-center">
-                    <div className="w-full text-center">
+                <div className="w-1/2 flex flex-col gap-y-2 items-start justify-center">
+                    <div className="grow flex items-center justify-center w-full text-center h-12">
                         <Ticket id={id} />
                     </div>
                     <div className="w-full flex flex-col justify-center items-center text-center">

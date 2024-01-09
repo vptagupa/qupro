@@ -42,12 +42,6 @@ class QuFactory extends Factory
             'student_name' => fake()->name(),
             'teller_id' => User::first(),
             'account_type_id' => AccountType::factory(),
-            'num_fulltext' => function ($attributes) {
-                return AccountType::find($attributes['account_type_id'])->first()->format->fulltext(
-                    $attributes['num']
-                );
-            },
-            'num' => self::$counter,
             'counter_name' => '',
             'priority' => rand(0, 1),
             'skipped_at' => null,

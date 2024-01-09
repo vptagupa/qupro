@@ -22,7 +22,8 @@ class File extends Model
     protected $appends = [
         'url',
         'is_image',
-        'is_video'
+        'is_video',
+        'url2'
     ];
 
     public static function booted()
@@ -38,6 +39,13 @@ class File extends Model
     {
         return Attribute::make(
             get: fn() => asset('storage/' . str_replace('public/', '', $this->path))
+        );
+    }
+
+    public function url2(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => Storage::url($this->path)
         );
     }
 
