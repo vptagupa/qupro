@@ -57,7 +57,7 @@ export default function Index({ url }) {
             style.activeBg
         } hover:${
             style.activeFont
-        } hover:scale-110 leading-4 transition delay-100 duration-700 ease-in-out border-indigo-400 p-4 last:border-none`;
+        } hover:scale-110 leading-4 transition delay-100 duration-700 ease-in-out border-[#00539C] p-4 last:border-none`;
 
     const priorityStyle = {
         from: "from-pink-600",
