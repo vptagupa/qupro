@@ -1,151 +1,35 @@
-import { Form, Input, Checkbox } from "@/js/components/form";
-import { useEffect, useRef } from "react";
+import { Form, Checkbox } from "@/js/components/form";
+import Input from "../../input";
+import style from "../../style";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function Component({ prev, final, next, controls }) {
-    const nameRef = useRef();
-    const studentRef = useRef();
-
-    const handleSubmit = () => {
-        const errors = Object.keys(validateInputs(["name"]));
-        if (errors.includes("name")) {
-            nameRef.current.focus();
-            return;
-        }
-
-        controls.form.clearErrors();
-
-        if (controls.form.processing) return;
-
-        controls.submit(() => final());
-    };
-
-    const handleNext = () => {
-        const errors = Object.keys(validateInputs(["name", "student_no"]));
-        if (errors.length > 0) {
-            if (errors.includes("name")) {
-                nameRef.current.focus();
-            }
-            if (!errors.includes("name") && errors.includes("student_no")) {
-                studentRef.current.focus();
-            }
-            return;
-        }
-
-        controls.form.clearErrors();
-
-        controls.setLoadingNext(true);
-        axios
-            .get(
-                route("qu.student.info", {
-                    studentno: controls.form.data.student_info.student_no,
-                }),
-            )
-            .then((response) => {
-                if (response.data) {
-                    controls.form.setData("student_info", response.data);
-                }
-                controls.setLoadingNext(false);
-                next();
-            })
-            .catch((error) => {
-                controls.setLoadingNext(false);
-            });
-    };
-
-    const validateInputs = (fields) => {
-        let errors = null;
-        const studentInfo = ["student_no"];
-
-        fields.forEach((field) => {
-            let value = controls.form.data[field];
-            if (studentInfo.includes(field)) {
-                value = controls.form.data.student_info[field];
-            }
-            if (value == "") {
-                errors = {
-                    ...(errors ?? {}),
-                    [field]: "Required",
-                };
-            }
-        });
-
-        if (errors) {
-            controls.form.setErrors(errors);
-            return errors;
-        }
-
-        return true;
-    };
-
-    useEffect(() => {
-        controls.setNextLabel(
-            controls.form.data.is_representative ? "Next" : "Confirm",
-        );
-        controls.next(
-            controls.form.data.is_representative ? handleNext : handleSubmit,
-        );
-        controls.prev(() => {
-            controls.form.setData("type", "student");
-        });
-    }, [controls.form.data]);
-
+export default function Component({ final, nameRef, controls }) {
     return (
         <>
             <Form
+                className={`${style.primaryFont} flex flex-col gap-y-2`}
                 onSubmit={(e) => {
                     e.preventDefault();
-                    controls._next.current();
+                    handleSubmit();
                 }}
             >
+                <div
+                    className="flex items-center justify-end mb-10 cursor-pointer"
+                    onClick={(e) => controls.form.setData("type", "student")}
+                >
+                    <FontAwesomeIcon icon={faArrowLeft} className="h-7" />
+                </div>
                 <div className="flex flex-col gap-2">
-                    <div>
-                        <label className="flex gap-2 items-center justify-start">
-                            <Checkbox
-                                className="lg:p-3 focus:ring focus:border-none"
-                                name="is_priority"
-                                value={controls.form.data.is_priority ?? false}
-                                checked={controls.form.data.is_priority}
-                                onChange={(e) => {
-                                    controls.form.setData(
-                                        "is_priority",
-                                        e.target.checked,
-                                    );
-                                }}
-                            />
-                            <div className="lg:text-[1.5rem]">
-                                Check for priority status (PWD/SR/Pregnant)
-                            </div>
-                        </label>
-                    </div>
-                    <div>
-                        <label className="flex gap-2 items-center justify-start">
-                            <Checkbox
-                                className="lg:p-3 focus:ring focus:border-none"
-                                name="is_representative"
-                                value={controls.form.data.is_representative}
-                                checked={controls.form.data.is_representative}
-                                onChange={(e) => {
-                                    controls.form.setData(
-                                        "is_representative",
-                                        e.target.checked,
-                                    );
-                                }}
-                            />
-                            <div className="lg:text-[1.5rem]">
-                                I am a student representative
-                            </div>
-                        </label>
-                    </div>
                     <div>
                         <Input
                             ref={nameRef}
                             type="text"
-                            className={
-                                "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
-                                (controls.form.invalid("name")
-                                    ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
-                                    : "")
-                            }
+                            className={`${style.secondaryFont} ${
+                                controls.form.invalid("name")
+                                    ? " ring ring-pink-500/100 focus:ring focus:ring-pink-500/100"
+                                    : ""
+                            }`}
                             autoFocus
                             placeholder="Enter nickname"
                             value={controls.form.data.name}
@@ -154,32 +38,6 @@ export default function Component({ prev, final, next, controls }) {
                             }
                         />
                     </div>
-
-                    {controls.form.data.is_representative && (
-                        <div>
-                            <Input
-                                ref={studentRef}
-                                type="text"
-                                className={
-                                    "xs:p-4 xs:text-[2rem] lg:p-7 lg:text-[4rem] border-2 rounded-xl focus:ring" +
-                                    (controls.form.invalid("student_no")
-                                        ? " ring ring-pink-400/100 focus:ring focus:ring-pink-400/100"
-                                        : "")
-                                }
-                                maxLength={15}
-                                placeholder="Enter student no."
-                                value={
-                                    controls.form.data.student_info.student_no
-                                }
-                                onChange={(e) =>
-                                    controls.form.setData("student_info", {
-                                        ...controls.form.data.student_info,
-                                        student_no: e.target.value,
-                                    })
-                                }
-                            />
-                        </div>
-                    )}
                 </div>
             </Form>
         </>

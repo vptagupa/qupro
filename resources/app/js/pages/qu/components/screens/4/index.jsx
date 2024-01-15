@@ -1,9 +1,9 @@
 import Ticket from "./ticket";
 import { useEffect } from "react";
-import { Button } from "@/js/components/buttons";
+import Button from "../../button";
 
 export default function Component({ next, controls }) {
-    const finalhandler = () => {
+    const handleFinal = () => {
         next();
         controls.form.clearErrors();
         controls.form.reset();
@@ -11,29 +11,31 @@ export default function Component({ next, controls }) {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            finalhandler();
+            handleFinal();
         }, 10000);
 
         return () => clearTimeout(timeout);
     }, [controls.form]);
 
     return (
-        <div className="flex flex-col items-center justify-center w-2/3">
-            <Ticket
-                qu={controls.form.data.qu}
-                studentInfo={controls.form.data?.student_info}
-            />
-            <div className="mt-[5%]">
+        <>
+            <div className="flex flex-col items-center justify-center">
+                <Ticket
+                    qu={controls.form.data.qu}
+                    studentInfo={controls.form.data?.student_info}
+                />
+            </div>
+            <div className="mt-[5rem]">
                 <div className="flex gap-5 items-center justify-center">
                     <Button
                         type="button"
-                        className="flex gap-x-2 justify-center h-[5rem] w-[10rem] !text-[1.2rem] text-center text-white uppercase font-extrabold bg-gradient-to-r  from-purple-400 to-fuchsia-400"
-                        onClick={(e) => finalhandler()}
+                        className={`flex justify-center xs:h-[3rem] lg:h-[4rem] w-[10rem] !text-[2rem] text-white text-center uppercase font-extrabold bg-indigo-800 shadow-sm shadow-indigo-700`}
+                        onClick={(e) => handleFinal()}
                     >
                         <span>Done</span>
                     </Button>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

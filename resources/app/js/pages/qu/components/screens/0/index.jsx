@@ -6,7 +6,7 @@ export default function Component({ next, controls }) {
 
     return (
         <>
-            <div className="flex items-center justify-center flex-wrap gap-2 w-2/3">
+            <div className="flex items-center justify-center flex-wrap gap-3 w-full">
                 {accountTypes.data.map((department) => (
                     <div key={department.id} className="w-[15rem]">
                         <Department

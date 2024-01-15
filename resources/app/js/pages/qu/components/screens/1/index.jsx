@@ -1,8 +1,8 @@
-import { PrimaryButton } from "@/js/components/buttons";
 import { useState, useEffect } from "react";
 import { usePage } from "@inertiajs/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import style from "../../style";
 
 export default function Component({ prev, next, controls }) {
     const {
@@ -14,22 +14,42 @@ export default function Component({ prev, next, controls }) {
     const batch = categories.slice(page, page + limiter);
 
     const isLastPage = () => page + limiter > categories.length;
-
-    useEffect(() => {
-        controls.setEnabledNext(controls.form.data.category?.id ? true : false);
-    }, [controls.form.data.category]);
-
-    useEffect(() => {
-        controls.prev(prev);
-    }, []);
-
     return (
-        <div className="flex flex-col items-center justify-center w-2/3">
-            <div className="w-full mb-10 flex items-start gap-x-5 justify-center">
+        <div className="flex flex-col items-center justify-center text-slate-200">
+            <div className="flex flex-col items-center justify-center">
+                <div className="grid grid-cols-2 gap-2">
+                    {batch.map((category) => (
+                        <div
+                            key={category.id}
+                            className={`w-full cursor-pointer ${
+                                style.secondaryBg
+                            } ${
+                                style.secondaryFont
+                            } hover:bg-yellow-400 rounded-lg hover:scale-110 delay-100 transition ease-in-out duration-700 border border-indigo-400 p-4 ${
+                                controls.form.data?.category?.id == category.id
+                                    ? "!bg-yellow-400 !text-black/80"
+                                    : ""
+                            }`}
+                        >
+                            <div
+                                type="button"
+                                className={`flex justify-start text-xl uppercase font-extrabold`}
+                                onClick={(e) => {
+                                    controls.form.setData("category", category);
+                                    next();
+                                }}
+                            >
+                                <span>{category.name}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="w-full mt-10 flex items-start gap-x-5 justify-center">
                 <FontAwesomeIcon
                     icon={faArrowLeft}
-                    className={`h-6 cursor-pointer text-slate-${
-                        page <= 0 ? "400" : "800"
+                    className={`h-6 cursor-pointer ${
+                        page <= 0 ? "text-[#01257D]" : " text-indigo-200"
                     }`}
                     onClick={(e) => {
                         if (page > 0) {
@@ -39,8 +59,8 @@ export default function Component({ prev, next, controls }) {
                 />
                 <FontAwesomeIcon
                     icon={faArrowRight}
-                    className={`h-6 cursor-pointer text-slate-${
-                        isLastPage() ? "400" : "800"
+                    className={`h-6 cursor-pointer ${
+                        isLastPage() ? " text-[#01257D]" : "text-indigo-200"
                     }`}
                     onClick={(e) => {
                         if (!isLastPage()) {
@@ -48,29 +68,6 @@ export default function Component({ prev, next, controls }) {
                         }
                     }}
                 />
-            </div>
-            <div className="flex min-h-[25rem] items-center justify-center flex-wrap gap-2 w-2/3">
-                {batch.map((category) => (
-                    <div key={category.id} className="w-[15rem]">
-                        <PrimaryButton
-                            type="button"
-                            className={`flex justify-center w-full leading-6  h-20 text-xl text-center uppercase font-extrabold ${
-                                controls.form.data?.category?.id == category.id
-                                    ? "!bg-teal-400"
-                                    : ""
-                            }`}
-                            onClick={(e) => {
-                                controls.form.setData("category", category);
-                                next();
-                            }}
-                        >
-                            <span>{category.name}</span>
-                        </PrimaryButton>
-                    </div>
-                ))}
-            </div>
-            <div className="w-full mt-10 flex items-start justify-center">
-                <controls.PrevButton />
             </div>
         </div>
     );

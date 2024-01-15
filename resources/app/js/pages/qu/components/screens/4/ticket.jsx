@@ -1,21 +1,24 @@
 import QRCode from "react-qr-code";
+import style from "../../style";
 
 export default function Component({ qu, studentInfo }) {
     return (
-        <div className="flex flex-col gap-y-2 justify-center">
-            <div className="text-center text-[5rem] font-extrabold uppercase mb-7">
-                <div>{qu.num_fulltext}</div>
+        <div
+            className={`flex flex-col justify-center uppercase gap-y-2 ${style.primaryFont}`}
+        >
+            <div className="grow flex items-center justify-center text-center h-[6rem] text-[5rem] font-extrabold uppercase">
+                {qu.num_fulltext}
             </div>
             {qu.type == "student" && (
-                <span className="text-center text-[1rem] border-b border-solid border-purple-400 p-2 px-8">
+                <div className="text-center text-[1rem] border-b border-solid border-slate-400">
                     {qu.student_name}, {studentInfo.course_code}
-                </span>
+                </div>
             )}
 
-            {qu.type == "other" && (
-                <span className="text-center text-[1rem] border-b border-solid border-purple-400 p-2 px-8">
+            {(qu.type == "other" || qu.is_representative) && (
+                <div className="text-center text-[1rem] border-b border-solid border-slate-400">
                     <div>{qu.name}</div>
-                </span>
+                </div>
             )}
             <div className="flex items-center justify-center mt-5">
                 <QRCode

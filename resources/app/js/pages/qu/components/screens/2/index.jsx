@@ -1,51 +1,90 @@
 import Student from "./student";
 import Other from "./other";
-import { useEffect } from "react";
+import Button from "../../button";
+import { validStudent, validOther } from "./actions";
+import { useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default function Component({ prev, final, next, controls }) {
-    useEffect(() => {
-        controls.setCustomLabel("I'm not student");
-        controls.custom(() => {
-            controls.form.setData("type", "other");
-            controls.setEnabledCustom(false);
-        });
-    }, [controls.form]);
+export default function Component({ pager, prev, final, next, controls }) {
+    const studentRef = useRef();
+    const nameRef = useRef();
+    const [progressing, setProgess] = useState(false);
 
-    useEffect(() => {
-        controls.setEnabledCustom(controls.form.data.type === "student");
-        if (controls.form.data.type === "student") {
-            controls.prev(() => {
-                prev();
-                controls.setEnabledCustom(false);
-            });
+    const handleOther = () => {
+        controls.form.setData("type", "other");
+    };
+    const handleNext = async () => {
+        setProgess(true);
+        if (await validStudent(controls, studentRef, nameRef)) {
+            next();
         }
-    }, [controls.form.data.type]);
+        setProgess(false);
+    };
+
+    const handleOtherConfirm = () => {
+        if (validOther(controls, nameRef)) {
+            if (controls.form.processing) return;
+
+            controls.submit(() => final());
+        }
+    };
 
     return (
-        <div className="flex flex-col items-center justify-center w-2/3">
-            <div className="min-h-[20rem]">
+        <div className="grow flex flex-col items-center justify-center">
+            <div className="grow flex items-center">
                 {controls.form.data.type === "student" && (
                     <Student
-                        next={() => {
-                            controls.setEnabledCustom(false);
-                            next();
-                        }}
+                        studentRef={studentRef}
+                        nameRef={nameRef}
                         controls={controls}
                     />
                 )}
                 {controls.form.data.type === "other" && (
                     <Other
                         final={final}
-                        next={() => {
-                            controls.setEnabledCustom(false);
-                            next();
-                        }}
+                        nameRef={nameRef}
                         controls={controls}
                     />
                 )}
             </div>
-            <div className="mt-4">
-                <controls.Buttons />
+            <div className="h-[6rem] mt-4 flex items-center justify-center gap-x-2">
+                {controls.form.data.type == "student" && (
+                    <Button
+                        className={`!w-[12rem] !text-[2rem]`}
+                        onClick={handleNext}
+                    >
+                        {progressing && (
+                            <FontAwesomeIcon
+                                icon={faSpinner}
+                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                            />
+                        )}
+                        Next
+                    </Button>
+                )}
+                {controls.form.data.type == "other" && (
+                    <Button
+                        className={`!w-[12rem] !text-[2rem]`}
+                        onClick={handleOtherConfirm}
+                    >
+                        {controls.form.processing && (
+                            <FontAwesomeIcon
+                                icon={faSpinner}
+                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                            />
+                        )}
+                        Confirm
+                    </Button>
+                )}
+                {controls.form.data.type != "other" && (
+                    <Button
+                        className={`!w-1/2 !text-[1.1rem]`}
+                        onClick={handleOther}
+                    >
+                        I don't have Student No.
+                    </Button>
+                )}
             </div>
         </div>
     );
