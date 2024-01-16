@@ -57,7 +57,7 @@ export default function Component({ pager, prev, final, next, controls }) {
                         {progressing && (
                             <FontAwesomeIcon
                                 icon={faSpinner}
-                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                className="h-6 mr-2 text-blue-500 animate-spin absolute"
                             />
                         )}
                         Next
@@ -71,7 +71,7 @@ export default function Component({ pager, prev, final, next, controls }) {
                         {controls.form.processing && (
                             <FontAwesomeIcon
                                 icon={faSpinner}
-                                className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                                className="h-6 mr-2 text-blue-500 animate-spin absolute"
                             />
                         )}
                         Confirm

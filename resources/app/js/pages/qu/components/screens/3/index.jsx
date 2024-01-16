@@ -27,7 +27,7 @@ export default function Component({ prev, next, controls }) {
                     {controls.form.processing && (
                         <FontAwesomeIcon
                             icon={faSpinner}
-                            className="h-6 mr-2 text-slate-500 animate-spin absolute"
+                            className="h-6 mr-2 text-blue-500 animate-spin absolute"
                         />
                     )}
                     Confirm

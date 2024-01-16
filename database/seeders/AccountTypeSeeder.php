@@ -34,43 +34,6 @@ class AccountTypeSeeder extends Seeder
                 "num_format_id" => NumFormat::whereTitle('Accounting Series')->first()->id,
                 "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
             ],
-            [
-                "name" => "Deparmtment A",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-            [
-                "name" => "Deparmtment B",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-            [
-                "name" => "Deparmtment C",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-            [
-                "name" => "Deparmtment D",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-            [
-                "name" => "Deparmtment E",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-            [
-                "name" => "Deparmtment F",
-                'num_start' => 1,
-                "num_format_id" => NumFormat::whereTitle('All')->first()->id,
-                "priority_format_id" => NumFormat::whereTitle('Priority')->first()->id,
-            ],
-
         ];
 
         foreach ($real as $row) {

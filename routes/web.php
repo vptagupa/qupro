@@ -177,7 +177,7 @@ Route::name('screen.')->prefix('screen')->group(function () {
 Route::name('qu.')->prefix('qu')->group(function () {
     Route::get('/', [FrontendQuController::class, 'index'])->name('index');
     Route::post('/', [FrontendQuController::class, 'store'])->middleware([HandlePrecognitiveRequests::class])->name('store');
-    Route::get('/studentinfo/{studentno}', [FrontendQuController::class, 'getStudentInfo'])->name('student.info');
+    Route::get('/studentinfo/{studentNo}', [FrontendQuController::class, 'getStudentInfo'])->name('student.info');
 });
 
 Route::name('account-types.')->prefix('account-types')->group(function () {

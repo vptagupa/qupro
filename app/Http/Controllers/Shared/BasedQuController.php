@@ -12,9 +12,13 @@ use App\Repositories\AccountTypeRepository;
 use App\Services\Series;
 use App\Services\Qu;
 use Illuminate\Support\Facades\Http;
+use Cache;
+use Carbon\Carbon;
 
 class BasedQuController extends AdminController
 {
+    protected $infoKey = 'student_portal.';
+
     /**
      * Display a listing of the resource.
      */
@@ -27,17 +31,18 @@ class BasedQuController extends AdminController
      * Get student info
      * @return array as reponse
      */
-    public function getStudentInfo()
+    public function getStudentInfo($studentNo)
     {
-        // $response = Http::get('https://api.pcu.priisms.online/api/students-api/202233678');
-        // print_r($response->json());
+        if ($info = $this->apiStudentInfo($studentNo)) {
+            return [
+                'student_no' => $info['student_number'],
+                'name' => $info['name'],
+                'course_code' => $info['course_code'],
+                'course' => $info['course_name'],
+            ];
+        }
 
-        return [
-            'student_no' => '0001',
-            'name' => 'John Smith',
-            'course_code' => 'BSIT',
-            'course' => 'Bachelor of Science in Information Technology'
-        ];
+        return [];
     }
 
 
@@ -91,5 +96,27 @@ class BasedQuController extends AdminController
             $request->safe()->account_type_id,
             $request->safe()->priority
         );
+    }
+
+    private function apiStudentInfo($id)
+    {
+        $http = Http::withHeaders([
+            'mid' => config('student.mid'),
+            'mKey' => config('student.mkey')
+        ]);
+
+        return Cache::remember($this->infoKey . $id, Carbon::now()->addMonths(3), function () use ($http, $id) {
+            $response = $http->get('https://api.pcu.priisms.online/api/students-api/' . $id);
+
+            if ($response->ok()) {
+                $data = $response->json();
+
+                if ($data['message'] != 'Student not found') {
+                    return $data['data'];
+                }
+            }
+
+            return null;
+        });
     }
 }

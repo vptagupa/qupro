@@ -11,6 +11,9 @@ export default function Component({ next, controls }) {
             .post(route("account-types.list"), {
                 per_page: 100,
                 order_by: ["name", "asc"],
+                extra: {
+                    appends: { categories: true },
+                },
             })
             .then((response) => {
                 setTypes(response.data.data);

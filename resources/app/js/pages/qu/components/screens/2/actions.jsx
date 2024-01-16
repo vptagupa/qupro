@@ -1,18 +1,5 @@
 export const validStudent = async (controls, studentRef, nameRef) => {
-    let error = false;
-
-    controls.form.clearErrors();
-
-    if (controls.form.data.student_info.student_no == "") {
-        controls.form.setError("student_no", "Student no. is required");
-        error = true;
-        studentRef.current.focus();
-    }
-    if (controls.form.data.is_representative && controls.form.data.name == "") {
-        controls.form.setError("name", "Name is required");
-        error = true;
-        nameRef.current.focus();
-    }
+    let error = validStudentFields(controls, studentRef, nameRef);
 
     if (error) {
         return;
@@ -21,15 +8,20 @@ export const validStudent = async (controls, studentRef, nameRef) => {
     try {
         const result = await axios.get(
             route("qu.student.info", {
-                studentno: controls.form.data.student_info.student_no,
+                studentNo: controls.form.data.student_info.student_no,
             }),
         );
 
-        if (result) {
+        if (result.data?.student_no) {
             controls.form.setData("student_info", result.data);
+            return true;
+        } else {
+            throw "Invalid student no.";
         }
-        return true;
+        return false;
     } catch (error) {
+        controls.form.setError("student_no", "Student no. is invalid.");
+        studentRef.current.focus();
         return false;
     }
 };
@@ -43,3 +35,21 @@ export const validOther = (controls, nameRef) => {
 
     return true;
 };
+
+function validStudentFields(controls, studentRef, nameRef) {
+    let error = false;
+    controls.form.clearErrors();
+
+    if (controls.form.data.student_info.student_no == "") {
+        controls.form.setError("student_no", "Student no. is required");
+        error = true;
+        studentRef.current.focus();
+    }
+    if (controls.form.data.is_representative && controls.form.data.name == "") {
+        controls.form.setError("name", "Name is required");
+        error = true;
+        nameRef.current.focus();
+    }
+
+    return error;
+}

@@ -19,7 +19,10 @@ export default function Component({ data }) {
                     <div>{data.student_no}</div>
                     <div className="mt-5">
                         <span className="border-2 border-solid border-slate-400 p-2 px-8 shadow-lg rounded-xl">
-                            {data.name}, {data.course_code}
+                            {data.name}
+                        </span>
+                        <span className="block text-xs mt-2">
+                            {data.course}
                         </span>
                     </div>
                 </div>

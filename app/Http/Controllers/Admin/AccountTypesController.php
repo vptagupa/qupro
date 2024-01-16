@@ -37,8 +37,9 @@ class AccountTypesController extends AdminController
             $this->repository->list(
                 query: [
                     'name' => $request->get('query'),
-                    ...$request->get('extra')['appends'] ?? []
+                    ...$request->get('extra')['appends'] ?? [],
                 ],
+
                 perPage: $request->get('per_page'),
                 orderBy: $request->get('order_by') ?? []
             )
