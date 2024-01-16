@@ -21,7 +21,7 @@ yarn-error.log
 /builder/node_modules
 /builder/out
 .rr.yaml
-
+rr
 /caddy
 frankenphp
 frankenphp-worker.php
