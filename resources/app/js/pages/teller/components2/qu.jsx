@@ -29,7 +29,7 @@ export default memo(function Component({ id = 0 }) {
                             <div>{getVal(qu?.name)}</div>
                         )}
                     </div>
-                    <div className="text-center flex items-center justify-center uppercase">
+                    <div className="text-center flex items-center justify-center uppercase non-draggable">
                         <Copy text={qu?.student_no ?? "-"} />
                     </div>
                 </div>

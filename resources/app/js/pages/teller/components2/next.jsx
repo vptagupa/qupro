@@ -91,11 +91,11 @@ export default memo(function Component({ id = 0, url }) {
 
         setRecentTouch(formPriority);
 
-        const submission = xform(formPriority);
+        const form = xform(formPriority);
 
-        if (submission.processing) return;
+        if (form.processing) return;
 
-        submission.submit({
+        form.submit({
             only: ["errors", "qu", "waiting", "next"],
             preserveState: true,
             preserveScroll: true,
@@ -135,7 +135,7 @@ export default memo(function Component({ id = 0, url }) {
                         type="button"
                         className={`${style(
                             true,
-                        )} flex items-center grow w-full justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                        )} flex items-center !shadow-sm grow w-full justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
                         onClick={(e) => submit(e, false)}
                         disabled={!enabled(true)}
                     >
@@ -155,7 +155,7 @@ export default memo(function Component({ id = 0, url }) {
                             type="button"
                             className={`${style(
                                 true,
-                            )} flex items-center w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                            )} flex items-center !shadow-sm w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
                             onClick={(e) => submit(e, true)}
                             disabled={!enabled(true)}
                         >
@@ -172,7 +172,7 @@ export default memo(function Component({ id = 0, url }) {
                             type="button"
                             className={`${style(
                                 false,
-                            )} flex items-center w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
+                            )} flex items-center !shadow-sm w-1/2 justify-center h-[4rem] !text-[2.1rem] text-white text-center uppercase font-extrabold`}
                             onClick={(e) => submit(e, false)}
                             disabled={!enabled(false)}
                         >

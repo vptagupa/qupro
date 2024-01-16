@@ -26,7 +26,7 @@ export default function Component({ url, accountType, page_id }) {
             className={`p-2 flex flex-col gap-2  text-white ${
                 qu?.priority == true || priority
                     ? "bg-gradient-to-tr from-pink-400 to-rose-300 text-white"
-                    : "bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white"
+                    : "bg-gradient-to-br from-[#01257D] to-[#00539C] text-white"
             }`}
         >
             <div className="flex items-center">
@@ -34,7 +34,7 @@ export default function Component({ url, accountType, page_id }) {
                     <Count id={id} />
                     <Ding id={id} />
                 </div>
-                <div className="w-[60%] text-center font-bold uppercase">
+                <div className="w-[60%] text-center font-bold uppercase non-draggable">
                     <Settings accountType={accountType} />
                 </div>
                 <div className="w-[20%] flex gap-1 items-center justify-end text-end">

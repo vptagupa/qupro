@@ -24,7 +24,7 @@ export default memo(({ accountType }) => {
                     onClick={(e) => setOpen(true)}
                     className="uppercase font-bold text-sm text-center cursor-pointer hover:underline"
                 >
-                    {accountType?.name + " - " + user.data.counter_name}
+                    {accountType?.name + " - " + user.data?.counter_name ?? ""}
                 </div>
             </div>
 

@@ -28,11 +28,11 @@ class UserRepository extends Repository
      * If category id is empty, then all of the categories of the account type will be assigned by default
      * If category is not empty, then it will be remove/insert from the assignments
      */
-    public function updateServe(int $userId, AccountType $accountType, ?int $categoryId = null)
+    public function updateServe(int $userId, AccountType $accountType, ?array $categories = [])
     {
         $user = $this->model->find($userId);
 
-        if (!$categoryId) {
+        if (!$categories || count($categories) <= 0) {
             if ($user->accountTypes->filter(fn($d) => $d->id == $accountType->id)->count() > 0) {
                 $user->accountTypes()->detach($accountType->id);
             } else {
@@ -43,10 +43,28 @@ class UserRepository extends Repository
                 }
             }
         } else {
-            $categories = $user->categories()->wherePivot('account_type_id', $accountType->id);
-            $categories->toggle([$categoryId => [
-                'account_type_id' => $accountType->id
-            ]]);
+            $ucategories = $user->categories()->wherePivot('account_type_id', $accountType->id)->get();
+            // Iterate existing categories and delete it if not active
+            $curCategories = $ucategories->filter(fn($cat) => count(array_filter($categories, fn($c) => $c['id'] === $cat->id)) > 0);
+            foreach ($curCategories as $category) {
+                $find = array_values(array_filter($categories, fn($c) => $c['id'] === $category->id))[0];
+                if (!$find['active']) {
+                    $user->categories()->detach($category->id);
+                }
+            }
+
+            // Iterate non-existing categories and add it if active
+            $categories = array_filter($categories, function ($category) use ($ucategories) {
+                return $ucategories->filter(fn($cat) => $cat->id == $category['id'])->count() <= 0;
+            });
+            foreach ($categories as $category) {
+                if ($category['active']) {
+                    $user->categories()->attach($category['id'], [
+                        'account_type_id' => $accountType->id
+                    ]);
+                }
+            }
+
         }
     }
 }

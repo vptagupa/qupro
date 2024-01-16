@@ -29,7 +29,7 @@ export default memo(function Component({ id = 0 }) {
                 title="On Demand Ring"
                 onClick={(e) => ding()}
                 icon={faBell}
-                className={`h-6 text-yellow-400 hover:text-yellow-200 cursor-pointer ${
+                className={`h-6 text-yellow-400 hover:text-yellow-200 cursor-pointer non-draggable ${
                     processing ? "animate-bounce" : ""
                 }`}
             />

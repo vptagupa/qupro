@@ -24,10 +24,12 @@ class BasedTellerController extends Controller
 
     public function next(NextQuRequest $request)
     {
-        return (new BasedQuController(
-            App::make(QuRepository::class),
-            App::make(AccountTypeRepository::class),
-        ))->next($request);
+        return (
+            new BasedQuController(
+                App::make(QuRepository::class),
+                App::make(AccountTypeRepository::class),
+            )
+        )->next($request);
     }
 
     public function updateCounterName(Request $request)
@@ -57,12 +59,12 @@ class BasedTellerController extends Controller
         TellerFlush::dispatch($request->user(), $request->get('page_id'));
     }
 
-    public function updateServeCategory(Request $request, int $accountType, int $category)
+    public function updateServeCategory(Request $request, int $accountType)
     {
         $this->repository->updateServe(
             $request->user()->id,
             $this->accountType->find($accountType),
-            $category
+            $request->get('categories')
         );
 
         TellerFlush::dispatch($request->user(), $request->get('page_id'));

@@ -111,7 +111,14 @@ class Qu
 
     public function dispatchCalledEvent($qu)
     {
-        QuCalled::dispatch($qu, $qu->accountType->statistics);
+        QuCalled::dispatch(
+            $qu,
+            $qu->accountType->statistics(
+                \App\Models\Config::isEnabledCategories() ?
+                \Auth::user()->categories($qu->accountType->id)->pluck('categories.id')->toArray()
+                : null
+            )
+        );
         ScreenQuCalled::dispatch($qu, [...$qu->getPendingTotal(), ...$qu->getServedTotal()]);
     }
 

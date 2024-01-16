@@ -8,7 +8,7 @@ export default memo(function Component({ id = 0 }) {
     return (
         <>
             <div className="font-bold text-[2.5rem] uppercase">
-                {qu?.num_fulltext ?? "0001"}
+                {qu?.num_fulltext ?? "-"}
             </div>
         </>
     );

@@ -3,9 +3,13 @@ import Component from "./components2";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccountTypes } from "./reducer";
 import { useEffect } from "react";
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, Link } from "@inertiajs/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import {
+    faClose,
+    faToolbox,
+    faUserAltSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Base() {
     const dispatch = useDispatch();
@@ -13,19 +17,7 @@ export default function Base() {
     const { accountTypes } = useSelector((state) => state.teller);
 
     useEffect(() => {
-        axios
-            .post(route("admin.users.list"), {
-                extra: {
-                    with: {
-                        accountTypes: true,
-                        accountTypesCategories: true,
-                    },
-                    where: { id: user.data.id },
-                },
-            })
-            .then(({ data: { data } }) => {
-                dispatch(setAccountTypes(data[0].account_types));
-            });
+        dispatch(setAccountTypes(user.data.account_types));
     }, [user]);
 
     useEffect(() => {
@@ -43,14 +35,38 @@ export default function Base() {
 
     return (
         <Layout>
-            <div className="h-screen bg-gradient-to-tr from-purple-400 to-fuchsia-400 text-white">
+            <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-br from-[#01257D] to-[#00539C] text-white">
                 <div className="py-2 m-auto w-full pt-6">
-                    <div className="hidden absolute left-2 bottom-1 text-end">
-                        <FontAwesomeIcon
-                            icon={faClose}
-                            className="h-6 text-red-500"
-                            onClick={(e) => {}}
-                        />
+                    <div className="absolute top-0 mt-1 ml-1 non-draggable flex justify-end">
+                        <ol className="flex items-center">
+                            <li className="float-left px-1">
+                                <Link
+                                    href={route("admin.logout")}
+                                    className="text-xs text-blue-500 hover:underline hover:text-blue-200"
+                                    title="Logout"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faUserAltSlash}
+                                        className="h-4"
+                                    />
+                                </Link>
+                            </li>
+                            <li className="float-left px-1">
+                                <Link
+                                    href={route("admin.tellers.index")}
+                                    className="text-xs text-blue-500 hover:underline hover:text-blue-200"
+                                    title="Dashboard"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faToolbox}
+                                        className="h-4"
+                                    />
+                                </Link>
+                            </li>
+                            <li className="float-left px-1 text-xs text-blue-500 uppercase">
+                                {user.data.name}
+                            </li>
+                        </ol>
                     </div>
                     <div className="flex flex-wrap justify-center gap-4">
                         {accountTypes.map((type) => {

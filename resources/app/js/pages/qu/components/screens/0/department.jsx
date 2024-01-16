@@ -25,6 +25,13 @@ export default function Component({ next, value, controls }) {
         };
     }, []);
 
+    useEffect(() => {
+        setData({
+            ...value,
+            statistics: value.statistics,
+        });
+    }, [value]);
+
     return (
         <Button
             type="button"

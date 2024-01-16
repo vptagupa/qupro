@@ -33,13 +33,29 @@ export default memo(function Component({ id = 0 }) {
         );
     };
 
+    const updateQueueStats = (stats) => {
+        console.log(stats);
+        setCounts({
+            priority: stats.queue_stats.priority,
+            regular: stats.queue_stats.regular,
+        });
+
+        dispatch(
+            setNextStatus({
+                id,
+                has_next_priority: stats.queue_stats.priority > 0,
+                has_next_regular: stats.queue_stats.regular > 0,
+            }),
+        );
+    };
+
     useEffect(() => {
         Echo.channel(`${id}.account-type`)
             .listen("QuCreated", (e) => {
-                waiting();
+                updateQueueStats(e.statistics);
             })
             .listen("QuCalled", (e) => {
-                waiting();
+                updateQueueStats(e.statistics);
             });
 
         return () => {
@@ -50,7 +66,7 @@ export default memo(function Component({ id = 0 }) {
     useEffect(() => {
         waiting();
     }, [user]);
-
+    console.log(data);
     return (
         <>
             <div className="flex items-center justify-start gap-1 text-sm">

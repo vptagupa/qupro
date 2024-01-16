@@ -8,7 +8,7 @@ import Logo from "@/assets/images/logo.png";
 const Layout = (props) => {
     return (
         <>
-            <div className="bg-slate-100">
+            <div className="bg-slate-100 non-draggable">
                 <div className="flex">
                     <div className="w-48 xs:hidden lg:block">
                         <div className="px-10 py-5">

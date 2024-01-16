@@ -68,7 +68,14 @@ class Qu extends Model implements Auditable
     protected static function booted(): void
     {
         static::created(function (Qu $model) {
-            QuCreated::dispatch($model, $model->accountType->statistics);
+            QuCreated::dispatch(
+                $model,
+                $model->accountType->statistics(
+                    Config::isEnabledCategories() ?
+                    \Auth::user()->categories($model->account_type_id)->pluck('categories.id')->toArray()
+                    : null
+                )
+            );
             ScreenQuCreated::dispatch($model, $model->getPendingTotal());
         });
 

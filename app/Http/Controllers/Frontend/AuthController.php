@@ -66,7 +66,7 @@ class AuthController extends Controller
         $intended = '/admin/tellers';
         $user = Auth::user();
         if ($user->isTeller()) {
-            $intended = '/admin/tellers';
+            $intended = '/tellers';
         } elseif ($user->isRegistrator()) {
             $intended = '/admin/qu';
         }

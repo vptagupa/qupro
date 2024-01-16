@@ -9,21 +9,9 @@ const Component = ({ url }) => {
     const dispatch = useDispatch();
     const { accountTypes } = useSelector((state) => state.teller);
     const { user } = usePage().props;
-
+    console.log(user);
     useEffect(() => {
-        axios
-            .post(route("admin.users.list"), {
-                extra: {
-                    with: {
-                        accountTypes: true,
-                        accountTypesCategories: true,
-                    },
-                    where: { id: user.data.id },
-                },
-            })
-            .then(({ data: { data } }) => {
-                dispatch(setAccountTypes(data[0].account_types));
-            });
+        dispatch(setAccountTypes(user.data.account_types));
     }, [user]);
 
     return (

@@ -25,7 +25,7 @@ export default ({ id }) => {
             </div>
             <Confirm
                 open={open}
-                title="Delete"
+                title="Reset"
                 description="Are you sure you want to reset password?"
                 yes={(e) => handleReset()}
                 no={(e) => setOpen(false)}

@@ -6,9 +6,7 @@ export default function Component(props) {
         <>
             <Layout>
                 <div className="font-bold text-lg">
-                    <a href={route("tellers.index")} target="_blank">
-                        View Outside
-                    </a>
+                    <a href={route("tellers.index")}>View Window</a>
                 </div>
                 <div>
                     <Teller url={route("admin.tellers.next")} />

@@ -1,44 +1,84 @@
-import Active from "./active";
+import { useTable } from "@/js/helpers/table";
+import Body from "./body";
+import { router, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
-import { usePage } from "@inertiajs/react";
-export default function Component({ accountType }) {
+
+const INITIAL_PARAMS = { search: "", filter: false, page: 0, perPage: 5 };
+
+const Component = ({ accountType }) => {
+    const [processing, setProcessing] = useState(false);
     const { categories: userCategories } = usePage().props;
-    const [categories, setCategories] = useState([]);
+    const { data, setSearch, pagination, searchHandler } = useTable({
+        initialParams: {
+            ...INITIAL_PARAMS,
+            extra: {
+                where: { account_type_id: accountType.id },
+            },
+        },
+        listRoute: route("admin.setup.categories.list"),
+    });
+
+    const [categories, setCategories] = useState(data);
+
+    const handleActive = (category, isActive) => {
+        setCategories({
+            ...categories,
+            nodes: categories.nodes.map((d) => {
+                if (category.id === d.id) {
+                    d.active = !d.active;
+                }
+
+                return d;
+            }),
+        });
+    };
+
+    const handleSave = async () => {
+        if (processing) return;
+
+        router.patch(
+            route("admin.tellers.update_serve_category", {
+                accountType: accountType.id,
+            }),
+            {
+                categories: categories.nodes.map((c) => ({
+                    id: c.id,
+                    active: c.active,
+                })),
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onBefore: () => setProcessing(true),
+                onFinish: () => setProcessing(false),
+            },
+        );
+    };
 
     useEffect(() => {
-        axios
-            .post(route("admin.setup.categories.list"), {
-                extra: {
-                    where: { account_type_id: accountType.id },
-                },
-            })
-            .then(({ data: { data } }) => {
-                setCategories(data);
-            });
-    }, []);
+        setCategories({
+            ...data,
+            nodes: data.nodes.map((d) => {
+                d.active = false;
+                if (userCategories.filter((c) => c.id === d.id).length > 0) {
+                    d.active = true;
+                }
+                return d;
+            }),
+        });
+    }, [data]);
 
     return (
-        <>
-            <table className="w-full">
-                <tbody>
-                    {categories.map((category) => (
-                        <tr key={category.id} className="border-b text-xs">
-                            <td className="p-1">{category.name}</td>
-                            <td className="text-end">
-                                <Active
-                                    accountType={accountType}
-                                    item={category}
-                                    categories={userCategories.filter(
-                                        (d) =>
-                                            d.pivot.account_type_id ==
-                                            accountType.id,
-                                    )}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </>
+        <Body
+            data={categories}
+            processing={processing}
+            pagination={pagination}
+            setSearch={setSearch}
+            handleSearch={searchHandler}
+            handleActive={handleActive}
+            handleSave={handleSave}
+        />
     );
-}
+};
+
+export default Component;

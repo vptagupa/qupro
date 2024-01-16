@@ -1,6 +1,7 @@
 import Ticket from "./ticket";
 import { useEffect } from "react";
 import Button from "../../button";
+import { router } from "@inertiajs/react";
 
 export default function Component({ next, controls }) {
     const handleFinal = () => {

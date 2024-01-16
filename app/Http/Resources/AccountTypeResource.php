@@ -16,7 +16,11 @@ class AccountTypeResource extends JsonResource
     {
         $data = parent::toArray($request);
 
-        $data = $this->resource->append(['statistics'])->toArray();
+        $data['statistics'] = $this->resource->statistics(
+            \App\Models\Config::isEnabledCategories() && \Auth::check() ?
+            \Auth::user()->categories($this->resource->account_type_id)->pluck('categories.id')->toArray()
+            : null
+        );
 
         return $data;
     }

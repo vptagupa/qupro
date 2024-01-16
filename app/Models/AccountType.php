@@ -152,14 +152,24 @@ class AccountType extends Model implements Auditable
         return $this->belongsToMany(Category::class, 'account_type_categories');
     }
 
-    public function statistics(): Attribute
+    public function statistics(array|int|null $categoryId = null): array
     {
-        return Attribute::make(
-            get: fn() => [
-                'served' => $this->served->first(),
-                'queue' => $this->waiting->count()
+        if ($categoryId)
+            $categoryId = is_array($categoryId) ? $categoryId : [$categoryId];
+
+        $stats = [
+            'served' => $this->served->first(),
+            'queue' => $this->waiting->count(),
+            'queue_stats' => [
+                'regular' => $this->waitingRegulars()
+                    ->when($categoryId, fn($builder) => $builder->whereIn('category_id', $categoryId))->count(),
+                'priority' => $this->waitingPriorities()
+                    ->when($categoryId, fn($builder) => $builder->whereIn('category_id', $categoryId))->count(),
+
             ]
-        );
+        ];
+
+        return $stats;
     }
 
     public function themes()

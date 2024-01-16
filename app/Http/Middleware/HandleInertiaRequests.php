@@ -59,7 +59,7 @@ class HandleInertiaRequests extends Middleware
         if (\Auth::check()) {
             $data = [
                 'permissions' => fn() => Access::all(),
-                'user' => fn() => new UserResource($request->user()),
+                'user' => fn() => new UserResource($request->user()->load('accountTypes')),
             ];
         }
 
@@ -70,13 +70,16 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             'formats' => fn() => new NumFormatCollection(App::call(fn(NumFormatRepository $repo) => $repo->list())),
-            'accountTypes' => fn() => new AccountTypeCollection(App::call(fn(AccountTypeRepository $repo) => $repo->list(
-                query: [
-                    'categories' => Config::isEnabledCategories()
-                ],
-                perPage: 100,
-                orderBy: ['name', 'asc']
-            ))),
+            'accountTypes' => fn() => new AccountTypeCollection(App::call(
+                fn(AccountTypeRepository $repo) => $repo->list(
+                    query: [
+                        'categories' => Config::isEnabledCategories()
+                    ],
+                    perPage: 100,
+                    orderBy: ['name', 'asc']
+                )
+            )
+            ),
         ];
     }
 

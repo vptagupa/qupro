@@ -6,15 +6,15 @@ export default function Component({ accountType }) {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios
-            .post(route("admin.setup.categories.list"), {
-                extra: {
-                    where: { account_type_id: accountType.id },
-                },
-            })
-            .then(({ data: { data } }) => {
-                setCategories(data);
-            });
+        // axios
+        //     .post(route("admin.setup.categories.list"), {
+        //         extra: {
+        //             where: { account_type_id: accountType.id },
+        //         },
+        //     })
+        //     .then(({ data: { data } }) => {
+        //         setCategories(data);
+        //     });
     }, []);
 
     return (

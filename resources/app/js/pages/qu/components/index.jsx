@@ -63,8 +63,9 @@ export default function Index({ url }) {
         from: "from-pink-600",
         to: "to-fuchsia-700",
         text: "text-white",
+        animate: "animate-pulse",
     };
-    console.log(stepperLinks);
+
     return (
         <div className="flex flex-col min-w-[70%]">
             <div className="p-4 flex items-center justify-center">
@@ -85,10 +86,12 @@ export default function Index({ url }) {
                          }
                          `}
                         onClick={(e) =>
-                            controls.form.setData(
-                                "is_priority",
-                                !controls.form.data.is_priority,
-                            )
+                            pager.actual <= 3
+                                ? controls.form.setData(
+                                      "is_priority",
+                                      !controls.form.data.is_priority,
+                                  )
+                                : null
                         }
                     >
                         PWD <br />

@@ -7,8 +7,9 @@ const createWindow = () => {
         titleBarOverlay: true,
         titleBarStyle: "hidden",
         title: "Counter",
+        autoHideMenuBar: true,
         width: 400,
-        height: 230,
+        height: 270,
         frame: true,
         maximizable: true,
         movable: true,
@@ -22,7 +23,7 @@ const createWindow = () => {
         darkTheme: true,
     });
 
-    win.loadURL("http://qupro.local/tellers");
+    win.loadURL("http://qupro.test:8080/tellers");
 };
 
 app.whenReady().then(() => {
