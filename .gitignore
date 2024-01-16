@@ -19,6 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 /builder/node_modules
+/builder/out
 .rr.yaml
 
 /caddy
