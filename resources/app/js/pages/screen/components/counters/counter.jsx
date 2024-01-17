@@ -22,8 +22,8 @@ export default function Component({ ticket, isActive = false }) {
                 className={`w-1/2 text-center font-bold p-4 
                                      ${
                                          isActive
-                                             ? "bg-teal-400 text-4xl h-[100%] flex items-center justify-center"
-                                             : "bg-purple-900 text-3xl"
+                                             ? "bg-amber-500 text-4xl h-[100%] flex items-center justify-center"
+                                             : "bg-amber-500 text-slate-800 text-3xl"
                                      }
                                     `}
             >

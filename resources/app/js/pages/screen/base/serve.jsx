@@ -8,6 +8,7 @@ export default memo(
     ({ screen_id, account_type_id: selected_account_type_id }) => {
         const dispatch = useDispatch();
         const counter = useSelector((state) => state.counter.data);
+
         const [data, setData] = useState({
             pending: 0,
             served: 0,
@@ -91,7 +92,7 @@ export default memo(
                     </div>
                     <div className="grow">
                         <Serve
-                            accountType={counter.account_type?.name ?? ""}
+                            accountType={counter.account_type}
                             served={data?.served ?? 0}
                             pending={data?.pending ?? 0}
                         />

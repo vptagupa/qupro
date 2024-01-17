@@ -13,12 +13,12 @@ export default memo(({ current, account_type_id }) => {
         }
     }, [current]);
 
-    let timeout;
     useEffect(() => {
+        let timeout;
         if (open && !forceOpen) {
             timeout = setTimeout(() => {
                 setOpen(false);
-            }, 3000);
+            }, 5000);
         }
         return () => clearTimeout(timeout);
     }, [open, forceOpen]);

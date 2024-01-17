@@ -6,10 +6,14 @@ import Theme from "../components/theme";
 import Message from "../components/message";
 import { useThemeUpdate } from "../components/theme/update";
 import { useDispatch, useSelector } from "react-redux";
-import { setParam, setConfig } from "../components/counters/reducer";
+import { setParam, setConfig, setData } from "../components/counters/reducer";
 import { useEffect } from "react";
 
-export default function Component({ screen_id, account_type_id }) {
+export default function Component({
+    screen_id,
+    account_type_id,
+    account_type,
+}) {
     const dispatch = useDispatch();
     const { update } = useThemeUpdate(account_type_id);
     const { counter: themeCounter } = useSelector(
@@ -31,6 +35,12 @@ export default function Component({ screen_id, account_type_id }) {
     }, [screen_id, account_type_id]);
 
     useEffect(() => {
+        if (account_type) {
+            dispatch(setData({ account_type }));
+        }
+    }, [account_type]);
+
+    useEffect(() => {
         Echo.channel("config.screen").listen("FlushConfig", (event) => {
             dispatch(setConfig(event.data));
         });
@@ -42,10 +52,10 @@ export default function Component({ screen_id, account_type_id }) {
 
     return (
         <Layout>
-            <div className="m-auto w-screen h-screen bg-layout">
-                <div className="flex items-center justify-center xs:max-lg:flex-col">
+            <div className="m-auto w-screen h-screen">
+                <div className="flex items-center justify-center xs:max-lg:flex-col bg-gradient-to-br from-[#01257D] to-[#00539C] text-slate-200">
                     <div
-                        className="xs:max-lg:w-full w-[35%] h-screen overflow-hidden bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
+                        className="xs:max-lg:w-full w-[35%] h-screen overflow-hidden  font-bold text-white "
                         style={{
                             background: themeCounter.set.bg,
                         }}
@@ -78,7 +88,7 @@ export default function Component({ screen_id, account_type_id }) {
                         </div>
                     </div>
                     <div
-                        className="bg-slate-600 fixed bottom-0 w-full"
+                        className="bg-slate-900 py-1 fixed bottom-0 w-full"
                         style={{
                             background: themeMedia.message.set.bg,
                             color: themeMedia.message.set.font,

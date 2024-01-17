@@ -91,7 +91,7 @@ export default memo(({ screen_id, account_type_id }) => {
                             leaveTo="opacity-0"
                         >
                             <div
-                                className={`flex flex-col gap-y-4 items-center ${
+                                className={`flex flex-col gap-y-2 items-center ${
                                     idx != page ? "hidden" : ""
                                 }`}
                             >

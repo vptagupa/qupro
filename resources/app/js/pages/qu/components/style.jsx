@@ -1,5 +1,5 @@
 export default {
-    activeBg: "bg-yellow-400",
+    activeBg: "bg-amber-500",
     activeFont: "text-black/80",
     inactiveBg: "bg-slate-200",
     primaryBg: "bg-indigo-500",

@@ -23,7 +23,7 @@ export default memo(() => {
         router.get(
             route("screen.index", {
                 screen: screen_id,
-                department: id == 0 ? null : id,
+                accountType: id == 0 ? null : id,
             }),
             {},
             {

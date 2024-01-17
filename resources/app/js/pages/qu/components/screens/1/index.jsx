@@ -23,11 +23,11 @@ export default function Component({ prev, next, controls }) {
                             key={category.id}
                             className={`w-full cursor-pointer ${
                                 style.secondaryBg
-                            } ${
-                                style.secondaryFont
-                            } hover:bg-yellow-400 rounded-lg hover:scale-110 delay-100 transition ease-in-out duration-700 border border-indigo-400 p-4 ${
+                            } ${style.secondaryFont} hover:${
+                                style.activeBg
+                            } rounded-lg hover:scale-110 delay-100 transition ease-in-out duration-700 border border-indigo-400 p-4 ${
                                 controls.form.data?.category?.id == category.id
-                                    ? "!bg-yellow-400 !text-black/80"
+                                    ? style.activeBg + " !text-black/80"
                                     : ""
                             }`}
                         >

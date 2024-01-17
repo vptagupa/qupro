@@ -2,10 +2,8 @@ export default function Component({ accountType, served, pending }) {
     return (
         <div className="flex justify-between">
             <div>
-                {accountType && (
-                    <div className="uppercase text-sm hidden">
-                        {accountType}:
-                    </div>
+                {accountType?.name && (
+                    <div className="uppercase text-sm">{accountType?.name}</div>
                 )}
                 <div className="pl-16">
                     <div className="uppercase">Total Served</div>

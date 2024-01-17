@@ -37,7 +37,7 @@ export default function Component({ next, value, controls }) {
             type="button"
             className={`flex flex-col justify-center !shadow-sm transition duration-700 ease-in-out w-full text-[2rem] text-center uppercase font-extrabold ${
                 controls.form.data.account_type.id == data.id
-                    ? "!bg-yellow-400"
+                    ? style.activeBg
                     : ""
             } hover:${style.activeBg} hover:${style.activeFont} ${
                 style.secondaryFont
