@@ -55,6 +55,12 @@ class AccountTypeRepository extends Repository
             }
 
             MediaRefresh::dispatch();
+        } else {
+            if (empty($data['file']) && $model->file) {
+                $model->file()->dissociate();
+                $model->save();
+                MediaRefresh::dispatch();
+            }
         }
 
         if (Config::isEnabledCategories()) {
