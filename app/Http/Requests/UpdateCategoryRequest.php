@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Category;
 use App\Enums\Policy;
 use Illuminate\Validation\Rule;
+use App\Rules\File;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -28,6 +29,9 @@ class UpdateCategoryRequest extends FormRequest
             'id' => 'required',
             'name' => ['required', 'string', Rule::unique('categories')->ignore($this->id)],
             'description' => 'nullable',
+            'file' => array_merge(File::ensure($this->file), [
+                'nullable',
+            ])
         ];
     }
 }

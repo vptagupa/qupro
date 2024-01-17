@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 65);
             $table->string('description')->nullable();
+            $table->foreignId('file_id')->nullable()->constrained('files');
             $table->timestamps();
         });
     }

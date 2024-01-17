@@ -16,6 +16,7 @@ export default ({ data, ...props }) => {
             id: data.id,
             name: data.name,
             description: data.description ?? "",
+            file: data?.file ?? "",
         },
     });
 
@@ -23,6 +24,7 @@ export default ({ data, ...props }) => {
         form.submit({
             preseverScroll: true,
             preserveState: true,
+            forceFormData: true,
             only: ["errors"],
             onSuccess: () => {
                 Event.emit("reload");

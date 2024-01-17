@@ -14,6 +14,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import PropTypes from "prop-types";
 import Edit from "../../actions/edit";
 import Delete from "../../actions/confirm.delete";
+import ViewFile from "../../actions/view.file";
 import { stringLimit } from "@/js/helpers";
 
 const Component = ({
@@ -71,6 +72,7 @@ const Component = ({
 
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
+                                                <ViewFile item={item} />
                                                 <Edit
                                                     data={item}
                                                     formats={formats}

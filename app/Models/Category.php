@@ -11,7 +11,8 @@ class Category extends Model
 
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'file_id'
     ];
 
     public function accountTypes()
@@ -22,5 +23,10 @@ class Category extends Model
     public function themes()
     {
         return $this->morphMany(Theme::class, 'model');
+    }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
     }
 }

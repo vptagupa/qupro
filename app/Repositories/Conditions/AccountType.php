@@ -35,7 +35,7 @@ trait AccountType
     protected function categoriesCondition(&$builder, $query)
     {
         return $builder->when(isset($query['categories']) && $query['categories'], function ($builder) use ($query) {
-            $builder->with(['categories']);
+            $builder->with(['categories' => fn($builder) => $builder->orderBy('name', 'asc')]);
         });
     }
 }

@@ -97,7 +97,6 @@ const Component = ({
                                         </Td>
                                         <Td>
                                             <div className="flex space-x-2 justify-end">
-                                                <Color id={item.id} />
                                                 <ViewFile item={item} />
                                                 <Edit
                                                     data={item}

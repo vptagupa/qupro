@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Category;
 use App\Enums\Policy;
+use App\Rules\File;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -26,6 +27,9 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name' => 'required|unique:App\Models\Category',
             'description' => 'nullable',
+            'file' => array_merge(File::ensure($this->file), [
+                'nullable',
+            ]),
         ];
     }
 }

@@ -14,6 +14,7 @@ export default memo((props) => {
         data: {
             name: "",
             description: "",
+            file: "",
         },
     });
 

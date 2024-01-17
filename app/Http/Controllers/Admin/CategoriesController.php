@@ -33,7 +33,8 @@ class CategoriesController extends AdminController
             $this->repository->list(
                 query: [
                     'name' => $request->get('query'),
-                    ...$request->get('extra')['where'] ?? []
+                    ...$request->get('extra')['where'] ?? [],
+                    ...$request->get('extra')['appends'] ?? [],
                 ],
                 perPage: $request->get('per_page'),
                 orderBy: ['name', 'asc']
@@ -49,6 +50,7 @@ class CategoriesController extends AdminController
         $this->repository->create($request->safe()->only([
             'name',
             'description',
+            'file',
         ]));
     }
 
@@ -61,6 +63,7 @@ class CategoriesController extends AdminController
         $this->repository->update($request->safe()->only([
             'name',
             'description',
+            'file',
         ]), $id);
     }
 

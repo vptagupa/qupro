@@ -1,6 +1,7 @@
 import { Form, Input, Textarea } from "@/js/components/form";
-import { AlertSuccess } from "@/js/components/alerts";
+import { AlertSuccess, AlertDanger } from "@/js/components/alerts";
 import { Transition } from "@headlessui/react";
+import Media from "./media";
 
 const Component = ({ form }) => {
     return (
@@ -9,21 +10,29 @@ const Component = ({ form }) => {
                 <Transition show={form.recentlySuccessful && !form.hasErrors}>
                     <AlertSuccess>Successfully save.</AlertSuccess>
                 </Transition>
+                <Transition show={form.hasErrors && form.invalid("file")}>
+                    <AlertDanger>{form.errors.file}.</AlertDanger>
+                </Transition>
             </div>
-            <div>
-                <span className="text-xs">Name:</span>
-                <Input
-                    type="text"
-                    name="name"
-                    value={form.data.name}
-                    className={form.invalid("name") ? "has-danger" : ""}
-                    onChange={(e) => form.setData("name", e.target.value)}
-                />
-                {form.invalid("name") && (
-                    <span className="text-danger text-xs">
-                        {form.errors.name}
-                    </span>
-                )}
+            <div className="flex gap-x-2">
+                <div className="w-[80%]">
+                    <span className="text-xs">Name:</span>
+                    <Input
+                        type="text"
+                        name="name"
+                        value={form.data.name}
+                        className={form.invalid("name") ? "has-danger" : ""}
+                        onChange={(e) => form.setData("name", e.target.value)}
+                    />
+                    {form.invalid("name") && (
+                        <span className="text-danger text-xs">
+                            {form.errors.name}
+                        </span>
+                    )}
+                </div>
+                <div className="grow flex items-center justify-center border border-slate-300 rounded-lg">
+                    <Media form={form} />
+                </div>
             </div>
             <div>
                 <span className="text-xs">Description:</span>

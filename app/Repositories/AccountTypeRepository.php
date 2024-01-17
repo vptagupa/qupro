@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Events\MediaRefresh;
-use App\Models\Theme;
 use App\Models\Config;
 use Illuminate\Support\Facades\App;
 use App\Models\AccountType;
@@ -13,6 +12,7 @@ class AccountTypeRepository extends Repository
 {
     use Conditions\AccountType;
     use Traits\ThemeUpdate;
+    use Traits\FileUpload;
 
     private $file;
 
@@ -27,7 +27,9 @@ class AccountTypeRepository extends Repository
         $model = parent::create($data);
         if ($data['file'] instanceof UploadedFile) {
             $file = $this->storeFile($data['file']);
+
             unset($data['file']);
+
             $model->file()->associate($file);
             $model->save();
 
@@ -58,8 +60,13 @@ class AccountTypeRepository extends Repository
             MediaRefresh::dispatch();
         } else {
             if (empty($data['file']) && $model->file) {
+                $prevFile = $model->file;
+
                 $model->file()->dissociate();
                 $model->save();
+
+                $prevFile->delete();
+
                 MediaRefresh::dispatch();
             }
         }
@@ -74,16 +81,5 @@ class AccountTypeRepository extends Repository
 
         parent::update($data, $id);
 
-    }
-
-    protected function storeFile($file)
-    {
-        if (!$file) {
-            return null;
-        }
-
-        return $this->file->create([
-            'file' => $file
-        ]);
     }
 }
