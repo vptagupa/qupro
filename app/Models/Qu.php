@@ -71,7 +71,7 @@ class Qu extends Model implements Auditable
             QuCreated::dispatch(
                 $model,
                 $model->accountType->statistics(
-                    Config::isEnabledCategories() ?
+                    Config::isEnabledCategories() && \Auth::check() ?
                     \Auth::user()->categories($model->account_type_id)->pluck('categories.id')->toArray()
                     : null
                 )
