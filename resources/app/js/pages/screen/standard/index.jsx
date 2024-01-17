@@ -2,16 +2,31 @@ import Layout from "@/js/layouts/public";
 import Media from "../base/media";
 import Counter from "../base/counter";
 import Serve from "../base/serve";
-import Theme from "../components/theme";
 import Message from "../components/message";
 import { useThemeUpdate } from "../components/theme/update";
 import { useDispatch, useSelector } from "react-redux";
-import { setParam, setConfig } from "../components/counters/reducer";
+import {
+    setParam,
+    setConfig,
+    setData,
+    setTheme,
+} from "../components/counters/reducer";
 import { useEffect } from "react";
 
-export default function Component({ screen_id, account_type_id }) {
+export default function Component({
+    screen_id,
+    account_type,
+    category,
+    theme,
+    account_types,
+}) {
+    const param = {
+        screen_id,
+        category_id: category?.id,
+        account_type_id: account_type?.id,
+    };
     const dispatch = useDispatch();
-    const { update } = useThemeUpdate(account_type_id);
+    const { update } = useThemeUpdate(param);
     const { counter: themeCounter } = useSelector(
         (state) => state.themeCounter,
     );
@@ -20,16 +35,60 @@ export default function Component({ screen_id, account_type_id }) {
     const { config } = useSelector((state) => state.counter.data);
 
     useEffect(() => {
-        dispatch(setParam({ screen_id, account_type_id }));
-    }, [screen_id, account_type_id]);
+        dispatch(
+            setParam({
+                screen_id,
+            }),
+        );
+    }, [screen_id]);
 
     useEffect(() => {
-        console.log(account_type_id);
-        update(
-            account_type_id != null ? "account_type" : "screen",
-            account_type_id != null ? account_type_id : screen_id,
-        );
-    }, [screen_id, account_type_id]);
+        if (account_type) {
+            dispatch(
+                setParam({
+                    account_type_id: account_type.id,
+                }),
+            );
+            dispatch(
+                setData({
+                    account_type,
+                }),
+            );
+        }
+    }, [account_type]);
+
+    useEffect(() => {
+        if (category) {
+            dispatch(
+                setParam({
+                    category_id: category.id,
+                }),
+            );
+            dispatch(
+                setData({
+                    category,
+                }),
+            );
+        }
+    }, [category]);
+
+    useEffect(() => {
+        dispatch(setTheme(theme));
+    }, [theme]);
+
+    useEffect(() => {
+        dispatch(setData({ account_types }));
+    }, [account_types]);
+
+    useEffect(() => {
+        if (screen_id) {
+            update(theme?.id, {
+                screen_id,
+                category_id: category?.id,
+                account_type_id: account_type?.id,
+            });
+        }
+    }, [screen_id, category, account_type, theme]);
 
     useEffect(() => {
         Echo.channel("config.screen").listen("FlushConfig", (event) => {
@@ -43,17 +102,17 @@ export default function Component({ screen_id, account_type_id }) {
 
     return (
         <Layout>
-            <div className="m-auto w-screen h-screen bg-layout">
-                <div className="flex items-center justify-center xs:max-lg:flex-col">
+            <div className="m-auto w-screen h-screen">
+                <div className="flex items-center justify-center xs:max-lg:flex-col bg-gradient-to-br from-[#01257D] to-[#00539C] text-slate-200">
                     <div
-                        className="xs:max-lg:w-full w-[35%] h-screen overflow-hidden bg-gradient-to-tl from-purple-800 to-fuchsia-800 font-bold text-white "
+                        className="xs:max-lg:w-full w-[35%] h-screen overflow-hidden  font-bold text-white "
                         style={{
                             background: themeCounter.set.bg,
                         }}
                     >
                         <Counter
                             screen_id={screen_id}
-                            account_type_id={account_type_id}
+                            account_type_id={account_type?.id}
                         />
                     </div>
                     <div
@@ -67,25 +126,27 @@ export default function Component({ screen_id, account_type_id }) {
                             <div className="flex overflow-hidden grow items-center justify-center mt-2">
                                 <Media
                                     screen_id={screen_id}
-                                    account_type_id={account_type_id}
+                                    account_type_id={account_type?.id}
                                 />
                             </div>
                             <div className="">
                                 <Serve
                                     screen_id={screen_id}
-                                    account_type_id={account_type_id}
+                                    account_type_id={account_type?.id}
                                 />
                             </div>
                         </div>
                     </div>
                     <div
-                        className="bg-slate-600 fixed bottom-0 w-full"
+                        className="bg-slate-900 fixed pb-1 bottom-0 w-full"
                         style={{
                             background: themeMedia.message.set.bg,
                             color: themeMedia.message.set.font,
                         }}
                     >
-                        <Message text={config?.screen_text ?? ""} />
+                        <div className="flex items-center justify-start">
+                            <Message text={config?.screen_text ?? ""} />
+                        </div>
                     </div>
                 </div>
             </div>

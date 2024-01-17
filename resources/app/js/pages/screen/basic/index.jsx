@@ -21,16 +21,18 @@ export default function Component({ screen_id, account_type_id }) {
 
     return (
         <Layout>
-            <div className="m-auto w-screen h-screen overflow-hidden bg-layout">
-                <div className="flex flex-col items-center justify-center h-screen">
-                    <div className="!h-[80%] lg:w-[30%] xs:w-full  rounded-2xl grow">
+            <div className="w-screen h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#01257D] to-[#00539C] text-slate-200">
+                <div className="lg:w-[40%] w-full  flex flex-col items-center justify-center">
+                    <div className="rounded-2xl h-[80vh]">
                         <Counter
                             screen_id={screen_id}
                             account_type_id={account_type_id}
                         />
                     </div>
-                    <div className="xs:max-sm:hidden">
-                        <Message text={config?.screen_text ?? ""} />
+                    <div className="xs:max-sm:hidden bg-slate-900 fixed pb-1 bottom-0 w-full">
+                        <div className="flex items-center justify-start">
+                            <Message text={config?.screen_text ?? ""} />
+                        </div>
                     </div>
                 </div>
             </div>
