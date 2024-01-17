@@ -46,6 +46,7 @@ class Config extends Model implements Auditable
         'Screen Text',
         'Screen Interval',
         'Screen Tickets Limit',
+        'Counter History Limit',
         'On Called Ring',
         'On Demand Ring'
     ];

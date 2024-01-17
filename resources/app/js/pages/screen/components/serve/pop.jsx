@@ -8,7 +8,7 @@ export default memo(({ current, account_type_id }) => {
     const {
         popover: { set: theme, open: forceOpen },
     } = useSelector((state) => state.themeCounter);
-    console.log([param, current]);
+
     useEffect(() => {
         if (
             current?.account_type_id &&

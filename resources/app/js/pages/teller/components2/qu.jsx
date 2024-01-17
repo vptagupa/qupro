@@ -20,7 +20,7 @@ export default memo(function Component({ id = 0 }) {
                     />
                 </div>
                 <div className="text-left uppercase p-1 text-xs">
-                    <div className="border-b">
+                    <div className="border-b overflow-hidden leading-3">
                         {((qu?.type == "other" && qu?.is_representative) ||
                             qu?.type == "student") && (
                             <div>{getVal(qu?.student_name)}</div>

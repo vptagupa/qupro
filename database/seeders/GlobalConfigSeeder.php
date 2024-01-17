@@ -33,7 +33,7 @@ class GlobalConfigSeeder extends Seeder
                 "name" => "Priority series separate",
                 'value' => true,
                 'type' => 'boolean',
-                'label' => 'If enabled, priority series does not continue from the regular series'
+                'label' => 'If enabled, priority series does not continue from the regular series.'
             ],
             [
                 "name" => "Screen Text",
@@ -51,7 +51,7 @@ class GlobalConfigSeeder extends Seeder
                 "name" => "Enable priority on Qu registration",
                 'value' => true,
                 'type' => 'boolean',
-                'label' => 'If enabled, the Qu\'s are required to select either regular or priority upon registration'
+                'label' => 'If enabled, the Qu\'s are required to select either regular or priority upon registration.'
             ],
             [
                 "name" => "Default Screen Theme",
@@ -59,10 +59,12 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Screen Tickets Limit",
+                'label' => 'Limit number of tickets in the screen.',
                 'value' => 5,
             ],
             [
                 "name" => "Counter History Limit",
+                'label' => 'Limit number of tickets per counter in the screen.',
                 'value' => 5,
             ],
             [

@@ -10,6 +10,7 @@ export default memo(({ screen_id, account_type_id }) => {
     const {
         data: { tickets, current, config },
     } = useSelector((state) => state.counter);
+
     const { update } = useTickets(screen_id, account_type_id);
     const [page, setPage] = useState(0);
 

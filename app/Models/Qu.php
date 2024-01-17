@@ -108,6 +108,7 @@ class Qu extends Model implements Auditable
         $accountType = $this->accountType;
         return Attribute::make(
             get: fn() => [
+                'id' => $this->id,
                 'num_fulltext' => $this->num_fulltext,
                 'counter_name' => $this->counter_name,
                 'department' => $accountType->name,

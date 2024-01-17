@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 export const reducer = createSlice({
     name: "reducer",
@@ -8,6 +8,7 @@ export const reducer = createSlice({
                 screen_text: "",
                 screen_interval: 5,
                 screen_tickets_limit: 6,
+                counter_history_limit: 2,
                 screen_account_type_ids: [],
                 on_demand_ring: "",
                 on_called_ring: "",
@@ -55,24 +56,28 @@ export const reducer = createSlice({
             const filter = state.data.tickets.filter(
                 (ticket) => ticket.counter == action.payload.counter,
             );
-            const index = state.data.tickets
-                .reverse()
-                .findIndex(
-                    (ticket) => ticket.counter == action.payload.counter,
-                );
-            let tickets = state.data.tickets;
+            // Sort in asc in order to retrieve the oldest element in array
+            let tickets = state.data.tickets.sort((a, b) => a.id - b.id);
 
-            if (index !== -1 && filter.length > 1) {
-                tickets[index] = action.payload;
+            const index = tickets.findIndex(
+                (ticket) => ticket.counter == action.payload.counter,
+            );
+
+            if (
+                index !== -1 &&
+                filter.length >= state.data.config.counter_history_limit
+            ) {
+                tickets.splice(index, 1);
+                tickets = tickets.concat(action.payload);
             } else {
                 tickets = tickets.concat(action.payload);
             }
 
             state.data = {
                 ...state.data,
-                tickets: tickets.sort((a, b) =>
-                    a.counter.localeCompare(b.counter),
-                ),
+                tickets: tickets
+                    .sort((a, b) => b.id - a.id)
+                    .sort((a, b) => a.counter.localeCompare(b.counter)),
                 current: action.payload,
             };
         },
