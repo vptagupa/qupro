@@ -1,3 +1,5 @@
+import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 
@@ -54,6 +56,13 @@ export default memo(({ current, account_type_id }) => {
                         }}
                         className="px-20 py-10 text-center bg-gradient-to-tl from-purple-800 to-fuchsia-800 rounded-3xl"
                     >
+                        <div className="relative">
+                            <FontAwesomeIcon
+                                icon={faTimesCircle}
+                                onClick={() => setOpen(false)}
+                                className="h-8 hover:text-slate-200 text-slate-400/80 absolute -top-[3.1rem] -right-[5.5rem] cursor-pointer"
+                            />
+                        </div>
                         <div className="text-[8rem] leading-[8rem]">
                             <span>{current?.num_fulltext ?? "-"}</span>
                         </div>
