@@ -23,7 +23,7 @@ const createWindow = () => {
         darkTheme: true,
     });
 
-    win.loadURL("http://qupro.test:8080/tellers");
+    win.loadURL("http://qupro.local/tellers");
 };
 
 app.whenReady().then(() => {
