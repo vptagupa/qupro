@@ -35,7 +35,7 @@ const Component = ({ form, accountTypes, accountTypesCheck }) => {
                 />
             </div>
             <div>
-                <span className="text-xs">Departments:</span>
+                <span className="text-xs">Account Types:</span>
                 <div className="flex flex-col gap-2 items-center justify-start mt-1">
                     <div className="w-full">
                         <AccountTypesForm

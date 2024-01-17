@@ -55,14 +55,14 @@ export default [
         children: [
             {
                 id: "account.types",
-                name: "Departments",
+                name: "Account Types",
                 icon: <CubeIcon className="h-4" />,
                 route: "admin.setup.account-types.index",
                 permission: "ACCOUNT_TYPES",
             },
             {
                 id: "categories",
-                name: "Categories",
+                name: "Departments",
                 icon: <CubeIcon className="h-4" />,
                 route: "admin.setup.categories.index",
                 permission: "CATEGORIES",
