@@ -30,7 +30,8 @@ class ScreenController extends Controller
             view: "screen/{$screen->screen->value}/index",
             options: [
                 'screen_id' => $screen->id,
-                'account_type_id' => $request->get('department')
+                'account_type_id' => $request->get('accountType'),
+                'account_type' => $request->has('accountType') ? $this->accountType->find($request->get('accountType')) : null
             ]
         );
     }
