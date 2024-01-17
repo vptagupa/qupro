@@ -38,6 +38,7 @@ export default function Component({ pager, prev, final, next, controls }) {
                         studentRef={studentRef}
                         nameRef={nameRef}
                         controls={controls}
+                        handleNext={handleNext}
                     />
                 )}
                 {controls.form.data.type === "other" && (
@@ -45,6 +46,7 @@ export default function Component({ pager, prev, final, next, controls }) {
                         final={final}
                         nameRef={nameRef}
                         controls={controls}
+                        handleNext={handleOtherConfirm}
                     />
                 )}
             </div>

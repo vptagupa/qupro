@@ -3,12 +3,16 @@ import { Tab } from "@headlessui/react";
 import Serve from "./serve";
 import Teller from "./teller";
 import Categories from "./categories";
+import { usePage } from "@inertiajs/react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function Component({ accountType }) {
+    const {
+        config: { enabled_categories },
+    } = usePage().props;
     let [tabs] = useState({
         serve: {
             name: "Served List",
@@ -19,16 +23,20 @@ export default function Component({ accountType }) {
             content: <Teller />,
         },
         categories: {
-            name: "Categories",
+            name: "Departments",
             content: <Categories accountType={accountType} />,
         },
     });
+
+    tabs = Object.values(tabs).filter((tab) =>
+        enabled_categories ? true : tab.name != "Departments",
+    );
 
     return (
         <div className="w-full">
             <Tab.Group>
                 <Tab.List className="flex space-x-1 rounded-xl bg-slate-200 p-1">
-                    {Object.values(tabs).map((tab, idx) => (
+                    {tabs.map((tab, idx) => (
                         <Tab
                             key={idx}
                             className={({ selected }) =>
@@ -46,7 +54,7 @@ export default function Component({ accountType }) {
                     ))}
                 </Tab.List>
                 <Tab.Panels className="mt-2">
-                    {Object.values(tabs).map((content, idx) => (
+                    {tabs.map((content, idx) => (
                         <Tab.Panel
                             key={idx}
                             className={classNames(

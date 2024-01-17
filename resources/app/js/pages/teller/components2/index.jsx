@@ -23,7 +23,7 @@ export default function Component({ url, accountType, page_id }) {
 
     return (
         <div
-            className={`p-2 flex flex-col gap-2  text-white ${
+            className={`p-2 transition-all ease-in-out delay-150 flex flex-col gap-2  text-white ${
                 qu?.priority == true || priority
                     ? "bg-gradient-to-br from-amber-800 to-amber-400 text-white"
                     : "bg-gradient-to-br from-[#01257D] to-[#00539C] text-white"

@@ -37,11 +37,9 @@ export default function Component({ next, value, controls }) {
             type="button"
             className={`flex flex-col justify-center !shadow-sm transition duration-700 ease-in-out w-full text-[2rem] text-center uppercase font-extrabold ${
                 controls.form.data.account_type.id == data.id
-                    ? style.activeBg
+                    ? "!bg-amber-500"
                     : ""
-            } hover:${style.activeBg} hover:${style.activeFont} ${
-                style.secondaryFont
-            } ${style.secondaryBg}`}
+            } hover:bg-amber-500 hover:text-black/80 bg-slate-300 text-black/80`}
             onClick={(e) => {
                 controls.form.setData("account_type", data);
                 next();

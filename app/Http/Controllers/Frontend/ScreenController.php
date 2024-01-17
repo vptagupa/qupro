@@ -45,10 +45,7 @@ class ScreenController extends Controller
                     unset($theme['model']);
                     return $theme;
                 })() : null,
-                'themes' => array_map(function ($theme) {
-                    unset($theme['model']);
-                    return $theme;
-                }, Settings::themes())
+                'themes' => $this->themes()
             ]
         );
     }
@@ -84,6 +81,15 @@ class ScreenController extends Controller
             }
         }
 
+        if ($request->get('category')) {
+            $category = $this->category->find($request->get('category'));
+            if ($file = $category->file) {
+                $media->push([
+                    'file' => $file
+                ]);
+            }
+        }
+
         return $media;
     }
 
@@ -112,5 +118,20 @@ class ScreenController extends Controller
                     ['screen_account_type_ids' => $screen->account_type_ids]
                 ),
         ];
+    }
+
+    protected function themes()
+    {
+        $themes = array_map(function ($theme) {
+            unset($theme['model']);
+            return $theme;
+        }, Settings::themes());
+
+        $themes = array_filter(
+            $themes,
+            fn($theme) => Config::isEnabledCategories() ? true : $theme['name'] != Settings::THEME_DEPARTMENT->value
+        );
+
+        return $themes;
     }
 }

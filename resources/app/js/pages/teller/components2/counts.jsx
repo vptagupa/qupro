@@ -34,7 +34,6 @@ export default memo(function Component({ id = 0 }) {
     };
 
     const updateQueueStats = (stats) => {
-        console.log(stats);
         setCounts({
             priority: stats.queue_stats.priority,
             regular: stats.queue_stats.regular,
@@ -66,7 +65,7 @@ export default memo(function Component({ id = 0 }) {
     useEffect(() => {
         waiting();
     }, [user]);
-    console.log(data);
+
     return (
         <>
             <div className="flex items-center justify-start gap-1 text-sm">

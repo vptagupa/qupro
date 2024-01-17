@@ -4,6 +4,7 @@ import * as Screens from "./screens";
 import { usePager } from "./pager";
 import { usePage } from "@inertiajs/react";
 import style from "./style";
+import { stringLimit } from "@/js/helpers";
 
 export default function Index({ url }) {
     const { config } = usePage().props;
@@ -145,7 +146,7 @@ export default function Index({ url }) {
                                     <span className="block text-xs text-center">
                                         {!row.selected
                                             ? "{None}"
-                                            : row.selected}
+                                            : stringLimit(row.selected, 20)}
                                     </span>
                                 </li>
                             );

@@ -5,7 +5,7 @@ import { debounce } from "lodash";
 import { useEffect, useState, memo } from "react";
 import { useSelector } from "react-redux";
 
-export default memo(({ screen_id, account_type_id }) => {
+export default memo(({ screen_id, account_type_id, category_id }) => {
     const {
         data: { config },
     } = useSelector((state) => state.counter);
@@ -14,11 +14,14 @@ export default memo(({ screen_id, account_type_id }) => {
     useEffect(() => {
         const update = debounce(() => {
             axios
-                .get(
+                .post(
                     route("screen.updated.media", {
                         screen: screen_id,
-                        account_type: account_type_id,
                     }),
+                    {
+                        account_type: account_type_id,
+                        category: category_id,
+                    },
                 )
                 .then(({ data: { data } }) => {
                     setMedia(data);
@@ -37,7 +40,7 @@ export default memo(({ screen_id, account_type_id }) => {
             Echo.leave(`media`);
             clearTimeout(timeout);
         };
-    }, [account_type_id]);
+    }, [account_type_id, category_id]);
 
     return (
         <>

@@ -2,7 +2,12 @@ import { Form, Checkbox } from "@/js/components/form";
 import style from "../../style";
 import Input from "../../input";
 
-export default function Component({ nameRef, studentRef, controls }) {
+export default function Component({
+    nameRef,
+    studentRef,
+    controls,
+    handleNext,
+}) {
     return (
         <>
             <Form
@@ -27,7 +32,7 @@ export default function Component({ nameRef, studentRef, controls }) {
                             }}
                         />
                         <div className="lg:text-[1.5rem]">
-                            I am a student representative
+                            I am a representative
                         </div>
                     </label>
                 </div>

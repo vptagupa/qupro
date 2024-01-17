@@ -164,7 +164,7 @@ Route::middleware([
 
 Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated/{screen}', [FrontendScreenController::class, 'updated'])->name('updated');
-    Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
+    Route::post('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
     Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
     Route::name('theme.')->prefix('theme')->group(function () {
         Route::post('/get', [FrontendThemeController::class, 'get'])->name('get');

@@ -4,14 +4,14 @@ import style from "../../style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-export default function Component({ final, nameRef, controls }) {
+export default function Component({ final, nameRef, controls, handleNext }) {
     return (
         <>
             <Form
                 className={`${style.primaryFont} flex flex-col gap-y-2`}
                 onSubmit={(e) => {
                     e.preventDefault();
-                    handleSubmit();
+                    handleNext();
                 }}
             >
                 <div

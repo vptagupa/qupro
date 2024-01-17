@@ -17,27 +17,23 @@ export default function Component({ prev, next, controls }) {
     return (
         <div className="flex flex-col items-center justify-center text-slate-200">
             <div className="flex flex-col items-center justify-center">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 w-2/3">
                     {batch.map((category) => (
                         <div
                             key={category.id}
-                            className={`w-full cursor-pointer ${
-                                style.secondaryBg
-                            } ${style.secondaryFont} hover:${
-                                style.activeBg
-                            } rounded-lg hover:scale-110 delay-100 transition ease-in-out duration-700 border border-indigo-400 p-4 ${
+                            className={`cursor-pointer bg-slate-300 text-black/80 hover:bg-amber-500 rounded-lg hover:scale-110 delay-100 transition ease-in-out duration-700 border border-indigo-400 p-4 ${
                                 controls.form.data?.category?.id == category.id
-                                    ? style.activeBg + " !text-black/80"
+                                    ? "!bg-amber-500 text-black/80"
                                     : ""
                             }`}
+                            onClick={(e) => {
+                                controls.form.setData("category", category);
+                                next();
+                            }}
                         >
                             <div
                                 type="button"
                                 className={`flex justify-start text-xl uppercase font-extrabold`}
-                                onClick={(e) => {
-                                    controls.form.setData("category", category);
-                                    next();
-                                }}
                             >
                                 <span>{category.name}</span>
                             </div>

@@ -19,7 +19,7 @@ export default function Component() {
     const themeCounter = useSelector((state) => state.themeCounter);
     const themeMedia = useSelector((state) => state.themeMedia);
     const { param, theme } = useSelector((state) => state.counter);
-    const { themes, categories } = usePage().props;
+    const { themes, categories, config } = usePage().props;
 
     const save = useCallback(() => {
         const send = async () => {

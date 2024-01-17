@@ -42,7 +42,7 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Screen Interval",
-                'value' => 2,
+                'value' => 5,
                 'type' => 'number',
                 'label' => 'In seconds'
 
@@ -63,7 +63,7 @@ class GlobalConfigSeeder extends Seeder
             ],
             [
                 "name" => "Counter History Limit",
-                'value' => 2,
+                'value' => 5,
             ],
             [
                 "name" => "Category Limit",

@@ -128,6 +128,7 @@ export default function Component({
                                 <Media
                                     screen_id={screen_id}
                                     account_type_id={account_type?.id}
+                                    category_id={category?.id}
                                 />
                             </div>
                             <div className="">

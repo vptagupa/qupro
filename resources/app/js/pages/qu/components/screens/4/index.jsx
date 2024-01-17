@@ -30,7 +30,7 @@ export default function Component({ next, controls }) {
                 <div className="flex gap-5 items-center justify-center">
                     <Button
                         type="button"
-                        className={`flex justify-center xs:h-[3rem] lg:h-[4rem] w-[10rem] !text-[2rem] text-white text-center uppercase font-extrabold bg-indigo-800 shadow-sm shadow-indigo-700`}
+                        className={`!w-[12rem] !text-[2rem]`}
                         onClick={(e) => handleFinal()}
                     >
                         <span>Done</span>
