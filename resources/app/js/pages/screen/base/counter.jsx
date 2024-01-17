@@ -16,7 +16,7 @@ export default memo(({ screen_id, account_type_id }) => {
     const play = (ref) => {
         ref.current.pause();
         ref.current.currentTime = 0;
-        ref.current.play();
+        // ref.current.play();
     };
 
     useEffect(() => {

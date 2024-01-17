@@ -17,11 +17,14 @@ export const reducer = createSlice({
             served: 0,
             total: 0,
             account_type: null,
+            account_types: [],
         },
         param: {
             screen_id: null,
             account_type_id: null,
+            category_id: null,
         },
+        theme: null,
     },
     reducers: {
         setData: (state, action) => {
@@ -39,6 +42,12 @@ export const reducer = createSlice({
         setParam: (state, action) => {
             state.param = {
                 ...state.param,
+                ...action.payload,
+            };
+        },
+        setTheme: (state, action) => {
+            state.theme = {
+                ...state.theme,
                 ...action.payload,
             };
         },
@@ -70,6 +79,7 @@ export const reducer = createSlice({
     },
 });
 
-export const { setData, setConfig, setParam, ticket } = reducer.actions;
+export const { setData, setConfig, setParam, setTheme, ticket } =
+    reducer.actions;
 
 export default reducer.reducer;

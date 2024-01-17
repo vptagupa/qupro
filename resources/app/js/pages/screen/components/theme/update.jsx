@@ -3,17 +3,15 @@ import { useDispatch } from "react-redux";
 import { replace as CounterReplacer } from "./counter/reducer";
 import { replace as MediaReplacer } from "./media/reducer";
 
-export const useThemeUpdate = (type, type_id) => {
+export const useThemeUpdate = (type, type_value) => {
     const dispatch = useDispatch();
     const update = useCallback(
-        (type, type_id) => {
+        (type, type_value) => {
             axios
-                .get(
-                    route("screen.theme.get", {
-                        type,
-                        type_id,
-                    }),
-                )
+                .post(route("screen.theme.get"), {
+                    type,
+                    type_value,
+                })
                 .then((res) => {
                     dispatch(
                         CounterReplacer(
@@ -29,7 +27,7 @@ export const useThemeUpdate = (type, type_id) => {
                     );
                 });
         },
-        [type, type_id],
+        [type, type_value],
     );
 
     return {

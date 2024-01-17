@@ -42,6 +42,11 @@ class Screen extends Model implements Auditable
         );
     }
 
+    public function accountTypesModels()
+    {
+        return AccountType::whereIn('id', $this->account_type_ids);
+    }
+
     public static function premium()
     {
         return (new self)->whereScreen(Enum::PREMIUM)->first();

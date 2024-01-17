@@ -112,6 +112,7 @@ class Qu extends Model implements Auditable
                 'counter_name' => $this->counter_name,
                 'department' => $accountType->name,
                 'account_type_id' => $this->account_type_id,
+                'category_id' => $this->category_id,
                 'counter' => $this->counter
             ]
         );

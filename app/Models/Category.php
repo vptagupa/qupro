@@ -18,4 +18,9 @@ class Category extends Model
     {
         return $this->belongsToMany(AccountType::class, 'account_type_categories');
     }
+
+    public function themes()
+    {
+        return $this->morphMany(Theme::class, 'model');
+    }
 }

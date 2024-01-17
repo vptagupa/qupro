@@ -3,32 +3,48 @@ import { useSelector } from "react-redux";
 
 export default memo(({ current, account_type_id }) => {
     const [open, setOpen] = useState(false);
+    const [opener, setOpener] = useState(false);
+    const { param } = useSelector((state) => state.counter);
     const {
         popover: { set: theme, open: forceOpen },
     } = useSelector((state) => state.themeCounter);
-
+    console.log([param, current]);
     useEffect(() => {
-        if (current?.account_type_id) {
-            setOpen(account_type_id == current?.account_type_id);
+        if (
+            current?.account_type_id &&
+            param.account_type_id &&
+            !param.category_id
+        ) {
+            setOpener((open) =>
+                param.account_type_id == current?.account_type_id
+                    ? !opener
+                    : opener,
+            );
         }
-    }, [current]);
-
-    useEffect(() => {
-        let timeout;
-        if (open && !forceOpen) {
-            timeout = setTimeout(() => {
-                setOpen(false);
-            }, 5000);
+        if (current?.category_id && param.category_id) {
+            setOpener((open) =>
+                param.category_id == current?.category_id ? !opener : opener,
+            );
         }
-        return () => clearTimeout(timeout);
-    }, [open, forceOpen]);
+    }, [current, param]);
+
+    var timeout;
+    useEffect(() => {
+        clearTimeout(timeout);
+
+        setOpen(true);
+
+        timeout = setTimeout(() => {
+            setOpen(false);
+        }, 10000);
+    }, [opener]);
 
     useEffect(() => {
-        setOpen(forceOpen);
+        setOpener(!opener);
     }, [forceOpen]);
 
     return (
-        (open || forceOpen) && (
+        open && (
             <div className="absolute h-1/2 w-screen top-[20%] z-10">
                 <div className="flex items-center justify-center text-slate-300 uppercase">
                     <div

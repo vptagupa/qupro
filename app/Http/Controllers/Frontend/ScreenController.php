@@ -4,19 +4,21 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\AccountTypeRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\MediaRepository;
 use App\Models\Config;
 use App\Models\Screen;
 use App\Repositories\QuRepository;
 use Illuminate\Http\Request;
+use App\Enums\Settings;
 
 class ScreenController extends Controller
 {
-
     public function __construct(
         private MediaRepository $media,
         private QuRepository $qu,
         private AccountTypeRepository $accountType,
+        private CategoryRepository $category
     ) {
 
     }
@@ -24,14 +26,29 @@ class ScreenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, Screen $screen)
+    public function index(Request $request, Screen $screen, int $type = null, int $typeValue = null)
     {
+        $theme = function () use ($type) {
+            return array_values(array_filter(Settings::themes(), fn($theme) => $theme['id'] == $type))[0] ?? null;
+        };
+
         return $this->render(
             view: "screen/{$screen->screen->value}/index",
             options: [
                 'screen_id' => $screen->id,
-                'account_type_id' => $request->get('accountType'),
-                'account_type' => $request->has('accountType') ? $this->accountType->find($request->get('accountType')) : null
+                'account_type' => $theme() && $theme()['name'] == 'Transaction' ? $this->accountType->find($typeValue) : null,
+                'account_types' => $screen->accountTypesModels()->orderBy('name', 'asc')->get(),
+                'category' => $theme() && $theme()['name'] == 'Department' ? $this->category->find($typeValue) : null,
+                'categories' => $this->category->list(perPage: 100),
+                'theme' => $theme() ? (function () use ($theme) {
+                    $theme = $theme();
+                    unset($theme['model']);
+                    return $theme;
+                })() : null,
+                'themes' => array_map(function ($theme) {
+                    unset($theme['model']);
+                    return $theme;
+                }, Settings::themes())
             ]
         );
     }

@@ -43,7 +43,7 @@ const Component = ({ form, formats }) => {
             </div>
             {config.enabled_categories && (
                 <div>
-                    <span className="text-xs">Categories:</span>
+                    <span className="text-xs">Departments:</span>
                     <CategorySelect
                         selector={selector}
                         data={form.data.categories}

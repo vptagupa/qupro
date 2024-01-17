@@ -167,11 +167,11 @@ Route::name('screen.')->prefix('screen')->group(function () {
     Route::get('/updated-media/{screen}', [FrontendScreenController::class, 'updatedMedia'])->name('updated.media');
     Route::get('/updated-totals/{screen}', [FrontendScreenController::class, 'updatedTotals'])->name('updated.totals');
     Route::name('theme.')->prefix('theme')->group(function () {
-        Route::get('/', [FrontendThemeController::class, 'get'])->name('get');
+        Route::post('/get', [FrontendThemeController::class, 'get'])->name('get');
         Route::post('/', [FrontendThemeController::class, 'update'])->name('update')->middleware('auth');
         Route::patch('/', [FrontendThemeController::class, 'reset'])->name('reset')->middleware('auth');
     });
-    Route::get('/{screen}', [FrontendScreenController::class, 'index'])->name('index');
+    Route::get('/{screen}/{type?}/{type_value?}', [FrontendScreenController::class, 'index'])->name('index');
 });
 
 Route::name('qu.')->prefix('qu')->group(function () {
