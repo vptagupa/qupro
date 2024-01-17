@@ -49,6 +49,8 @@ enum Access
                 Access::DASHBOARD_TELLER->name => [Action::ALL->name],
                 Access::REGISTRATION->name => [Action::ALL->name],
                 Access::SCREEN->name => [Action::ALL->name],
+                ...Config::isEnabledCategories() ?
+                [Access::CATEGORIES->name => [Action::VIEW_ANY->name]] : [],
             ],
             Role::REGISTRATION->name => [
                 Access::REGISTRATION->name => [Action::ALL->name],
