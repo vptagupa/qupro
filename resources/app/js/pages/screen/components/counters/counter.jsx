@@ -19,11 +19,11 @@ export default function Component({ ticket, isActive = false }) {
                     color: isActive ? current.window.font : grid.window.font,
                     background: isActive ? current.window.bg : grid.window.bg,
                 }}
-                className={`w-1/2 text-center font-bold p-4 
+                className={`w-1/2 text-center font-bold p-4
                                      ${
                                          isActive
                                              ? "bg-amber-500 text-4xl h-[100%] flex items-center justify-center"
-                                             : "bg-amber-500 text-slate-800 text-3xl"
+                                             : "bg-amber-500 text-slate-800 text-3xl  rounded-r-3xl border-transparent"
                                      }
                                     `}
             >
